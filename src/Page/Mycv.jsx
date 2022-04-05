@@ -41,7 +41,7 @@ const Mycv = () => {
                         </div>
                         <div className="ml-6 mt-6 flex items-center">
                             <BsFacebook size="2rem" className="text-secondary" />
-                            <p className="ml-2 w-full">fb.com/anhkhoa.luutran.3</p>
+                            <p className="ml-2 w-full">anhkhoa.luutran.3</p>
                         </div>
                         <div className="ml-6 mt-6 flex items-center">
                             <BsGithub size="2rem" className="text-secondary" />
