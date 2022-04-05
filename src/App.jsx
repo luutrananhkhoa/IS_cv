@@ -8,6 +8,7 @@ import Mycv from './Page/Mycv';
 import Login from './Page/Login';
 import aos from 'aos';
 import 'aos/dist/aos.css';
+import Register from './Page/Register';
 
 function App() {
   useEffect(() => {
@@ -16,13 +17,14 @@ function App() {
   },[])
   return (
     <div className="App">
-    <Routes>
-      <Route path='/' element={<Home/>} />
-      <Route path='/student' element={<Student />}/>
-      <Route path='/company' element={<Company />}/>
-      <Route path='/mycv' element={<Mycv />}/>
-      <Route path='/login' element={<Login />}/>
-   </Routes>
+      <Routes>
+        <Route path='/' element={<Home/>} />
+        <Route path='/student' element={<Student />}/>
+        <Route path='/company' element={<Company />}/>
+        <Route path='/mycv' element={<Mycv />}/>
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />}/>
+      </Routes>
     </div>
   )
 }

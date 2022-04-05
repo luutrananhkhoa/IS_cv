@@ -23,7 +23,7 @@ const Login = () => {
                     <h1 className="text-3xl text-white mt-4 ml-4">LOGO</h1>
                     <h1 className="w-[25%] text-white text-4xl mx-auto mt-6 font-semibold">Welcome to MyCV</h1>
                     <div className="w-[50%] h-[60%] mt-[2rem] mx-auto bg-secondary rounded-[15px]">
-                    <h1 className="pt-[20px] text-white text-2xl text-center ">Login</h1>
+                    <h1 className="pt-[20px] text-white text-2xl text-center " >Login</h1>
                     <div className=" pt-6 flex flex-col ">
                         <div className="w-[75%]  mt-6 mx-auto">
                         <label name="email" className="text-white">Your e-mail</label> <br />

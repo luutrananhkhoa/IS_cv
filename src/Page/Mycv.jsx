@@ -6,7 +6,16 @@ import { BsFillTelephoneFill } from 'react-icons/Bs';
 import { BsFacebook } from 'react-icons/Bs';
 import { BsGithub } from 'react-icons/Bs';
 import { BsFillHouseDoorFill } from 'react-icons/Bs';
+import Progressbar from '../Components/Progressbar';
+
 const Mycv = () => {
+
+    //Progress Bar
+    const skills = [{
+        title: 'HTML',
+        per: '75'
+    }];
+    
     return ( 
         <>
           <Header/>
@@ -38,11 +47,11 @@ const Mycv = () => {
                             <BsGithub size="2rem" className="text-secondary" />
                             <p className="ml-2">github.com/luutrananhkhoa</p>
                         </div>
-                        <div className="mt-[4rem]">
-                            <h1 className="ml-6 font-bold text-3xl">SKILLS</h1>
-                           <hr className="w-[80%] h-[2px] ml-6 mt-4 border-0 bg-primary"/>
-                            <div>
-                                <span></span>
+                        <div className="mt-[4rem] ml-6">
+                            <h1 className="font-bold text-3xl">SKILLS</h1>
+                           <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary"/>
+                            <div className="mt-4 w-[85%]">
+                                <Progressbar title={skills[0].title} per={skills[0].per} />
                             </div>
                         </div>
                     </div>
@@ -54,12 +63,16 @@ const Mycv = () => {
                                 <hr className="w-[40%] h-[2px] mt-4 border-0 bg-white"/>
                             </div>
                         </div>
-                        <div className="">
+                        <div className="text-primary">
                             <div className="mt-[2rem] ml-4">
-                                <h1 className=" text-2xl font-bold text-primary ">EDUCATION</h1>
+                                <h1 className=" text-2xl font-bold ">EDUCATION</h1>
                                 <hr className="w-[90%] h-[3px] border-0 bg-primary"/>
                                 <div>
-                                    <h1 className=" font-bold text-[1.2rem] mt- ml-4 ">University of Information Technology</h1>
+                                    <h1 className= "font-bold text-[1.5rem] mt-3 ml-2">University of Information Technology</h1>
+                                    <h2 className="ml-6 font-semibold text-xl">Information System</h2>
+                                    <div className="ml-8">
+                                        <span>08/2019</span> - <span>present</span><br />
+                                    </div>
                                 </div>
                             </div>
                             <div className="mt-[3rem] ml-4 ">
