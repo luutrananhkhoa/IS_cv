@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IS My CV</title>
-  </head>
-  <body>
+    <script src="node_modules/web3.js-browser/build/web3.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+</head>
+
+<body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-  </body>
+    <script>
+        var web3 = new Web3(Web3.providers.HttpProvider("http://localhost:7545"));
+
+        web3.eth.getAccounts().then(console.log);
+    </script>
+</body>
+
 </html>
