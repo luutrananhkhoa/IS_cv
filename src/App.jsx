@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Home from './Page/Home';
@@ -13,9 +13,9 @@ import Createcv from './Page/Createcv';
 
 function App() {
   useEffect(() => {
-    aos.init();
+    aos.init()
     aos.refresh()
-  },[])
+  }, [])
   return (
     <div className="App">
       <Routes>
@@ -31,4 +31,4 @@ function App() {
   )
 }
 
-export default App;
+export default App
