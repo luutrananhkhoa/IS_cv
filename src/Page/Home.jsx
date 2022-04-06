@@ -7,7 +7,7 @@ import Header from '../Components/Header';
 const Home = () => {
   let navigate = useNavigate();
   function createCv() {
-    navigate("./mycv")
+    navigate("./createcv")
   }
   return (
     <>

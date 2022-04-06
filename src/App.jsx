@@ -9,6 +9,7 @@ import Login from './Page/Login';
 import aos from 'aos';
 import 'aos/dist/aos.css';
 import Register from './Page/Register';
+import Createcv from './Page/Createcv';
 
 function App() {
   useEffect(() => {
@@ -23,7 +24,8 @@ function App() {
         <Route path='/company' element={<Company />}/>
         <Route path='/mycv' element={<Mycv />}/>
         <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />}/>
+        <Route path='/register' element={<Register />} />
+        <Route path='/createcv' element={<Createcv />}/>
       </Routes>
     </div>
   )

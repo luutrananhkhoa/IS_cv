@@ -9,7 +9,6 @@ import { BsFillHouseDoorFill } from 'react-icons/Bs';
 import Progressbar from '../Components/Progressbar';
 
 const Mycv = () => {
-
     //Progress Bar
     const skills = [{
         title: 'HTML',
