@@ -1,9 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../Components/Header';
 import { contract } from './../Api/Const';
 
 export default function Createcv() {
-
+    let navigate=useNavigate();
       var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
 
     web3.eth.getAccounts().then(console.log);
@@ -21,7 +22,8 @@ export default function Createcv() {
             $("#_ptitle").val(), $("#_email").val(), $("#_github").val(), $("#_linked").val()).send({
             from: "0xD7fe6F29e189B62A09410A85fb1384616Ee94402",
             gas: 3000000
-        });
+            });
+      navigate("/mycv");
     };
 
   return (
@@ -68,9 +70,9 @@ export default function Createcv() {
                   <input type="text" id="_owner" name="address" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="Address owner"/>
                 </div>
               </div>
-              {/* <button type="submit" id="btn_add" onClick={addProf} className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">CREATE</button> */}
+              <button type="submit" id="btn_add" onClick={addProf} className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">CREATE</button>
             </form>
-            <button type="submit" id="btn_add" onClick={addProf} className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">CREATE</button>
+            {/* <button type="submit" id="btn_add" onClick={addProf} className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">CREATE</button> */}
           </div>
     </>
   )
