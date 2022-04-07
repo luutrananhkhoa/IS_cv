@@ -1,8 +1,31 @@
 import React from 'react'
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Header from '../Components/Header';
+import { contract } from './../Api/Const';
 
 export default function Register() {
+
+//     var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
+
+//     web3.eth.getAccounts().then(console.log);
+//  var myContract = new web3.eth.Contract(
+//        contract,
+//         '0x91615914e13D5dF50c8D3e8ED87e2BBcb7fA2222'
+//     );
+//     myContract.methods
+//     .getBalance()
+//     .call()
+//     .then((result) => console.log(result.toString()));
+
+//     $("#btn_edit").click(function() {
+//         myContract.methods.editProfile($("#_owner").val(), $("#_name").val(), $("#_birthday").val(),
+//             $("#_ptitle").val(), $("#_email").val(), $("#_github").val(), $("#_linked").val()).send({
+//             from: "0xD7fe6F29e189B62A09410A85fb1384616Ee94402",
+//             gas: 3000000
+//         });
+//         console.log($("#amount").val());
+//     });
+
     return (
         <div>
             <Header />
@@ -38,4 +61,5 @@ export default function Register() {
             </div>
         </div>
   )
+  
 }
