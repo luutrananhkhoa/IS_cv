@@ -14,30 +14,30 @@ const Mycv = () => {
         per: '50'
     }];
 
-    // var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
+    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
 
-    // web3.eth.getAccounts().then(console.log);
-//  var myContract = new web3.eth.Contract(
-//        contract,
-//         '0x09b2D631e237A95cF8F766458422eEfcF98b087c'
-//     );
-//     myContract.methods
-//     .getBalance()
-//     .call()
-//     .then((result) => console.log(result.toString()));
+    web3.eth.getAccounts().then(console.log);
+ var myContract = new web3.eth.Contract(
+       contract,
+        '0x1BE446b55b940a9ce9798E5FfD68A061EB026ee9'
+    );
+    myContract.methods
+    .getBalance()
+    .call()
+    .then((result) => console.log(result.toString()));
 
-//     myContract.methods
-//                 .getProfile(0)
-//                 .call()
-//                 .then(function(res) {
-//                     console.log(res);
-//                     $("#text-name").html(res[0].toString());
-//                     // $("#birthday").html("Birthday: " + res[1].toString());
-//                     $("#text-proTitle").html("Professional Title: " + res[2].toString());
-//                     $("#text-mail").html(res[3].toString());
-//                     $("#text-github").html(res[4].toString());
-//                     // $("#linked").html("Linked: " + res[5].toString());
-//                 });
+    myContract.methods
+                .getProfile(0)
+                .call()
+                .then(function(res) {
+                    console.log(res);
+                    $("#text-name").html(res[0].toString());
+                    $("#text-birthday").html(res[1].toString());
+                    $("#text-proTitle").html(res[2].toString());
+                    $("#text-mail").html(res[3].toString());
+                    $("#text-github").html(res[4].toString());
+                    $("#text-linkedln").html(res[5].toString());
+                });
     
     return ( 
         <>
@@ -55,25 +55,25 @@ const Mycv = () => {
                                 <div className="w-[2rem] h-[2rem]">
                                     <IoMdMail size="2rem" className="text-secondary" />
                                 </div>
-                                <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words">ltakhoa1902@gmail.com</p>
+                                <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words"></p>
                             </div>
                             <div className=" flex items-center">
                                 <div className="w-[2rem] h-[2rem]">
                                     <BsFillCalendar2DateFill size="2rem" className="text-secondary" />
                                 </div> 
-                                <p id="text-phone" className="pl-2 flex-1 w-[80%] break-words">19/02/2001</p>
+                                <p id="text-birthday" className="pl-2 flex-1 w-[80%] break-words"></p>
                             </div>
                             <div className="flex items-center">
                                 <div className="w-[2rem] h-[2rem]">
                                     <BsLinkedin size="2rem" className="text-secondary block " />
                                 </div> 
-                                <p className="pl-2 flex-1 w-[80%] break-words">https://www.linkedin.com/in/luu-tran-anh-khoa-07914822a/</p>
+                                <p id="text-linkedln" className="pl-2 flex-1 w-[80%] break-words">https://www.linkedin.com/in/luu-tran-anh-khoa-07914822a/</p>
                             </div>
                             <div className="flex items-center">
                                 <div className="w-[2rem] h-[2rem]">
                                     <BsGithub size="2rem" className="text-secondary" />
                                 </div>
-                                <p id="text-github" className="pl-2 flex-1 w-[80%] break-words">https://github.com/luutrananhkhoa</p>
+                                <p id="text-github" className="pl-2 flex-1 w-[80%] break-words"></p>
                         </div>
                     </div>
                         <div className="mt-[4rem] ml-6">
@@ -87,8 +87,8 @@ const Mycv = () => {
                     <div className="flex-1">
                         <div className="h-[10rem] mt-12 bg-secondary">
                             <div className="ml-6 pt-6 text-white">
-                                <h1 id="text-name" className="text-4xl font-bold">LUU TRAN ANH KHOA</h1>
-                                <span id="text-proTitle" className="text-[1.3rem] mt-4">INTERN</span>
+                                <h1 id="text-name" className="text-4xl font-bold"></h1>
+                                <span id="text-proTitle" className="text-[1.3rem] mt-4"></span>
                                 <hr className="w-[40%] h-[2px] mt-4 border-0 bg-white"/>
                             </div>
                         </div>
