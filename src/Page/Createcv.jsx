@@ -33,11 +33,17 @@ export default function Createcv() {
               <div className="flex">
                 <div className="mt-6" >
                   <label name="github" className="text-white">Github</label><br/>
-                  <input type="text" name="prof" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="Github"/>
+                  <input type="text" name="github" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="Github"/>
                 </div>
                 <div className="mt-6 ml-[4rem]">
                   <label name="linkedIn" className="text-white">LinkedIn</label><br/>
                   <input type="text" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="LinkedIn"/>
+                </div>
+              </div>
+              <div className="flex">
+                <div className="mt-6" >
+                  <label name="address" className="text-white">Address owner</label><br/>
+                  <input type="text" name="address" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="Github"/>
                 </div>
               </div>
               <button type="submit" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">CREATE</button>
