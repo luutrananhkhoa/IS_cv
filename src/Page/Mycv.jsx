@@ -2,489 +2,42 @@ import React from 'react';
 import Header from '../Components/Header';
 import avt from '../assets/avt.jpg';
 import { IoMdMail } from 'react-icons/Io';
-import { BsFillTelephoneFill } from 'react-icons/Bs';
-import { BsFacebook } from 'react-icons/Bs';
-import { BsGithub } from 'react-icons/Bs';
-import { BsFillHouseDoorFill } from 'react-icons/Bs';
+import { BsFillTelephoneFill, BsFacebook, BsGithub } from 'react-icons/Bs';
+import { BsFillHouseDoorFill, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs';
 import Progressbar from '../Components/Progressbar';
+import { contract } from './../Api/Const';
 
 const Mycv = () => {
     //Progress Bar
     const skills = [{
         title: 'HTML',
-        per: '75'
+        per: '50'
     }];
 
-    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
+    // var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
 
-    web3.eth.getAccounts().then(console.log);
+    // web3.eth.getAccounts().then(console.log);
+//  var myContract = new web3.eth.Contract(
+//        contract,
+//         '0x09b2D631e237A95cF8F766458422eEfcF98b087c'
+//     );
+//     myContract.methods
+//     .getBalance()
+//     .call()
+//     .then((result) => console.log(result.toString()));
 
-    var myContract = new web3.eth.Contract(
-    [
-      {
-        constant: true,
-        inputs: [],
-        name: 'getBalance',
-        outputs: [
-          {
-            name: '',
-            type: 'uint256',
-          },
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function',
-      },
-      {
-        constant: true,
-        inputs: [
-          {
-            name: '',
-            type: 'uint256',
-          },
-        ],
-        name: 'skills',
-        outputs: [
-          {
-            name: '_title',
-            type: 'string',
-          },
-          {
-            name: '_level',
-            type: 'uint256',
-          },
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function',
-      },
-      {
-        constant: false,
-        inputs: [
-          {
-            name: '_owner',
-            type: 'address',
-          },
-          {
-            name: 'institution',
-            type: 'string',
-          },
-          {
-            name: 'focusArea',
-            type: 'string',
-          },
-          {
-            name: 'startYear',
-            type: 'uint256',
-          },
-          {
-            name: 'finishYear',
-            type: 'uint256',
-          },
-        ],
-        name: 'editEducation',
-        outputs: [],
-        payable: true,
-        stateMutability: 'payable',
-        type: 'function',
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: 'getSender',
-        outputs: [
-          {
-            name: '',
-            type: 'address',
-          },
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function',
-      },
-      {
-        constant: false,
-        inputs: [
-          {
-            name: '_owner',
-            type: 'address',
-          },
-          {
-            name: 'company',
-            type: 'string',
-          },
-          {
-            name: 'role',
-            type: 'string',
-          },
-          {
-            name: 'startDate',
-            type: 'string',
-          },
-          {
-            name: 'endDate',
-            type: 'string',
-          },
-          {
-            name: 'summary',
-            type: 'string',
-          },
-          {
-            name: 'highlights',
-            type: 'string',
-          },
-        ],
-        name: 'editExperience',
-        outputs: [],
-        payable: false,
-        stateMutability: 'nonpayable',
-        type: 'function',
-      },
-      {
-        constant: false,
-        inputs: [],
-        name: 'cvContract',
-        outputs: [],
-        payable: false,
-        stateMutability: 'nonpayable',
-        type: 'function',
-      },
-      {
-        constant: false,
-        inputs: [
-          {
-            name: '_owner',
-            type: 'address',
-          },
-          {
-            name: 'name',
-            type: 'string',
-          },
-          {
-            name: 'birthDay',
-            type: 'string',
-          },
-          {
-            name: 'professionalTitle',
-            type: 'string',
-          },
-          {
-            name: 'email',
-            type: 'string',
-          },
-          {
-            name: 'github',
-            type: 'string',
-          },
-          {
-            name: 'linked',
-            type: 'string',
-          },
-        ],
-        name: 'editProfile',
-        outputs: [],
-        payable: true,
-        stateMutability: 'payable',
-        type: 'function',
-      },
-      {
-        constant: false,
-        inputs: [
-          {
-            name: '_owner',
-            type: 'address',
-          },
-          {
-            name: 'title',
-            type: 'string',
-          },
-          {
-            name: 'level',
-            type: 'uint256',
-          },
-        ],
-        name: 'editSkill',
-        outputs: [],
-        payable: true,
-        stateMutability: 'payable',
-        type: 'function',
-      },
-      {
-        constant: true,
-        inputs: [
-          {
-            name: 'index',
-            type: 'uint256',
-          },
-        ],
-        name: 'getExperience',
-        outputs: [
-          {
-            name: 'Company',
-            type: 'string',
-          },
-          {
-            name: 'Role',
-            type: 'string',
-          },
-          {
-            name: 'StartDate',
-            type: 'string',
-          },
-          {
-            name: 'EndDate',
-            type: 'string',
-          },
-          {
-            name: 'Summary',
-            type: 'string',
-          },
-          {
-            name: 'Highlights',
-            type: 'string',
-          },
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function',
-      },
-      {
-        constant: false,
-        inputs: [
-          {
-            name: 'amount',
-            type: 'uint256',
-          },
-        ],
-        name: 'deposit',
-        outputs: [],
-        payable: true,
-        stateMutability: 'payable',
-        type: 'function',
-      },
-      {
-        constant: true,
-        inputs: [
-          {
-            name: 'index',
-            type: 'uint256',
-          },
-        ],
-        name: 'getSkill',
-        outputs: [
-          {
-            name: 'Title',
-            type: 'string',
-          },
-          {
-            name: 'Level',
-            type: 'uint256',
-          },
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function',
-      },
-      {
-        constant: true,
-        inputs: [
-          {
-            name: '',
-            type: 'uint256',
-          },
-        ],
-        name: 'profiles',
-        outputs: [
-          {
-            name: '_name',
-            type: 'string',
-          },
-          {
-            name: '_birthDay',
-            type: 'string',
-          },
-          {
-            name: '_professionalTitle',
-            type: 'string',
-          },
-          {
-            name: '_email',
-            type: 'string',
-          },
-          {
-            name: '_github',
-            type: 'string',
-          },
-          {
-            name: '_linked',
-            type: 'string',
-          },
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function',
-      },
-      {
-        constant: true,
-        inputs: [
-          {
-            name: '',
-            type: 'uint256',
-          },
-        ],
-        name: 'experiences',
-        outputs: [
-          {
-            name: '_company',
-            type: 'string',
-          },
-          {
-            name: '_role',
-            type: 'string',
-          },
-          {
-            name: '_startDate',
-            type: 'string',
-          },
-          {
-            name: '_endDate',
-            type: 'string',
-          },
-          {
-            name: '_summary',
-            type: 'string',
-          },
-          {
-            name: '_highlights',
-            type: 'string',
-          },
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function',
-      },
-      {
-        constant: true,
-        inputs: [
-          {
-            name: '',
-            type: 'uint256',
-          },
-        ],
-        name: 'educations',
-        outputs: [
-          {
-            name: '_institution',
-            type: 'string',
-          },
-          {
-            name: '_focusArea',
-            type: 'string',
-          },
-          {
-            name: '_startYear',
-            type: 'uint256',
-          },
-          {
-            name: '_finishYear',
-            type: 'uint256',
-          },
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function',
-      },
-      {
-        constant: true,
-        inputs: [
-          {
-            name: 'index',
-            type: 'uint256',
-          },
-        ],
-        name: 'getProfile',
-        outputs: [
-          {
-            name: 'Name',
-            type: 'string',
-          },
-          {
-            name: 'Birthday',
-            type: 'string',
-          },
-          {
-            name: 'ProfessionalTitle',
-            type: 'string',
-          },
-          {
-            name: 'Email',
-            type: 'string',
-          },
-          {
-            name: 'Github',
-            type: 'string',
-          },
-          {
-            name: 'Linked',
-            type: 'string',
-          },
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function',
-      },
-      {
-        constant: true,
-        inputs: [
-          {
-            name: 'index',
-            type: 'uint256',
-          },
-        ],
-        name: 'getEducation',
-        outputs: [
-          {
-            name: 'Institution',
-            type: 'string',
-          },
-          {
-            name: 'FocusArea',
-            type: 'string',
-          },
-          {
-            name: 'StartYear',
-            type: 'uint256',
-          },
-          {
-            name: 'FinishYear',
-            type: 'uint256',
-          },
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function',
-      },
-        ],
-        '0x09b2D631e237A95cF8F766458422eEfcF98b087c'
-    );
-
-    myContract.methods
-    .getBalance()
-    .call()
-    .then((result) => console.log(result.toString()));
-
-    myContract.methods
-                .getProfile(0)
-                .call()
-                .then(function(res) {
-                    console.log(res);
-                    $("#text-name").html(res[0].toString());
-                    // $("#birthday").html("Birthday: " + res[1].toString());
-                    $("#text-proTitle").html("Professional Title: " + res[2].toString());
-                    $("#text-mail").html(res[3].toString());
-                    $("#text-github").html(res[4].toString());
-                    // $("#linked").html("Linked: " + res[5].toString());
-                });
+//     myContract.methods
+//                 .getProfile(0)
+//                 .call()
+//                 .then(function(res) {
+//                     console.log(res);
+//                     $("#text-name").html(res[0].toString());
+//                     // $("#birthday").html("Birthday: " + res[1].toString());
+//                     $("#text-proTitle").html("Professional Title: " + res[2].toString());
+//                     $("#text-mail").html(res[3].toString());
+//                     $("#text-github").html(res[4].toString());
+//                     // $("#linked").html("Linked: " + res[5].toString());
+//                 });
     
     return ( 
         <>
@@ -494,42 +47,48 @@ const Mycv = () => {
                     <h1 className="font-bold text-2xl text-white ">My CV</h1>
                     <button className="h-[45px] w-[140px] bg-secondary rounded-[30px] text-white text-xl">Save</button>
                 </div>
-                <div className="w-[60%] h-[200vh] mx-auto bg-white flex flex-row">
-                    <div className="w-[30%]">
-                        <img src={avt} className="h-[160px] w-[160px] mx-auto mt-12 rounded-[50%]"/>
-                        <div className="ml-6 mt-8 flex items-center">
-                            <IoMdMail size="2rem" className="text-secondary" />
-                            <p id="text-mail" className="ml-2"></p>
+                <div className="w-[60%] h-[200vh] mx-auto bg-white flex">
+                    <div className="w-[30%] flex flex-col">
+                      <img src={avt} className="h-[160px] w-[160px] mx-auto mt-12 rounded-[50%] block object-cover" />
+                       <div className="p-2 ml-4 mt-6 flex flex-col gap-4">
+                            <div className="flex items-center">
+                                <div className="w-[2rem] h-[2rem]">
+                                    <IoMdMail size="2rem" className="text-secondary" />
+                                </div>
+                                <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words">ltakhoa1902@gmail.com</p>
+                            </div>
+                            <div className=" flex items-center">
+                                <div className="w-[2rem] h-[2rem]">
+                                    <BsFillCalendar2DateFill size="2rem" className="text-secondary" />
+                                </div> 
+                                <p id="text-phone" className="pl-2 flex-1 w-[80%] break-words">19/02/2001</p>
+                            </div>
+                            <div className="flex items-center">
+                                <div className="w-[2rem] h-[2rem]">
+                                    <BsLinkedin size="2rem" className="text-secondary block " />
+                                </div> 
+                                <p className="pl-2 flex-1 w-[80%] break-words">https://www.linkedin.com/in/luu-tran-anh-khoa-07914822a/</p>
+                            </div>
+                            <div className="flex items-center">
+                                <div className="w-[2rem] h-[2rem]">
+                                    <BsGithub size="2rem" className="text-secondary" />
+                                </div>
+                                <p id="text-github" className="pl-2 flex-1 w-[80%] break-words">https://github.com/luutrananhkhoa</p>
                         </div>
-                        <div className="ml-6 mt-6 flex items-center">
-                            <BsFillTelephoneFill size="2rem" className="text-secondary" />
-                            <p id="text-phone" className="ml-2">+84847232292</p>
-                        </div>
-                        <div className="ml-6 mt-6 flex items-center">
-                            <BsFillHouseDoorFill size="2rem" className="text-secondary" />
-                            <p className="ml-2">HCM City, VN</p>
-                        </div>
-                        <div className="ml-6 mt-6 flex items-center">
-                            <BsFacebook size="2rem" className="text-secondary" />
-                            <p className="ml-2 w-full">anhkhoa.luutran.3</p>
-                        </div>
-                        <div className="ml-6 mt-6 flex items-center">
-                            <BsGithub size="2rem" className="text-secondary" />
-                            <p id="text-github" className="ml-2"></p>
-                        </div>
+                    </div>
                         <div className="mt-[4rem] ml-6">
                             <h1 className="font-bold text-3xl">SKILLS</h1>
                            <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary"/>
                             <div className="mt-4 w-[85%]">
-                                <Progressbar title={skills[0].title} per={skills[0].per} />
+                                <Progressbar title={skills[0]?.title} per={skills[0]?.per} />
                             </div>
                         </div>
                     </div>
                     <div className="flex-1">
                         <div className="h-[10rem] mt-12 bg-secondary">
                             <div className="ml-6 pt-6 text-white">
-                                <h1 id="text-name" className="text-4xl font-bold"></h1>
-                                <span id="text-proTitle" className="text-[1.3rem] mt-4"></span>
+                                <h1 id="text-name" className="text-4xl font-bold">LUU TRAN ANH KHOA</h1>
+                                <span id="text-proTitle" className="text-[1.3rem] mt-4">INTERN</span>
                                 <hr className="w-[40%] h-[2px] mt-4 border-0 bg-white"/>
                             </div>
                         </div>
