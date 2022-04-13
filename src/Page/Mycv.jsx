@@ -2,8 +2,7 @@ import React from 'react';
 import Header from '../Components/Header';
 import avt from '../assets/avt.jpg';
 import { IoMdMail } from 'react-icons/Io';
-import { BsFillTelephoneFill, BsFacebook, BsGithub } from 'react-icons/Bs';
-import { BsFillHouseDoorFill, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs';
+import { BsGithub,BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs';
 import Progressbar from '../Components/Progressbar';
 import { contract } from './../Api/Const';
 
