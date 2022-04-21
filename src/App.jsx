@@ -10,6 +10,8 @@ import aos from 'aos';
 import 'aos/dist/aos.css';
 import Register from './Page/Register';
 import Createcv from './Page/Createcv';
+import CompanyDetail from './Page/CompanyDetail';
+import ModalSuccess from './Components/ModalSuccess';
 
 function App() {
   useEffect(() => {
@@ -26,6 +28,8 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/createcv' element={<Createcv />}/>
+        <Route path='/companydetail' element={<CompanyDetail />}/>
+        <Route path='/modalsuccess' element={<ModalSuccess />}/>
       </Routes>
     </div>
   )
