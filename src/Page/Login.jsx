@@ -9,17 +9,17 @@ const Login = () => {
         navigate("/")
     }
     return (
-        <div className="min-h-screen min-w-full flex overflow-hidden">
-            <div className="w-[100vh] bg-purple">
+        <div className="h-[100vh] w-[100vw] flex overflow-hidden">
+            <div className="w-[50%] bg-purple">
                 <AiOutlineArrowLeft size={"48px"} className="text-white mt-4 ml-4 cursor-pointer" onClick={HandleClick}/>
                 <h1 className="text-white text-5xl mt-[1rem] text-left w-[60%] mx-auto">CREATE YOUR CV AND LINK WITH RECRUITERS</h1>
-                <div className="w-[25rem] h-[25rem] bg-secondary top-[28%] left-[7%] absolute rounded-[50%] translate-y-[4rem] overflow-hidden">
+                <div className="w-[30%] h-[50%] bg-secondary top-[28%] left-[7%] absolute rounded-[50%] translate-y-[4rem] overflow-hidden">
                 </div>
                 <div data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
                     <img src={cv} className="w-[30%] ml-[15rem] mt-[3rem] object-cover origin-top-left rotate-12" alt="" />
                 </div>
             </div>
-                <div className="w-[100vh] bg-primary">
+                <div className="w-[50%] bg-primary">
                     <h1 className="text-3xl text-white mt-4 ml-4">LOGO</h1>
                     <h1 className="w-[25%] text-white text-4xl mx-auto mt-6 font-semibold">Welcome to MyCV</h1>
                     <div className="w-[50%] h-[60%] mt-[2rem] mx-auto bg-secondary rounded-[15px]">
