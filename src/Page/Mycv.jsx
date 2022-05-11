@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../Components/Header'
 import avt from '../assets/avt.jpg'
 import { IoMdMail } from 'react-icons/Io'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs'
 import Progressbar from '../Components/Progressbar'
 import { contract } from './../Api/Const'
-import Pdf from 'react-to-pdf'
+import ReactToPrint from 'react-to-print';
 
 const ref = React.createRef()
 
 const Mycv = () => {
+  const [componentRef, setComponentRef] = useState()
   //Progress Bar
   const skills = [
     {
@@ -46,18 +47,22 @@ const Mycv = () => {
       <div className="w-full min-h-screen bg-primary pb-[120px]">
         <div className="flex justify-around items-center mb-3">
           <h1 className="font-bold text-2xl text-white ">My CV</h1>
-          <Pdf targetRef={ref} filename="post.pdf">
-            {({ toPdf }) => (
+          <ReactToPrint
+            content={() => componentRef}
+            trigger={() => (
               <button
-                onClick={toPdf}
                 className="h-[45px] w-[140px] bg-secondary rounded-[30px] text-white text-xl"
               >
                 Save
               </button>
             )}
-          </Pdf>
+          />
         </div>
-        <div id="savecv" ref={ref} className="w-[60%] h-[200vh] mx-auto bg-white flex">
+        <div
+          id="savecv"
+          ref={(response) => setComponentRef(response)}
+          className="w-[60%] h-[200vh] mx-auto bg-white flex"
+        >
           <div className="w-[30%] flex flex-col">
             <img
               src={avt}
