@@ -9,7 +9,8 @@ module.exports = {
                 "secondary": "#29B4AB",
                 "orange-btn": "#FF7510",
                 "text": "#C4C4C4",
-                "purple": "#6244DA"
+                "purple": "#6244DA",
+                "gray-bg": "#D9D9D9"
             }
         },
   },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import cv from '../assets/Group_27.png';
 import Header from '../Components/Header';

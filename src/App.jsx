@@ -12,6 +12,10 @@ import Register from './Page/Register';
 import Createcv from './Page/Createcv';
 import CompanyDetail from './Page/CompanyDetail';
 import ModalSuccess from './Components/ModalSuccess';
+import Profile from './Page/Profile';
+import CompanyManage from './Page/CompanyManage';
+import Employee from './Page/Employee';
+import EmployeeDetail from './Page/EmployeeDetail';
 
 function App() {
   useEffect(() => {
@@ -30,6 +34,10 @@ function App() {
         <Route path='/createcv' element={<Createcv />}/>
         <Route path='/companydetail' element={<CompanyDetail />}/>
         <Route path='/modalsuccess' element={<ModalSuccess />}/>
+        <Route path='/profile' element={<Profile />}/>
+        <Route path='/companymanage' element={<CompanyManage />}/>
+        <Route path='/employee' element={<Employee />}/>
+        <Route path='/employeedetail' element={<EmployeeDetail />}/>
       </Routes>
     </div>
   )
