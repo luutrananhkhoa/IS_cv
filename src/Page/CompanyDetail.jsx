@@ -1,14 +1,91 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Header from './../Components/Header';
 import { BsFacebook, BsLinkedin, BsCheck2Circle } from 'react-icons/Bs';
 import { ImEarth } from 'react-icons/Im';
 import { useState } from 'react';
+import { contract } from './../Api/Const'
 import ModalSuccess from '../Components/ModalSuccess';
+import { contractCompany } from './../Api/ABICompany'
 
 export default function CompanyDetail() {
+    const [openModal, setOpenModal] =useState(false)
+    const skills=["Javascript", "QA/QC", ".NET", "Agile", "Java"]
+    const [address, setAddress] = useState()
+    const[addressCompany, setAddressCompany]=useState() 
 
-    const [openModal, setOpenModal] =useState(false);
-    const skills=["Javascript", "QA/QC", ".NET", "Agile", "Java"];
+    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
+    web3.eth.getAccounts().then()
+    var myContract = new web3.eth.Contract(contractCompany, '0x08c340B65d60254692Afe45f088dFfF4e00B5b55')
+    const [profile, setProfile] = useState({
+        Name: "",
+        Country: "",
+        Facebook: "",
+        Website: "",
+        Linkedin: "",
+        FocusArea: ""
+      })
+
+    const setProfileCallback = useCallback((res) =>{
+        setProfile({
+            Name: res?.Name,
+            Country: res?.Country,
+            Facebook: res?.Facebook,
+            Website: res?.Website,
+            Linkedin: res?.Linkedin,
+            FocusArea: res?.FocusArea
+        })
+      },[address])
+
+    const func = async ()=>{
+
+        await myContract.methods
+        .getSender()
+        .call()
+        .then((result)=> setAddress(result))
+
+        myContract.methods
+            .getBProfile(address)
+            .call()
+            .then(function (res) {
+                setProfileCallback(res)
+                return;
+              })
+              .then( console.log(profile))
+    }
+   
+      useEffect(()=>{
+        // myContract.methods
+        // .getSender()
+        // .call()
+        // .then((result)=> setAddress(result))
+        // .then(console.log(address))
+        // .then(
+        //     myContract.methods
+        //     .getBProfile(address)
+        //     .call()
+        //     .then(function (res) {
+        //         setProfileCallback(res)
+        //         return;
+        //       })
+        //       .then( console.log(profile)))
+        func()
+      },[address])
+
+   
+         
+    var str ="0xAc2848A916c18eEBD4d0fFF10AD2517d9026DCc3"
+    var str1 ="0x31C8cd080503E5c05Ff97CEd4B1C3C11c5D904Ef"
+    var str2 ="0xdA9e33f8Bd9B7A9286b313d8cc435Ac7f4A22086"
+    // const handleClick =() => {   
+    //     // myContract.methods.sendCV(
+    //     // str,str1, str2).send({
+    //     // from: str1,
+    //     // gas: 3000000
+    // })
+//     setTimeout(()=>{ setOpenModal((e)=>!e)},500)
+//     console.log(addressCompany)
+// }
+
   return (
     <>
         <Header />
@@ -31,11 +108,19 @@ export default function CompanyDetail() {
                             KMS builds and successfully launches its own software companies through its internal startup incubator, KMS Labs. Most notable companies include QASymphony, Kobiton, Katalon, and Grove. Under the brand, KMS Solutions, the company serves the Asia Pacific region, offering technology solution consulting and bringing the most advanced and latest technologies to the Asian market. <br /> <br />
                             KMS is committed to making a long-lasting social impact by partnering with non-profit organizations that give disadvantaged students fair and better employment opportunities. The company regularly cooperates with universities, participates in IT training activities and specialized events, and sponsors scholarship programs in Vietnam. The company has received many prestigious industry awards, and has been named one of the greatest places to work in Vietnam, Asia, and the U.S. for many years in a row.</p>
                     </div>
-                    <div className="ml-8 mt-8 relative">
+                    <div className="ml-8 mt-8 relative ">
                         <img src="http://static.ybox.vn/2017/1/20/6a71009c-dee8-11e6-9294-cac091044fd5.jpg" alt="" 
                         className="w-[25rem] object-cover"/>
-                        <button className="absolute right-0 w-[8rem] h-[3rem] mt-6 justify-self-end  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
-                        onClick={()=>{setOpenModal((e)=>!e)}}>Apply</button>
+                        <hr className="mt-4 border-0 h-[2px] w-[20%] rounded-md bg-primary "/>
+                        <p className="mt-2 text-xl font-bold">Address</p>
+                        <input type="text"  id="text-address" 
+                            className="w-[60%] text-[0.9rem] p-4 h-10 mt-2 outline-none rounded-md bg-[#ebe7e7]" 
+                            placeholder="Address acount"
+                            onChange={e =>setAddressCompany(e.target.value)}
+                        />
+                        <button className="absolute right-0 w-[8rem] h-[3rem] mt-2 justify-self-end  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
+                        // onClick={handleClick}
+                       >Apply</button>
                     </div>
                 </div>
                 <div className="mt-8 ml-6 flex gap-[10px]">

@@ -1,16 +1,20 @@
 import react from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/Fa';
+import logo1 from'../assets/LogoCV.png'
 
 const HeaderCompany = () => {
-    // let navigate=useNavigate();
+     let navigate=useNavigate();
     // function HandleClick(){
     //     navigate("/")
     // }
+    const handleLogoClick =()=>{
+        navigate("/companymanage")
+      }
     return (  
         <>
             <nav className="w-full h-24 bg-primary flex justify-around items-center text-white">
-              <h1 className="text-4xl">LOGO</h1>
+            <img className="w-[12%] cursor-pointer" src={logo1} alt="logo" onClick={handleLogoClick} />
               <div className="flex items-center">
                   <ul className="flex text-xl">
                   <Link to="/employee" className="px-8 hover:text-secondary">EMPLOYEE</Link>

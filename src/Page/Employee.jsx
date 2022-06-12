@@ -1,7 +1,9 @@
 import react from "react";
 import HeaderCompany from './../Components/HeaderCompany';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Employee = () => {
+    let navigate=useNavigate();
     const employee = [{
         id:1,
         name: 'Luu Tran Anh Khoa',
@@ -10,6 +12,9 @@ const Employee = () => {
         status:'Active'
     },
     ];
+    const handleClick = () => {
+        navigate("/employeedetail")
+    }
     return ( 
         <>
             <HeaderCompany />
@@ -26,9 +31,10 @@ const Employee = () => {
                             <p className="w-[20%]">Position</p>
                             <p className="w-[20%]">Start Date</p>
                             <p className="w-[20%] text-center">Status</p>
-                        </div>
+                        </div >
                         {employee.map((employee) => (
-                            <div key={employee.id} className="flex justify-between p-3 mt-4 text-white text-xl hover:bg-orange-btn cursor-pointer" >
+                            <div key={employee.id} className="flex justify-between p-3 mt-4 text-white text-xl hover:bg-orange-btn cursor-pointer"
+                            onClick={handleClick} >
                                 <p className="w-[40%]">{employee?.name}</p>
                                 <p className="w-[20%]">{employee?.position}</p> 
                                 <p className="w-[20%]">{employee?.start}</p>

@@ -10,7 +10,7 @@ export default function Createcv() {
     web3.eth.getAccounts().then(console.log);
  var myContract = new web3.eth.Contract(
        contract,
-        '0x1BE446b55b940a9ce9798E5FfD68A061EB026ee9'
+        '0xa8Adf07f02D15ceBD7F3328F0fe6D65A74c62D62'
     );
     myContract.methods
     .getBalance()
@@ -20,7 +20,7 @@ export default function Createcv() {
     function addProf() {
         myContract.methods.addProfile($("#_owner").val(), $("#_name").val(), $("#_birthday").val(),
             $("#_ptitle").val(), $("#_email").val(), $("#_github").val(), $("#_linked").val()).send({
-            from: "0xD7fe6F29e189B62A09410A85fb1384616Ee94402",
+            from: "0x31C8cd080503E5c05Ff97CEd4B1C3C11c5D904Ef",
             gas: 3000000
             });
       navigate("/mycv");

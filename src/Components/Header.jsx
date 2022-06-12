@@ -1,15 +1,19 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import logo1 from'../assets/LogoCV.png'; 
 
 export default function Header() {
      let navigate=useNavigate();
-    function HandleClick(){
+    function handleClick(){
         navigate("/login")
+    }
+    const handleLogoClick =()=>{
+      navigate("/")
     }
   return (
       <div>
           <nav className="w-full h-24 bg-primary flex justify-around items-center text-white">
-              <h1 className="text-4xl">LOGO</h1>
+              <img className="w-[12%] cursor-pointer" src={logo1} alt="logo" onClick={handleLogoClick} />
               <div className="flex items-center">
                   <ul className="flex text-xl">
                   <Link to="/" className="px-8">HOME</Link>
@@ -18,7 +22,7 @@ export default function Header() {
                   <Link to="/mycv" className="px-8">MY CV</Link>
                   </ul>
                     <button className="w-[140px] h-[40px] px-10 text-[18px] text-center bg-orange-btn rounded-[24px]"
-                      onClick={HandleClick}
+                      onClick={handleClick}
                       >LOGIN</button>
               </div>
           </nav>
