@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import avt from '../assets/avt.jpg'
-import { IoMdMail } from 'react-icons/Io'
+// import { IoMdMail } from 'react-icons/Io'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs'
 import Progressbar from '../Components/Progressbar'
 import { contract } from './../Api/Const'
@@ -101,7 +101,7 @@ const Mycv = () => {
             <div className="p-2 ml-4 mt-6 flex flex-col gap-4">
               <div className="flex items-center">
                 <div className="w-[2rem] h-[2rem]">
-                  <IoMdMail size="2rem" className="text-secondary" />
+                  {/* <IoMdMail size="2rem" className="text-secondary" /> */}
                 </div>
                 <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words">{profile?.Email}</p>
               </div>
