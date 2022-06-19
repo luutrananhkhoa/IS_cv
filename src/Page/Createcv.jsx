@@ -8,9 +8,9 @@ export default function Createcv() {
       var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
 
     web3.eth.getAccounts().then(console.log);
- var myContract = new web3.eth.Contract(
+    var myContract = new web3.eth.Contract(
        contract,
-        '0xa8Adf07f02D15ceBD7F3328F0fe6D65A74c62D62'
+        '0x76Ae27Af9F9259348149054fe540cCA4aFF247E4'
     );
     myContract.methods
     .getBalance()
@@ -18,12 +18,11 @@ export default function Createcv() {
     .then((result) => console.log(result.toString()));
 
     function addProf() {
-        myContract.methods.addProfile($("#_owner").val(), $("#_name").val(), $("#_birthday").val(),
-            $("#_ptitle").val(), $("#_email").val(), $("#_github").val(), $("#_linked").val()).send({
-            from: "0x31C8cd080503E5c05Ff97CEd4B1C3C11c5D904Ef",
-            gas: 3000000
+        myContract.methods.addProfile($("#_owner").val() ).send({
+            from: "0xa6A9A33cC3632bccf75a9ce220832dd8Be2Fc515",
+            gas: 300000
             });
-      navigate("/mycv");
+      // navigate("/mycv");
     };
 
   return (
@@ -32,7 +31,7 @@ export default function Createcv() {
           <div className="w-full min-h-screen bg-primary ">
             <h1 className="text-left ml-[200px] text-4xl text-white font-bold pt-[3rem]">CREATE MY CV</h1>
             <form action="#" className="ml-[200px] mt-[2rem]">
-              <div className="flex"> 
+              {/* <div className="flex"> 
                   <div className="mt-6">
                     <label name="fname" className="text-white">Full name</label><br/>
                     <input type="text" id="_name" name="fname" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="Full name"/>
@@ -63,7 +62,7 @@ export default function Createcv() {
                   <label name="linkedIn" className="text-white">LinkedIn</label><br/>
                   <input type="text" id="_linked" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="LinkedIn"/>
                 </div>
-              </div>
+              </div> */}
               <div className="flex">
                 <div className="mt-6" >
                   <label name="address" className="text-white">Address owner</label><br/>

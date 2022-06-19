@@ -37,38 +37,14 @@ export const contract =[
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_owner",
+				"name": "sOwner",
 				"type": "address"
-			},
-			{
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"name": "birthDay",
-				"type": "string"
-			},
-			{
-				"name": "professionalTitle",
-				"type": "string"
-			},
-			{
-				"name": "email",
-				"type": "string"
-			},
-			{
-				"name": "github",
-				"type": "string"
-			},
-			{
-				"name": "linked",
-				"type": "string"
 			}
 		],
 		"name": "addProfile",
 		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -204,10 +180,6 @@ export const contract =[
 	{
 		"constant": false,
 		"inputs": [
-			{
-				"name": "addr",
-				"type": "address"
-			},
 			{
 				"name": "_owner",
 				"type": "address"
@@ -355,24 +327,61 @@ export const contract =[
 		"name": "getEducation",
 		"outputs": [
 			{
-				"name": "Institution",
-				"type": "string"
+				"name": "",
+				"type": "string[]"
 			},
 			{
-				"name": "FocusArea",
-				"type": "string"
+				"name": "",
+				"type": "string[]"
 			},
 			{
-				"name": "StartYear",
-				"type": "uint256"
+				"name": "",
+				"type": "uint256[]"
 			},
 			{
-				"name": "FinishYear",
-				"type": "uint256"
+				"name": "",
+				"type": "uint256[]"
 			},
 			{
-				"name": "GPA",
-				"type": "uint256"
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getList",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_b_owner",
+				"type": "address"
+			}
+		],
+		"name": "getListCV",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			},
+			{
+				"name": "",
+				"type": "address[]"
 			}
 		],
 		"payable": false,
@@ -411,41 +420,6 @@ export const contract =[
 			},
 			{
 				"name": "Linked",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "addr",
-				"type": "address"
-			},
-			{
-				"name": "_owner",
-				"type": "address"
-			},
-			{
-				"name": "_b_owner",
-				"type": "address"
-			}
-		],
-		"name": "getReview",
-		"outputs": [
-			{
-				"name": "Owner",
-				"type": "address"
-			},
-			{
-				"name": "B_Owner",
-				"type": "address"
-			},
-			{
-				"name": "Content",
 				"type": "string"
 			}
 		],

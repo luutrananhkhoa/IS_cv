@@ -13,7 +13,7 @@ const ref = React.createRef()
 const Mycv = () => {
   var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
   web3.eth.getAccounts().then()
-  var myContract = new web3.eth.Contract(contract, '0xF26ABecE7054553B595362cD09A10653d407f2A5')
+  var myContract = new web3.eth.Contract(contract, '0xc321C3833B9a39193c556625961AC5066EA011c7')
 
   const [componentRef, setComponentRef] = useState()
   const [address, setAddress] = useState()
