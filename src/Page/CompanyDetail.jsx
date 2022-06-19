@@ -8,80 +8,80 @@ import ModalSuccess from '../Components/ModalSuccess';
 import { contractCompany } from './../Api/ABICompany'
 
 export default function CompanyDetail() {
-    const [openModal, setOpenModal] =useState(false)
-    const skills=["Javascript", "QA/QC", ".NET", "Agile", "Java"]
-    const [address, setAddress] = useState()
-    const[addressCompany, setAddressCompany]=useState() 
+//     const [openModal, setOpenModal] =useState(false)
+//     const skills=["Javascript", "QA/QC", ".NET", "Agile", "Java"]
+//     const [address, setAddress] = useState()
+//     const[addressCompany, setAddressCompany]=useState() 
 
-    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
-    web3.eth.getAccounts().then()
-    var myContract = new web3.eth.Contract(contractCompany, '0x3Bc0Eb5839D4Ec6748f21558BA9FA643cB242686')
-    const [profile, setProfile] = useState({
-        Name: "",
-        Country: "",
-        Facebook: "",
-        Website: "",
-        Linkedin: "",
-        FocusArea: ""
-      })
+//     var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
+//     web3.eth.getAccounts().then()
+//     var myContract = new web3.eth.Contract(contractCompany, '0x3Bc0Eb5839D4Ec6748f21558BA9FA643cB242686')
+//     const [profile, setProfile] = useState({
+//         Name: "",
+//         Country: "",
+//         Facebook: "",
+//         Website: "",
+//         Linkedin: "",
+//         FocusArea: ""
+//       })
 
-    const setProfileCallback = useCallback((res) =>{
-        setProfile({
-            Name: res?.Name,
-            Country: res?.Country,
-            Facebook: res?.Facebook,
-            Website: res?.Website,
-            Linkedin: res?.Linkedin,
-            FocusArea: res?.FocusArea
-        })
-      },[address])
+//     const setProfileCallback = useCallback((res) =>{
+//         setProfile({
+//             Name: res?.Name,
+//             Country: res?.Country,
+//             Facebook: res?.Facebook,
+//             Website: res?.Website,
+//             Linkedin: res?.Linkedin,
+//             FocusArea: res?.FocusArea
+//         })
+//       },[address])
 
-    const func = async ()=>{
+//     const func = async ()=>{
 
-        await myContract.methods
-        .getSender()
-        .call()
-        .then((result)=> setAddress(result))
+//         await myContract.methods
+//         .getSender()
+//         .call()
+//         .then((result)=> setAddress(result))
 
-        myContract.methods
-            .getBProfile(address)
-            .call()
-            .then(function (res) {
-                setProfileCallback(res)
-                return;
-              })
-              .then( console.log(profile))
-    }
+//         myContract.methods
+//             .getBProfile(address)
+//             .call()
+//             .then(function (res) {
+//                 setProfileCallback(res)
+//                 return;
+//               })
+//               .then( console.log(profile))
+//     }
    
-      useEffect(()=>{
-        // myContract.methods
-        // .getSender()
-        // .call()
-        // .then((result)=> setAddress(result))
-        // .then(console.log(address))
-        // .then(
-        //     myContract.methods
-        //     .getBProfile(address)
-        //     .call()
-        //     .then(function (res) {
-        //         setProfileCallback(res)
-        //         return;
-        //       })
-        //       .then( console.log(profile)))
-        func()
-      },[address])
+//       useEffect(()=>{
+//         // myContract.methods
+//         // .getSender()
+//         // .call()
+//         // .then((result)=> setAddress(result))
+//         // .then(console.log(address))
+//         // .then(
+//         //     myContract.methods
+//         //     .getBProfile(address)
+//         //     .call()
+//         //     .then(function (res) {
+//         //         setProfileCallback(res)
+//         //         return;
+//         //       })
+//         //       .then( console.log(profile)))
+//         func()
+//       },[address])
          
-    var str ="0xF4f5E529CC90C1aC608A106e9Abe7bC5820E50f9"
-    var str1 ="0xA5546C4D9F130CD504902Bc3dfe5362ff74C77d6"
-    var str2 ="0x5ac546E73c94a4B96d0ce065E24e2441BE37c13f"
-    const handleClick =() => {   
-        myContract.methods.sendCV(
-        str,str1, str2).send({
-        from: str1,
-        gas: 3000000
-    })
-    setOpenModal((e)=>!e)
-}
+//     var str ="0xF4f5E529CC90C1aC608A106e9Abe7bC5820E50f9"
+//     var str1 ="0xA5546C4D9F130CD504902Bc3dfe5362ff74C77d6"
+//     var str2 ="0x5ac546E73c94a4B96d0ce065E24e2441BE37c13f"
+//     const handleClick =() => {   
+//         myContract.methods.sendCV(
+//         str,str1, str2).send({
+//         from: str1,
+//         gas: 3000000
+//     })
+//     setOpenModal((e)=>!e)
+// }
 
   return (
     <>
@@ -122,7 +122,7 @@ export default function CompanyDetail() {
                                 <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Objective C</div>
                             </div>
                             <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
-                                onClick={handleClick}
+                              
                             >Apply</button>
                         </div>
                     </div>

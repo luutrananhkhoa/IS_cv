@@ -3,7 +3,7 @@ import Header from '../Components/Header';
 import avt from '../assets/avt.jpg';
 import Progressbar from './../Components/Progressbar';
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin,BsFillTelephoneFill, BsFillHouseDoorFill } from 'react-icons/Bs'
-import { IoMdMail } from 'react-icons/Io'
+// import { IoMdMail } from 'react-icons/Io'
 import {  useNavigate } from 'react-router-dom';
 import ModalWarning from './../Components/ModalWarning';
 
@@ -69,7 +69,7 @@ const Profile = () => {
                             <div className="flex justify-between ">
                                 <div className="w-[45%] px-4 py-2 rounded-md bg-white">
                                     <div className="flex items-center">
-                                        <IoMdMail size="2rem" className="text-secondary" />
+                                        {/* <IoMdMail size="2rem" className="text-secondary" /> */}
                                         <p className="ml-2 text-md">Email</p>
                                     </div>
                                     <p className="py-2 w-[100%] break-words">ltakhoa1902@gmail.com</p>

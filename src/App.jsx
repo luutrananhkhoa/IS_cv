@@ -40,7 +40,6 @@ function App() {
         <Route path='/companymanage' element={<CompanyManage />}/>
         <Route path='/employee' element={<Employee />}/>
         <Route path='/employeedetail' element={<EmployeeDetail />}/>
-        <Route path='/test' element={<Test />}/>
         <Route path='/evaluate' element={<Evaluate />}/>
       </Routes>
     </div>

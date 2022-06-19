@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import avt from '../assets/avt.jpg'
-import { IoMdMail } from 'react-icons/Io'
+// import { IoMdMail } from 'react-icons/Io'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs'
 import Progressbar from '../Components/Progressbar'
 import { contract } from './../Api/Const'
@@ -11,66 +11,66 @@ import { Context } from '../Context/Context'
 const ref = React.createRef()
 
 const Mycv = () => {
-  var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
-  web3.eth.getAccounts().then()
-  var myContract = new web3.eth.Contract(contract, '0xc321C3833B9a39193c556625961AC5066EA011c7')
+  // var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
+  // web3.eth.getAccounts().then()
+  // var myContract = new web3.eth.Contract(contract, '0xc321C3833B9a39193c556625961AC5066EA011c7')
 
-  const [componentRef, setComponentRef] = useState()
-  const [address, setAddress] = useState()
-  const {skills, setSkills} = useContext(Context)
-  const [profile, setProfile] = useState({
-    Birthday: "",
-    Email: "",
-    Github: "",
-    Linked: "",
-    Name: "",
-    ProfessionalTitle: ""
-  })
-  // const [skills, setSkills] = useState([])
-  const setProfileCallback = useCallback((res) =>{
-    setProfile({
-      Birthday: res?.Birthday,
-      Email: res?.Email,
-      Github: res?.Github,
-      Linked: res?.Linked,
-      Name: res?.Name,
-      ProfessionalTitle:res?.ProfessionalTitle
-    })
-  },[address])
-
-
-  const getSkillsData =(address) =>{
-    myContract.methods
-      .getSkill(address)
-      .call()
-      .then((res)=>{
-        setSkills({...res})
-        return;
-      })
-      console.log(skills)
-  }
+  // const [componentRef, setComponentRef] = useState()
+  // const [address, setAddress] = useState()
+  // const {skills, setSkills} = useContext(Context)
+  // const [profile, setProfile] = useState({
+  //   Birthday: "",
+  //   Email: "",
+  //   Github: "",
+  //   Linked: "",
+  //   Name: "",
+  //   ProfessionalTitle: ""
+  // })
+  // // const [skills, setSkills] = useState([])
+  // const setProfileCallback = useCallback((res) =>{
+  //   setProfile({
+  //     Birthday: res?.Birthday,
+  //     Email: res?.Email,
+  //     Github: res?.Github,
+  //     Linked: res?.Linked,
+  //     Name: res?.Name,
+  //     ProfessionalTitle:res?.ProfessionalTitle
+  //   })
+  // },[address])
 
 
-  useEffect(()=>{
-    myContract.methods
-    .getSender()
-    .call()
-    .then((result)=> result)
-    .then(address=> {
-      //get profile
-      myContract.methods
-      .getProfile(address)
-      .call()
-      .then(function (res) {
-          setProfileCallback(res)
-          return;
-        })
-      //Get skill
-      getSkillsData(address)
+  // const getSkillsData =(address) =>{
+  //   myContract.methods
+  //     .getSkill(address)
+  //     .call()
+  //     .then((res)=>{
+  //       setSkills({...res})
+  //       return;
+  //     })
+  //     console.log(skills)
+  // }
 
-    })
-  },[])
-  console.log(skills)
+
+  // useEffect(()=>{
+  //   myContract.methods
+  //   .getSender()
+  //   .call()
+  //   .then((result)=> result)
+  //   .then(address=> {
+  //     //get profile
+  //     myContract.methods
+  //     .getProfile(address)
+  //     .call()
+  //     .then(function (res) {
+  //         setProfileCallback(res)
+  //         return;
+  //       })
+  //     //Get skill
+  //     getSkillsData(address)
+
+  //   })
+  // },[])
+  // console.log(skills)
   return (
     <>
       <Header />
@@ -101,7 +101,7 @@ const Mycv = () => {
             <div className="p-2 ml-4 mt-6 flex flex-col gap-4">
               <div className="flex items-center">
                 <div className="w-[2rem] h-[2rem]">
-                  <IoMdMail size="2rem" className="text-secondary" />
+                  {/* <IoMdMail size="2rem" className="text-secondary" /> */}
                 </div>
                 <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words">{profile?.Email}</p>
               </div>
@@ -130,9 +130,9 @@ const Mycv = () => {
               <h1 className="font-bold text-3xl">SKILLS</h1>
               <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary" />
               <div className="mt-4 w-[85%]">
-                {skills[0]?.map((item,index)=>(
+                {/* {skills[0]?.map((item,index)=>(
                     <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
-                ))}
+                ))} */}
                 {/* <Progressbar title={skills[0]} per="80" /> */}
               </div>
             </div>
