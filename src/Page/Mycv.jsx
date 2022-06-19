@@ -15,17 +15,17 @@ const Mycv = () => {
   // web3.eth.getAccounts().then()
   // var myContract = new web3.eth.Contract(contract, '0xc321C3833B9a39193c556625961AC5066EA011c7')
 
-  // const [componentRef, setComponentRef] = useState()
+  const [componentRef, setComponentRef] = useState()
   // const [address, setAddress] = useState()
   // const {skills, setSkills} = useContext(Context)
-  // const [profile, setProfile] = useState({
-  //   Birthday: "",
-  //   Email: "",
-  //   Github: "",
-  //   Linked: "",
-  //   Name: "",
-  //   ProfessionalTitle: ""
-  // })
+  const [profile, setProfile] = useState({
+    Birthday: "",
+    Email: "",
+    Github: "",
+    Linked: "",
+    Name: "",
+    ProfessionalTitle: ""
+  })
   // // const [skills, setSkills] = useState([])
   // const setProfileCallback = useCallback((res) =>{
   //   setProfile({

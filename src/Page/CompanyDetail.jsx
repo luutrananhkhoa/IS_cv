@@ -8,7 +8,7 @@ import ModalSuccess from '../Components/ModalSuccess';
 import { contractCompany } from './../Api/ABICompany'
 
 export default function CompanyDetail() {
-    // const [openModal, setOpenModal] =useState(false)
+    const [openModal, setOpenModal] =useState(false)
     // const skills=["Javascript", "QA/QC", ".NET", "Agile", "Java"]
     // const [address, setAddress] = useState()
     // const[addressCompany, setAddressCompany]=useState() 
@@ -53,7 +53,7 @@ export default function CompanyDetail() {
     //           .then( console.log(profile))
     // }
    
-      useEffect(()=>{
+    //   useEffect(()=>{
         // myContract.methods
         // .getSender()
         // .call()
@@ -68,8 +68,8 @@ export default function CompanyDetail() {
         //         return;
         //       })
         //       .then( console.log(profile)))
-        func()
-      },[address])
+    //     func()
+    //   },[address])
          
 //     var str ="0xF4f5E529CC90C1aC608A106e9Abe7bC5820E50f9"
 //     var str1 ="0xA5546C4D9F130CD504902Bc3dfe5362ff74C77d6"
@@ -108,7 +108,7 @@ export default function CompanyDetail() {
                                 <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Objective C</div>
                             </div>
                             <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
-                                onClick={handleClick}
+                                // onClick={handleClick}
                             >Apply</button>
                         </div>
                     </div>
@@ -122,7 +122,7 @@ export default function CompanyDetail() {
                                 <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Objective C</div>
                             </div>
                             <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
-                                onClick={handleClick}
+                                // onClick={handleClick}
                             >Apply</button>
                         </div>
                     </div>
