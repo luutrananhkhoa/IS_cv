@@ -1,18 +1,92 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Header from './../Components/Header';
 import { BsFacebook, BsLinkedin, BsCheck2Circle } from 'react-icons/Bs';
 import { ImEarth } from 'react-icons/Im';
 import { useState } from 'react';
+import { contract } from './../Api/Const'
 import ModalSuccess from '../Components/ModalSuccess';
+import { contractCompany } from './../Api/ABICompany'
 
 export default function CompanyDetail() {
+    const [openModal, setOpenModal] =useState(false)
+    const skills=["Javascript", "QA/QC", ".NET", "Agile", "Java"]
+    const [address, setAddress] = useState()
+    const[addressCompany, setAddressCompany]=useState() 
 
-    const [openModal, setOpenModal] =useState(false);
-    const skills=["Javascript", "QA/QC", ".NET", "Agile", "Java"];
+    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
+    web3.eth.getAccounts().then()
+    var myContract = new web3.eth.Contract(contractCompany, '0x3Bc0Eb5839D4Ec6748f21558BA9FA643cB242686')
+    const [profile, setProfile] = useState({
+        Name: "",
+        Country: "",
+        Facebook: "",
+        Website: "",
+        Linkedin: "",
+        FocusArea: ""
+      })
+
+    const setProfileCallback = useCallback((res) =>{
+        setProfile({
+            Name: res?.Name,
+            Country: res?.Country,
+            Facebook: res?.Facebook,
+            Website: res?.Website,
+            Linkedin: res?.Linkedin,
+            FocusArea: res?.FocusArea
+        })
+      },[address])
+
+    const func = async ()=>{
+
+        await myContract.methods
+        .getSender()
+        .call()
+        .then((result)=> setAddress(result))
+
+        myContract.methods
+            .getBProfile(address)
+            .call()
+            .then(function (res) {
+                setProfileCallback(res)
+                return;
+              })
+              .then( console.log(profile))
+    }
+   
+      useEffect(()=>{
+        // myContract.methods
+        // .getSender()
+        // .call()
+        // .then((result)=> setAddress(result))
+        // .then(console.log(address))
+        // .then(
+        //     myContract.methods
+        //     .getBProfile(address)
+        //     .call()
+        //     .then(function (res) {
+        //         setProfileCallback(res)
+        //         return;
+        //       })
+        //       .then( console.log(profile)))
+        func()
+      },[address])
+         
+    var str ="0xF4f5E529CC90C1aC608A106e9Abe7bC5820E50f9"
+    var str1 ="0xA5546C4D9F130CD504902Bc3dfe5362ff74C77d6"
+    var str2 ="0x5ac546E73c94a4B96d0ce065E24e2441BE37c13f"
+    const handleClick =() => {   
+        myContract.methods.sendCV(
+        str,str1, str2).send({
+        from: str1,
+        gas: 3000000
+    })
+    setOpenModal((e)=>!e)
+}
+
   return (
     <>
         <Header />
-        <div className="min-w-full min-h-screen bg-primary pt-4 pb-4 relative">
+        <div className="min-w-full min-h-screen bg-primary pt-4 pb-10 relative">
         <ModalSuccess open={openModal} setOpen={setOpenModal}/>
             <div className="w-[70%] h-[70%] mx-auto p-[2rem] mt-10 bg-white rounded-[1rem]">
                 <div className="flex ml-6">
@@ -20,30 +94,37 @@ export default function CompanyDetail() {
                         className="w-[6rem] h-[6rem] object-cover"/>
                     <div className="mt-3 ml-[2rem]">
                         <h1 className="text-3xl font-bold mb-1">KMS Technology</h1>
-                        <p>Agile, Innovative & Excellent Global Technology Company with deep roots in Vietnam</p>
                     </div>
                 </div>
-
-                <div className="mt-8 justify-center flex">
-                    <div className="w-[50%] ">
-                        <h1 className="text-xl font-bold mb-1">Introduce about KMS Technology</h1>
-                        <p className="text-sm text-justify">Established in 2009, KMS Technology is a U.S.-based engineering and services company with development centers in Vietnam. KMS Technology is trusted by international clients for the superior quality of products and expertise of Vietnamese engineers. <br /> <br />
-                            KMS builds and successfully launches its own software companies through its internal startup incubator, KMS Labs. Most notable companies include QASymphony, Kobiton, Katalon, and Grove. Under the brand, KMS Solutions, the company serves the Asia Pacific region, offering technology solution consulting and bringing the most advanced and latest technologies to the Asian market. <br /> <br />
-                            KMS is committed to making a long-lasting social impact by partnering with non-profit organizations that give disadvantaged students fair and better employment opportunities. The company regularly cooperates with universities, participates in IT training activities and specialized events, and sponsors scholarship programs in Vietnam. The company has received many prestigious industry awards, and has been named one of the greatest places to work in Vietnam, Asia, and the U.S. for many years in a row.</p>
+                <p className="mt-10 text-2xl ml-6 font-bold">Jobs</p>
+                <div className="mt-6 w-[70%] ml-10">
+                {/* /job */}
+                    <div className="w-full h-[10rem] mt-6 p-6 bg-[#E7E7E7] rounded-md">
+                        <p className="font-[500] text-2xl">Mobile Developer (iOS/MacOS)</p>
+                        <div className="flex justify-between">
+                            <div className="flex justify-between mt-8">
+                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">IOS</div>
+                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Swift</div>
+                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Objective C</div>
+                            </div>
+                            <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
+                                onClick={handleClick}
+                            >Apply</button>
+                        </div>
                     </div>
-                    <div className="ml-8 mt-8 relative">
-                        <img src="http://static.ybox.vn/2017/1/20/6a71009c-dee8-11e6-9294-cac091044fd5.jpg" alt="" 
-                        className="w-[25rem] object-cover"/>
-                        <button className="absolute right-0 w-[8rem] h-[3rem] mt-6 justify-self-end  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
-                        onClick={()=>{setOpenModal((e)=>!e)}}>Apply</button>
-                    </div>
-                </div>
-                <div className="mt-8 ml-6 flex gap-[10px]">
-                    <div className="w-fit h-[2rem] text-white text-center bg-secondary rounded-[3rem] px-[18px]">
-                        <p className="leading-[2rem]">Javascript</p>
-                    </div>
-                    <div className="w-fit h-[2rem] text-white text-center bg-secondary rounded-[3rem] px-[18px]">
-                        <p className="leading-[2rem]">.NET</p>
+                    {/* job */}
+                    <div className="w-full h-[10rem] mt-6 p-6 bg-[#E7E7E7] rounded-md">
+                        <p className="font-[500] text-2xl">Mobile Developer (iOS/MacOS)</p>
+                        <div className="flex justify-between">
+                            <div className="flex justify-between mt-8">
+                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">IOS</div>
+                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Swift</div>
+                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Objective C</div>
+                            </div>
+                            <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
+                                onClick={handleClick}
+                            >Apply</button>
+                        </div>
                     </div>
                 </div>
                 <div className="mt-8 ml-6">

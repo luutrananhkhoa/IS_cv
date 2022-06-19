@@ -1,11 +1,12 @@
 import React from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import cv from '../assets/Group_27.png';
+import logo1 from'../assets/LogoCV.png'; 
 import {  useNavigate } from 'react-router-dom';
 
 const Login = () => {
  let navigate=useNavigate();
-    function HandleClick(){
+    const HandleClick = () => {
         navigate("/")
     }
     return (
@@ -20,7 +21,7 @@ const Login = () => {
                 </div>
             </div>
                 <div className="w-[50%] bg-primary">
-                    <h1 className="text-3xl text-white mt-4 ml-4">LOGO</h1>
+                    <img className="w-[18%] ml-6 mt-2 cursor-pointer" src={logo1} alt="logo" onClick={HandleClick} />
                     <h1 className="w-[25%] text-white text-4xl mx-auto mt-6 font-semibold">Welcome to MyCV</h1>
                     <div className="w-[50%] h-[60%] mt-[2rem] mx-auto bg-secondary rounded-[15px]">
                     <h1 className="pt-[20px] text-white text-2xl text-center " >Login</h1>
@@ -34,7 +35,7 @@ const Login = () => {
                         <input type="text" name="pwd" placeholder="123456"  className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
                         </div>
                         <button className="mt-[4rem] mx-auto w-[75%] h-10 text-white bg-primary rounded-[30px]">Sign in</button>
-                        <h3 className=" text-white text-sm mx-auto font-medium mt-4">Already a member?<a className=" text-primary text-sm font-bold  mt-4"> Login</a></h3>
+                        <h3 className=" text-white text-sm mx-auto font-medium mt-4">Not a member?<a className=" text-primary text-sm font-bold  mt-4">Sign up</a></h3>
                     </div>
                 </div>
             </div>

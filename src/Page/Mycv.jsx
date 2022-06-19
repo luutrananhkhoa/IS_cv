@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import avt from '../assets/avt.jpg'
 import { IoMdMail } from 'react-icons/Io'
@@ -6,41 +6,71 @@ import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs'
 import Progressbar from '../Components/Progressbar'
 import { contract } from './../Api/Const'
 import ReactToPrint from 'react-to-print';
+import { Context } from '../Context/Context'
 
 const ref = React.createRef()
 
 const Mycv = () => {
-  const [componentRef, setComponentRef] = useState()
-  //Progress Bar
-  const skills = [
-    {
-      title: 'HTML',
-      per: '50',
-    },
-  ]
-
   var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
+  web3.eth.getAccounts().then()
+  var myContract = new web3.eth.Contract(contract, '0xc321C3833B9a39193c556625961AC5066EA011c7')
 
-  web3.eth.getAccounts().then(console.log)
-  var myContract = new web3.eth.Contract(contract, '0x1BE446b55b940a9ce9798E5FfD68A061EB026ee9')
-  myContract.methods
-    .getBalance()
-    .call()
-    .then((result) => console.log(result.toString()))
-
-  myContract.methods
-    .getProfile(0)
-    .call()
-    .then(function (res) {
-      console.log(res)
-      $('#text-name').html(res[0].toString())
-      $('#text-birthday').html(res[1].toString())
-      $('#text-proTitle').html(res[2].toString())
-      $('#text-mail').html(res[3].toString())
-      $('#text-github').html(res[4].toString())
-      $('#text-linkedln').html(res[5].toString())
+  const [componentRef, setComponentRef] = useState()
+  const [address, setAddress] = useState()
+  const {skills, setSkills} = useContext(Context)
+  const [profile, setProfile] = useState({
+    Birthday: "",
+    Email: "",
+    Github: "",
+    Linked: "",
+    Name: "",
+    ProfessionalTitle: ""
+  })
+  // const [skills, setSkills] = useState([])
+  const setProfileCallback = useCallback((res) =>{
+    setProfile({
+      Birthday: res?.Birthday,
+      Email: res?.Email,
+      Github: res?.Github,
+      Linked: res?.Linked,
+      Name: res?.Name,
+      ProfessionalTitle:res?.ProfessionalTitle
     })
+  },[address])
 
+
+  const getSkillsData =(address) =>{
+    myContract.methods
+      .getSkill(address)
+      .call()
+      .then((res)=>{
+        setSkills({...res})
+        return;
+      })
+      console.log(skills)
+  }
+
+
+  useEffect(()=>{
+    myContract.methods
+    .getSender()
+    .call()
+    .then((result)=> result)
+    .then(address=> {
+      //get profile
+      myContract.methods
+      .getProfile(address)
+      .call()
+      .then(function (res) {
+          setProfileCallback(res)
+          return;
+        })
+      //Get skill
+      getSkillsData(address)
+
+    })
+  },[])
+  console.log(skills)
   return (
     <>
       <Header />
@@ -73,42 +103,45 @@ const Mycv = () => {
                 <div className="w-[2rem] h-[2rem]">
                   <IoMdMail size="2rem" className="text-secondary" />
                 </div>
-                <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words"></p>
+                <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words">{profile?.Email}</p>
               </div>
               <div className=" flex items-center">
                 <div className="w-[2rem] h-[2rem]">
                   <BsFillCalendar2DateFill size="2rem" className="text-secondary" />
                 </div>
-                <p id="text-birthday" className="pl-2 flex-1 w-[80%] break-words"></p>
+                <p id="text-birthday" className="pl-2 flex-1 w-[80%] break-words">{profile?.Birthday}</p>
               </div>
               <div className="flex items-center">
                 <div className="w-[2rem] h-[2rem]">
                   <BsLinkedin size="2rem" className="text-secondary block " />
                 </div>
                 <p id="text-linkedln" className="pl-2 flex-1 w-[80%] break-words">
-                  https://www.linkedin.com/in/luu-tran-anh-khoa-07914822a/
+                  {profile?.Linked}
                 </p>
               </div>
               <div className="flex items-center">
                 <div className="w-[2rem] h-[2rem]">
                   <BsGithub size="2rem" className="text-secondary" />
                 </div>
-                <p id="text-github" className="pl-2 flex-1 w-[80%] break-words"></p>
+                <p id="text-github" className="pl-2 flex-1 w-[80%] break-words">{profile?.Github}</p>
               </div>
             </div>
             <div className="mt-[4rem] ml-6">
               <h1 className="font-bold text-3xl">SKILLS</h1>
               <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary" />
               <div className="mt-4 w-[85%]">
-                <Progressbar title={skills[0]?.title} per={skills[0]?.per} />
+                {skills[0]?.map((item,index)=>(
+                    <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
+                ))}
+                {/* <Progressbar title={skills[0]} per="80" /> */}
               </div>
             </div>
           </div>
           <div className="flex-1">
             <div className="h-[10rem] mt-12 bg-secondary">
               <div className="ml-6 pt-6 text-white">
-                <h1 id="text-name" className="text-4xl font-bold"></h1>
-                <span id="text-proTitle" className="text-[1.3rem] mt-4"></span>
+                <h1 id="text-name" className="text-4xl font-bold">{profile?.Name}</h1>
+                <span id="text-proTitle" className="text-[1.3rem] mt-4">{profile?.ProfessionalTitle}</span>
                 <hr className="w-[40%] h-[2px] mt-4 border-0 bg-white" />
               </div>
             </div>

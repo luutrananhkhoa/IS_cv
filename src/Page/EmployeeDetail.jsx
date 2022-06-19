@@ -1,5 +1,6 @@
 import react from "react";
 import avt from '../assets/avt.jpg';
+import { Link, useNavigate } from 'react-router-dom';
 import HeaderCompany from "../Components/HeaderCompany";
 
 const EmployeeDetail = () => {
@@ -8,11 +9,13 @@ const EmployeeDetail = () => {
             <HeaderCompany />
             <div className="min-h-screen min-w-full bg-primary pb-[8rem]">
                 <div className="w-[70%] h-[100%] mx-auto pt-[2rem] pb-[1rem] bg-white rounded-md flex flex-col">
-                    
                     <p className="ml-10 text-xl">Lưu Trần Anh Khoa muốn đánh giá quá trình làm việc!</p>
                     <div className="flex justify-end px-10">
-                        <button className="w-[4.5rem] h-[2rem] bg-[#ccc] mr-[1rem] rounded-lg">Deny</button>
-                        <button  className="w-[4.5rem] h-[2rem] bg-[#E42626] text-white rounded-lg">Accept</button>
+                        <button className="w-[4.5rem] h-[2rem] bg-[#ccc] mr-[1rem] rounded-lg">Từ chối</button>
+                        <Link to="/evaluate" className="px-8">
+                            <button  className="w-[6rem] h-[2rem] bg-[#E42626] text-white rounded-lg">Chấp nhận</button>
+                        </Link>
+                        
                     </div>
                 </div>
                 <div className="w-[70%] h-[100%] mx-auto mt-[2rem] bg-white rounded-md flex flex-col pb-[4rem]">
