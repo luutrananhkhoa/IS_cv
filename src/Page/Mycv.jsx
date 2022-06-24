@@ -11,32 +11,41 @@ import { Context } from '../Context/Context'
 const ref = React.createRef()
 
 const Mycv = () => {
-  // var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
-  // web3.eth.getAccounts().then()
-  // var myContract = new web3.eth.Contract(contract, '0xc321C3833B9a39193c556625961AC5066EA011c7')
+  var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
+  web3.eth.getAccounts().then()
+  var myContract = new web3.eth.Contract(contract, '0xaf826cad1e088E2BbC20dB595A7105004b9c1f9c')
 
-  // const [componentRef, setComponentRef] = useState()
-  // const [address, setAddress] = useState()
-  // const {skills, setSkills} = useContext(Context)
-  // const [profile, setProfile] = useState({
-  //   Birthday: "",
-  //   Email: "",
-  //   Github: "",
-  //   Linked: "",
-  //   Name: "",
-  //   ProfessionalTitle: ""
-  // })
-  // // const [skills, setSkills] = useState([])
-  // const setProfileCallback = useCallback((res) =>{
-  //   setProfile({
-  //     Birthday: res?.Birthday,
-  //     Email: res?.Email,
-  //     Github: res?.Github,
-  //     Linked: res?.Linked,
-  //     Name: res?.Name,
-  //     ProfessionalTitle:res?.ProfessionalTitle
-  //   })
-  // },[address])
+  const [componentRef, setComponentRef] = useState()
+  const [address, setAddress] = useState()
+  const {skills, setSkills} = useContext(Context)
+  const {addr, setAddr} = useContext(Context)
+  const [profile, setProfile] = useState({
+    Birthday: "",
+    Email: "",
+    Github: "",
+    Linked: "",
+    Name: "",
+    ProfessionalTitle: ""
+  })
+  // const [skills, setSkills] = useState([])
+  const setProfileCallback = useCallback((res) =>{
+    setProfile({
+      Birthday: res?.Birthday,
+      Email: res?.Email,
+      Github: res?.Github,
+      Linked: res?.Linked,
+      Name: res?.Name,
+      ProfessionalTitle:res?.ProfessionalTitle
+    })
+  },[addr])
+
+  console.log(addr)
+  // const getListData =(addr) =>{
+  //   myContract.methods
+  //     .getList(addr)
+  //     .call()
+  //     .then((result) => console.log(result));
+  // }
 
 
   // const getSkillsData =(address) =>{
@@ -51,26 +60,31 @@ const Mycv = () => {
   // }
 
 
-  // useEffect(()=>{
-  //   myContract.methods
-  //   .getSender()
-  //   .call()
-  //   .then((result)=> result)
-  //   .then(address=> {
-  //     //get profile
-  //     myContract.methods
-  //     .getProfile(address)
-  //     .call()
-  //     .then(function (res) {
-  //         setProfileCallback(res)
-  //         return;
-  //       })
-  //     //Get skill
-  //     getSkillsData(address)
+  useEffect(()=>{
+    myContract.methods
+    .getSender()
+    .call()
+    .then((result)=> result)
+    // .then(address=> {
+    //   //get profile
+     
+    //   //Get skill
+    //   getSkillsData(address)}
+    // )
+    myContract.methods
+      .getList(addr)
+      .call()
+      .then((result) => console.log(result));
 
-  //   })
-  // },[])
-  // console.log(skills)
+    myContract.methods
+    .getList(addr)
+    .call()
+    .then(function (addres) {
+        setProfileCallback(addres)
+        return;
+      })
+  },[])
+  
   return (
     <>
       <Header />

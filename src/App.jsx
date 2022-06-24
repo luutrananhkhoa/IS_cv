@@ -16,7 +16,6 @@ import Profile from './Page/Profile';
 import CompanyManage from './Page/CompanyManage';
 import Employee from './Page/Employee';
 import EmployeeDetail from './Page/EmployeeDetail';
-import Test from './Page/Test';
 import Evaluate from './Page/Evaluate';
 
 function App() {

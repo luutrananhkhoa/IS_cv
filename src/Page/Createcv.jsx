@@ -1,37 +1,49 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Components/Header';
 import { contract } from './../Api/Const';
+import { Context } from '../Context/Context';
 
 export default function Createcv() {
-    // let navigate=useNavigate();
-    //   var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
+    let navigate=useNavigate();
+    const {addr, setAddr} = useContext(Context)
+      var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
 
-    // web3.eth.getAccounts().then(console.log);
-    // var myContract = new web3.eth.Contract(
-    //    contract,
-    //     '0x76Ae27Af9F9259348149054fe540cCA4aFF247E4'
-    // );
-    // myContract.methods
-    // .getBalance()
-    // .call()
-    // .then((result) => console.log(result.toString()));
+    web3.eth.getAccounts().then(console.log);
+    var myContract = new web3.eth.Contract(
+       contract,
+        '0xaf826cad1e088E2BbC20dB595A7105004b9c1f9c'
+    );
+    myContract.methods
+    .getSender()
+    .call()
+    .then((result) => console.log(result.toString()));
 
-    // function addProf() {
-    //     myContract.methods.addProfile($("#_owner").val() ).send({
-    //         from: "0xa6A9A33cC3632bccf75a9ce220832dd8Be2Fc515",
-    //         gas: 300000
-    //         });
-    //   // navigate("/mycv");
-    // };
+    function addProf(e) {
+      e.preventDefault()
+      setAddr($("#_owner").val())
+      myContract.methods.addProfile($("#_owner").val(), $("#_name").val(), $("#_birthday").val(), $("#_ptitle").val(), $("#_email").val(), $("#_github").val(), $("#_linked").val())
+              .send({
+                from: $("#_owner").val(),
+                gas: 3000000
+              });
+      // navigate("/mycv");
 
+    };
+    function showList(){
+      myContract.methods
+      .getList("0xbC33995691EfBeF4773d3F1b5b8EdFF5Eec34239")
+      .call()
+      .then((result) => console.log(result));
+    }
+    console.log(addr)   
   return (
       <>
           <Header />
           <div className="w-full min-h-screen bg-primary ">
             <h1 className="text-left ml-[200px] text-4xl text-white font-bold pt-[3rem]">CREATE MY CV</h1>
             <form action="#" className="ml-[200px] mt-[2rem]">
-              {/* <div className="flex"> 
+              <div className="flex"> 
                   <div className="mt-6">
                     <label name="fname" className="text-white">Full name</label><br/>
                     <input type="text" id="_name" name="fname" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="Full name"/>
@@ -62,16 +74,16 @@ export default function Createcv() {
                   <label name="linkedIn" className="text-white">LinkedIn</label><br/>
                   <input type="text" id="_linked" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="LinkedIn"/>
                 </div>
-              </div> */}
+              </div>
               <div className="flex">
                 <div className="mt-6" >
                   <label name="address" className="text-white">Address owner</label><br/>
                   <input type="text" id="_owner" name="address" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="Address owner"/>
                 </div>
               </div>
-              <button type="submit" id="btn_add" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">CREATE</button>
+              <button type="submit" onClick={addProf} id="btn_add" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">CREATE</button>
             </form>
-            {/* <button type="submit" id="btn_add" onClick={addProf} className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">CREATE</button> */}
+            <button type="submit" id="btn_show" onClick={showList} className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">Show</button>
           </div>
     </>
   )

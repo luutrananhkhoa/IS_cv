@@ -4,8 +4,8 @@ export const Context=createContext()
 
 const ContextProvider = ({children})=>{
     const [skills, setSkills]= useState({})
-    const [address, setAddress]= useState()
-    const data = {skills, setSkills, address, setAddress}
+    const [addr, setAddr]= useState()
+    const data = {skills, setSkills, addr, setAddr}
     
     return (
         <Context.Provider value={data}>
