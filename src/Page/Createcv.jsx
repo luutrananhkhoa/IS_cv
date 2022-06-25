@@ -1,40 +1,34 @@
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Header from '../Components/Header';
-import { contract } from './../Api/Const';
+import { myContract } from './../Api/Const';
 import { Context } from '../Context/Context';
 
 export default function Createcv() {
     let navigate=useNavigate();
     const {addr, setAddr} = useContext(Context)
-      var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
 
+    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
     web3.eth.getAccounts().then(console.log);
-    var myContract = new web3.eth.Contract(
-       contract,
-        '0xaf826cad1e088E2BbC20dB595A7105004b9c1f9c'
-    );
-    myContract.methods
-    .getSender()
-    .call()
-    .then((result) => console.log(result.toString()));
 
     function addProf(e) {
       e.preventDefault()
       setAddr($("#_owner").val())
-      myContract.methods.addProfile($("#_owner").val(), $("#_name").val(), $("#_birthday").val(), $("#_ptitle").val(), $("#_email").val(), $("#_github").val(), $("#_linked").val())
+      myContract.methods.addStudentProfile($("#_owner").val(), $("#_name").val(), $("#_birthday").val(), $("#_ptitle").val(), $("#_email").val(), $("#_github").val(), $("#_linked").val(),$("#_password").val())
               .send({
                 from: $("#_owner").val(),
                 gas: 3000000
               });
-      // navigate("/mycv");
+      navigate("/");
 
     };
-    function showList(){
+
+    function showList(e){
       myContract.methods
-      .getList("0xbC33995691EfBeF4773d3F1b5b8EdFF5Eec34239")
+      .getListStudent(addr)
       .call()
       .then((result) => console.log(result));
+      e.preventDefault()
     }
     console.log(addr)   
   return (
@@ -80,10 +74,14 @@ export default function Createcv() {
                   <label name="address" className="text-white">Address owner</label><br/>
                   <input type="text" id="_owner" name="address" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="Address owner"/>
                 </div>
+                <div className="mt-6 ml-[4rem]" >
+                  <label name="password" className="text-white">Password</label><br/>
+                  <input type="password" id="_password" name="password" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="Address owner"/>
+                </div>
               </div>
               <button type="submit" onClick={addProf} id="btn_add" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">CREATE</button>
             </form>
-            <button type="submit" id="btn_show" onClick={showList} className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">Show</button>
+            {/* <button type="submit" onClick={showList} id="btn_show" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">SHOW</button> */}
           </div>
     </>
   )

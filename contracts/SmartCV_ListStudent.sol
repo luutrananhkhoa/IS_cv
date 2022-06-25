@@ -12,9 +12,15 @@ contract ListStudent {
         string email;
         string github; 
         string linkedin;
+        string password;
     }
-
+    struct ListSkill {
+        address studentOwner;
+        string title; 
+        uint level;
+    }
     ListSV[] public listSVs;
+    ListSkill[] public listSkills;
 
     function addSV (
         address _studentOwner,
@@ -23,8 +29,9 @@ contract ListStudent {
         string memory _professionalTitle,
         string memory _email,
         string memory _github,
-        string memory _linked) public {
-            listSVs.push(ListSV(_studentOwner, _name, _birthDay, _professionalTitle, _email, _github, _linked));
+        string memory _linked,
+        string memory _password) public {
+            listSVs.push(ListSV(_studentOwner, _name, _birthDay, _professionalTitle, _email, _github, _linked, _password));
     }
 
     function getListSV(address _studentOwner) public view returns(address[] memory, string[] memory, string[] memory, string[] memory, string[] memory, string[] memory, string[] memory) {
@@ -47,6 +54,32 @@ contract ListStudent {
             }
         }
         return (studentOwners, names,birthDays,  professionalTitles, emails, githubs, linkedins);
+    }
+    function checkStudent(address _studentOwner, string memory _password) public view returns(uint) {
+        for(uint i=0; i<listSVs.length;i++){
+            if((listSVs[i].studentOwner == _studentOwner) && (keccak256(bytes(listSVs[i].password)) == keccak256(bytes(_password)))){
+                return 1;
+            }
+        }
+    }
+    function addSkill(
+        address _studentOwner,
+        string memory _title, 
+        uint _level) public {
+            require(_level >=0 && _level <=100, "Level of skill incorrect.");
+            listSkills.push(ListSkill(_studentOwner, _title, _level));
+    }
+
+    function getSkill(address _studentOwner) public view returns(string[] memory,uint[] memory) {
+        string[] memory titles = new string[](listSkills.length);
+        uint[] memory levels = new uint[](listSkills.length);
+        for(uint i=0; i<listSkills.length;i++){
+            if(listSkills[i].studentOwner == _studentOwner) {
+                titles[i] = listSkills[i].title;
+                levels[i] = listSkills[i].level;
+            }
+        }
+        return (titles, levels);
     }
     
 }

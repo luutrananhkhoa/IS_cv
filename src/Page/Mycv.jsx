@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import avt from '../assets/avt.jpg'
-// import { IoMdMail } from 'react-icons/Io'
+import { IoMdMail } from 'react-icons/Io'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs'
 import Progressbar from '../Components/Progressbar'
-import { contract } from './../Api/Const'
+import { myContract } from './../Api/Const'
 import ReactToPrint from 'react-to-print';
 import { Context } from '../Context/Context'
 
@@ -13,7 +13,7 @@ const ref = React.createRef()
 const Mycv = () => {
   var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
   web3.eth.getAccounts().then()
-  var myContract = new web3.eth.Contract(contract, '0xaf826cad1e088E2BbC20dB595A7105004b9c1f9c')
+
 
   const [componentRef, setComponentRef] = useState()
   const [address, setAddress] = useState()
@@ -25,65 +25,52 @@ const Mycv = () => {
     Github: "",
     Linked: "",
     Name: "",
-    ProfessionalTitle: ""
+    ProfessionalTitle: "",
   })
-  // const [skills, setSkills] = useState([])
+
   const setProfileCallback = useCallback((res) =>{
     setProfile({
-      Birthday: res?.Birthday,
-      Email: res?.Email,
-      Github: res?.Github,
-      Linked: res?.Linked,
-      Name: res?.Name,
-      ProfessionalTitle:res?.ProfessionalTitle
+      Birthday: res[2][0],
+      Email: res[5][0],
+      Github: res[5][0],
+      Linked: res[6][0],
+      Name: res[1][0],
+      ProfessionalTitle:res[3][0]
     })
   },[addr])
 
+  const getSkillsData =(addr) =>{
+    myContract.methods
+      .getSkill(addr)
+      .call()
+      .then((res)=>{
+        setSkills({...res})
+        console.log(res)
+        return;
+      })
+  }
+  console.log(skills)
   console.log(addr)
-  // const getListData =(addr) =>{
-  //   myContract.methods
-  //     .getList(addr)
-  //     .call()
-  //     .then((result) => console.log(result));
-  // }
-
-
-  // const getSkillsData =(address) =>{
-  //   myContract.methods
-  //     .getSkill(address)
-  //     .call()
-  //     .then((res)=>{
-  //       setSkills({...res})
-  //       return;
-  //     })
-  //     console.log(skills)
-  // }
-
 
   useEffect(()=>{
     myContract.methods
-    .getSender()
+    .getSkill(addr)
     .call()
     .then((result)=> result)
-    // .then(address=> {
-    //   //get profile
-     
-    //   //Get skill
-    //   getSkillsData(address)}
-    // )
-    myContract.methods
-      .getList(addr)
-      .call()
-      .then((result) => console.log(result));
+    .then((res)=>{
+      setSkills({...res})
+      console.log(res)
+      return;
+    })
 
     myContract.methods
-    .getList(addr)
-    .call()
+    .getListStudent(addr)
+    .call() 
     .then(function (addres) {
         setProfileCallback(addres)
         return;
       })
-  },[])
+  },[addr])
   
   return (
     <>
@@ -115,7 +102,7 @@ const Mycv = () => {
             <div className="p-2 ml-4 mt-6 flex flex-col gap-4">
               <div className="flex items-center">
                 <div className="w-[2rem] h-[2rem]">
-                  {/* <IoMdMail size="2rem" className="text-secondary" /> */}
+                  <IoMdMail size="2rem" className="text-secondary" />
                 </div>
                 <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words">{profile?.Email}</p>
               </div>
@@ -144,10 +131,9 @@ const Mycv = () => {
               <h1 className="font-bold text-3xl">SKILLS</h1>
               <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary" />
               <div className="mt-4 w-[85%]">
-                {/* {skills[0]?.map((item,index)=>(
+                {skills[0]?.map((item,index)=>(
                     <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
-                ))} */}
-                {/* <Progressbar title={skills[0]} per="80" /> */}
+                ))}
               </div>
             </div>
           </div>

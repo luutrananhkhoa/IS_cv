@@ -1,14 +1,39 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import cv from '../assets/Group_27.png';
 import logo1 from'../assets/LogoCV.png'; 
-import {  useNavigate } from 'react-router-dom';
+import {  useNavigate, Link } from 'react-router-dom';
+import { myContract } from './../Api/Const';
+import { Context } from '../Context/Context';
 
 const Login = () => {
- let navigate=useNavigate();
+    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
+    web3.eth.getAccounts().then(console.log);
+
+    const {addr, setAddr} = useContext(Context)
+    const [diaglog, setDialog]= useState(false)
+
+    let navigate=useNavigate();
     const HandleClick = () => {
         navigate("/")
     }
+    function checkPro(e){
+        e.preventDefault()
+        setAddr($("#_addressOwner").val())
+        myContract.methods
+        .checkProfile($("#_addressOwner").val(),$("#_pwd").val())
+        .call()
+        .then((result) => {
+            console.log(parseInt(result));
+            if(parseInt(result)==1){
+                console.log("Successfully");
+                navigate("/");
+            } else{
+                console.log("Unsuccessfully");
+                setDialog(true)
+            }
+        });
+      }
     return (
         <div className="h-[100vh] w-[100vw] flex overflow-hidden">
             <div className="w-[50%] bg-purple">
@@ -21,22 +46,26 @@ const Login = () => {
                 </div>
             </div>
                 <div className="w-[50%] bg-primary">
-                    <img className="w-[18%] ml-6 mt-2 cursor-pointer" src={logo1} alt="logo" onClick={HandleClick} />
+                    <img className="w-[18%] ml-6 mt-2 cursor-pointer object-cover" src={logo1} alt="logo" onClick={HandleClick} />
                     <h1 className="w-[25%] text-white text-4xl mx-auto mt-6 font-semibold">Welcome to MyCV</h1>
                     <div className="w-[50%] h-[60%] mt-[2rem] mx-auto bg-secondary rounded-[15px]">
                     <h1 className="pt-[20px] text-white text-2xl text-center " >Login</h1>
                     <div className=" pt-6 flex flex-col ">
                         <div className="w-[75%]  mt-6 mx-auto">
-                        <label name="email" className="text-white">Your e-mail</label> <br />
-                        <input type="text" name="email" placeholder="ltak@gmail.com" className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
+                        <label name="email" className="text-white">Your address</label> <br />
+                        <input type="text" name="addressOwner" id="_addressOwner" placeholder="0x00000" className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
                         </div>
                         <div className="w-[75%] mt-4 mx-auto">
                         <label name="pwd" className="text-white">Password</label> <br />
-                        <input type="text" name="pwd" placeholder="123456"  className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
+                        <input type="text" name="pwd" id="_pwd" placeholder="123456"  className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
+                        {diaglog &&<span className="">Invalid!</span>}
                         </div>
-                        <button className="mt-[4rem] mx-auto w-[75%] h-10 text-white bg-primary rounded-[30px]">Sign in</button>
-                        <h3 className=" text-white text-sm mx-auto font-medium mt-4">Not a member?<a className=" text-primary text-sm font-bold  mt-4">Sign up</a></h3>
+                        <button
+                            onClick={checkPro} 
+                            className="mt-[4rem] mx-auto w-[75%] h-10 text-white bg-primary rounded-[30px]">Sign in</button>
+                        <h3 className=" text-white text-sm mx-auto font-medium mt-4">Not a member?<Link to="/createcv" className="text-primary text-sm font-bold mt-4"> SIGN UP</Link></h3>
                     </div>
+                   
                 </div>
             </div>
         </div>
