@@ -1,10 +1,13 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import logo1 from'../assets/LogoCV.png'; 
 import { AiOutlineUser } from 'react-icons/ai'
+import { Context } from '../Context/Context';
 
 export default function Header() {
-     let navigate=useNavigate();
+    let navigate=useNavigate();
+
+    const {status, setStatus} = useContext(Context)
     function handleClick(){
         navigate("/login")
     }
@@ -16,18 +19,24 @@ export default function Header() {
           <nav className="w-full h-24 bg-primary flex justify-around items-center text-white">
               <img className="w-[12%] cursor-pointer" src={logo1} alt="logo" onClick={handleLogoClick} />
               <div className="flex items-center">
+                  {status && 
                   <ul className="flex text-xl">
                   <Link to="/" className="px-8">HOME</Link>
-                  {/* <Link to="/student" className="px-8">STUDENTS</Link> */}
                   <Link to="/company" className="px-8">COMPANY</Link>
                   <Link to="/mycv" className="px-8">MY CV</Link>
                   <Link to="/register" className="px-8">INFOMATION</Link>
-                  {/* <Link to="/companymanage" className="px-8">Link company</Link> */}
-                  </ul>
-                    {/* <button className="w-[140px] h-[40px] px-10 text-[18px] text-center bg-orange-btn rounded-[24px]"
+                </ul>}
+                {!status && 
+                  <ul className="flex text-xl">
+                  <Link to="/" className="px-8">HOME</Link>
+                  <Link to="/company" className="px-8">COMPANY</Link>
+                  <Link to="/login" className="px-8">MY CV</Link>
+                  <Link to="/login" className="px-8">INFOMATION</Link>
+                </ul>}
+                  {status && <Link to="/profile" className="px-8"><AiOutlineUser className="cursor-pointer" size={40}/></Link> }
+                  {!status && <button className="w-[140px] h-[40px] px-10 text-[18px] text-center bg-orange-btn rounded-[24px]"
                       onClick={handleClick}
-                      >LOGIN</button> */}
-                      <AiOutlineUser className="cursor-pointer" size={40}/>
+                      >LOGIN</button>}
               </div>
           </nav>
     </div>

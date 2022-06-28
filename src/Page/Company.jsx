@@ -1,26 +1,32 @@
-import React from 'react';
+import React,{useContext,useEffect, useRef} from 'react';
 import Header from '../Components/Header';
+import { myContract } from './../Api/Const'
 import { useNavigate } from 'react-router-dom';
+import { Context } from '../Context/Context'
 
 const Company = () => {
-    let navigate=useNavigate();
+    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
+    web3.eth.getAccounts().then()
+
+    const {listCompany, setListCompany, addressTemp, setAddressTemp} = useContext(Context)
+    const navigate=useNavigate();
+    const ref =useRef()
+
     function CompanyOnClick(){
-        navigate("/CompanyDetail")
+        // navigate("/CompanyDetail")
+        setAddressTemp($("#_address").val())
+        
     }
-    const companies = [{
-        id:1,
-        name: 'VNG Corporation',
-        location: 'Ho Chi Minh',
-        jobs: '10',
-        nation:'Vietnam'
-    },
-    {
-        id:2,
-        name: 'KMS Technology',
-        location: 'Ho Chi Minh',
-        jobs: '15',
-        nation:'United States'
-    }];
+
+    console.log(addressTemp) 
+
+    useEffect(()=>{
+        myContract.methods.getListDN()
+        .call()
+        .then((result) => setListCompany(result))
+    },[addressTemp])
+    console.log(listCompany)
+
     return ( 
         <>
             <Header/>
@@ -37,18 +43,17 @@ const Company = () => {
                     <div className="mt-10 ">
                         <div className="flex bg-secondary p-3 rounded-t-lg justify-between text-white text-xl">
                             <p className="w-[40%]">Name</p>
-                            <p className="w-[20%]">Location</p>
-                            <p className="w-[20%]">Jobs</p>
+                            <p className="w-[20%]">Focus Area</p>
                             <p className="w-[20%]">National</p>
                         </div>
-                        {companies.map((company) => (
-                            <div key={company.id} className="flex justify-between p-3 mt-4 text-white text-xl hover:bg-orange-btn cursor-pointer" onClick={CompanyOnClick}>
-                                <p className="w-[40%]">{company?.name}</p>
-                                <p className="w-[20%]">{company?.location}</p> 
-                                <p className="w-[20%]">{company?.jobs} jobs</p>
-                                <p className="w-[20%]">{company?.nation}</p>
+                         {listCompany[0]?.map((item,index)=>(
+                            <div key={item} className="flex justify-between p-3 mt-4 text-white text-xl hover:bg-orange-btn cursor-pointer" onClick={CompanyOnClick}>
+                                <p className="w-[40%]">{listCompany?.[1][index]}</p>
+                                <p className="w-[20%]">{listCompany?.[3][index]}</p> 
+                                <p className="w-[20%]">{listCompany?.[2][index]}</p>
+                                <input type="hidden" id="_address"name="_address" value={listCompany?.[0][index]} ref={ref} />
                             </div>
-                        ))};
+                        ))}
                     </div>
                 </div>
                 

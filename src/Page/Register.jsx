@@ -12,7 +12,7 @@ export default function Register() {
 
     function addSkill(e){
         e.preventDefault();
-        myContract.methods.addSkill(addr, $("#_skill").val(), $("#_level").val())
+        myContract.methods.addStudentSkill(addr, $("#_skill").val(), $("#_level").val())
                 .send({
                   from: addr,
                   gas: 3000000
@@ -26,7 +26,7 @@ export default function Register() {
     function showskill(e){
         e.preventDefault()
         myContract.methods
-        .getSkill(addr)
+        .getStudentSkill(addr)
         .call()
         .then((result) => console.log(result))
         // .then((res)=>{
@@ -59,7 +59,7 @@ export default function Register() {
                 </div>  
                 <button type="submit" id="_skill" onClick={addSkill} className="text-white text-xl mt-[3rem] ml-[19rem] rounded-[50px] bg-orange-btn w-[8rem] h-[3rem]">Add</button>
                 </form>
-                <button type="submit" onClick={showskill} id="btn_showskill" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">SHOW</button>
+                {/* <button type="submit" onClick={showskill} id="btn_showskill" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">SHOW</button> */}
             </div>
         </div>
   )

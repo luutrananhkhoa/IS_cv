@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Header from '../Components/Header'
-import avt from '../assets/avt.jpg'
+import avt from '../assets/avt_illu.jpg'
 import { IoMdMail } from 'react-icons/Io'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs'
 import Progressbar from '../Components/Progressbar'
@@ -14,34 +14,24 @@ const Mycv = () => {
   var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
   web3.eth.getAccounts().then()
 
-
   const [componentRef, setComponentRef] = useState()
   const [address, setAddress] = useState()
-  const {skills, setSkills} = useContext(Context)
-  const {addr, setAddr} = useContext(Context)
-  const [profile, setProfile] = useState({
-    Birthday: "",
-    Email: "",
-    Github: "",
-    Linked: "",
-    Name: "",
-    ProfessionalTitle: "",
-  })
+  const {addr, setAddr, profile, setProfile, skills, setSkills} = useContext(Context)
 
   const setProfileCallback = useCallback((res) =>{
     setProfile({
-      Birthday: res[2][0],
-      Email: res[5][0],
-      Github: res[5][0],
-      Linked: res[6][0],
-      Name: res[1][0],
-      ProfessionalTitle:res[3][0]
+      Birthday: res[2],
+      Email: res[4],
+      Github: res[5],
+      Linked: res[6],
+      Name: res[1],
+      ProfessionalTitle:res[3]
     })
   },[addr])
 
   const getSkillsData =(addr) =>{
     myContract.methods
-      .getSkill(addr)
+      .getStudentSkill(addr)
       .call()
       .then((res)=>{
         setSkills({...res})
@@ -54,7 +44,7 @@ const Mycv = () => {
 
   useEffect(()=>{
     myContract.methods
-    .getSkill(addr)
+    .getStudentSkill(addr)
     .call()
     .then((result)=> result)
     .then((res)=>{
@@ -64,7 +54,7 @@ const Mycv = () => {
     })
 
     myContract.methods
-    .getListStudent(addr)
+    .getStudentProfile(addr)
     .call() 
     .then(function (addres) {
         setProfileCallback(addres)
@@ -149,7 +139,7 @@ const Mycv = () => {
               <div className="mt-[2rem] ml-4">
                 <h1 className=" text-2xl font-bold ">EDUCATION</h1>
                 <hr className="w-[90%] h-[3px] border-0 bg-primary" />
-                <div>
+                {/* <div>
                   <h1 className="font-bold text-[1.5rem] mt-3 ml-2">
                     University of Information Technology
                   </h1>
@@ -158,7 +148,7 @@ const Mycv = () => {
                     <span>08/2019</span> - <span>present</span>
                     <br />
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="mt-[3rem] ml-4 ">
                 <h1 className="text-2xl font-bold text-primary ">WORK EXPERIENCE</h1>

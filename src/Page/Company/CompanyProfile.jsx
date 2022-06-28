@@ -1,15 +1,15 @@
 import React,{useCallback, useContext, useEffect, useState} from 'react';
-import Header from '../Components/Header';
-import avt from '../assets/avt_illu.jpg';
-import Progressbar from './../Components/Progressbar';
+import avt from './../../assets/avt_illu.jpg';
+import Progressbar from './../../Components/Progressbar';
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin,BsFillTelephoneFill, BsFillHouseDoorFill } from 'react-icons/Bs'
 // import { IoMdMail } from 'react-icons/Io'
 import {  useNavigate } from 'react-router-dom';
-import ModalWarning from './../Components/ModalWarning';
-import { myContract } from './../Api/Const'
-import { Context } from '../Context/Context'
+import ModalWarning from './../../Components/ModalWarning';
+import { myContract } from './../../Api/Const'
+import { Context } from './../../Context/Context'
+import Header from './../../Components/Header';
 
-const Profile = () => {
+const CompanyProfile = () => {
     let navigate=useNavigate();
     const {addr, setAddr, profile, setProfile, skills, setSkills} = useContext(Context)
     const setProfileCallback = useCallback((res) =>{
@@ -52,9 +52,9 @@ const Profile = () => {
   return (
     <>
         <Header />
-        <div className="min-h-screen min-w-full bg-primary pt-[3rem] pb-[8rem]">
+        <div className="min-h-screen min-w-full bg-primary pb-[8rem]">
         <ModalWarning openModal={openModalWarning} setOpenModal={setOpenModalWarning}/>
-            <div className="w-[60%] h-[100%] mx-auto pt-[4rem] bg-white rounded-md flex flex-col pb-10">
+            <div className="w-[80%] h-[100%] mx-auto pt-[4rem] bg-white rounded-md flex flex-col pb-10">
                 <div className="w-full px-10 flex justify-between">
                     <div className="flex">
                         <img src={avt} alt="Avatar" className="h-[160px] w-[10rem] rounded-md block object-cover"/>
@@ -89,6 +89,22 @@ const Profile = () => {
                                         <p className="ml-2 text-md">Email</p>
                                     </div>
                                     <p className="py-2 w-[100%] break-words">{profile?.Email}</p>
+                                </div>
+                                <div className="w-[45%] px-4 py-2 rounded-md bg-white">
+                                    <div className="flex items-center">
+                                        <BsFillTelephoneFill size="2rem" className="text-secondary" />
+                                        <p className="ml-2 text-md">Phone</p>
+                                    </div>
+                                    <p className="py-2 w-[100%] break-words"></p>
+                                </div>
+                            </div>
+                            <div className="mt-5 flex justify-between">
+                                <div className="w-[45%] px-4 py-2 rounded-md bg-white">
+                                    <div className="flex items-center">
+                                        <BsFillHouseDoorFill size="2rem" className="text-secondary" />
+                                        <p className="ml-2 text-md">City</p>
+                                    </div>
+                                    <p className="py-2 w-[100%] break-words"></p>
                                 </div>
                                 <div className="w-[45%] px-4 py-2 rounded-md bg-white">
                                     <div className="flex items-center">
@@ -138,4 +154,4 @@ const Profile = () => {
     </>
   )
 }
-export default  Profile;
+export default CompanyProfile;

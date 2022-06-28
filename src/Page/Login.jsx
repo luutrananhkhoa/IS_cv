@@ -10,8 +10,9 @@ const Login = () => {
     var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
     web3.eth.getAccounts().then(console.log);
 
-    const {addr, setAddr} = useContext(Context)
+    const {addr, setAddr, status, setStatus} = useContext(Context)
     const [diaglog, setDialog]= useState(false)
+    
 
     let navigate=useNavigate();
     const HandleClick = () => {
@@ -21,13 +22,14 @@ const Login = () => {
         e.preventDefault()
         setAddr($("#_addressOwner").val())
         myContract.methods
-        .checkProfile($("#_addressOwner").val(),$("#_pwd").val())
+        .checkStudentProfile($("#_addressOwner").val(),$("#_pwd").val())
         .call()
         .then((result) => {
             console.log(parseInt(result));
             if(parseInt(result)==1){
                 console.log("Successfully");
                 navigate("/");
+                setStatus(true)
             } else{
                 console.log("Unsuccessfully");
                 setDialog(true)

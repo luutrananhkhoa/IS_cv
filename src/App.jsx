@@ -17,6 +17,7 @@ import CompanyManage from './Page/CompanyManage';
 import Employee from './Page/Employee';
 import EmployeeDetail from './Page/EmployeeDetail';
 import Evaluate from './Page/Evaluate';
+import CompanyProfile from './Page/Company/CompanyProfile';
 
 function App() {
   useEffect(() => {
@@ -40,6 +41,7 @@ function App() {
         <Route path='/employee' element={<Employee />}/>
         <Route path='/employeedetail' element={<EmployeeDetail />}/>
         <Route path='/evaluate' element={<Evaluate />}/>
+        <Route path='/companyprofile' element={<CompanyProfile />}/>
       </Routes>
     </div>
   )
