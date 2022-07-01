@@ -19,8 +19,10 @@ const HeaderCompany = () => {
                   <ul className="flex text-xl">
                   <Link to="/employee" className="px-8 hover:text-secondary">EMPLOYEE</Link>
                   <Link to="/companymanage" className="px-8 hover:text-secondary">MY COMPANY</Link>
+                  <Link to="/companyprofile"><FaUser size="1.5rem" className="mr-4" /></Link>
+                  
                   </ul>
-                    <FaUser size="1.5rem" className="mr-4" />
+
               </div>
           </nav>
         </>

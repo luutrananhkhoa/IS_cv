@@ -376,5 +376,5 @@ export const myContract =new web3.eth.Contract(
       "constant": true
     }
   ]
-,'0xaB278E2fCB0b192dF967a8A8a2ff8990699A8258'
+,'0x1Cf3Ab3d29b05b733c6eC3A4dEdC0eEad3a768E6'
 )

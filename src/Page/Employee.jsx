@@ -1,9 +1,16 @@
-import react from "react";
+import react, { useContext, useEffect } from "react";
 import HeaderCompany from './../Components/HeaderCompany';
 import { Link, useNavigate } from 'react-router-dom';
+import { myContract } from './../Api/Const'
+import { Context } from '../Context/Context';   
 
 const Employee = () => {
     let navigate=useNavigate();
+    const {addr, addressTemp,  addrCompany, listStudent, setListStudent} = useContext(Context)
+
+    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'))
+    web3.eth.getAccounts().then()
+
     const employee = [{
         id:1,
         name: 'Luu Tran Anh Khoa',
@@ -15,6 +22,10 @@ const Employee = () => {
     const handleClick = () => {
         navigate("/employeedetail")
     }
+
+    useEffect(()=>{
+        myContract.methods.getListCV(addrCompany).call().then(res=>setListStudent(res))
+    },[])
     return ( 
         <>
             <HeaderCompany />
@@ -32,12 +43,12 @@ const Employee = () => {
                             <p className="w-[20%]">Start Date</p>
                             <p className="w-[20%] text-center">Status</p>
                         </div >
-                        {employee.map((employee) => (
-                            <div key={employee.id} className="flex justify-between p-3 mt-4 text-white text-xl hover:bg-orange-btn cursor-pointer"
+                        {listStudent.map((student, index) => (
+                            <div key={student} className="flex justify-between p-3 mt-4 text-white text-xl hover:bg-orange-btn cursor-pointer"
                             onClick={handleClick} >
-                                <p className="w-[40%]">{employee?.name}</p>
-                                <p className="w-[20%]">{employee?.position}</p> 
-                                <p className="w-[20%]">{employee?.start}</p>
+                                <p className="w-[40%]">{student?.name}</p>
+                                <p className="w-[20%]">{student?.position}</p> 
+                                <p className="w-[20%]">{student?.start}</p>
                                 <p className="w-[20%] text-center">{employee?.status}</p>
                             </div>
                         ))};

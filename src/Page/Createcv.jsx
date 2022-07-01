@@ -9,7 +9,7 @@ export default function Createcv() {
     let navigate=useNavigate();
     const {addr, setAddr, status, setStatus} = useContext(Context)
 
-    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
+    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'));
     web3.eth.getAccounts().then(console.log);
 
     function addProf(e) {

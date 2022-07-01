@@ -11,12 +11,11 @@ import { Context } from '../Context/Context'
 const ref = React.createRef()
 
 const Mycv = () => {
-  var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
+  var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'))
   web3.eth.getAccounts().then()
 
   const [componentRef, setComponentRef] = useState()
-  const [address, setAddress] = useState()
-  const {addr, setAddr, profile, setProfile, skills, setSkills} = useContext(Context)
+  const {addr, profile, setProfile, skills, setSkills} = useContext(Context)
 
   const setProfileCallback = useCallback((res) =>{
     setProfile({

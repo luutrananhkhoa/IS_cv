@@ -6,7 +6,7 @@ import { Context } from '../Context/Context';
 
 export default function Register() {
 
-    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
+    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'));
     web3.eth.getAccounts().then(console.log);
     const {addr, setAddr, skills, setSkills} = useContext(Context)
 

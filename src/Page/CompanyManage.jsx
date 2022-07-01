@@ -8,9 +8,9 @@ const CompanyManage  = () => {
     const {addrCompany, setAddrCompany,addr, setAddr} = useContext(Context)
     console.log(addr)
 
-    var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'));
+    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'));
     web3.eth.getAccounts().then(console.log);
- 
+
     function addProfCompany(e) {
         e.preventDefault()
         setAddrCompany($("#_addrCompany").val())
@@ -22,6 +22,7 @@ const CompanyManage  = () => {
         // navigate("/mycv");
 
       };
+
       function showListCompany(){
         myContract.methods
         .getBusinessProfile($("#_addrCompany").val())
@@ -88,7 +89,7 @@ const CompanyManage  = () => {
                             <input type="text" name="webCompany" id="_webCompany"  className="ml-[10rem] border-2 w-[40%] px-5 py-2 rounded-lg border-slate-300 outline-none" placeholder="https://kms-technology.com" />
                         </div>
                     </div>
-                    <button type="submit" id="btn_show" onClick={showListCompany} className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">Show</button>
+                    {/* <button type="submit" id="btn_show" onClick={showListCompany} className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">Show</button> */}
                 </div>
             </div>
         </>
