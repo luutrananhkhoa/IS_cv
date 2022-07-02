@@ -29,11 +29,11 @@ const Employee = () => {
        
 
     },[])
-    myContract.methods  
-        .getStudentProfile(listStudent[0][0])
-        .call() 
-        .then(res=>setListStudent(res))
-        .then(setAddressTemp(listStudent[0]))
+    // myContract.methods  
+    //     .getStudentProfile(listStudent[0][0])
+    //     .call() 
+    //     .then(res=>setListStudent(res))
+    //     .then(setAddressTemp(listStudent[0]))
     console.log(addressTemp)
 
     console.log(addrCompany)

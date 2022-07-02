@@ -41,7 +41,7 @@ contract ApplyCV {
     }
 
     //Lấy thông tin đánh giá thực tập
-    function getReview(address _studentOwner, address _businessOwner) public view returns(address[] memory, address[] memory)  {
+    function getReview(address _studentOwner, address _businessOwner) public view returns(address[] memory, address[] memory, string[] memory)  {
         address[] memory studentOwners = new address[](reviews.length);
         address[] memory businessOwners = new address[](reviews.length);
         string[] memory contents = new string[](reviews.length);
@@ -54,4 +54,4 @@ contract ApplyCV {
         }
         return(studentOwners,businessOwners,contents);
     }
-}f
+}
