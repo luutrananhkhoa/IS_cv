@@ -14,11 +14,20 @@ export default function CompanyDetail() {
     web3.eth.getAccounts().then()
 
     const handleApply =()=>{
-        myContract.methods.sendCV(addr,addressTemp).send({
-            from: addr,
-            gas: 3000000
-          })
-        myContract.methods.getListCV(addressTemp).call().then(res=>console.log(res))
+        console.log("Bat dau")
+        const asyncFunc = async ()=>{
+            console.log("A")
+            myContract.methods.sendCV(addr,addressTemp).send({
+                from: addr,
+                gas: 3000000
+              })
+            console.log("B")
+        }
+        asyncFunc()
+        console.log("Ket thúc")
+    }
+    const show =()=>{
+        myContract.methods.getListCV(addressTemp).call().then(res=>console.log(res)).catch(err=>console.log(err))
     }
     console.log(addr)
     console.log(addressTemp)
@@ -62,7 +71,7 @@ export default function CompanyDetail() {
                                 <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Objective C</div>
                             </div>
                             <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
-
+                                onClick={show}
                             >Apply</button>
                         </div>
                     </div>

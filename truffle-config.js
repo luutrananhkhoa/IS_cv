@@ -42,12 +42,11 @@ module.exports = {
     // options below to some value.
     //
     development: {
-     host: "112.78.4.41",     // Localhost (default: none)
-     port: 8545,            // Standard Ethereum port (default: none)
-     network_id: "*",
-     gas:6000000,
-   // Any network (default: none)
-    }
+      host: "112.78.4.41", // Localhost (default: none)
+      port: 8545, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
+      gas: 0x1fffffffffffff,
+  }
     //
     // An additional network, but with some advanced options…
     // advanced: {

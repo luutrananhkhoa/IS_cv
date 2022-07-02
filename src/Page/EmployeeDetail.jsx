@@ -1,9 +1,14 @@
-import react from "react";
+import react, { useContext } from "react";
 import avt from '../assets/avt.jpg';
 import { Link, useNavigate } from 'react-router-dom';
 import HeaderCompany from "../Components/HeaderCompany";
+import { Context } from "../Context/Context";
 
 const EmployeeDetail = () => {
+    const { addr, addressTemp,  addrCompany, listStudent, setListStudent, setSkills,} = useContext(Context)
+
+    console.log(addrCompany)
+    console.log(addressTemp)
     return ( 
         <>
             <HeaderCompany />

@@ -217,6 +217,41 @@ export const myContract =new web3.eth.Contract(
       "inputs": [
         {
           "internalType": "address",
+          "name": "_studentOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_businessOwner",
+          "type": "address"
+        }
+      ],
+      "name": "getReview",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "studentOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "businessOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "content",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
           "name": "_businessOwner",
           "type": "address"
         },
@@ -374,7 +409,30 @@ export const myContract =new web3.eth.Contract(
       "stateMutability": "view",
       "type": "function",
       "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_studentOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_businessOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_content",
+          "type": "string"
+        }
+      ],
+      "name": "sendReview",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
   ]
-,'0x1Cf3Ab3d29b05b733c6eC3A4dEdC0eEad3a768E6'
+,'0x2f025CA13a6c3230DC92429c0c511bfBd16EB5d1'
 )

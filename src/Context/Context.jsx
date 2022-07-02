@@ -23,7 +23,7 @@ const ContextProvider = ({children})=>{
     const [skills, setSkills]= useState({})
     const [addressTemp, setAddressTemp] = useState()
     const [listCompany, setListCompany]= useState({})
-    const [listStudent, setListStudent]= useState({})
+    const [listStudent, setListStudent]= useState([])
     const [addr, setAddr]= useState()
     const [addrCompany, setAddrCompany]= useState()
     const [status, setStatus]= useState(false)

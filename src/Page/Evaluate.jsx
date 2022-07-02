@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from '../Components/Header';
 import avt from '../assets/avt.jpg'
 import HeaderCompany from './../Components/HeaderCompany';
+import { myContract } from './../Api/Const'
+import { Context } from '../Context/Context';
 
 const Evaluate = () => {
+    const { addr, addressTemp,  addrCompany, listStudent, setListStudent, setSkills,} = useContext(Context)
+    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'))
+    web3.eth.getAccounts().then()
+    console.log(addrCompany)
+    console.log(addressTemp)
+
+    const handleClick=()=>{
+        myContract.methods  
+        .sendReview(addressTemp,addrCompany,$("#_content").val())
+        .call() 
+    }
+    const show=()=>{
+        myContract.methods  
+        .getReview(addressTemp,addrCompany)
+        .call()
+        .then((res)=>console.log(res)) 
+    }
     return (  
         <>
             <HeaderCompany />
@@ -16,16 +35,17 @@ const Evaluate = () => {
                         alt="" />
                         <p className="text-2xl mt-4 font-bold text-center">Luu Tran Anh Khoa</p>
                         <div className="w-[70%] mx-auto mt-6">
-                            <p className="text-xl">Vị trí: Frontend Developer</p>
+                            {/* <p className="text-xl">Vị trí: Frontend Developer</p>
                             <div className="flex mt-2 justify-between text-xl">
                                 <p>Ngày bắt đầu: 17/02/2022</p>
                                 <p>Ngày kết thúc: 22/05/2022</p>
-                            </div>
+                            </div> */}
                             <div className="flex mt-4">
                                 <p className="text-xl mt-2">Đánh giá: </p>
-                                <textarea name="" className="ml-[6rem] border-2 w-[60%] h-[10%] px-5 py-2 rounded-lg border-slate-300  outline-none resize-none"/>
+                                <input type="text"name="" id="_content" className="ml-[6rem] border-2 w-[60%] h-[10%] px-5 py-2 rounded-lg border-slate-300  outline-none resize-none"/>
                             </div>
-                            <button className="w-[20%] h-10 mt-10 p-2 rounded-lg text-white bg-orange-btn">Xác nhận</button>
+                            <button onClick={handleClick} className="w-[20%] h-10 mt-10 p-2 rounded-lg text-white bg-orange-btn">Xác nhận</button>
+                            <button onClick={show} className="w-[20%] h-10 mt-10 p-2 rounded-lg text-white bg-orange-btn">Show</button>
                         </div>
                     </div>
                 </div>  
