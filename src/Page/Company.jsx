@@ -28,7 +28,6 @@ const Company = () => {
                 <div className="w-[75%] flex flex-col mx-auto">
                     <div className="pt-10">
                         <h1 className="text-6xl text-white font-bold">COMPANY</h1>
-                        <p className="mt-2 text-2xl font-light text-white">20 Companies</p>
                     </div>
                     <div className="mt-6 w-[100%] flex">
                         <input type="text" className="py-3 px-6 w-full rounded-l-lg outline-none" placeholder="Company name" />

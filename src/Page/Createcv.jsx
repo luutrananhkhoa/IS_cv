@@ -20,7 +20,7 @@ export default function Createcv() {
                 from: $("#_owner").val(),
                 gas: 3000000
               });
-      navigate("/");
+      // navigate("/");
       setStatus(true)
     };
 

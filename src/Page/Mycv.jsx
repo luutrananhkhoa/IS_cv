@@ -7,6 +7,7 @@ import Progressbar from '../Components/Progressbar'
 import { myContract } from './../Api/Const'
 import ReactToPrint from 'react-to-print';
 import { Context } from '../Context/Context'
+import _ from 'lodash'
 
 const ref = React.createRef()
 
@@ -32,9 +33,10 @@ const Mycv = () => {
     myContract.methods
       .getStudentSkill(addr)
       .call()
-      .then((res)=>{
-        setSkills({...res})
-        console.log(res)
+      .then(setSkills({...array}))
+      .then((array)=>{
+        setSkills({...array})
+        console.log(array)
         return;
       })
   }
@@ -121,7 +123,7 @@ const Mycv = () => {
               <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary" />
               <div className="mt-4 w-[85%]">
                 {skills[0]?.map((item,index)=>(
-                    <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
+                  item && <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
                 ))}
               </div>
             </div>

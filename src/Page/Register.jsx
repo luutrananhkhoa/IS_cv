@@ -3,9 +3,10 @@ import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Header from '../Components/Header';
 import { myContract } from './../Api/Const';
 import { Context } from '../Context/Context';
+import {  useNavigate } from 'react-router-dom';
 
 export default function Register() {
-
+    let navigate=useNavigate();
     var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'));
     web3.eth.getAccounts().then(console.log);
     const {addr, setAddr, skills, setSkills} = useContext(Context)
@@ -18,7 +19,7 @@ export default function Register() {
                   gas: 3000000
                 })
                 
-        // navigate("/");
+        navigate("/mycv");
     }
 
     // console.log(skills)
@@ -57,7 +58,7 @@ export default function Register() {
                         
                     </div >
                 </div>  
-                <button type="submit" id="_skill" onClick={addSkill} className="text-white text-xl mt-[3rem] ml-[19rem] rounded-[50px] bg-orange-btn w-[8rem] h-[3rem]">Add</button>
+                <button type="submit" id="_skill" onClick={addSkill} className="text-white text-xl mt-[3rem] ml-[19rem] rounded-[50px] bg-orange-btn hover:bg-secondary w-[8rem] h-[3rem]">Add</button>
                 </form>
                 {/* <button type="submit" onClick={showskill} id="btn_showskill" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">SHOW</button> */}
             </div>

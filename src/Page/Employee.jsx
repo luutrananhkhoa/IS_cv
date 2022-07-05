@@ -24,11 +24,9 @@ const Employee = () => {
     }
     
     useEffect(()=>{
-         myContract.methods.getListCV("0x3fA85d1A2F6b913656883c85Acd0CCDCA0f1c36e").call().then(res=>setListStudent(res)).catch(err=>console.log(err))
-         setAddrCompany("0x3fA85d1A2F6b913656883c85Acd0CCDCA0f1c36e")
-       
-
-    },[])
+         myContract.methods.getListCV(addrCompany).call().then(res=>setListStudent(res)).catch(err=>console.log(err))
+         setAddrCompany(addrCompany)
+    },[])   
     // myContract.methods  
     //     .getStudentProfile(listStudent[0][0])
     //     .call() 

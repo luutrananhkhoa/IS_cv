@@ -407,5 +407,5 @@ export const myContract = new web3.eth.Contract(
             "stateMutability": "nonpayable",
             "type": "function"
         }
-    ], '0x02Ae050D0a4C2e836E6683872c7802d35cd5d6A7'
+    ], '0xc638907Ef04A0AaB2B5bc94786E9c41114582674'
 )

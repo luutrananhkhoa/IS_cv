@@ -3,7 +3,7 @@ import Header from '../Components/Header';
 import avt from '../assets/avt_illu.jpg';
 import Progressbar from './../Components/Progressbar';
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin,BsFillTelephoneFill, BsFillHouseDoorFill } from 'react-icons/Bs'
-// import { IoMdMail } from 'react-icons/Io'
+// import { IoMdMail } from "react-icons/io";
 import {  useNavigate } from 'react-router-dom';
 import ModalWarning from './../Components/ModalWarning';
 import { myContract } from './../Api/Const'
@@ -11,7 +11,7 @@ import { Context } from '../Context/Context'
 
 const Profile = () => {
     let navigate=useNavigate();
-    const {addr, setAddr, profile, setProfile, skills, setSkills} = useContext(Context)
+    const {addr, setAddr, profile, setProfile, skills, setSkills, status, setStatus} = useContext(Context)
     const setProfileCallback = useCallback((res) =>{
         setProfile({
           Birthday: res[2],
@@ -24,7 +24,8 @@ const Profile = () => {
       },[addr])
 
     function HandleClick(){
-        navigate("/mycv")
+        navigate("/")
+        setStatus(false)
     }
 
     useEffect(()=>{
@@ -68,7 +69,7 @@ const Profile = () => {
                             className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-xl"
                             onClick={HandleClick}
                         >
-                            Edit
+                            Log out
                         </button>
                     </div>
                 </div>
@@ -77,7 +78,7 @@ const Profile = () => {
                         <h1 className="text-[1.5rem] font-bold">My Skill</h1>
                         <div className="">
                         {skills[0]?.map((item,index)=>(
-                            <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
+                            item && <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
                         ))}
                         </div>
                     </div>
@@ -86,6 +87,7 @@ const Profile = () => {
                                 <div className="w-[45%] px-4 py-2 rounded-md bg-white">
                                     <div className="flex items-center">
                                         {/* <IoMdMail size="2rem" className="text-secondary" /> */}
+                                        <i className="fa-solid fa-envelope fa-2xl text-secondary"></i>
                                         <p className="ml-2 text-md">Email</p>
                                     </div>
                                     <p className="py-2 w-[100%] break-words">{profile?.Email}</p>
@@ -108,7 +110,7 @@ const Profile = () => {
                                 </div>
                                 <div className="w-[45%] px-4 py-2 rounded-md bg-white">
                                     <div className="flex items-center">
-                                     <BsLinkedin size="2rem" className="text-secondary block " />
+                                     <BsLinkedin size="2rem" className="text-secondary" />
                                         <p className="ml-2 text-md">LinkedIn</p>
                                     </div>
                                     <p className="py-2 w-[100%] break-words">{profile?.Linked}</p>
