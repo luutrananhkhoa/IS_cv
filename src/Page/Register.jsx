@@ -7,7 +7,7 @@ import {  useNavigate } from 'react-router-dom';
 
 export default function Register() {
     let navigate=useNavigate();
-    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'));
+    var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'));
     web3.eth.getAccounts().then(console.log);
     const {addr, setAddr, skills, setSkills} = useContext(Context)
 
@@ -18,8 +18,7 @@ export default function Register() {
                   from: addr,
                   gas: 3000000
                 })
-                
-        navigate("/mycv");
+        navigate("/");
     }
 
     // console.log(skills)
@@ -30,10 +29,6 @@ export default function Register() {
         .getStudentSkill(addr)
         .call()
         .then((result) => console.log(result))
-        // .then((res)=>{
-        //     // setSkills({...res})
-        //     return;
-        // });
       }
     return (
         <div>
@@ -58,7 +53,7 @@ export default function Register() {
                         
                     </div >
                 </div>  
-                <button type="submit" id="_skill" onClick={addSkill} className="text-white text-xl mt-[3rem] ml-[19rem] rounded-[50px] bg-orange-btn hover:bg-secondary w-[8rem] h-[3rem]">Add</button>
+                <button type="submit" id="_skill" onClick={addSkill} className="text-white text-xl mt-[3rem] ml-[19rem] rounded-[50px] bg-orange-btn hover:bg-secondary ease-in duration-100 w-[8rem] h-[3rem]">Add</button>
                 </form>
                 {/* <button type="submit" onClick={showskill} id="btn_showskill" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">SHOW</button> */}
             </div>

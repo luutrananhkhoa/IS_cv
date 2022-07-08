@@ -7,7 +7,7 @@ import { myContract } from './../Api/Const';
 import { Context } from '../Context/Context';
 
 const Login = () => {
-    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'));
+    var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'));
     web3.eth.getAccounts().then(console.log);
 
     const {addr, setAddr, status, setStatus} = useContext(Context)
@@ -64,8 +64,8 @@ const Login = () => {
                         </div>
                         <button
                             onClick={checkPro} 
-                            className="mt-[4rem] mx-auto w-[75%] h-10 text-white bg-primary rounded-[30px]">Sign in</button>
-                        <h3 className=" text-white text-sm mx-auto font-medium mt-4">Not a member?<Link to="/createcv" className="text-primary text-sm font-bold mt-4"> SIGN UP</Link></h3>
+                            className="mt-[4rem] mx-auto w-[75%] h-10 text-white bg-primary hover:bg-orange-btn rounded-[30px] ease-in duration-100">Sign in</button>
+                        <h3 className=" text-white text-sm mx-auto font-medium mt-4">Not a member?<Link to="/createcv" className="text-primary text-sm font-bold mt-4 hover:text-orange-btn tra"> SIGN UP</Link></h3>
                     </div>
                    
                 </div>

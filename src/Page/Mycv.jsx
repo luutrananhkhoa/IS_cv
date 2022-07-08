@@ -12,7 +12,7 @@ import _ from 'lodash'
 const ref = React.createRef()
 
 const Mycv = () => {
-  var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'))
+  var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
   web3.eth.getAccounts().then()
 
   const [componentRef, setComponentRef] = useState()
@@ -29,17 +29,6 @@ const Mycv = () => {
     })
   },[addr])
 
-  const getSkillsData =(addr) =>{
-    myContract.methods
-      .getStudentSkill(addr)
-      .call()
-      .then(setSkills({...array}))
-      .then((array)=>{
-        setSkills({...array})
-        console.log(array)
-        return;
-      })
-  }
   console.log(skills)
   console.log(addr)
 
@@ -61,7 +50,7 @@ const Mycv = () => {
         setProfileCallback(addres)
         return;
       })
-  },[addr])
+  },[])
   
   return (
     <>

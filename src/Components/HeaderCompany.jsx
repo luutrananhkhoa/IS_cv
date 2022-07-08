@@ -5,11 +5,11 @@ import logo1 from'../assets/LogoCV.png'
 
 const HeaderCompany = () => {
      let navigate=useNavigate();
-    // function HandleClick(){
-    //     navigate("/")
-    // }
+    function HandleClick(){
+        navigate("/homecompany")
+    }
     const handleLogoClick =()=>{
-        navigate("/companymanage")
+        navigate("/homecompany")
       }
     return (  
         <>
@@ -17,13 +17,12 @@ const HeaderCompany = () => {
             <img className="w-[12%] cursor-pointer" src={logo1} alt="logo" onClick={handleLogoClick} />
               <div className="flex items-center">
                   <ul className="flex text-xl">
+                    <Link to="/homecompany" className="px-8 hover:text-secondary">HOME</Link>
                     <Link to="/employee" className="px-8 hover:text-secondary">EMPLOYEE</Link>
-                    <Link to="/companymanage" className="px-8 hover:text-secondary">MY COMPANY</Link>
-                    <Link to="/post" className="px-8 hover:text-secondary">POST</Link>
-                    <Link to="/managepost" className="px-8 hover:text-secondary">MANAGE</Link>
+                    <Link to="/post" className="px-8 hover:text-secondary">RECRUIT</Link>
+                    <Link to="/managepost" className="px-8 hover:text-secondary">MY POST</Link>
                     <Link to="/companyprofile"><FaUser size="1.5rem" className="mr-4" /></Link>
                   </ul>
-
               </div>
           </nav>
         </>

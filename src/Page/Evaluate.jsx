@@ -7,7 +7,7 @@ import { Context } from '../Context/Context';
 
 const Evaluate = () => {
     const { addr, addressTemp,  addrCompany, listStudent, setListStudent, setSkills,} = useContext(Context)
-    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'))
+    var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
     web3.eth.getAccounts().then()
     console.log(addrCompany)
     console.log(addressTemp)

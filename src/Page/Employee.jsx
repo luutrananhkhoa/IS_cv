@@ -3,12 +3,14 @@ import HeaderCompany from './../Components/HeaderCompany';
 import { Link, useNavigate } from 'react-router-dom';
 import { myContract } from './../Api/Const'
 import { Context } from '../Context/Context';   
+import StudentApply from "./StudentApply";
+import { isBuffer } from "lodash";
 
 const Employee = () => {
     let navigate=useNavigate();
-    const { addressTemp,setAddressTemp,  addrCompany, setAddrCompany, listStudent, setListStudent, setSkills,} = useContext(Context)
+    const {profile ,addressTemp,setAddressTemp,  addrCompany, setAddrCompany, listStudent, setListStudent, setSkills} = useContext(Context)
 
-    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'))
+    var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
     web3.eth.getAccounts().then()
 
     const employee = [{
@@ -19,12 +21,19 @@ const Employee = () => {
         status:'Active'
     },
     ];
-    const handleClick = () => {
-        navigate("/employeedetail")
-    }
-    
+ 
     useEffect(()=>{
-         myContract.methods.getListCV(addrCompany).call().then(res=>setListStudent(res)).catch(err=>console.log(err))
+         myContract.methods.getListCV(addrCompany).call().
+         then((res)=>{
+            var array=[]
+            for(let i =0;i<res[2].length;i++){
+                if(res[2][i]){
+                    array.push(res[2][i])
+                }
+            }
+            return array
+         })
+         .then(array=>setListStudent(array)).catch(err=>console.log(err))
          setAddrCompany(addrCompany)
     },[])   
     // myContract.methods  
@@ -33,7 +42,7 @@ const Employee = () => {
     //     .then(res=>setListStudent(res))
     //     .then(setAddressTemp(listStudent[0]))
     console.log(addressTemp)
-
+    console.log(listStudent)
     console.log(addrCompany)
     return ( 
         <>
@@ -49,16 +58,10 @@ const Employee = () => {
                         <div className="flex bg-secondary p-3 rounded-t-lg justify-between text-white text-xl">
                             <p className="w-[40%]">Name</p>
                             <p className="w-[20%]">Position</p>
-                            <p className="w-[20%]">Start Date</p>
-                            <p className="w-[20%] text-center">Status</p>
                         </div >
-                            <div className="flex justify-between p-3 mt-4 text-white text-xl hover:bg-orange-btn cursor-pointer"
-                            onClick={handleClick} >
-                                <p className="w-[40%]">{listStudent?.[1]}</p>
-                                {/* <p className="w-[20%]">{listStudent?.position}</p> 
-                                <p className="w-[20%]">{listStudent?.start}</p>
-                                <p className="w-[20%] text-center">{listStudent?.status}</p> */}
-                            </div>
+                        {listStudent?.map((item,index)=>(
+                            <StudentApply key={item} address={item} title={item}/>              
+                        ))}
                     </div>
                 </div>
             </div>

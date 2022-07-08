@@ -6,6 +6,7 @@ import Student from './Page/Student';
 import Company from './Page/Company';
 import Mycv from './Page/Mycv';
 import Login from './Page/Login';
+import LoginCompany from './Page/LoginCompany';
 import aos from 'aos';
 import 'aos/dist/aos.css';
 import Register from './Page/Register';
@@ -20,6 +21,7 @@ import Evaluate from './Page/Evaluate';
 import CompanyProfile from './Page/Company/CompanyProfile';
 import Post from './Page/Company/Post';
 import ManagePost from './Page/Company/ManagePost';
+import HomeCompany from './Page/HomeCompany';
 
 function App() {
   useEffect(() => {
@@ -30,10 +32,12 @@ function App() {
     <div className="App">
       <Routes>
         <Route path='/' element={<Home/>} />
+        <Route path='/homecompany' element={<HomeCompany/>} />
         <Route path='/student' element={<Student />}/>
         <Route path='/company' element={<Company />}/>
         <Route path='/mycv' element={<Mycv />}/>
         <Route path='/login' element={<Login />} />
+        <Route path='/logincompany' element={<LoginCompany />} />
         <Route path='/register' element={<Register />} />
         <Route path='/createcv' element={<Createcv />}/>
         <Route path='/companydetail' element={<CompanyDetail />}/>

@@ -74,7 +74,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="mt-10 px-10 flex justify-between">
-                    <div className="w-[50%] bg-gray-bg px-10 py-5 rounded-md">
+                    <div className="w-[35%] bg-gray-bg px-10 py-5 rounded-md">
                         <h1 className="text-[1.5rem] font-bold">My Skill</h1>
                         <div className="">
                         {skills[0]?.map((item,index)=>(
@@ -82,7 +82,7 @@ const Profile = () => {
                         ))}
                         </div>
                     </div>
-                    <div className="w-[45%] bg-gray-bg px-5 py-5 rounded-md">
+                    <div className="w-[60%] bg-gray-bg px-5 py-5 rounded-md">
                             <div className="flex justify-between ">
                                 <div className="w-[45%] px-4 py-2 rounded-md bg-white">
                                     <div className="flex items-center">
@@ -118,7 +118,7 @@ const Profile = () => {
                             </div>
                     </div>
                 </div>
-                <div className="px-10">
+                {/* <div className="px-10">
                     <div className="w-[100%]  mt-10 bg-gray-bg px-10 py-5 rounded-md">
                         <h1 className="text-[1.5rem] font-bold">Contact</h1>
                         <div className="flex flex-col ml-5">
@@ -134,7 +134,7 @@ const Profile = () => {
                             >End</button>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     </>

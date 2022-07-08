@@ -8,16 +8,20 @@ import ModalSuccess from '../Components/ModalSuccess';
 import { Context } from '../Context/Context';
 
 export default function CompanyDetail() {
-    const {addr, addressTemp,  profileBusiness} = useContext(Context)
+    const {addr, addressTemp,  profileBusiness, addrCompany, posts, setPosts, job, setJob} = useContext(Context)
 
-    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'))
+    var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
     web3.eth.getAccounts().then()
 
-    const handleApply =()=>{
+    const handleApply =(title, desc)=>{
         console.log("Bat dau")
         const asyncFunc = async ()=>{
+            setJob({
+                title: title,
+                desc: desc,
+            })
             console.log("A")
-            myContract.methods.sendCV(addr,addressTemp).send({
+            myContract.methods.sendCV(addr,addressTemp,title, desc).send({
                 from: addr,
                 gas: 3000000
               })
@@ -29,8 +33,14 @@ export default function CompanyDetail() {
     const show =()=>{
         myContract.methods.getListCV(addressTemp).call().then(res=>console.log(res)).catch(err=>console.log(err))
     }
+    useEffect(()=>{
+        myContract.methods.getRecruit(addressTemp).call().then((res)=>setPosts(res))
+        .catch(err=>console.log(err)) 
+    },[])
     console.log(addr)
     console.log(addressTemp)
+    console.log(posts)
+    console.log(job)
   return (
     <>
         <Header />
@@ -47,34 +57,24 @@ export default function CompanyDetail() {
                 </div>
                 <p className="mt-10 text-2xl ml-6 font-bold">Jobs</p>
                 <div className="mt-6 w-[70%] ml-10">
-                {/* /job */}
-                    <div className="w-full h-[10rem] mt-6 p-6 bg-[#E7E7E7] rounded-md">
-                        <p className="font-[500] text-2xl">Mobile Developer (iOS/MacOS)</p>
+                {posts[0]?.map((item,index)=>(
+                    item &&
+                    <div key={item} className="w-full h-[10rem] mt-6 p-6 bg-[#E7E7E7] rounded-md">
+                        <p className="font-[500] text-2xl">{posts?.[1][index]}</p>
                         <div className="flex justify-between">
                             <div className="flex justify-between mt-8">
-                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">IOS</div>
-                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Swift</div>
-                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Objective C</div>
+                                {posts?.[0][index]}
                             </div>
-                            <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
-                                onClick={handleApply}
+                            <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibd text-center bg-orange-btn rounded-[2rem]"
+                                onClick={()=>handleApply(posts?.[1][index],posts?.[0][index])}
                             >Apply</button>
                         </div>
-                    </div>
-                    {/* job */}
-                    <div className="w-full h-[10rem] mt-6 p-6 bg-[#E7E7E7] rounded-md">
-                        <p className="font-[500] text-2xl">Mobile Developer (iOS/MacOS)</p>
-                        <div className="flex justify-between">
-                            <div className="flex justify-between mt-8">
-                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">IOS</div>
-                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Swift</div>
-                                <div className="py-2 px-6 mx-2 bg-secondary rounded-lg text-white">Objective C</div>
-                            </div>
-                            <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibold text-center bg-orange-btn rounded-[2rem]"
+                        <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibd text-center bg-orange-btn rounded-[2rem]"
                                 onClick={show}
-                            >Apply</button>
-                        </div>
+                            >Show</button>
                     </div>
+                    
+                ))}
                 </div>
                 <div className="mt-8 ml-6">
                     <h1 className="text-2xl font-bold">Contact</h1>

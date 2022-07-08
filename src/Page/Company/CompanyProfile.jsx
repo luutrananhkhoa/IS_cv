@@ -49,9 +49,10 @@ const CompanyProfile = () => {
                     </div>
                     <div className="">
                         <button
-                            className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-xl"
+                           onClick={()=>{ navigate("/logincompany")}}
+                           className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-xl"
                         >
-                            Edit
+                            Logout
                         </button>
                     </div>
                 </div>

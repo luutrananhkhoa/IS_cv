@@ -5,8 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../Context/Context'
 
 const Company = () => {
-    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'))
-    web3.eth.getAccounts().then()
+    
 
     const {listCompany, setListCompany, addressTemp, setAddressTemp,profileBusiness, setProfileBusiness} = useContext(Context)
     const navigate=useNavigate();
@@ -15,7 +14,9 @@ const Company = () => {
     console.log(addressTemp) 
 
     useEffect(()=>{
-        myContract.methods.getListDN()
+        var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
+        web3.eth.getAccounts().then()
+        myContract.methods.getListBusiness()
         .call()
         .then((result) => setListCompany(result))
     },[])

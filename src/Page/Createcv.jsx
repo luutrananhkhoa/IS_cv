@@ -9,7 +9,7 @@ export default function Createcv() {
     let navigate=useNavigate();
     const {addr, setAddr, status, setStatus} = useContext(Context)
 
-    var web3 = new Web3(Web3.providers.HttpProvider('http://112.78.4.41:8545'));
+    var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'));
     web3.eth.getAccounts().then(console.log);
 
     function addProf(e) {
@@ -20,13 +20,9 @@ export default function Createcv() {
                 from: $("#_owner").val(),
                 gas: 3000000
               });
-      // navigate("/");
+      navigate("/");
       setStatus(true)
     };
-
-    const HandleClick = () => {
-      navigate("/")
-  }
 
     function showList(e){
       myContract.methods
@@ -85,7 +81,7 @@ export default function Createcv() {
                     <input type="password" id="_password" name="password" className="h-10 w-[20rem] p-4 rounded-[5px] outline-none" placeholder="Address owner"/>
                   </div>
                 </div>
-                <button type="submit" onClick={addProf} id="btn_add" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">CREATE</button>
+                <button type="submit" onClick={addProf} id="btn_add" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium hover:bg-orange-btn ease-in duration-100 bg-secondary rounded-[30px]">CREATE</button>
               </form>
             </div>
             {/* <button type="submit" onClick={showList} id="btn_show" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">SHOW</button> */}
