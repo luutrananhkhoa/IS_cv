@@ -31,13 +31,14 @@ const ContextProvider = ({children})=>{
     const [listStudent, setListStudent]= useState([])
     const [addr, setAddr]= useState()
     const [addrCompany, setAddrCompany]= useState()
+    const [jobTitle, setJobTitle]= useState()
     const [status, setStatus]= useState(false)
     const [statusB, setStatusB]= useState(false)
     const data = {skills, setSkills, addr, setAddr, addrCompany, setAddrCompany, status, 
                     setStatus, listCompany, setListCompany, profile, setProfile,
                     addressTemp, setAddressTemp, profileBusiness, setProfileBusiness,
                     listStudent, setListStudent, posts, setPosts, job, setJob
-                  ,statusB, setStatusB }
+                  ,statusB, setStatusB,jobTitle, setJobTitle }
   
     return (
         <Context.Provider value={data}>

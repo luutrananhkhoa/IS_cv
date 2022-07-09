@@ -36,7 +36,7 @@ useEffect(()=>{
             <div className="flex justify-between p-3 mt-4 text-white text-xl hover:bg-orange-btn cursor-pointer"
             onClick={handleClick} >
                 <p className="w-[40%]">{profile?.Name}</p>
-                <p className="w-[20%]">{title}</p> 
+                {/* <p className="w-[40%]">{title}</p>  */}
             </div>
         
         </>

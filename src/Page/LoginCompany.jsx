@@ -10,17 +10,16 @@ const LoginComany = () => {
     var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'));
     web3.eth.getAccounts().then(console.log);
 
-    const {addr, setAddr, status, setStatus} = useContext(Context)
+    const {addr, setAddr, statusB, setStatusB, addrCompany, setAddrCompany} = useContext(Context)
     const [diaglog, setDialog]= useState(false)
     
-
     let navigate=useNavigate();
     const HandleClick = () => {
         navigate("/")
     }
-    function checkPro(e){
+    function checkBPro(e){
         e.preventDefault()
-        setAddr($("#_addressOwner").val())
+        setAddrCompany($("#_addressBusiness").val())
         myContract.methods
         .checkBusinessProfile($("#_addressBusiness").val(),$("#_pwdBusiness").val())
         .call()
@@ -28,8 +27,8 @@ const LoginComany = () => {
             console.log(parseInt(result));
             if(parseInt(result)==1){
                 console.log("Successfully");
-                navigate("/");
-                setStatus(true)
+                navigate("/homecompany");
+                setStatusB(true)
             } else{
                 console.log("Unsuccessfully");
                 setDialog(true)
@@ -47,17 +46,16 @@ const LoginComany = () => {
                         <label name="email" className="text-white">Your address</label> <br />
                         <input type="text" name="addressOwner" id="_addressBusiness" placeholder="0x00000" className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
                         </div>
-                        <div className="w-[75%] mt-4 mx-auto">
+                        <div className="w-[75%] mt-2 mx-auto">
                         <label name="pwd" className="text-white">Password</label> <br />
                         <input type="text" name="pwd" id="_pwdBusiness" placeholder="123456"  className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
                         {diaglog &&<span className="">Invalid!</span>}
                         </div>
                         <button
-                            onClick={checkPro} 
-                            className="mt-[4rem] mx-auto w-[75%] h-10 text-white bg-primary hover:bg-orange-btn ease-in duration-100 rounded-[30px]">Sign in</button>
+                            onClick={checkBPro} 
+                            className="mt-[2rem] mx-auto w-[75%] h-10 text-white bg-primary hover:bg-orange-btn ease-in duration-100 rounded-[30px]">Sign in</button>
                         <h3 className=" text-white text-sm mx-auto font-medium mt-4">Not a member?<Link to="/companymanage" className="text-primary text-sm font-bold mt-4"> SIGN UP</Link></h3>
-                    </div>
-                   
+                    </div>                   
                 </div>
             </div>
         </div>

@@ -8,7 +8,8 @@ import { isBuffer } from "lodash";
 
 const Employee = () => {
     let navigate=useNavigate();
-    const {profile ,addressTemp,setAddressTemp,  addrCompany, setAddrCompany, listStudent, setListStudent, setSkills} = useContext(Context)
+    const {profile ,addressTemp,setAddressTemp,  addrCompany, setAddrCompany, listStudent, 
+        jobTitle, setJobTitle, setListStudent, setSkills} = useContext(Context)
 
     var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
     web3.eth.getAccounts().then()
@@ -28,20 +29,17 @@ const Employee = () => {
             var array=[]
             for(let i =0;i<res[2].length;i++){
                 if(res[2][i]){
-                    array.push(res[2][i])
+                    array.push(res[0][i])
                 }
             }
             return array
-         })
-         .then(array=>setListStudent(array)).catch(err=>console.log(err))
-         setAddrCompany(addrCompany)
+         }).then(array=>setListStudent(array)).catch(err=>console.log(err))
     },[])   
     // myContract.methods  
     //     .getStudentProfile(listStudent[0][0])
     //     .call() 
     //     .then(res=>setListStudent(res))
-    //     .then(setAddressTemp(listStudent[0]))
-    console.log(addressTemp)
+    //     .then(setAddressTemp(listStudent[0]))    
     console.log(listStudent)
     console.log(addrCompany)
     return ( 
@@ -57,7 +55,7 @@ const Employee = () => {
                     <div className="w-[80%] mx-auto mt-8">
                         <div className="flex bg-secondary p-3 rounded-t-lg justify-between text-white text-xl">
                             <p className="w-[40%]">Name</p>
-                            <p className="w-[20%]">Position</p>
+                            {/* <p className="w-[40%]">Position</p> */}
                         </div >
                         {listStudent?.map((item,index)=>(
                             <StudentApply key={item} address={item} title={item}/>              

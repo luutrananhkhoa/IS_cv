@@ -10,11 +10,15 @@ import HeaderCompany from '../../Components/HeaderCompany';
 
 const CompanyProfile = () => {
     let navigate=useNavigate();
-    const { profileBusiness, setProfileBusiness,addrCompany} = useContext(Context)
+    const { profileBusiness, setProfileBusiness,addrCompany,setStatusB} = useContext(Context)
 
     var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
     web3.eth.getAccounts().then()
 
+    const handleLogout=()=>{
+        setStatusB(false)
+        navigate("/homecompany")
+    }
     const setProfileBusinessCallback = useCallback((res) =>{
         setProfileBusiness({
             AddressCompany: res?.[0],
@@ -49,7 +53,7 @@ const CompanyProfile = () => {
                     </div>
                     <div className="">
                         <button
-                           onClick={()=>{ navigate("/logincompany")}}
+                           onClick={handleLogout}
                            className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-xl"
                         >
                             Logout

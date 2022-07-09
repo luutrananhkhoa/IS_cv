@@ -1,14 +1,16 @@
-import React,{useState, useEffect} from 'react';
+import React,{useState, useEffect, useContext} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import cv from '../assets/Group_27.png';
 import HeaderCompany from './../Components/HeaderCompany';
-
+import { Context } from '../Context/Context';
 
 const HomeCompany = () => {
+  const {addr, setAddr, statusB, setStatusB, addrCompany, setAddrCompany} = useContext(Context)
   let navigate = useNavigate();
   function createCv() {
     navigate("./createcv")
   }
+  console.log(statusB)
   return (
     <>
       <HeaderCompany />

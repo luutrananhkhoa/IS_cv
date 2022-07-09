@@ -7,7 +7,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import logo1 from'../assets/LogoCV.png'; 
 
 const CompanyManage  = () => {
-    const {addrCompany, setAddrCompany,addr, setAddr,profileBusiness, setProfileBusiness} = useContext(Context)
+    const {addrCompany, setAddrCompany,addr,setStatusB, setAddr,profileBusiness, setProfileBusiness} = useContext(Context)
     console.log(addr)
 
     var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'));
@@ -23,7 +23,8 @@ const CompanyManage  = () => {
                   from: $("#_addrCompany").val(),
                   gas: 3000000
                 });
-                navigate("/homecompany")
+        navigate("/homecompany")
+        setStatusB(true)
       };
       const HandleClick = () => {
         navigate("/homecompany")
