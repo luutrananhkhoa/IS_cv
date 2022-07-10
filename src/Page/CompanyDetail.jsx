@@ -69,9 +69,9 @@ export default function CompanyDetail() {
                                 onClick={()=>handleApply(posts?.[1][index],posts?.[0][index])}
                             >Apply</button>
                         </div>
-                        <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibd text-center bg-orange-btn rounded-[2rem]"
+                        {/* <button className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibd text-center bg-orange-btn rounded-[2rem]"
                                 onClick={show}
-                            >Show</button>
+                            >Show</button> */}
                     </div>
                     
                 ))}
