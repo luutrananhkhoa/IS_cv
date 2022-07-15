@@ -38,7 +38,7 @@ const ContextProvider = ({children})=>{
                     setStatus, listCompany, setListCompany, profile, setProfile,
                     addressTemp, setAddressTemp, profileBusiness, setProfileBusiness,
                     listStudent, setListStudent, posts, setPosts, job, setJob
-                  ,statusB, setStatusB,jobTitle, setJobTitle }
+                  ,statusB, setStatusB,jobTitle, setJobTitle}
   
     return (
         <Context.Provider value={data}>

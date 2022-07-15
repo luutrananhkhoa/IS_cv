@@ -100,8 +100,7 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -120,13 +119,12 @@ export const myContract = new web3.eth.Contract(
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "x",
           "type": "uint256"
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -157,24 +155,66 @@ export const myContract = new web3.eth.Contract(
           "internalType": "address",
           "name": "_studentOwner",
           "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_title",
+          "type": "string"
+        }
+      ],
+      "name": "checkStudentSkilll",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "x",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_studentOwner",
+          "type": "address"
+        }
+      ],
+      "name": "checkNumStudentSkilll",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "x",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_studentOwner",
+          "type": "address"
         }
       ],
       "name": "getStudentSkill",
       "outputs": [
         {
           "internalType": "string[]",
-          "name": "",
+          "name": "titles",
           "type": "string[]"
         },
         {
           "internalType": "uint256[]",
-          "name": "",
+          "name": "levels",
           "type": "uint256[]"
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -222,8 +262,7 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -247,8 +286,7 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -289,6 +327,35 @@ export const myContract = new web3.eth.Contract(
           "internalType": "address",
           "name": "_businessOwner",
           "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_jobTitle",
+          "type": "string"
+        }
+      ],
+      "name": "checkCV",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "x",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_studentOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_businessOwner",
+          "type": "address"
         }
       ],
       "name": "getReview",
@@ -310,8 +377,7 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -408,8 +474,7 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -433,8 +498,7 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -465,11 +529,71 @@ export const myContract = new web3.eth.Contract(
           "internalType": "string[]",
           "name": "",
           "type": "string[]"
+        },
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_studentOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_businessOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_jobTitle",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_statusCV",
+          "type": "string"
+        }
+      ],
+      "name": "interviewCV",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_studentOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_businessOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_jobTitle",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_statusCV",
+          "type": "string"
+        }
+      ],
+      "name": "onboardCV",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "inputs": [
@@ -517,5 +641,5 @@ export const myContract = new web3.eth.Contract(
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ], '0x4484Ad4ed3A6889AF3Af8AB55BB37714cCEB51fc' 
+  ], '0x112d3cB4cf67F92EfA2e3F7F519C8B0db7239498' 
 )

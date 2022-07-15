@@ -1,4 +1,4 @@
-import react ,{useContext}from "react"; 
+import react ,{useContext, useState}from "react"; 
 import HeaderCompany from './../Components/HeaderCompany';
 import { myContract } from './../Api/Const';
 import { RiCloseFill } from 'react-icons/Ri';
@@ -7,6 +7,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import logo1 from'../assets/LogoCV.png'; 
 
 const CompanyManage  = () => {
+    const [checkBusiness,SetCheckBusiness]=useState(0)
     const {addrCompany, setAddrCompany,addr,setStatusB, setAddr,profileBusiness, setProfileBusiness} = useContext(Context)
     console.log(addr)
 
@@ -16,15 +17,26 @@ const CompanyManage  = () => {
 
     function addProfCompany(e) {
         e.preventDefault()
-        setAddrCompany($("#_addrCompany").val())
-        myContract.methods.addBusinessProfile($("#_addrCompany").val(), $("#_nameCompany").val(), $("#_nationalCompany").val(), 
-        $("#_focusArea").val(), $("#_linkedinCompany").val(), $("#_fbCompany").val(), $("#_webCompany").val(), $("#_pwdCompany").val())
-                .send({
-                  from: $("#_addrCompany").val(),
-                  gas: 3000000
-                });
-        navigate("/homecompany")
-        setStatusB(true)
+        myContract.methods
+      .checkBusinessProfile($("#_addrCompany").val(),$("#_pwdCompany").val())
+      .call()
+      .then((result) => {
+          console.log(parseInt(result));
+          if(parseInt(result)==0){
+            console.log("Successfully");
+            setAddrCompany($("#_addrCompany").val())
+            myContract.methods.addBusinessProfile($("#_addrCompany").val(), $("#_nameCompany").val(), $("#_nationalCompany").val(), 
+            $("#_focusArea").val(), $("#_linkedinCompany").val(), $("#_fbCompany").val(), $("#_webCompany").val(), $("#_pwdCompany").val())
+                    .send({
+                    from: $("#_addrCompany").val(),
+                    gas: 3000000
+                    });
+            navigate("/homecompany")
+            setStatusB(true)
+          } else{
+              console.log("Unsuccessfully");
+              alert("Tài khoản đã được đăng ký!")
+          }})
       };
       const HandleClick = () => {
         navigate("/homecompany")

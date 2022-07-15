@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect,useContext } from 'react'
+import React, { useCallback, useEffect,useContext,useState } from 'react'
 import Header from './../Components/Header';
 import { BsFacebook, BsLinkedin, BsCheck2Circle } from 'react-icons/Bs';
 import { ImEarth } from 'react-icons/Im';
-import { useState } from 'react';
 import { myContract } from './../Api/Const'
 import ModalSuccess from '../Components/ModalSuccess';
 import { Context } from '../Context/Context';
 
 export default function CompanyDetail() {
+    const [checkCV, setCheckCV]  = useState(0)
     const {addr, addressTemp,  profileBusiness, addrCompany, posts, setPosts, job, setJob} = useContext(Context)
 
     var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
@@ -27,7 +27,18 @@ export default function CompanyDetail() {
               })
             console.log("B")
         }
-        asyncFunc()
+        myContract.methods
+        .checkCV(addr,addressTemp,title)
+        .call()
+        .then((result) => {
+            console.log(parseInt(result));
+            if(parseInt(result)==0){
+                console.log("Successfully");
+                asyncFunc()
+            } else{
+                console.log("Unsuccessfully");
+                alert("Kỹ năng đã được đăng ký")
+            }})
         console.log("Ket thúc")
     }
     const show =()=>{

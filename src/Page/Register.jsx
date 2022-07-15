@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Header from '../Components/Header';
 import { myContract } from './../Api/Const';
@@ -9,16 +9,31 @@ export default function Register() {
     let navigate=useNavigate();
     var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'));
     web3.eth.getAccounts().then(console.log);
+    const [checkNumSkill, setCheckNumSkill] = useState(0)
     const {addr, setAddr, skills, setSkills} = useContext(Context)
 
+  
     function addSkill(e){
-        e.preventDefault();
-        myContract.methods.addStudentSkill(addr, $("#_skill").val(), $("#_level").val())
-                .send({
-                  from: addr,
-                  gas: 3000000
-                })
-        navigate("/");
+        e.preventDefault(); 
+        console.log(addr)
+        myContract.methods
+        .checkStudentSkilll(addr,$("#_skill").val())
+        .call()
+        .then((result) => {
+                console.log(parseInt(result));
+                // if(parseInt(result)==0){
+                //     console.log("Successfully");
+                //     myContract.methods.addStudentSkill(addr, $("#_skill").val(), $("#_level").val())
+                //     .send({
+                //       from: addr,
+                //       gas: 3000000
+                //     })
+                //      navigate("/");
+                // } else{
+                //     console.log("Unsuccessfully");
+                //     alert("Kỹ năng đã được đăng ký")
+                // }
+            })
     }
 
     // console.log(skills)
