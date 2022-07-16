@@ -58,7 +58,7 @@ const EmployeeDetail = () => {
     return ( 
         <>
             <HeaderCompany />
-            {openModal && <ModalEvaluate open={openModal} title={profile?.Name} setOpen={setOpenModal}/>}
+            {openModal && <ModalEvaluate open={openModal} title={profile?.Name} address={addressStudent} setOpen={setOpenModal}/>}
             <div className="min-h-screen min-w-full bg-primary pb-[8rem]">
                 {/* <div className="w-[70%] h-[100%] mx-auto pt-[2rem] pb-[1rem] bg-white rounded-md flex flex-col">
                     <p className="ml-10 text-xl">Lưu Trần Anh Khoa muốn đánh giá quá trình làm việc!</p>
