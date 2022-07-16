@@ -44,11 +44,11 @@ const LoginComany = () => {
                     <div className=" pt-6 flex flex-col ">
                         <div className="w-[75%]  mt-6 mx-auto">
                         <label name="email" className="text-white">Your address</label> <br />
-                        <input type="text" name="addressOwner" id="_addressBusiness" placeholder="0x00000" className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
+                        <input type="text" name="addressOwner" id="_addressBusiness" placeholder="Address..." className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
                         </div>
                         <div className="w-[75%] mt-2 mx-auto">
                         <label name="pwd" className="text-white">Password</label> <br />
-                        <input type="text" name="pwd" id="_pwdBusiness" placeholder="123456"  className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
+                        <input type="password" name="pwd" id="_pwdBusiness" placeholder="Password..."  className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"/>
                         {diaglog &&<span className="">Invalid!</span>}
                         </div>
                         <button

@@ -37,7 +37,7 @@ const Company = () => {
                     <div className="mt-10 ">
                         <div className="flex bg-secondary p-3 rounded-t-lg justify-between text-white text-xl">
                             <p className="w-[40%]">Name</p>
-                            <p className="w-[20%]">Focus Area</p>
+                            <p className="w-[20%]">Business</p>
                             <p className="w-[20%]">National</p>
                         </div>
                          {listCompany[0]?.map((item,index)=>(

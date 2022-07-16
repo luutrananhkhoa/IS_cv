@@ -1,7 +1,8 @@
 import React,{useCallback, useContext, useEffect, useState} from 'react';
-import avt from './../../assets/avt_illu.jpg';
+import avt from './../../assets/company_illu.png';
 import Progressbar from './../../Components/Progressbar';
-import { BsGithub, BsLinkedin, BsFillHouseDoorFill } from 'react-icons/Bs'
+import { BsFacebook, BsLinkedin } from 'react-icons/Bs';
+import { ImEarth } from 'react-icons/Im';
 import {  useNavigate } from 'react-router-dom';
 import { myContract } from './../../Api/Const'
 import { Context } from './../../Context/Context'
@@ -43,11 +44,11 @@ const CompanyProfile = () => {
         <HeaderCompany />
         <div className="min-h-screen min-w-full bg-primary pt-[4rem] pb-[8rem]">
             <div className="w-[60%] h-[100%] mx-auto pt-[4rem] bg-white rounded-md flex flex-col pb-10">
-                <div className="w-full px-10 flex justify-between">
-                    <div className="flex">
+                <div className="w-full p-10 flex justify-between h-30% bg-secondary">
+                    <div className="flex ">
                         <img src={avt} alt="Avatar" className="h-[160px] w-[10rem] rounded-md block object-cover"/>
                         <div className="flex flex-col"> 
-                            <h1 className="ml-6 text-[2rem] font-bold">{profileBusiness.Name}</h1>
+                            <h1 className="ml-6 text-[1.6rem] font-bold">{profileBusiness.Name}</h1>
                             <p className="ml-6 text-[1rem] text-gray-600">{profileBusiness?.Country}</p>
                         </div>
                     </div>
@@ -58,8 +59,23 @@ const CompanyProfile = () => {
                         >
                             Logout
                         </button>
+                        
                     </div>
+
                 </div>
+                <div className=" ml-12 mt-6">
+                    <h1 className="text-2xl font-bold">About</h1>
+                    <p className="text-xl ml-4">Business: {profileBusiness?.Business}</p>
+                    <p className="text-xl ml-4">Country: {profileBusiness?.Country}</p>
+                </div>
+                <div className="mt-4 ml-12">
+                        <h1 className="text-2xl font-bold">Contact</h1>
+                        <div className="mt-2 ml-2 flex">
+                            <BsLinkedin size="1.5rem" className="mr-4"/>
+                            <BsFacebook size="1.5rem" className="mr-4"/>
+                            <ImEarth size="1.5rem"/>
+                        </div>
+                    </div>
                 {/* <div className="w-[80%] mx-auto bg-gray-bg px-5 py-5 rounded-md">
                     <div className="flex justify-between ">
                         <div className="w-[45%] px-4 py-2 rounded-md bg-white">
@@ -71,6 +87,7 @@ const CompanyProfile = () => {
                     </div>
                 </div> */}
             </div>
+
         </div>
     </>
   )

@@ -100,7 +100,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -124,7 +125,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -162,7 +164,7 @@ export const myContract = new web3.eth.Contract(
           "type": "string"
         }
       ],
-      "name": "checkStudentSkilll",
+      "name": "checkStudentSkill",
       "outputs": [
         {
           "internalType": "uint256",
@@ -171,7 +173,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -181,7 +184,7 @@ export const myContract = new web3.eth.Contract(
           "type": "address"
         }
       ],
-      "name": "checkNumStudentSkilll",
+      "name": "checkNumStudentSkill",
       "outputs": [
         {
           "internalType": "uint256",
@@ -190,7 +193,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -214,7 +218,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -262,7 +267,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -286,7 +292,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -343,7 +350,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -377,7 +385,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -474,7 +483,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -498,7 +508,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -537,7 +548,8 @@ export const myContract = new web3.eth.Contract(
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -641,5 +653,5 @@ export const myContract = new web3.eth.Contract(
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ], '0x112d3cB4cf67F92EfA2e3F7F519C8B0db7239498' 
+  ], '0xB460d41Fd1b7676Df775D035c54D19d180FF8537' 
 )

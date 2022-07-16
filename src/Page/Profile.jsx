@@ -3,7 +3,6 @@ import Header from '../Components/Header';
 import avt from '../assets/avt_illu.jpg';
 import Progressbar from './../Components/Progressbar';
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin,BsFillTelephoneFill, BsFillHouseDoorFill } from 'react-icons/Bs'
-// import { IoMdMail } from "react-icons/io";
 import {  useNavigate } from 'react-router-dom';
 import ModalWarning from './../Components/ModalWarning';
 import { myContract } from './../Api/Const'

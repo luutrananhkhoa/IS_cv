@@ -22,7 +22,6 @@ const HeaderCompany = () => {
                   <ul className="flex text-xl items-center">
                     <Link to="/homecompany" className="px-8 hover:text-secondary">HOME</Link>
                     <Link to="/employee" className="px-8 hover:text-secondary">EMPLOYEE</Link>
-                    <Link to="/post" className="px-8 hover:text-secondary">RECRUIT</Link>
                     <Link to="/managepost" className="px-8 hover:text-secondary">MY POST</Link>
                     {statusB && <Link to="/companyprofile" className="px-8"><FaUser className="cursor-pointer" size={32}/></Link> }
                     {!statusB && <button className="w-[140px] h-[40px] px-10 text-[18px] text-center bg-secondary rounded-[24px]"

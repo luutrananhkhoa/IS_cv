@@ -7,7 +7,7 @@ import Progressbar from '../Components/Progressbar'
 import { myContract } from './../Api/Const'
 import ReactToPrint from 'react-to-print';
 import { Context } from '../Context/Context'
-import _ from 'lodash'
+import { Link, useNavigate } from 'react-router-dom';
 
 const ref = React.createRef()
 
@@ -56,23 +56,31 @@ const Mycv = () => {
     <>
       <Header />
       <div className="w-full min-h-screen bg-primary pb-[120px]">
-        <div className="flex justify-around items-center mb-3">
+        <div className="flex justify-around items-center mb-3 mr-4">
           <h1 className="font-bold text-2xl text-white ">My CV</h1>
+          <div>
           <ReactToPrint
             content={() => componentRef}
             trigger={() => (
               <button
-                className="h-[45px] w-[140px] bg-secondary rounded-[30px] text-white text-xl"
+                className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-xl"
               >
                 Save
               </button>
             )}
           />
+          <button
+            className="h-[45px] w-[140px] bg-orange-btn rounded-[30px]  ml-4 text-white text-xl"
+          >
+            <Link to="/register" className="px-8">Add skill</Link>
+          </button>
+          </div>
+          
         </div>
         <div
           id="savecv"
           ref={(response) => setComponentRef(response)}
-          className="w-[60%] h-[200vh] mx-auto bg-white flex"
+          className="w-[60%] h-[150vh] mx-auto bg-white flex"
         >
           <div className="w-[30%] flex flex-col">
             <img

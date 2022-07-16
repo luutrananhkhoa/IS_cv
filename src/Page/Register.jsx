@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Header from '../Components/Header';
 import { myContract } from './../Api/Const';
+import ModalSuccess from '../Components/ModalSuccess';
 import { Context } from '../Context/Context';
 import {  useNavigate } from 'react-router-dom';
 
@@ -9,6 +10,7 @@ export default function Register() {
     let navigate=useNavigate();
     var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'));
     web3.eth.getAccounts().then(console.log);
+    const [openModal, setOpenModal]  = useState(false)
     const [checkNumSkill, setCheckNumSkill] = useState(0)
     const {addr, setAddr, skills, setSkills} = useContext(Context)
 
@@ -17,25 +19,24 @@ export default function Register() {
         e.preventDefault(); 
         console.log(addr)
         myContract.methods
-        .checkStudentSkilll(addr,$("#_skill").val())
+        .checkStudentSkill(addr, $("#_skill").val())
         .call()
         .then((result) => {
                 console.log(parseInt(result));
-                // if(parseInt(result)==0){
-                //     console.log("Successfully");
-                //     myContract.methods.addStudentSkill(addr, $("#_skill").val(), $("#_level").val())
-                //     .send({
-                //       from: addr,
-                //       gas: 3000000
-                //     })
-                //      navigate("/");
-                // } else{
-                //     console.log("Unsuccessfully");
-                //     alert("Kỹ năng đã được đăng ký")
-                // }
+                if(parseInt(result)==0){
+                    console.log("Successfully");
+                    myContract.methods.addStudentSkill(addr, $("#_skill").val(), $("#_level").val())
+                    .send({
+                      from: addr,
+                      gas: 3000000
+                    })
+                    setOpenModal(true)
+                } else{
+                    console.log("Unsuccessfully");
+                    alert("Kỹ năng đã được đăng ký")
+                }
             })
     }
-
     // console.log(skills)
     console.log(addr)
     function showskill(e){
@@ -48,6 +49,7 @@ export default function Register() {
     return (
         <div>
             <Header />
+            {openModal && <ModalSuccess open={openModal} title="add skill" setOpen={setOpenModal}/>}
             <div className="min-w-full min-h-screen bg-primary">
                 {/* <AiOutlineArrowLeft size={"48px"} color="white" className="ml-[12rem]"  /> */}
                 <h1 className=" text-white text-5xl font-bold ml-[19rem] pt-[4rem]">Add your skills</h1>
