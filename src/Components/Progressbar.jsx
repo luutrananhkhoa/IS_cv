@@ -10,7 +10,7 @@ export default function Progressbar(props) {
               <span>{ props?.per||0}%</span>
         </div>
         <div className="relative h-3 mt-1 w-[100%] bg-[#ccc]">
-        <div className={`absolute w-[${temp}%] h-3 bg-secondary`}></div>
+        <div className={`absolute w-[${parseInt(temp)}%] h-3 bg-secondary`}></div>
         </div>
     </div>
   )

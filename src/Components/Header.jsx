@@ -24,14 +24,13 @@ export default function Header() {
                   <Link to="/" className="px-8">HOME</Link>
                   <Link to="/company" className="px-8">COMPANY</Link>
                   <Link to="/mycv" className="px-8">MY CV</Link>
-                  <Link to="/register" className="px-8">SKILL</Link>
+                
                 </ul>}
                 {!status && 
                   <ul className="flex text-xl">
                   <Link to="/" className="px-8">HOME</Link>
                   <Link to="/company" className="px-8">COMPANY</Link>
                   <Link to="/login" className="px-8">MY CV</Link>
-                  <Link to="/login" className="px-8">SKILL</Link>
                 </ul>}
                   {status && <Link to="/profile" className="px-8"><AiOutlineUser className="cursor-pointer" size={40}/></Link> }
                   {!status && <button className="w-[140px] h-[40px] px-10 text-[18px] text-center bg-secondary rounded-[24px]"
