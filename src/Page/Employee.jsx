@@ -37,6 +37,7 @@ const Employee = () => {
       .getListCV(addrCompany)
       .call()
       .then((res) => {
+        if (parseInt(res._hex)) return
         let temp = []
         for (let i = 0; i < res[0].length; i++) {
           let isNew = true
@@ -50,9 +51,8 @@ const Employee = () => {
           })
           if (isNew) temp.push({ address: res[0][i], title: [res[3][i]] })
         }
-        return temp
+        setListStudent(temp)
       })
-      .then((array) => setListStudent(array))
       .catch((err) => console.log(err))
   }, [])
   // contractStudentBusiness.methods

@@ -33,9 +33,9 @@ function App() {
   const { setWeb3, setContractStudentBusiness } = useContext(Web3Context)
 
   useEffect(() => {
-    // aos.init()
-    // aos.refresh()
     (async () => {
+      aos.init()
+      aos.refresh()
       const provider = await detectEthereumProvider()
       if (provider) {
         console.log('Ethereum successfully detected!')
@@ -53,23 +53,12 @@ function App() {
         contractConst.abiStudentBusiness,
         contractConst.addressStudentBusiness
       )
-      console.log(myContract)
-      // setContractStudentBusiness(myContract)
-      // var web3 = new Web3(provider);
+      setContractStudentBusiness(myContract)
     })()
   }, [])
-
-  // const web3 = new Web3(new Web3.providers.WebsocketProvider('ws://127.0.0.1:7545'))
-  // web3.eth.getAccounts().then(console.log)
-  // let newContract = web3.eth.Contract(
-  //   contractConst.abiStudentBusiness,
-  //   contractConst.addressStudentBusiness
-  // )
-  // setContractStudentBusiness(newContract);
   return (
     <div className="App">
-      APP
-      {/* <Routes>
+      <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/homecompany" element={<HomeCompany />} />
         <Route path="/student" element={<Student />} />
@@ -89,7 +78,7 @@ function App() {
         <Route path="/companyprofile" element={<CompanyProfile />} />
         <Route path="/post" element={<Post />} />
         <Route path="/managepost" element={<ManagePost />} />
-      </Routes> */}
+      </Routes>
     </div>
   )
 }
