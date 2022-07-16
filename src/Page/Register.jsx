@@ -1,23 +1,21 @@
 import React, { useContext, useState } from 'react'
-import { AiOutlineArrowLeft } from 'react-icons/ai'
 import Header from '../Components/Header'
-import { myContract } from './../Api/Const'
 import { Context } from '../Context/Context'
 import { useNavigate } from 'react-router-dom'
+import { Web3Context } from '../Context/Web3ContextProvider'
 
 export default function Register() {
   let navigate = useNavigate()
-  var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
-  web3.eth.getAccounts().then(console.log)
+  const { contractStudentBusiness } = useContext(Web3Context)
   const [checkNumSkill, setCheckNumSkill] = useState(0)
   const { addr, setAddr, skills, setSkills } = useContext(Context)
 
   async function addSkill(e) {
     e.preventDefault()
-    // console.log(myContract.methods.checkStudentSkilll(addr, $('#_skill').val()))
+    // console.log(contractStudentBusiness.methods.checkStudentSkilll(addr, $('#_skill').val()))
     // e.preventDefault()
     // console.log(addr)
-    await myContract.methods
+    await contractStudentBusiness.methods
       .checkStudentSkilll(addr, $('#_skill').val())
       .call()
       .then((success) => console.log(success))
@@ -28,7 +26,7 @@ export default function Register() {
   console.log(addr)
   function showskill(e) {
     e.preventDefault()
-    myContract.methods
+    contractStudentBusiness.methods
       .getStudentSkill(addr)
       .call()
       .then((result) => console.log(result))

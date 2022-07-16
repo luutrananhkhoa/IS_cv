@@ -1,11 +1,10 @@
 import react, { useContext, useEffect } from 'react'
 import HeaderCompany from './../Components/HeaderCompany'
-import { Link, useNavigate } from 'react-router-dom'
-import { myContract } from './../Api/Const'
+import { useNavigate } from 'react-router-dom'
 import { Context } from '../Context/Context'
 import StudentApply from './StudentApply'
-import { isBuffer } from 'lodash'
 import _ from 'lodash'
+import { Web3Context } from '../Context/Web3ContextProvider'
 
 const Employee = () => {
   let navigate = useNavigate()
@@ -21,9 +20,7 @@ const Employee = () => {
     setListStudent,
     setSkills,
   } = useContext(Context)
-
-  var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
-  web3.eth.getAccounts().then()
+  const { contractStudentBusiness } = useContext(Web3Context)
 
   const employee = [
     {
@@ -36,7 +33,7 @@ const Employee = () => {
   ]
 
   useEffect(() => {
-    myContract.methods
+    contractStudentBusiness.methods
       .getListCV(addrCompany)
       .call()
       .then((res) => {
@@ -49,7 +46,7 @@ const Employee = () => {
               value.title.push(res[3][i])
               console.log(res[3][i])
               return
-            }   
+            }
           })
           if (isNew) temp.push({ address: res[0][i], title: [res[3][i]] })
         }
@@ -58,7 +55,7 @@ const Employee = () => {
       .then((array) => setListStudent(array))
       .catch((err) => console.log(err))
   }, [])
-  // myContract.methods
+  // contractStudentBusiness.methods
   //     .getStudentProfile(listStudent[0][0])
   //     .call()
   //     .then(res=>setListStudent(res))

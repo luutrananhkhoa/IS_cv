@@ -4,54 +4,55 @@ import avt from '../assets/avt_illu.jpg'
 import { IoMdMail } from 'react-icons/Io'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs'
 import Progressbar from '../Components/Progressbar'
-import { myContract } from './../Api/Const'
-import ReactToPrint from 'react-to-print';
+import ReactToPrint from 'react-to-print'
 import { Context } from '../Context/Context'
 import _ from 'lodash'
+import { Web3Context } from '../Context/Web3ContextProvider'
 
 const ref = React.createRef()
 
 const Mycv = () => {
-  var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
-  web3.eth.getAccounts().then()
-
   const [componentRef, setComponentRef] = useState()
-  const {addr, profile, setProfile, skills, setSkills} = useContext(Context)
+  const { addr, profile, setProfile, skills, setSkills } = useContext(Context)
+  const { contractStudentBusiness } = useContext(Web3Context)
 
-  const setProfileCallback = useCallback((res) =>{
-    setProfile({
-      Birthday: res[2],
-      Email: res[4],
-      Github: res[5],
-      Linked: res[6],
-      Name: res[1],
-      ProfessionalTitle:res[3]
-    })
-  },[addr])
+  const setProfileCallback = useCallback(
+    (res) => {
+      setProfile({
+        Birthday: res[2],
+        Email: res[4],
+        Github: res[5],
+        Linked: res[6],
+        Name: res[1],
+        ProfessionalTitle: res[3],
+      })
+    },
+    [addr]
+  )
 
   console.log(skills)
   console.log(addr)
 
-  useEffect(()=>{
-    myContract.methods
-    .getStudentSkill(addr)
-    .call()
-    .then((result)=> result)
-    .then((res)=>{
-      setSkills({...res})
-      console.log(res)
-      return;
-    })
-
-    myContract.methods
-    .getStudentProfile(addr)
-    .call() 
-    .then(function (addres) {
-        setProfileCallback(addres)
-        return;
+  useEffect(() => {
+    contractStudentBusiness.methods
+      .getStudentSkill(addr)
+      .call()
+      .then((result) => result)
+      .then((res) => {
+        setSkills({ ...res })
+        console.log(res)
+        return
       })
-  },[])
-  
+
+    contractStudentBusiness.methods
+      .getStudentProfile(addr)
+      .call()
+      .then(function (addres) {
+        setProfileCallback(addres)
+        return
+      })
+  }, [])
+
   return (
     <>
       <Header />
@@ -61,9 +62,7 @@ const Mycv = () => {
           <ReactToPrint
             content={() => componentRef}
             trigger={() => (
-              <button
-                className="h-[45px] w-[140px] bg-secondary rounded-[30px] text-white text-xl"
-              >
+              <button className="h-[45px] w-[140px] bg-secondary rounded-[30px] text-white text-xl">
                 Save
               </button>
             )}
@@ -84,13 +83,17 @@ const Mycv = () => {
                 <div className="w-[2rem] h-[2rem]">
                   <IoMdMail size="2rem" className="text-secondary" />
                 </div>
-                <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words">{profile?.Email}</p>
+                <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words">
+                  {profile?.Email}
+                </p>
               </div>
               <div className=" flex items-center">
                 <div className="w-[2rem] h-[2rem]">
                   <BsFillCalendar2DateFill size="2rem" className="text-secondary" />
                 </div>
-                <p id="text-birthday" className="pl-2 flex-1 w-[80%] break-words">{profile?.Birthday}</p>
+                <p id="text-birthday" className="pl-2 flex-1 w-[80%] break-words">
+                  {profile?.Birthday}
+                </p>
               </div>
               <div className="flex items-center">
                 <div className="w-[2rem] h-[2rem]">
@@ -104,24 +107,33 @@ const Mycv = () => {
                 <div className="w-[2rem] h-[2rem]">
                   <BsGithub size="2rem" className="text-secondary" />
                 </div>
-                <p id="text-github" className="pl-2 flex-1 w-[80%] break-words">{profile?.Github}</p>
+                <p id="text-github" className="pl-2 flex-1 w-[80%] break-words">
+                  {profile?.Github}
+                </p>
               </div>
             </div>
             <div className="mt-[4rem] ml-6">
               <h1 className="font-bold text-3xl">SKILLS</h1>
               <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary" />
               <div className="mt-4 w-[85%]">
-                {skills[0]?.map((item,index)=>(
-                  item && <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
-                ))}
+                {skills[0]?.map(
+                  (item, index) =>
+                    item && (
+                      <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
+                    )
+                )}
               </div>
             </div>
           </div>
           <div className="flex-1">
             <div className="h-[10rem] mt-12 bg-secondary">
               <div className="ml-6 pt-6 text-white">
-                <h1 id="text-name" className="text-4xl font-bold">{profile?.Name}</h1>
-                <span id="text-proTitle" className="text-[1.3rem] mt-4">{profile?.ProfessionalTitle}</span>
+                <h1 id="text-name" className="text-4xl font-bold">
+                  {profile?.Name}
+                </h1>
+                <span id="text-proTitle" className="text-[1.3rem] mt-4">
+                  {profile?.ProfessionalTitle}
+                </span>
                 <hr className="w-[40%] h-[2px] mt-4 border-0 bg-white" />
               </div>
             </div>

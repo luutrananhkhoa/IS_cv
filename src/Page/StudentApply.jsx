@@ -1,16 +1,15 @@
-import React, { useCallback, useState, useContext, useEffect, memo } from 'react'
-import { myContract } from './../Api/Const'
+import React, { useState, useContext, useEffect, memo } from 'react'
 import { Context } from '../Context/Context'
+import { Web3Context } from '../Context/Web3ContextProvider'
 
 const StudentApply = (props) => {
-  var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
-  web3.eth.getAccounts().then()
+  const { contractStudentBusiness } = useContext(Web3Context)
   const { address, title } = props
   const { addr, skills, setSkills } = useContext(Context)
   const [profile, setProfile] = useState()
 
   useEffect(() => {
-    myContract.methods
+    contractStudentBusiness.methods
       .getStudentProfile(address)
       .call()
       .then(function (success) {
@@ -39,7 +38,7 @@ const StudentApply = (props) => {
       >
         <p className="w-[40%]">{profile?.Name}</p>
         {
-            // console.log(props.title)
+          // console.log(props.title)
         }
         <p className="w-[40%]">{props.title.toString()}</p>
       </div>
