@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Progressbar(props) {
   var temp =parseInt(props?.per)
-  console.log(temp)
+  // console.log(temp)
   return (
     <div className="w-[100%] text-xl font-bold">
         <div className="flex justify-between font-semibold">

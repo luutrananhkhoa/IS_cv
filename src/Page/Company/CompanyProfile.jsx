@@ -7,11 +7,11 @@ import { Web3Context } from '../../Context/Web3ContextProvider'
 
 const CompanyProfile = () => {
   let navigate = useNavigate()
-  const { profileBusiness, setProfileBusiness, addrCompany, setStatusB } = useContext(Context)
-  const { contractStudentBusiness } = useContext(Web3Context)
+  const { profileBusiness, setProfileBusiness, setIsLoggedIn } = useContext(Context)
+  const { contractStudentBusiness, address } = useContext(Web3Context)
   const handleLogout = () => {
-    setStatusB(false)
-    navigate('/homecompany')
+    setIsLoggedIn(false)
+    navigate('/company')
   }
   const setProfileBusinessCallback = useCallback(
     (res) => {
@@ -25,15 +25,18 @@ const CompanyProfile = () => {
         Facebook: res?.[6],
       })
     },
-    [addrCompany]
+    [address]
   )
 
   useEffect(() => {
-    contractStudentBusiness.methods
-      .getBusinessProfile(addrCompany)
-      .call()
-      .then((result) => setProfileBusinessCallback(result))
-  }, [])
+    if (contractStudentBusiness) {
+      contractStudentBusiness.methods
+        .getBusinessProfile(address)
+        .call()
+        .then((result) => setProfileBusinessCallback(result))
+        .catch((error) => console.log(error))
+    }
+  }, [contractStudentBusiness])
   console.log(profileBusiness)
   return (
     <>

@@ -10,9 +10,9 @@ import { Web3Context } from '../Context/Web3ContextProvider'
 
 const Profile = () => {
   let navigate = useNavigate()
-  const { addr, setAddr, profile, setProfile, skills, setSkills, status, setStatus } =
+  const { addr, setAddr, profile, setProfile, skills, setSkills, setIsLoggedIn } =
     useContext(Context)
-  const { contractStudentBusiness } = useContext(Web3Context)
+  const { contractStudentBusiness, address } = useContext(Web3Context)
   const setProfileCallback = useCallback(
     (res) => {
       setProfile({
@@ -28,29 +28,27 @@ const Profile = () => {
   )
 
   function HandleClick() {
+    setIsLoggedIn(false)
     navigate('/')
-    setStatus(false)
   }
 
   useEffect(() => {
-    contractStudentBusiness.methods
-      .getStudentSkill(addr)
-      .call()
-      .then((result) => result)
-      .then((res) => {
-        setSkills({ ...res })
-        console.log(res)
-        return
-      })
+    if (contractStudentBusiness) {
+      contractStudentBusiness.methods
+        .getStudentSkill(address)
+        .call()
+        .then((result) => setSkills({ ...result }))
+        .catch((error) => console.error(error))
 
-    contractStudentBusiness.methods
-      .getStudentProfile(addr)
-      .call()
-      .then(function (addres) {
-        setProfileCallback(addres)
-        return
-      })
-  }, [addr])
+      contractStudentBusiness.methods
+        .getStudentProfile(address)
+        .call()
+        .then(function (success) {
+          setProfileCallback(success)
+        })
+        .catch((error) => console.error(error))
+    }
+  }, [contractStudentBusiness])
 
   const [openModalWarning, setOpenModalWarning] = useState(false)
 
@@ -87,9 +85,7 @@ const Profile = () => {
               <div className="">
                 {skills[0]?.map(
                   (item, index) =>
-                    item && (
-                      <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
-                    )
+                    item && <Progressbar key={item} title={item} per={skills[1][index]} />
                 )}
               </div>
             </div>

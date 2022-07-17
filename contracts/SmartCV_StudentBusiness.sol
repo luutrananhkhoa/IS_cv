@@ -51,6 +51,11 @@ contract StudentBusiness {
             return listStudent.checkSV(_studentOwner, _password);
     }
 
+    // Chức năng kiểm tra địa chỉ sinh viên có tồn tại hay không?
+    function checkExistStudent(address _studentOwner) public view returns(uint x) {
+            return listStudent.checkExistSV(_studentOwner);
+    }
+
     // Chức năng thêm thông tin kĩ năng của sinh viên
     function addStudentSkill (
         address _studentOwner,
@@ -163,6 +168,11 @@ contract StudentBusiness {
         address _businessOwner, 
         string memory _password) public view returns(uint) {
             return listBusiness.checkDN(_businessOwner, _password);
+    }
+
+    // Chức năng kiểm tra địa chỉ doanh nghiệp có tồn tại hay không?
+    function checkExistBusiness(address _businessOwner) public view returns(uint x) {
+            return listBusiness.checkExistDN(_businessOwner);
     }
 
     // Chức năng lấy danh sách CV đã nộp vào doanh nghiệp

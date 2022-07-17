@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import cv from '../assets/Group_27.png'
 import Header from '../Components/Header'
 
+
 const Home = () => {
-  let navigate = useNavigate()
-  function createCv() {
-    navigate('./createcv')
-  }
+  // let navigate = useNavigate()
+
   return (
     <>
       <Header />
@@ -20,14 +19,13 @@ const Home = () => {
             <p className="text-text text-lg w-[80%]">
               Effortlessly build a job worthy resume that gets you weird faster.
             </p>
-            <Link to="/login">
-              <button
-                className="w-[10rem] h-12 text-[1.2rem] ease-in duration-100 font-medium mt-8 hover:bg-orange-btn bg-secondary text-white hover:cursor-pointer"
-                onClick={createCv}
+            {/* {!contractStudentBusiness && (
+              <a
+                className="w-[45%] rounded-md h-12 text-[1.2rem] ease-in duration-100 font-medium mt-8 hover:bg-orange-btn bg-secondary text-white hover:cursor-pointer"
               >
-                Create My CV
-              </button>
-            </Link>
+                Connect Metamask
+              </a>
+            )} */}
           </div>
           <div className="w-6/12 flex flex-col  ">
             <div className="w-[35%] h-[70%] bg-secondary absolute rounded-[50%] translate-y-[3rem] overflow-hidden"></div>

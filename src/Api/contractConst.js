@@ -100,7 +100,6 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
   },
   {
     inputs: [
@@ -125,7 +124,25 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_studentOwner',
+        type: 'address',
+      },
+    ],
+    name: 'checkExistStudent',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'x',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     inputs: [
@@ -163,7 +180,7 @@ export const abiStudentBusiness = [
         type: 'string',
       },
     ],
-    name: 'checkStudentSkilll',
+    name: 'checkStudentSkill',
     outputs: [
       {
         internalType: 'uint256',
@@ -173,7 +190,6 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
   },
   {
     inputs: [
@@ -183,7 +199,7 @@ export const abiStudentBusiness = [
         type: 'address',
       },
     ],
-    name: 'checkNumStudentSkilll',
+    name: 'checkNumStudentSkill',
     outputs: [
       {
         internalType: 'uint256',
@@ -193,7 +209,6 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
   },
   {
     inputs: [
@@ -218,7 +233,6 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
   },
   {
     inputs: [],
@@ -267,7 +281,6 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
   },
   {
     inputs: [
@@ -292,7 +305,6 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
   },
   {
     inputs: [
@@ -350,7 +362,6 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
   },
   {
     inputs: [
@@ -385,7 +396,6 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
   },
   {
     inputs: [
@@ -483,7 +493,6 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
   },
   {
     inputs: [
@@ -508,7 +517,25 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_businessOwner',
+        type: 'address',
+      },
+    ],
+    name: 'checkExistBusiness',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'x',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     inputs: [
@@ -548,7 +575,6 @@ export const abiStudentBusiness = [
     ],
     stateMutability: 'view',
     type: 'function',
-    constant: true,
   },
   {
     inputs: [
@@ -653,4 +679,4 @@ export const abiStudentBusiness = [
     type: 'function',
   },
 ]
-export const addressStudentBusiness = '0x5c2666ad24e6e6e780bad85fe2d321034208ca4c'
+export const addressStudentBusiness = '0x95297f487340944ff2c8fbae5d0f91686536ff0d'

@@ -11524,6 +11524,11 @@ react-is@^18.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.1.0.tgz#61aaed3096d30eacf2a2127118b5b41387d32a67"
   integrity sha512-Fl7FuabXsJnV5Q1qIOQwx/sagGF18kogb4gpfcG4gjLBWO0WDiiz1ko/ExayuxE7InyQkBLkxRFG5oxY6Uu3Kg==
 
+react-loading@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-loading/-/react-loading-2.0.3.tgz#e8138fb0c3e4674e481b320802ac7048ae14ffb9"
+  integrity sha512-Vdqy79zq+bpeWJqC+xjltUjuGApyoItPgL0vgVfcJHhqwU7bAMKzysfGW/ADu6i0z0JiOCRJjo+IkFNkRNbA3A==
+
 react-refresh-webpack-plugin@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.1.0.tgz#e5d48e45ba7789e0b3feb2c2e24e2eb2059076ad"
@@ -11610,6 +11615,11 @@ react-scripts@^5.0.1:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
+
+react-spinners@^0.13.3:
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.13.3.tgz#9d00d10fb2a0869b21efdc13fb0fddbcecd05731"
+  integrity sha512-FHQMH6dAl1Vw4Lxv0H7hbGsjBs0aKNVwjGrDJLuD9R/C3h9+IuBhKJOJyCcegxMaLiBSBV96Tp+XV3OwPK8Vtw==
 
 react-to-pdf@^0.0.14:
   version "0.0.14"

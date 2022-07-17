@@ -5,24 +5,22 @@ import { useNavigate } from 'react-router-dom'
 import { Web3Context } from '../../Context/Web3ContextProvider'
 
 const Post = () => {
-  const { profileBusiness, setProfileBusiness, addrCompany } = useContext(Context)
+  // const {  } = useContext(Context)
   const navigate = useNavigate()
-  const { contractStudentBusiness } = useContext(Web3Context)
+  const { contractStudentBusiness, address } = useContext(Web3Context)
 
-  const handleAdd = () => {
-    contractStudentBusiness.methods
-      .addRecruit(addrCompany, $('#_title').val(), $('#_description').val())
+  const handleAdd = async () => {
+    await contractStudentBusiness.methods
+      .addRecruit(address, $('#_title').val(), $('#_description').val())
       .send({
-        from: addrCompany,
+        from: address,
         gas: 3000000,
       })
-    navigate('/homecompany')
-  }
-  const show = () => {
-    contractStudentBusiness.methods
-      .getRecruit(addrCompany)
-      .call()
-      .then((res) => console.log(res))
+      .then((success) => navigate('/company'))
+      .catch((error) => {
+        console.log(error)
+        if (error.code === 4001) alert('Bạn chưa thanh toán hoá đơn')
+      })
   }
   return (
     <>
@@ -39,7 +37,7 @@ const Post = () => {
             <input
               type="text"
               id="_title"
-              className="text-white w-[30%] mt-2 bg-secondary p-3 rounded-[10px] outline-none"
+              className="text-white w-[30%] placeholder-gray-300 mt-2 bg-secondary p-3 rounded-[10px] outline-none"
               placeholder="Enter title..."
             />
           </div>
@@ -52,7 +50,7 @@ const Post = () => {
             <input
               type="text"
               id="_description"
-              className="text-white w-[30%] mt-2 bg-secondary p-3 rounded-[10px] outline-none"
+              className="text-white w-[30%] mt-2 placeholder-gray-300 bg-secondary p-3 rounded-[10px] outline-none"
               placeholder="Enter description..."
             />
           </div>

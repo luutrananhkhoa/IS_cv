@@ -1,38 +1,29 @@
 import React, { useContext, useState } from 'react'
 import { Context } from '../Context/Context'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import logo1 from '../assets/LogoCV.png'
 import { Web3Context } from '../Context/Web3ContextProvider'
+import { RingLoader } from 'react-spinners'
 
 const CompanyManage = () => {
-  const [checkBusiness, SetCheckBusiness] = useState(0)
-  const { contractStudentBusiness } = useContext(Web3Context)
-  const {
-    addrCompany,
-    setAddrCompany,
-    addr,
-    setStatusB,
-    setAddr,
-    profileBusiness,
-    setProfileBusiness,
-  } = useContext(Context)
-  console.log(addr)
-
+  const { contractStudentBusiness, address } = useContext(Web3Context)
+  const { setIsLoggedIn } = useContext(Context)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  function addProfCompany(e) {
+  async function addProfCompany(e) {
     e.preventDefault()
-    contractStudentBusiness.methods
-      .checkBusinessProfile($('#_addrCompany').val(), $('#_pwdCompany').val())
+    await contractStudentBusiness.methods
+      .checkBusinessProfile(address, $('#_pwdCompany').val())
       .call()
-      .then((result) => {
-        console.log(parseInt(result))
+      .then(async (result) => {
+        // console.log(parseInt(result))
         if (parseInt(result) == 0) {
           console.log('Successfully')
-          setAddrCompany($('#_addrCompany').val())
-          contractStudentBusiness.methods
+          setLoading(true)
+          await contractStudentBusiness.methods
             .addBusinessProfile(
-              $('#_addrCompany').val(),
+              address,
               $('#_nameCompany').val(),
               $('#_nationalCompany').val(),
               $('#_focusArea').val(),
@@ -42,36 +33,37 @@ const CompanyManage = () => {
               $('#_pwdCompany').val()
             )
             .send({
-              from: $('#_addrCompany').val(),
+              from: address,
               gas: 3000000,
             })
-          navigate('/homecompany')
-          setStatusB(true)
+            .then((success) => {
+              console.log('success', success)
+              setIsLoggedIn(true)
+              navigate('/company')
+            })
+            .catch((error) => {
+              console.log('error', error)
+              if (error.code === 4001) alert('Bạn chưa thanh toán hoá đơn')
+            })
+          setLoading(false)
         } else {
           console.log('Unsuccessfully')
           alert('Tài khoản đã được đăng ký!')
         }
       })
   }
-  const HandleClick = () => {
-    navigate('/homecompany')
-  }
-  //   function showListCompany(){
-  //     contractStudentBusiness.methods
-  //     .getBusinessProfile($("#_addrCompany").val())
-  //     .call()
-  //     .then((result) => console.log(result))
-  //     .then((result) => setProfileBusiness(result));
-  //   }
   return (
     <>
       <div className="min-h-screen min-w-full bg-primary pb-[8rem]">
-        <img
-          className="w-[12%] mx-auto cursor-pointer object-cover"
-          src={logo1}
-          alt="logo"
-          onClick={HandleClick}
+        <RingLoader
+          color={'#133ceb'}
+          loading={loading}
+          cssOverride={{ position: 'fixed', top: '40%', left: '45%', transform: 'trans' }}
+          size={150}
         />
+        <Link to="/company">
+          <img className="w-[12%] mx-auto cursor-pointer object-cover" src={logo1} alt="logo" />
+        </Link>
         <div className="w-[70%] h-[100%] mx-auto pt-[4rem] bg-white rounded-md flex flex-col pb-[4rem]">
           <div className="flex px-10 justify-between">
             <div className="flex">
@@ -175,6 +167,7 @@ const CompanyManage = () => {
                   type="text"
                   name="addrCompany"
                   id="_addrCompany"
+                  value={address}
                   className=" border-2 w-[60%] px-5 py-2 rounded-lg border-slate-300 outline-none"
                   placeholder="Enter address..."
                 />

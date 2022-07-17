@@ -7,31 +7,35 @@ import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
 
 const Login = () => {
-  const { contractStudentBusiness } = useContext(Web3Context)
+  const { contractStudentBusiness, address } = useContext(Web3Context)
 
-  const { addr, setAddr, status, setStatus } = useContext(Context)
+  const { addr, setAddr, setExistAccount, setIsLoggedIn } = useContext(Context)
   const [diaglog, setDialog] = useState(false)
 
   let navigate = useNavigate()
   const HandleClick = () => {
     navigate('/')
   }
-  function checkPro(e) {
+  async function checkPro(e) {
     e.preventDefault()
-    setAddr($('#_addressOwner').val())
-    contractStudentBusiness.methods
-      .checkStudentProfile($('#_addressOwner').val(), $('#_pwd').val())
+    await contractStudentBusiness.methods
+      .checkStudentProfile(address, $('#_pwd').val())
       .call()
       .then((result) => {
         console.log(parseInt(result))
         if (parseInt(result) == 1) {
           console.log('Successfully')
+          setIsLoggedIn(true)
           navigate('/')
-          setStatus(true)
+          setExistAccount(true)
         } else {
           console.log('Unsuccessfully')
           setDialog(true)
         }
+      })
+      .catch((error) => {
+        console.log(error)
+        if (error.code === 4001) alert('Bạn chưa thanh toán hoá đơn')
       })
   }
   return (
@@ -74,6 +78,7 @@ const Login = () => {
                 type="text"
                 name="addressOwner"
                 id="_addressOwner"
+                value={address}
                 placeholder="0x00000"
                 className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"
               />

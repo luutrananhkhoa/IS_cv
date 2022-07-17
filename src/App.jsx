@@ -7,7 +7,6 @@ import Company from './Page/Company'
 import Mycv from './Page/Mycv'
 import Login from './Page/Login'
 import LoginCompany from './Page/LoginCompany'
-import aos from 'aos'
 import 'aos/dist/aos.css'
 import Register from './Page/Register'
 import Createcv from './Page/Createcv'
@@ -23,61 +22,48 @@ import Post from './Page/Company/Post'
 import ManagePost from './Page/Company/ManagePost'
 import HomeCompany from './Page/HomeCompany'
 import 'https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js'
-import { Web3Context } from './Context/Web3ContextProvider'
-import * as contractConst from './Api/contractConst'
-import Web3 from 'web3'
-import process from 'process'
-import { Buffer } from 'buffer'
-import EventEmitter from 'events'
+// import process from 'process'
+// import { Buffer } from 'buffer'
+// import EventEmitter from 'events'
+import ContractMiddleware from '@/Components/ContractMiddleware'
+import ContractMiddlewareCompany from '@/Components/ContractMiddlewareCompany'
+import { Context } from '@/Context/Context'
+import Test from '@/Page/Test'
+// window.Buffer = Buffer
+// window.process = process
+// window.EventEmitter = EventEmitter
+
 function App() {
-  const { setWeb3, setContractStudentBusiness } = useContext(Web3Context)
-
-  useEffect(() => {
-    (async () => {
-      aos.init()
-      aos.refresh()
-      const provider = await detectEthereumProvider()
-      if (provider) {
-        console.log('Ethereum successfully detected!')
-      } else {
-        console.log('NOOOOOO')
-      }
-
-      const accounts = await ethereum.request({
-        method: 'eth_requestAccounts',
-      })
-      console.log(accounts[0])
-
-      var web3 = new Web3(provider)
-      var myContract = new web3.eth.Contract(
-        contractConst.abiStudentBusiness,
-        contractConst.addressStudentBusiness
-      )
-      setContractStudentBusiness(myContract)
-    })()
-  }, [])
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/homecompany" element={<HomeCompany />} />
-        <Route path="/student" element={<Student />} />
-        <Route path="/company" element={<Company />} />
-        <Route path="/mycv" element={<Mycv />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/logincompany" element={<LoginCompany />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/createcv" element={<Createcv />} />
-        <Route path="/companydetail" element={<CompanyDetail />} />
-        <Route path="/modalsuccess" element={<ModalSuccess />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/companymanage" element={<CompanyManage />} />
-        <Route path="/employee" element={<Employee />} />
-        <Route path="/employeedetail" element={<EmployeeDetail />} />
-        <Route path="/evaluate" element={<Evaluate />} />
-        <Route path="/companyprofile" element={<CompanyProfile />} />
-        <Route path="/post" element={<Post />} />
-        <Route path="/managepost" element={<ManagePost />} />
+        <Route path="/" element={<ContractMiddleware></ContractMiddleware>}>
+          <Route path="/" element={<Home />} />
+          <Route path="/student" element={<Student />} />
+          <Route path="/listcompany" element={<Company />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/createcv" element={<Createcv />} />
+          <Route path="/companydetail" element={<CompanyDetail />} />
+          <Route path="/modalsuccess" element={<ModalSuccess />} />
+          <Route path="/evaluate" element={<Evaluate />} />
+        </Route>
+        <Route path="/" element={<ContractMiddleware requestLogin={true}></ContractMiddleware>}>
+          <Route path="/test" element={<Test />} />
+          <Route path="/mycv" element={<Mycv />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+
+        <Route path="/company" element={<ContractMiddlewareCompany></ContractMiddlewareCompany>}>
+          <Route path="/company" element={<HomeCompany />} />
+          <Route path="/company/login" element={<LoginCompany />} />
+          <Route path="/company/manage" element={<CompanyManage />} />
+          <Route path="/company/employee" element={<Employee />} />
+          <Route path="/company/managepost" element={<ManagePost />} />
+          <Route path="/company/employeedetail" element={<EmployeeDetail />} />
+          <Route path="/company/profile" element={<CompanyProfile />} />
+          <Route path="/company/post" element={<Post />} />
+        </Route>
       </Routes>
     </div>
   )

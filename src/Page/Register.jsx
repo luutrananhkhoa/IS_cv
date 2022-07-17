@@ -1,39 +1,67 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import Header from '../Components/Header'
 import { Context } from '../Context/Context'
 import { useNavigate } from 'react-router-dom'
 import { Web3Context } from '../Context/Web3ContextProvider'
+import ModalSuccess from '@/Components/ModalSuccess'
+import { RingLoader } from 'react-spinners'
 
 export default function Register() {
   let navigate = useNavigate()
-  const { contractStudentBusiness } = useContext(Web3Context)
-  const [checkNumSkill, setCheckNumSkill] = useState(0)
-  const { addr, setAddr, skills, setSkills } = useContext(Context)
+  const [openModal, setOpenModal] = useState(false)
+  const { contractStudentBusiness, address } = useContext(Web3Context)
+  const [loading, setLoading] = useState(false)
+  console.log(contractStudentBusiness)
+  // console.log(address)
 
   async function addSkill(e) {
     e.preventDefault()
-    // console.log(contractStudentBusiness.methods.checkStudentSkilll(addr, $('#_skill').val()))
-    // e.preventDefault()
-    // console.log(addr)
     await contractStudentBusiness.methods
-      .checkStudentSkilll(addr, $('#_skill').val())
+      .checkStudentSkill(address, $('#_skill').val())
       .call()
-      .then((success) => console.log(success))
-      .catch((error) => console.log(error))
+      .then(async (result) => {
+        console.log(parseInt(result))
+        if (parseInt(result) == 0) {
+          setLoading(true)
+          await contractStudentBusiness.methods
+            .addStudentSkill(address, $('#_skill').val(), $('#_level').val())
+            .send({
+              from: address,
+              gas: 3000000,
+            })
+            .then((success) => {
+              console.log(success)
+              setOpenModal(true)
+            })
+            .catch((error) => {
+              console.log(error)
+              if (error.code === 4001) alert('Bạn chưa thanh toán hoá đơn')
+            })
+          setLoading(false)
+        } else {
+          console.log('Unsuccessfully')
+          alert('Kỹ năng đã được đăng ký')
+        }
+      })
   }
+  // useEffect(() => {
+
+  // }, [])
 
   // console.log(skills)
-  console.log(addr)
-  function showskill(e) {
-    e.preventDefault()
-    contractStudentBusiness.methods
-      .getStudentSkill(addr)
-      .call()
-      .then((result) => console.log(result))
-  }
+  // console.log(address)
+
   return (
     <div>
       <Header />
+      <RingLoader
+        color={'#133ceb'}
+        loading={loading}
+        cssOverride={{ position: 'fixed', top: '40%', left: '45%', transform: 'trans' }}
+        size={150}
+      />
+      {openModal && <ModalSuccess open={openModal} title="add skill" setOpen={setOpenModal} />}
+
       <div className="min-w-full min-h-screen bg-primary">
         {/* <AiOutlineArrowLeft size={"48px"} color="white" className="ml-[12rem]"  /> */}
         <h1 className=" text-white text-5xl font-bold ml-[19rem] pt-[4rem]">Add your skills</h1>

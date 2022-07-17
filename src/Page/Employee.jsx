@@ -7,61 +7,35 @@ import _ from 'lodash'
 import { Web3Context } from '../Context/Web3ContextProvider'
 
 const Employee = () => {
-  let navigate = useNavigate()
-  const {
-    profile,
-    addressTemp,
-    setAddressTemp,
-    addrCompany,
-    setAddrCompany,
-    listStudent,
-    jobTitle,
-    setJobTitle,
-    setListStudent,
-    setSkills,
-  } = useContext(Context)
-  const { contractStudentBusiness } = useContext(Web3Context)
-
-  const employee = [
-    {
-      id: 1,
-      name: 'Luu Tran Anh Khoa',
-      position: 'Frontend Developer',
-      start: '17/05/2022',
-      status: 'Active',
-    },
-  ]
+  const { listStudent, setListStudent } = useContext(Context)
+  const { contractStudentBusiness, address } = useContext(Web3Context)
 
   useEffect(() => {
-    contractStudentBusiness.methods
-      .getListCV(addrCompany)
-      .call()
-      .then((res) => {
-        if (parseInt(res._hex)) return
-        let temp = []
-        for (let i = 0; i < res[0].length; i++) {
-          let isNew = true
-          _.forEach(temp, function (value) {
-            if (value.address === res[0][i]) {
-              isNew = false
-              value.title.push(res[3][i])
-              console.log(res[3][i])
-              return
-            }
-          })
-          if (isNew) temp.push({ address: res[0][i], title: [res[3][i]] })
-        }
-        setListStudent(temp)
-      })
-      .catch((err) => console.log(err))
-  }, [])
-  // contractStudentBusiness.methods
-  //     .getStudentProfile(listStudent[0][0])
-  //     .call()
-  //     .then(res=>setListStudent(res))
-  //     .then(setAddressTemp(listStudent[0]))
-  // console.log(listStudent)
-  // console.log(addrCompany)
+    if (contractStudentBusiness) {
+      contractStudentBusiness.methods
+        .getListCV(address)
+        .call()
+        .then((res) => {
+          if (parseInt(res._hex)) return
+          let temp = []
+          for (let i = 0; i < res[0].length; i++) {
+            let isNew = true
+            _.forEach(temp, function (value) {
+              if (value.address === res[0][i]) {
+                isNew = false
+                value.title.push(res[3][i])
+                console.log(res[3][i])
+                return
+              }
+            })
+            if (isNew) temp.push({ address: res[0][i], title: [res[3][i]] })
+          }
+          setListStudent(temp)
+        })
+        .catch((err) => console.log(err))
+    }
+  }, [contractStudentBusiness])
+
   return (
     <>
       <HeaderCompany />

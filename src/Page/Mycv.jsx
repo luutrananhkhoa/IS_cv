@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState, memo } from 'react'
 import Header from '../Components/Header'
 import avt from '../assets/avt_illu.jpg'
 import { IoMdMail } from 'react-icons/Io'
@@ -8,13 +8,14 @@ import ReactToPrint from 'react-to-print'
 import { Context } from '../Context/Context'
 import _ from 'lodash'
 import { Web3Context } from '../Context/Web3ContextProvider'
+import { Link } from 'react-router-dom'
 
 const ref = React.createRef()
 
 const Mycv = () => {
   const [componentRef, setComponentRef] = useState()
   const { addr, profile, setProfile, skills, setSkills } = useContext(Context)
-  const { contractStudentBusiness } = useContext(Web3Context)
+  const { contractStudentBusiness, address } = useContext(Web3Context)
 
   const setProfileCallback = useCallback(
     (res) => {
@@ -27,31 +28,29 @@ const Mycv = () => {
         ProfessionalTitle: res[3],
       })
     },
-    [addr]
+    [address]
   )
 
-  console.log(skills)
-  console.log(addr)
-
   useEffect(() => {
-    contractStudentBusiness.methods
-      .getStudentSkill(addr)
-      .call()
-      .then((result) => result)
-      .then((res) => {
-        setSkills({ ...res })
-        console.log(res)
-        return
-      })
+    if (contractStudentBusiness) {
+      contractStudentBusiness.methods
+        .getStudentSkill(address)
+        .call()
+        .then((result) => result)
+        .then((res) => {
+          setSkills({ ...res })
+          // console.log(res)
+        })
 
-    contractStudentBusiness.methods
-      .getStudentProfile(addr)
-      .call()
-      .then(function (addres) {
-        setProfileCallback(addres)
-        return
-      })
-  }, [])
+      contractStudentBusiness.methods
+        .getStudentProfile(address)
+        .call()
+        .then(function (success) {
+          setProfileCallback(success)
+          return
+        })
+    }
+  }, [contractStudentBusiness])
 
   return (
     <>
@@ -59,14 +58,21 @@ const Mycv = () => {
       <div className="w-full min-h-screen bg-primary pb-[120px]">
         <div className="flex justify-around items-center mb-3">
           <h1 className="font-bold text-2xl text-white ">My CV</h1>
-          <ReactToPrint
-            content={() => componentRef}
-            trigger={() => (
-              <button className="h-[45px] w-[140px] bg-secondary rounded-[30px] text-white text-xl">
-                Save
+          <div>
+            <ReactToPrint
+              content={() => componentRef}
+              trigger={() => (
+                <button className="py-2 w-[140px] bg-secondary rounded-[30px] text-white text-xl">
+                  Save
+                </button>
+              )}
+            />
+            <Link to="/register">
+              <button className="px-8 py-2 w-[140px] bg-orange-btn rounded-[30px]  ml-4 text-white text-xl">
+                Add skill
               </button>
-            )}
-          />
+            </Link>
+          </div>
         </div>
         <div
           id="savecv"
@@ -116,12 +122,9 @@ const Mycv = () => {
               <h1 className="font-bold text-3xl">SKILLS</h1>
               <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary" />
               <div className="mt-4 w-[85%]">
-                {skills[0]?.map(
-                  (item, index) =>
-                    item && (
-                      <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
-                    )
-                )}
+                {skills[0]?.map((item, index) => {
+                  return item && <Progressbar key={item} title={item} per={skills[1][index]} />
+                })}
               </div>
             </div>
           </div>
@@ -172,4 +175,4 @@ const Mycv = () => {
   )
 }
 
-export default Mycv
+export default memo(Mycv)

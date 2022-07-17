@@ -7,58 +7,46 @@ import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
 
 export default function CompanyDetail() {
-  const [checkCV, setCheckCV] = useState(0)
-  const { contractStudentBusiness } = useContext(Web3Context)
-  const { addr, addressTemp, profileBusiness, addrCompany, posts, setPosts, job, setJob } =
-    useContext(Context)
+  const [openModal, setOpenModal] = useState(false)
+  const { contractStudentBusiness, address } = useContext(Web3Context)
+  const { addressTemp, profileBusiness, posts, setPosts } = useContext(Context)
 
-  const handleApply = (title, desc) => {
-    console.log('Bat dau')
-    const asyncFunc = async () => {
-      setJob({
-        title: title,
-        desc: desc,
-      })
-      console.log('A')
-      contractStudentBusiness.methods.sendCV(addr, addressTemp, title, desc).send({
-        from: addr,
-        gas: 3000000,
-      })
-      console.log('B')
-    }
-    contractStudentBusiness.methods
-      .checkCV(addr, addressTemp, title)
+  const handleApply = async (title, desc) => {
+    await contractStudentBusiness.methods
+      .checkCV(address, addressTemp, title)
       .call()
-      .then((result) => {
+      .then(async (result) => {
         console.log(parseInt(result))
         if (parseInt(result) == 0) {
           console.log('Successfully')
-          asyncFunc()
+
+          await contractStudentBusiness.methods
+            .sendCV(address, addressTemp, title, desc)
+            .send({
+              from: address,
+              gas: 3000000,
+            })
+            .then((success) => {
+              alert('Them thanh cong')
+              setOpenModal(true)
+            })
+            .catch((error) => console.log(error))
         } else {
           console.log('Unsuccessfully')
-          alert('Kỹ năng đã được đăng ký')
+          alert('Da apply')
         }
       })
-    console.log('Ket thúc')
-  }
-  const show = () => {
-    contractStudentBusiness.methods
-      .getListCV(addressTemp)
-      .call()
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err))
+      .catch((error) => console.log('Error: ' + error))
   }
   useEffect(() => {
-    contractStudentBusiness.methods
-      .getRecruit(addressTemp)
-      .call()
-      .then((res) => setPosts(res))
-      .catch((err) => console.log(err))
-  }, [])
-  console.log(addr)
-  console.log(addressTemp)
-  console.log(posts)
-  console.log(job)
+    if (contractStudentBusiness) {
+      contractStudentBusiness.methods
+        .getRecruit(addressTemp)
+        .call()
+        .then((res) => setPosts(res))
+        .catch((err) => console.log(err))
+    }
+  }, [contractStudentBusiness])
   return (
     <>
       <Header />
@@ -77,7 +65,7 @@ export default function CompanyDetail() {
           <div className="mt-6 w-[70%] ml-10">
             {posts[0]?.map(
               (item, index) =>
-                item && (
+                 (
                   <div key={item} className="w-full h-[10rem] mt-6 p-6 bg-[#E7E7E7] rounded-md">
                     <p className="font-[500] text-2xl">{posts?.[1][index]}</p>
                     <div className="flex justify-between">

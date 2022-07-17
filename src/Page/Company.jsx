@@ -6,26 +6,18 @@ import { Web3Context } from '../Context/Web3ContextProvider'
 
 const Company = () => {
   const { contractStudentBusiness } = useContext(Web3Context)
-  const {
-    listCompany,
-    setListCompany,
-    addressTemp,
-    setAddressTemp,
-    profileBusiness,
-    setProfileBusiness,
-  } = useContext(Context)
-  const navigate = useNavigate()
+  const { listCompany, setListCompany, setProfileBusiness, setAddressTemp } = useContext(Context)
   const ref = useRef()
 
-  console.log(addressTemp)
-
   useEffect(() => {
-    contractStudentBusiness.methods
-      .getListBusiness()
-      .call()
-      .then((result) => setListCompany(result))
-  }, [])
-  console.log(listCompany)
+    if (contractStudentBusiness) {
+      contractStudentBusiness.methods
+        .getListBusiness()
+        .call()
+        .then((result) => setListCompany(result))
+        .catch((error) => console.error(error))
+    }
+  }, [contractStudentBusiness])
 
   return (
     <>
@@ -51,6 +43,7 @@ const Company = () => {
             </div>
             {listCompany[0]?.map((item, index) => (
               <Link
+                key={index}
                 to="/companydetail"
                 onClick={() => {
                   setProfileBusiness({
