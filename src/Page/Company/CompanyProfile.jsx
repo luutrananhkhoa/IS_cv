@@ -37,7 +37,7 @@ const CompanyProfile = () => {
         .catch((error) => console.log(error))
     }
   }, [contractStudentBusiness])
-  console.log(profileBusiness)
+  // console.log(profileBusiness)
   return (
     <>
       <HeaderCompany />

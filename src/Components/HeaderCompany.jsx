@@ -4,7 +4,7 @@ import logo1 from '../assets/LogoCV.png'
 import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
 import * as contractConst from '../Api/contractConst'
-import { FaUser } from 'react-icons/Fa'
+import { FaUser } from 'react-icons/fa'
 
 export default function HeaderCompany() {
   const { contractStudentBusiness, web3, setContractStudentBusiness, setAddress } =

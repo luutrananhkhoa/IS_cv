@@ -7,13 +7,9 @@ import ModalSuccess from '@/Components/ModalSuccess'
 import { RingLoader } from 'react-spinners'
 
 export default function Register() {
-  let navigate = useNavigate()
   const [openModal, setOpenModal] = useState(false)
   const { contractStudentBusiness, address } = useContext(Web3Context)
   const [loading, setLoading] = useState(false)
-  console.log(contractStudentBusiness)
-  // console.log(address)
-
   async function addSkill(e) {
     e.preventDefault()
     await contractStudentBusiness.methods
@@ -44,12 +40,6 @@ export default function Register() {
         }
       })
   }
-  // useEffect(() => {
-
-  // }, [])
-
-  // console.log(skills)
-  // console.log(address)
 
   return (
     <div>
@@ -60,7 +50,14 @@ export default function Register() {
         cssOverride={{ position: 'fixed', top: '40%', left: '45%', transform: 'trans' }}
         size={150}
       />
-      {openModal && <ModalSuccess open={openModal} title="add skill" setOpen={setOpenModal} />}
+   
+        <ModalSuccess
+          state={[openModal, setOpenModal]}
+          content="You have successfully added skill"
+          title = "Ok"
+          action={() => {}}
+        />
+    
 
       <div className="min-w-full min-h-screen bg-primary">
         {/* <AiOutlineArrowLeft size={"48px"} color="white" className="ml-[12rem]"  /> */}

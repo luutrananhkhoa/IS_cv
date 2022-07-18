@@ -3,16 +3,18 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import aos from 'aos'
 import { Web3Context } from '../Context/Web3ContextProvider'
 import * as contractConst from '../Api/contractConst'
-// import Web3 from 'web3'
+import Cookies from 'universal-cookie'
 import { Context } from '../Context/Context'
+import Web3 from 'web3'
+import detectEthereumProvider from '@metamask/detect-provider'
+
+const cookie = new Cookies()
 
 export default function ContractMiddleware(props) {
-  const { setWeb3, setContractStudentBusiness, setAddress, contractStudentBusiness } =
+  const { setWeb3, setContractStudentBusiness, setAddress, contractStudentBusiness, address } =
     useContext(Web3Context)
   const { setExistAccount, isLoggedIn } = useContext(Context)
-  const location = useLocation()
   const navigate = useNavigate()
-  //   console.log('location', location)
   const checkProvider = async () => {
     aos.init()
     aos.refresh()
@@ -28,7 +30,7 @@ export default function ContractMiddleware(props) {
         web3.eth
           .getAccounts()
           .then(async (success) => {
-            console.log(success)
+            console.log('success', success.length)
             if (success.length > 0) {
               var myContract = new web3.eth.Contract(
                 contractConst.abiStudentBusiness,
@@ -42,8 +44,8 @@ export default function ContractMiddleware(props) {
                 .call()
                 .then((success) => {
                   console.log('aaa', success)
-                  if (parseInt(success._hex) === 1) setExistAccount(true)
-                  else if (parseInt(success._hex) === 2) setExistAccount(false)
+                  if (success === '1') setExistAccount(true)
+                  else if (success === '2') setExistAccount(false)
                 })
                 .catch((error) => {
                   console.log(error)
@@ -52,6 +54,10 @@ export default function ContractMiddleware(props) {
                 if (isLoggedIn === false) {
                   navigate('/')
                 }
+              }
+            } else {
+              if (props.requestAddress) {
+                navigate('/')
               }
             }
           })
@@ -72,8 +78,24 @@ export default function ContractMiddleware(props) {
   }, [contractStudentBusiness])
   return (
     <>
-      {/* {console.log('request', props.requestLogin)} */}
-      {props.requestLogin ? isLoggedIn && <Outlet></Outlet> : <Outlet></Outlet>}
+      {(() => {
+        if (props.requestAddress) {
+          if (address) return <Outlet></Outlet>
+        } else if (props.requestLogin) {
+          if (isLoggedIn) {
+            return <Outlet></Outlet>
+          }
+        } else {
+          return <Outlet></Outlet>
+        }
+      })()}
+      {/* {props.requestAddress ? (
+        address && <Outlet></Outlet>
+      ) : props.requestLogin ? (
+        isLoggedIn && <Outlet></Outlet>
+      ) : (
+        <Outlet></Outlet>
+      )} */}
     </>
   )
 }

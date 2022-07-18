@@ -8,7 +8,7 @@ import { RingLoader } from 'react-spinners'
 export default function Createcv() {
   let navigate = useNavigate()
 
-  const { contractStudentBusiness, address } = useContext(Web3Context)
+  const { contractStudentBusiness, address, setJwtEmployee } = useContext(Web3Context)
 
   const [checkPofile, setCheckPofile] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -48,6 +48,7 @@ export default function Createcv() {
             })
             .then((success) => {
               console.log(success)
+              setJwtEmployee('0x0')
               navigate('/')
               setIsLoggedIn(true)
             })

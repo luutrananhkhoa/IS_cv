@@ -5,7 +5,7 @@ import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
 import { RingLoader } from 'react-spinners'
 const LoginComany = () => {
-  const { contractStudentBusiness, address } = useContext(Web3Context)
+  const { contractStudentBusiness, address, setJwtCompany } = useContext(Web3Context)
   const [loading, setLoading] = useState(false)
 
   const { setIsLoggedIn } = useContext(Context)
@@ -21,6 +21,7 @@ const LoginComany = () => {
         console.log(parseInt(result))
         if (parseInt(result) == 1) {
           console.log('Successfully')
+          setJwtCompany("0x0")
           setIsLoggedIn(true)
           navigate('/company')
         } else {

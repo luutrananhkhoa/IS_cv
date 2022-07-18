@@ -3,8 +3,9 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import aos from 'aos'
 import { Web3Context } from '../Context/Web3ContextProvider'
 import * as contractConst from '../Api/contractConst'
-// import Web3 from 'web3'
+import Web3 from 'web3'
 import { Context } from '../Context/Context'
+import detectEthereumProvider from '@metamask/detect-provider'
 
 export default function ContractMiddlewareCompany(props) {
   const { setWeb3, setContractStudentBusiness, setAddress, contractStudentBusiness } =
@@ -33,15 +34,12 @@ export default function ContractMiddlewareCompany(props) {
                 contractConst.abiStudentBusiness,
                 contractConst.addressStudentBusiness
               )
-              console.log('address', success[0])
-
               await myContract.methods
                 .checkExistBusiness(success[0])
                 .call()
                 .then((success) => {
-                  console.log('aaa', parseInt(success._hex))
-                  if (parseInt(success._hex) === 1) setExistAccount(true)
-                  else if (parseInt(success._hex) === 2) setExistAccount(false)
+                  if (success === '1') setExistAccount(true)
+                  else if (success === '2') setExistAccount(false)
                 })
                 .catch((error) => {
                   console.log(error)
@@ -52,6 +50,10 @@ export default function ContractMiddlewareCompany(props) {
                 if (isLoggedIn === false) {
                   navigate('/')
                 }
+              }
+            } else {
+              if (props.requestAddress) {
+                navigate('/')
               }
             }
           })
@@ -72,8 +74,17 @@ export default function ContractMiddlewareCompany(props) {
   }, [contractStudentBusiness])
   return (
     <>
-      {/* {console.log('request', props.requestLogin)} */}
-      {props.requestLogin ? isLoggedIn && <Outlet></Outlet> : <Outlet></Outlet>}
+      {(() => {
+        if (props.requestAddress) {
+          if (address) return <Outlet></Outlet>
+        } else if (props.requestLogin) {
+          if (isLoggedIn) {
+            return <Outlet></Outlet>
+          }
+        } else {
+          return <Outlet></Outlet>
+        }
+      })()}
     </>
   )
 }

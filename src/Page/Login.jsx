@@ -7,7 +7,7 @@ import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
 
 const Login = () => {
-  const { contractStudentBusiness, address } = useContext(Web3Context)
+  const { contractStudentBusiness, address, setJwtEmployee } = useContext(Web3Context)
 
   const { addr, setAddr, setExistAccount, setIsLoggedIn } = useContext(Context)
   const [diaglog, setDialog] = useState(false)
@@ -25,6 +25,7 @@ const Login = () => {
         console.log(parseInt(result))
         if (parseInt(result) == 1) {
           console.log('Successfully')
+          setJwtEmployee("0x0");
           setIsLoggedIn(true)
           navigate('/')
           setExistAccount(true)

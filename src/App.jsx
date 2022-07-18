@@ -21,13 +21,9 @@ import CompanyProfile from './Page/Company/CompanyProfile'
 import Post from './Page/Company/Post'
 import ManagePost from './Page/Company/ManagePost'
 import HomeCompany from './Page/HomeCompany'
-import 'https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js'
-// import process from 'process'
-// import { Buffer } from 'buffer'
-// import EventEmitter from 'events'
+// import 'https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js'
 import ContractMiddleware from '@/Components/ContractMiddleware'
 import ContractMiddlewareCompany from '@/Components/ContractMiddlewareCompany'
-import { Context } from '@/Context/Context'
 import Test from '@/Page/Test'
 // window.Buffer = Buffer
 // window.process = process
@@ -37,32 +33,55 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<ContractMiddleware></ContractMiddleware>}>
-          <Route path="/" element={<Home />} />
-          <Route path="/student" element={<Student />} />
-          <Route path="/listcompany" element={<Company />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/createcv" element={<Createcv />} />
-          <Route path="/companydetail" element={<CompanyDetail />} />
-          <Route path="/modalsuccess" element={<ModalSuccess />} />
-          <Route path="/evaluate" element={<Evaluate />} />
-        </Route>
-        <Route path="/" element={<ContractMiddleware requestLogin={true}></ContractMiddleware>}>
-          <Route path="/test" element={<Test />} />
-          <Route path="/mycv" element={<Mycv />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
-        </Route>
+        <Route path="/">
+          <Route path="/" element={<ContractMiddleware></ContractMiddleware>}>
+            <Route path="" element={<Home />} />
+            <Route path="student" element={<Student />} />
+            <Route path="listcompany" element={<Company />} />
 
-        <Route path="/company" element={<ContractMiddlewareCompany></ContractMiddlewareCompany>}>
-          <Route path="/company" element={<HomeCompany />} />
-          <Route path="/company/login" element={<LoginCompany />} />
-          <Route path="/company/manage" element={<CompanyManage />} />
-          <Route path="/company/employee" element={<Employee />} />
-          <Route path="/company/managepost" element={<ManagePost />} />
-          <Route path="/company/employeedetail" element={<EmployeeDetail />} />
-          <Route path="/company/profile" element={<CompanyProfile />} />
-          <Route path="/company/post" element={<Post />} />
+            <Route path="companydetail" element={<CompanyDetail />} />
+            <Route path="modalsuccess" element={<ModalSuccess />} />
+            <Route path="evaluate" element={<Evaluate />} />
+            <Route path="test" element={<Test />} />
+          </Route>
+
+          <Route
+            path="/"
+            element={<ContractMiddleware requestAddress={true}> </ContractMiddleware>}
+          >
+            <Route path="createcv" element={<Createcv />} />
+            <Route path="login" element={<Login />} />
+          </Route>
+
+          <Route path="/" element={<ContractMiddleware requestLogin={true}></ContractMiddleware>}>
+            <Route path="mycv" element={<Mycv />} />
+            <Route path="register" element={<Register />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+
+          <Route path="/company" element={<ContractMiddlewareCompany></ContractMiddlewareCompany>}>
+            <Route path="" element={<HomeCompany />} />
+          </Route>
+          <Route
+            path="/company"
+            element={<ContractMiddlewareCompany requestLogin={true}></ContractMiddlewareCompany>}
+          >
+            <Route path="employee" element={<Employee />} />
+            <Route path="managepost" element={<ManagePost />} />
+            <Route path="employeedetail" element={<EmployeeDetail />} />
+            <Route path="profile" element={<CompanyProfile />} />
+            <Route path="post" element={<Post />} />
+          </Route>
+
+          <Route
+            path="/company"
+            element={<ContractMiddlewareCompany requestAddress={true}> </ContractMiddlewareCompany>}
+          >
+            <Route path="login" element={<LoginCompany />} />
+            <Route path="manage" element={<CompanyManage />} />
+          </Route>
+
+          <Route path="*" element={<div>404 Page Not Found</div>} />
         </Route>
       </Routes>
     </div>
