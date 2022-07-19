@@ -6,7 +6,7 @@ import Cookies from 'universal-cookie'
 import { Context } from '../Context/Context'
 import Web3 from 'web3'
 import detectEthereumProvider from '@metamask/detect-provider'
-import Header from '@components/Header'
+import Loading from '@components/Loading'
 
 const cookie = new Cookies()
 
@@ -14,12 +14,11 @@ export default function ContractMiddleware(props) {
   const {
     setContractStudentBusiness,
     setAddress,
-    contractStudentBusiness,
-    address,
     setJwtEmployee,
     getJwtEmployee,
     removeJwtEmployee,
     setWeb3,
+    address,
   } = useContext(Web3Context)
   const {
     setExistAccount,
@@ -84,18 +83,25 @@ export default function ContractMiddleware(props) {
     <>
       {(() => {
         let isNavigated = <Navigate to="/" replace />
-        if (props.requestAddress && completeCheckMiddleware) {
-          if (!address) return isNavigated
-        } else if (props.requestAccount && completeCheckMiddleware) {
-          if (!existAccount) {
-            return isNavigated
-          }
-        } else if (props.requestLogin && completeCheckMiddleware) {
-          if (!isLoggedIn) {
-            return isNavigated
-          }
-        }
-        return <Outlet></Outlet>
+        let isLoading = <Loading state={true}></Loading>
+        let isStayed = <Outlet></Outlet>
+
+        if (props.requestAddress) {
+          if (completeCheckMiddleware) {
+            if (address) return isStayed
+            else return isNavigated
+          } else return isLoading
+        } else if (props.requestAccount) {
+          if (completeCheckMiddleware) {
+            if (existAccount) return isStayed
+            else return isNavigated
+          } else return isLoading
+        } else if (props.requestLogin) {
+          if (completeCheckMiddleware) {
+            if (isLoggedIn) return isStayed
+            else return isNavigated
+          } else return isLoading
+        } else return isStayed
       })()}
     </>
   )
