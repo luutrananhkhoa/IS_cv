@@ -1,5 +1,4 @@
 import react, { useContext, useEffect } from 'react'
-import HeaderCompany from './../Components/HeaderCompany'
 import { useNavigate } from 'react-router-dom'
 import { Context } from '../Context/Context'
 import StudentApply from './StudentApply'
@@ -38,7 +37,6 @@ const Employee = () => {
 
   return (
     <>
-      <HeaderCompany />
       <div className="min-h-screen min-w-full bg-primary pb-[8rem]">
         <h1 className="text-center text-5xl pt-10 font-semibold text-white">EMPLOYEE</h1>
         <div className="w-[70%] h-[100%] mx-auto pt-[4rem] flex flex-col justify-center pb-[4rem]">

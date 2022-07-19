@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react'
-import Header from '../Components/Header'
 import { Context } from '../Context/Context'
 import { useNavigate } from 'react-router-dom'
 import { Web3Context } from '../Context/Web3ContextProvider'
@@ -43,7 +42,6 @@ export default function Register() {
 
   return (
     <div>
-      <Header />
       <RingLoader
         color={'#133ceb'}
         loading={loading}

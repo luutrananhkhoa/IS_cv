@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useEffect, useState, memo } from 'react'
-import Header from '../Components/Header'
 import avt from '../assets/avt_illu.jpg'
 import { IoMdMail } from 'react-icons/io'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/bs'
@@ -54,7 +53,6 @@ const Mycv = () => {
 
   return (
     <>
-      <Header />
       <div className="w-full min-h-screen bg-primary pb-[120px]">
         <div className="flex justify-around items-center mb-3">
           <h1 className="font-bold text-2xl text-white ">My CV</h1>

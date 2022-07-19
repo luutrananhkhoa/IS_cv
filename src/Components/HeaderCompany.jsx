@@ -7,27 +7,23 @@ import * as contractConst from '../Api/contractConst'
 import { FaUser } from 'react-icons/fa'
 
 export default function HeaderCompany() {
-  const { contractStudentBusiness, web3, setContractStudentBusiness, setAddress } =
-    useContext(Web3Context)
+  const { contractStudentBusiness, setAddress, removeJwtBusiness } = useContext(Web3Context)
   const { existAccount, setExistAccount, isLoggedIn } = useContext(Context)
   async function connectMetamask() {
     const accounts = await ethereum.request({
       method: 'eth_requestAccounts',
     })
-    console.log(accounts[0])
-    setAddress(accounts[0])
-    var myContract = new web3.eth.Contract(
-      contractConst.abiStudentBusiness,
-      contractConst.addressStudentBusiness
-    )
+    let addressTemp = accounts[0]
+    setAddress(addressTemp)
 
-    setContractStudentBusiness(myContract)
-    myContract.methods
-      .checkExistStudent(accounts[0])
+    await contractStudentBusiness.methods
+      .checkExistBusiness(addressTemp)
       .call()
       .then((success) => {
-        if (success) setExistAccount(true)
-        else setExistAccount(false)
+        if (success === '1') {
+          setExistAccount(true)
+          removeJwtBusiness()
+        }
       })
       .catch((error) => {
         console.log(error)
@@ -49,7 +45,7 @@ export default function HeaderCompany() {
             <Link to="/company/employee" className="px-8">
               EMPLOYEE
             </Link>
-            {existAccount && (
+            {isLoggedIn && (
               <Link to="/company/managepost" className="px-8 ">
                 MY POST
               </Link>

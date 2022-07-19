@@ -1,15 +1,12 @@
 import React, { useEffect, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import cv from '../assets/Group_27.png'
-import Header from '../Components/Header'
-
 
 const Home = () => {
   // let navigate = useNavigate()
 
   return (
     <>
-      <Header />
       <div className="min-h-screen min-w-full overflow-hidden">
         <div className="h-screen min-h-full bg-primary py-[6rem] flex justify-between px-[174px]">
           <div className="w-6/12">

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import cv from '../assets/Group_27.png'
-import HeaderCompany from './../Components/HeaderCompany'
 import { Context } from '../Context/Context'
 
 const HomeCompany = () => {
@@ -13,7 +12,6 @@ const HomeCompany = () => {
   console.log(statusB)
   return (
     <>
-      <HeaderCompany />
       <div className="min-h-screen min-w-full overflow-hidden">
         <div className="h-screen min-h-full bg-primary py-[6rem] flex justify-between px-[174px]">
           <div className="w-6/12">

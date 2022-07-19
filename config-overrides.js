@@ -15,9 +15,13 @@ module.exports = function override(config, env) {
   })
   config = rewireAliases.aliasesOptions({
     '@': path.resolve(__dirname, 'src'),
-    // '@assets': path.resolve(__dirname, 'src/@core/assets'),
-    // '@components': path.resolve(__dirname, 'src/@core/components'),
-    // '@layouts': path.resolve(__dirname, 'src/@core/layouts'),
+    '@assets': path.resolve(__dirname, 'src/assets'),
+    '@components': path.resolve(__dirname, 'src/Components'),
+    '@page': path.resolve(__dirname, 'src/Page'),
+    '@context': path.resolve(__dirname, 'src/Context'),
+    '@api': path.resolve(__dirname, 'src/Api'),
+    '@middleware': path.resolve(__dirname, 'src/Middleware'),
+    '@layout': path.resolve(__dirname, 'src/Layout'),
     // '@store': path.resolve(__dirname, 'src/redux'),
     // '@styles': path.resolve(__dirname, 'src/@core/scss'),
     // '@configs': path.resolve(__dirname, 'src/configs'),

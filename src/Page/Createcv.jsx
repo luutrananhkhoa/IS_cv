@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Header from '../Components/Header'
 import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
 import { RingLoader } from 'react-spinners'
@@ -76,7 +75,6 @@ export default function Createcv() {
   // console.log(address)
   return (
     <>
-      <Header />
       <RingLoader
         color={'#133ceb'}
         loading={loading}

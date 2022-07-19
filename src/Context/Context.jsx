@@ -3,6 +3,7 @@ import { createContext, useState } from 'react'
 export const Context = createContext()
 
 const ContextProvider = ({ children }) => {
+  const [completeCheckMiddleware, setCompleteCheckMiddleware] = useState(false)
   const [profile, setProfile] = useState({
     Birthday: '',
     Email: '',
@@ -64,6 +65,8 @@ const ContextProvider = ({ children }) => {
     setJobTitle,
     isLoggedIn,
     setIsLoggedIn,
+    completeCheckMiddleware,
+    setCompleteCheckMiddleware,
   }
 
   return <Context.Provider value={data}>{children}</Context.Provider>

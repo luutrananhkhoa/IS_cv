@@ -1,6 +1,6 @@
 import GlobalPolyFill from '@esbuild-plugins/node-globals-polyfill'
 // import { svelte } from '@sveltejs/vite-plugin-svelte';
-// import { resolve } from "path";
+const path = require('path')
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 // import { resolve } from 'path'
@@ -10,7 +10,7 @@ export default defineConfig({
   optimizeDeps: {
     esbuildOptions: {
       define: {
-        global: 'globalThis',   
+        global: 'globalThis',
       },
       plugins: [
         GlobalPolyFill({
@@ -26,7 +26,14 @@ export default defineConfig({
       stream: 'stream-browserify',
       zlib: 'browserify-zlib',
       util: 'util',
-      '@': '/src',
+      '@': path.resolve(__dirname, 'src'),
+      '@assets': path.resolve(__dirname, 'src/assets'),
+      '@components': path.resolve(__dirname, 'src/Components'),
+      '@page': path.resolve(__dirname, 'src/Page'),
+      '@context': path.resolve(__dirname, 'src/Context'),
+      '@api': path.resolve(__dirname, 'src/Api'),
+      '@middleware': path.resolve(__dirname, 'src/Middleware'),
+      '@layout': path.resolve(__dirname, 'src/Layout'),
     },
   },
   base: './',

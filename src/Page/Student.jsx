@@ -1,6 +1,4 @@
 import React from 'react'
-import Header from '@/Components/Header'
-// import Header from '../Components/Header'
 import { useNavigate } from 'react-router-dom'
 
 const Student = () => {
@@ -24,7 +22,6 @@ const Student = () => {
   ]
   return (
     <>
-      <Header />
       <div className="min-w-full min-h-screen bg-primary">
         <div className="w-[75%] flex flex-col mx-auto">
           <div className="pt-10">

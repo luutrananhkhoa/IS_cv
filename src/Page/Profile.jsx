@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import Header from '../Components/Header'
 import avt from '../assets/avt_illu.jpg'
 import Progressbar from './../Components/Progressbar'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/bs'
@@ -24,7 +23,7 @@ const Profile = () => {
       contractStudentBusiness.methods
         .getStudentSkill(address)
         .call()
-        .then((result) => setSkills({ ...result }))
+        .then((success) => setSkills({ success }))
         .catch((error) => console.error(error))
 
       contractStudentBusiness.methods
@@ -48,7 +47,6 @@ const Profile = () => {
 
   return (
     <>
-      <Header />
       <div className="min-h-screen min-w-full bg-primary pt-[3rem] pb-[8rem]">
         {/* <ModalWarning state={[openModalWarning, setOpenModalWarning]} /> */}
         <div className="w-[60%] h-[100%] mx-auto pt-[4rem] bg-white rounded-md flex flex-col pb-10">

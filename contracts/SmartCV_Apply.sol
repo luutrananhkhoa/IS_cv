@@ -132,6 +132,8 @@ contract ApplyCV {
     recruits.push(Recruit(_businessOwner, _jobTitle, _jobDescription));
   }
 
+ 
+
   // Chức năng lấy thông tin tuyển dụng
   function getRecruit(address _businessOwner)
     public
@@ -140,6 +142,7 @@ contract ApplyCV {
   {
     string[] memory jobTitles = new string[](recruits.length);
     string[] memory jobDescriptions = new string[](recruits.length);
+
     for (uint256 i = 0; i < recruits.length; i++) {
       if (recruits[i].businessOwner == _businessOwner) {
         jobTitles[i] = recruits[i].jobTitle;

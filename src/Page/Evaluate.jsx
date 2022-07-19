@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import avt from '../assets/avt.jpg'
-import HeaderCompany from './../Components/HeaderCompany'
 import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
 
@@ -24,7 +23,6 @@ const Evaluate = () => {
   }
   return (
     <>
-      <HeaderCompany />
       <div className="min-w-full min-h-screen bg-primary pt-4 pb-4 relative">
         <div className="w-[60%] h-[80%] mx-auto p-[2rem] mt-10 bg-white rounded-[15px]">
           <h1 className="text-center text-3xl font-bold">ĐÁNH GIÁ QUÁ TRÌNH LÀM VIỆC</h1>

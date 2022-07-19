@@ -2,13 +2,10 @@ import React, { useContext } from 'react'
 import Header from './Header';
 import avt from '../assets/avt_illu.jpg';
 import { useNavigate } from 'react-router-dom';
-import { BsCheck2Circle } from 'react-icons/Bs';
-import { myContract } from './../Api/Const'
+import { BsCheck2Circle } from 'react-icons/bs';
 import { Context } from '../Context/Context';
 
 export default function ModalEvaluate(props) {
-  var web3 = new Web3(Web3.providers.HttpProvider('http://127.0.0.1:7545'))
-  web3.eth.getAccounts().then()
 
   const {open,setOpen, title,address}=props;
 

@@ -35,13 +35,13 @@ function ModalWarning(props) {
             </div>
             <div className="flex flex-col items-center justify-center mt-[2rem]">
               <h1 className="text-5xl mb-[1rem]">Warning!</h1>
-              <p className="w-[70%] text-center">{props.content}</p>
+              <p className="w-[70%] text-center">{props.content ? props.content : ''}</p>
             </div>
             <div className="flex justify-center mt-10 bottom-0">
               <button
                 className="w-[50%] h-[3rem] flex justify-center items-center text-xl text-white bg-orange-btn all ease-in"
                 onClick={() => {
-                  props.action()
+                  props.action && props.action()
                   setOpenModal((e) => !e)
                 }}
               >

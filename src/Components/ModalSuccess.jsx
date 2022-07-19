@@ -37,11 +37,11 @@ function ModalSuccess(props) {
             </div>
             <div className="flex flex-col items-center justify-center mt-[2rem]">
               <h1 className="text-5xl mb-[1rem]">Success</h1>
-              <p>{props.content}</p>
+              <p>{props.content ? props.content : ''}</p>
               <button
                 className="mt-8 px-6 py-3 text-white bg-orange-btn rounded-[2rem]"
                 onClick={() => {
-                  props.action()
+                  props.action && props.action()
                   setOpenModal((e) => !e)
                 }}
               >
