@@ -9,7 +9,7 @@ import { FaUser } from 'react-icons/fa'
 export default function HeaderCompany() {
   const { contractStudentBusiness, web3, setContractStudentBusiness, setAddress } =
     useContext(Web3Context)
-  const { existAccount, setexistAccount, isLoggedIn } = useContext(Context)
+  const { existAccount, setExistAccount, isLoggedIn } = useContext(Context)
   async function connectMetamask() {
     const accounts = await ethereum.request({
       method: 'eth_requestAccounts',
@@ -26,8 +26,8 @@ export default function HeaderCompany() {
       .checkExistStudent(accounts[0])
       .call()
       .then((success) => {
-        if (success) setexistAccount(true)
-        else setexistAccount(false)
+        if (success) setExistAccount(true)
+        else setExistAccount(false)
       })
       .catch((error) => {
         console.log(error)

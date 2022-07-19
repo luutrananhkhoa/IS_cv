@@ -193,7 +193,7 @@ export default function Createcv() {
                   required
                   className="h-10 w-[20rem] p-4 rounded-[5px] outline-none"
                   placeholder="address owner"
-                />
+                ></input>
               </div>
               <div className="mt-6 ml-[4rem]">
                 <label name="password" className="text-white">

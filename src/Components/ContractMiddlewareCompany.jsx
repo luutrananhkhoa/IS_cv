@@ -8,7 +8,7 @@ import { Context } from '../Context/Context'
 import detectEthereumProvider from '@metamask/detect-provider'
 
 export default function ContractMiddlewareCompany(props) {
-  const { setWeb3, setContractStudentBusiness, setAddress, contractStudentBusiness } =
+  const { setWeb3, setContractStudentBusiness, setAddress, contractStudentBusiness, address } =
     useContext(Web3Context)
   const { setExistAccount, isLoggedIn } = useContext(Context)
   const navigate = useNavigate()
