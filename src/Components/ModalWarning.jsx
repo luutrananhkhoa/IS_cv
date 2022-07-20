@@ -16,7 +16,7 @@ function ModalWarning(props) {
       {openModal && (
         <>
           <div
-            className="w-[100vw] h-[100vh] top-0 fixed bg-slate-700 z-[8] opacity-60"
+            className="fixed top-0 left-0 right-0 w-[100vw] h-[100vh] bg-slate-700 z-[7] opacity-60"
             onClick={() => {
               setOpenModal((e) => !e)
             }}

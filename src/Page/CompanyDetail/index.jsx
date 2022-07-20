@@ -1,60 +1,25 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { BsFacebook, BsLinkedin } from 'react-icons/bs'
 import { ImEarth } from 'react-icons/im'
-import { Web3Context } from '../Context/Web3ContextProvider'
+import { Web3Context } from '../../Context/Web3ContextProvider'
 import { useSearchParams } from 'react-router-dom'
 import Web3 from 'web3'
 import ModalWarning from '@/Components/ModalWarning'
-import ModalSuccess from '@/Components/ModalSuccess'
-import Loading from '@/Components/Loading'
+import Recruit from './Recruit'
 
-export default function CompanyDetail() {
+export default function Index() {
   const { contractStudentBusiness, address } = useContext(Web3Context)
   const [posts, setPosts] = useState()
   const [addressError, setAddressError] = useState()
   const [searchParams] = useSearchParams()
   const [businessProfile, setBusinessProfile] = useState()
-  const [openLoading, setOpenLoading] = useState(false)
-  const [isAppliedBefore, setIsAppliedBefore] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-  const [requestPayment, setRequestPayment] = useState(false)
   const addressBusiness = searchParams.get('address')
 
-  const handleApply = async (title, desc) => {
-    setOpenLoading(true)
-    await contractStudentBusiness.methods
-      .checkCV(address, addressBusiness, title)
-      .call()
-      .then(async (result) => {
-        if (parseInt(result) == 0) {
-          await contractStudentBusiness.methods
-            .sendCV(address, addressBusiness, title, desc)
-            .send({
-              from: address,
-              gas: 3000000,
-            })
-            .then((success) => {
-              setIsSuccess(true)
-            })
-            .catch((error) => {
-              if (error.code === 4001) {
-                setRequestPayment(true)
-              }
-              console.log(error)
-            })
-        } else {
-          setIsAppliedBefore(true)
-        }
-      })
-      .catch((error) => console.log(error))
-    setOpenLoading(false)
-  }
   useEffect(() => {
     ;(async () => {
       if (contractStudentBusiness) {
         if (!new Web3().utils.isAddress(addressBusiness)) {
           setAddressError(true)
-          console.log('aa')
           return
         }
         // await contractStudentBusiness.methods
@@ -96,22 +61,6 @@ export default function CompanyDetail() {
         content="Address Error"
         // action={() => navigation('/')}
       />
-      <ModalWarning
-        state={[isAppliedBefore, setIsAppliedBefore]}
-        content="Is applied before"
-        // action={() => navigation('/')}
-      />
-      <ModalWarning
-        state={[requestPayment, setRequestPayment]}
-        content="Is applied before"
-        // action={() => navigation('/')}
-      />
-      <ModalSuccess
-        state={[isSuccess, setIsSuccess]}
-        content="Is applied before"
-        // action={() => navigation('/')}
-      />
-      <Loading state={openLoading}></Loading>
       <div className="min-w-full min-h-screen bg-primary pt-4 pb-10 relative">
         {/* <ModalSuccess open={openModal} setOpen={setOpenModal}/> */}
         <div className="w-[70%] h-[70%] mx-auto p-[2rem] mt-10 bg-white rounded-[1rem]">
@@ -125,20 +74,19 @@ export default function CompanyDetail() {
           </div>
           <p className="mt-10 text-2xl ml-6 font-bold">Jobs</p>
           <div className="mt-6 w-[70%] ml-10">
+            {/* {console.log(posts)}
+            {console.log(posts[0])}
+            {console.log(posts[1])} */}
             {posts &&
               posts[0]?.map((item, index) => (
-                <div key={index} className="w-full h-[10rem] mt-6 p-6 bg-[#E7E7E7] rounded-md">
-                  <p className="font-[500] text-2xl">{posts?.[1][index]}</p>
-                  <div className="flex justify-between">
-                    <div className="flex justify-between mt-8">{posts?.[0][index]}</div>
-                    <button
-                      className=" w-[6rem] h-[2.5rem] mt-8  text-[1rem] text-white font-semibd text-center bg-orange-btn rounded-[2rem]"
-                      onClick={() => handleApply(posts?.[1][index], posts?.[0][index])}
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </div>
+                <Recruit
+                  key={index}
+                  title={posts[1][index]}
+                  content={posts[0][index]}
+                  address={address}
+                  addressBusiness={addressBusiness}
+                  contractStudentBusiness={contractStudentBusiness}
+                ></Recruit>
               ))}
           </div>
           <div className="mt-8 ml-6">
