@@ -1,18 +1,20 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import avt from '@asset/avt_illu.jpg'
-import Progressbar from '../Component/Progressbar'
+import Progressbar from '../../Component/Progressbar'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/bs'
 import { useNavigate, Link } from 'react-router-dom'
-import ModalWarning from '../Component/ModalWarning'
-import { Context } from '../Context/Context'
-import { Web3Context } from '../Context/Web3ContextProvider'
+import ModalWarning from '../../Component/ModalWarning'
+import { Context } from '../../Context/Context'
+import { Web3Context } from '../../Context/Web3ContextProvider'
+import ChangeAvatar from './ChangeAvatar'
 
-const Profile = () => {
+const Index = () => {
   let navigate = useNavigate()
   const { setIsLoggedIn } = useContext(Context)
   const { contractStudentBusiness, address, removeJwtEmployee } = useContext(Web3Context)
   const [skills, setSkills] = useState()
   const [profile, setProfile] = useState()
+  const [changeAvatar, setChangeAvatar] = useState()
 
   function HandleClick() {
     removeJwtEmployee()
@@ -51,6 +53,7 @@ const Profile = () => {
 
   return (
     <>
+      <ChangeAvatar state={[changeAvatar, setChangeAvatar]}></ChangeAvatar>
       <div className="min-h-screen min-w-full bg-primary pt-[3rem] pb-[8rem]">
         {/* <ModalWarning state={[openModalWarning, setOpenModalWarning]} /> */}
         <div className="w-[70%] h-[100%] mx-auto pt-[4rem] bg-white rounded-md flex flex-col pb-10">
@@ -64,7 +67,12 @@ const Profile = () => {
               <div className="flex flex-col">
                 <h1 className="ml-6 text-[2rem] font-bold">{profile?.Name}</h1>
                 <h1 className="ml-6 text-[1.5rem] text-gray-600">{profile?.ProfessionalTitle}</h1>
-                <button className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-md">Change avatar</button>
+                <button
+                  className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-md"
+                  onClick={() => setChangeAvatar(true)}
+                >
+                  Change avatar
+                </button>
               </div>
             </div>
 
@@ -134,4 +142,4 @@ const Profile = () => {
     </>
   )
 }
-export default Profile
+export default Index

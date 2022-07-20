@@ -3,10 +3,10 @@ import { AiOutlineArrowLeft } from 'react-icons/ai'
 import cv from '@asset/Group_27.png'
 import logo1 from '@asset/LogoCV.png'
 import { useNavigate, Link } from 'react-router-dom'
-import { Context } from '../Context/Context'
-import { Web3Context } from '../Context/Web3ContextProvider'
+import { Context } from '../../Context/Context'
+import { Web3Context } from '../../Context/Web3ContextProvider'
 
-const Login = () => {
+const Index = () => {
   const { contractStudentBusiness, address, setJwtEmployee } = useContext(Web3Context)
 
   const { setExistAccount, setIsLoggedIn } = useContext(Context)
@@ -119,4 +119,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Index

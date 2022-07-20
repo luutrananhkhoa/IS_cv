@@ -2,15 +2,15 @@ import React, { useCallback, useContext, useEffect, useState, memo, useRef } fro
 import avt from '@asset/avt_illu.jpg'
 import { IoMdMail } from 'react-icons/io'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/bs'
-import Progressbar from '../Component/Progressbar'
+import Progressbar from '../../Component/Progressbar'
 import ReactToPrint from 'react-to-print'
 import _ from 'lodash'
-import { Web3Context } from '../Context/Web3ContextProvider'
+import { Web3Context } from '../../Context/Web3ContextProvider'
 import { useSearchParams } from 'react-router-dom'
 import ModalWarning from '@/Component/ModalWarning'
 import Web3 from 'web3'
 
-const Mycv = () => {
+const Index = () => {
   const componentRef = useRef()
   const [profile, setProfile] = useState()
   const [skills, setSkills] = useState()
@@ -176,4 +176,4 @@ const Mycv = () => {
   )
 }
 
-export default memo(Mycv)
+export default memo(Index)

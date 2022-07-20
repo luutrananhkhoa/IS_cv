@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Web3Context } from '../Context/Web3ContextProvider'
+import { Web3Context } from '../../Context/Web3ContextProvider'
 import ModalSuccess from '@component/ModalSuccess'
 import { RingLoader } from 'react-spinners'
 
-export default function Register() {
+export default function Index() {
   const [openModal, setOpenModal] = useState(false)
   const { contractStudentBusiness, address } = useContext(Web3Context)
   const [loading, setLoading] = useState(false)

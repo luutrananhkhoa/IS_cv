@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import cv from '@asset/Group_27.png'
 
-const Home = () => {
+const Index = () => {
   // let navigate = useNavigate()
 
   return (
@@ -39,4 +39,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Index

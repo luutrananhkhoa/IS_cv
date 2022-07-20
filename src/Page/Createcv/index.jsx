@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Context } from '../Context/Context'
-import { Web3Context } from '../Context/Web3ContextProvider'
+import { Context } from '../../Context/Context'
+import { Web3Context } from '../../Context/Web3ContextProvider'
 import { RingLoader } from 'react-spinners'
 
-export default function Createcv() {
+export default function Index() {
   let navigate = useNavigate()
 
   const { contractStudentBusiness, address, setJwtEmployee } = useContext(Web3Context)

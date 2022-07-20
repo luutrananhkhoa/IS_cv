@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Student = () => {
+const Index = () => {
   let navigate = useNavigate()
   function CompanyOnClick() {
     navigate('/CompanyDetail')
@@ -61,4 +61,4 @@ const Student = () => {
   )
 }
 
-export default Student
+export default Index

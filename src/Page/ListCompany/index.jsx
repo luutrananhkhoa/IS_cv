@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Web3Context } from '../Context/Web3ContextProvider'
+import { Web3Context } from '../../Context/Web3ContextProvider'
 
-const ListCompany = () => {
+const Index = () => {
   const { contractStudentBusiness } = useContext(Web3Context)
 
   const [listCompany, setListCompany] = useState()
@@ -70,4 +70,4 @@ const ListCompany = () => {
   )
 }
 
-export default ListCompany
+export default Index

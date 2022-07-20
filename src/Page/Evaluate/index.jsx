@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import avt from '@asset/avt.jpg'
-import { Context } from '../Context/Context'
-import { Web3Context } from '../Context/Web3ContextProvider'
+import { Context } from '../../Context/Context'
+import { Web3Context } from '../../Context/Web3ContextProvider'
 
-const Evaluate = () => {
+const Index = () => {
   const { addr, addressTemp, addrCompany, listStudent, setListStudent, setSkills } =
     useContext(Context)
   const { contractStudentBusiness } = useContext(Web3Context)
@@ -68,4 +68,4 @@ const Evaluate = () => {
   )
 }
 
-export default Evaluate
+export default Index

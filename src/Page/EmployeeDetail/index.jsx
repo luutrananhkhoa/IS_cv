@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import avt from '@asset/avt.jpg'
-import { Context } from '../Context/Context'
+import { Context } from '../../Context/Context'
 
-const EmployeeDetail = () => {
+const Index = () => {
   const { addr, addressTemp, addrCompany, listStudent, setListStudent, setSkills } =
     useContext(Context)
 
@@ -64,4 +64,4 @@ const EmployeeDetail = () => {
   )
 }
 
-export default EmployeeDetail
+export default Index

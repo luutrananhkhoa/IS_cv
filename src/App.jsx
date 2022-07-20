@@ -12,12 +12,12 @@ import Register from './Page/Register'
 import Createcv from './Page/Createcv'
 import CompanyDetail from './Page/CompanyDetail'
 import Profile from './Page/Profile'
-import CompanySignup from './Page/Company/CompanySignup'
-import CompanyEmployee from './Page/Company/CompanyEmployee'
+import SignupCompany from './Page/Company/SignupCompany'
+import EmployeeCompany from './Page/Company/EmployeeCompany'
 import EmployeeDetail from './Page/EmployeeDetail'
 import Evaluate from './Page/Evaluate'
-import CompanyProfile from './Page/Company/CompanyProfile'
-import Post from './Page/Company/Post'
+import ProfileCompany from './Page/Company/ProfileCompany'
+import PostCompany from './Page/Company/PostCompany'
 import ManagePost from './Page/Company/ManagePost'
 import HomeCompany from '@page/Company/HomeCompany'
 import aos from 'aos'
@@ -42,8 +42,10 @@ function App() {
                 <Route path="listcompany" element={<Company />} />
                 <Route path="companydetail" element={<CompanyDetail />} />
                 <Route path="evaluate" element={<Evaluate />} />
-                <Route path="mycv" element={<Mycv />} />
                 <Route path="test" element={<Test />} />
+              </Route>
+              <Route path="">
+                <Route path="mycv" element={<Mycv />} />
               </Route>
             </Route>
             <Route
@@ -78,11 +80,11 @@ function App() {
               element={<ContractMiddlewareCompany requestLogin={true}></ContractMiddlewareCompany>}
             >
               <Route path="" element={<LayoutHeaderCompany></LayoutHeaderCompany>}>
-                <Route path="employee" element={<CompanyEmployee />} />
+                <Route path="employee" element={<EmployeeCompany />} />
                 <Route path="managepost" element={<ManagePost />} />
                 <Route path="employeedetail" element={<EmployeeDetail />} />
-                <Route path="profile" element={<CompanyProfile />} />
-                <Route path="post" element={<Post />} />
+                <Route path="profile" element={<ProfileCompany />} />
+                <Route path="post" element={<PostCompany />} />
               </Route>
             </Route>
             <Route
@@ -92,7 +94,7 @@ function App() {
               }
             >
               <Route path="" element={<LayoutHeaderCompany></LayoutHeaderCompany>}>
-                <Route path="signup" element={<CompanySignup />} />
+                <Route path="signup" element={<SignupCompany />} />
               </Route>
             </Route>
 
