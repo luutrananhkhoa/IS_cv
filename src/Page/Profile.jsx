@@ -1,16 +1,18 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import avt from '../assets/avt_illu.jpg'
-import Progressbar from './../Components/Progressbar'
+import avt from '@asset/avt_illu.jpg'
+import Progressbar from '../Component/Progressbar'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/bs'
-import { useNavigate } from 'react-router-dom'
-import ModalWarning from './../Components/ModalWarning'
+import { useNavigate, Link } from 'react-router-dom'
+import ModalWarning from '../Component/ModalWarning'
 import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
 
 const Profile = () => {
   let navigate = useNavigate()
-  const { profile, setProfile, skills, setSkills, setIsLoggedIn } = useContext(Context)
+  const { setIsLoggedIn } = useContext(Context)
   const { contractStudentBusiness, address, removeJwtEmployee } = useContext(Web3Context)
+  const [skills, setSkills] = useState()
+  const [profile, setProfile] = useState()
 
   function HandleClick() {
     removeJwtEmployee()
@@ -23,7 +25,9 @@ const Profile = () => {
       contractStudentBusiness.methods
         .getStudentSkill(address)
         .call()
-        .then((success) => setSkills({ success }))
+        .then((success) => {
+          setSkills(success)
+        })
         .catch((error) => console.error(error))
 
       contractStudentBusiness.methods
@@ -49,7 +53,7 @@ const Profile = () => {
     <>
       <div className="min-h-screen min-w-full bg-primary pt-[3rem] pb-[8rem]">
         {/* <ModalWarning state={[openModalWarning, setOpenModalWarning]} /> */}
-        <div className="w-[60%] h-[100%] mx-auto pt-[4rem] bg-white rounded-md flex flex-col pb-10">
+        <div className="w-[70%] h-[100%] mx-auto pt-[4rem] bg-white rounded-md flex flex-col pb-10">
           <div className="w-full px-10 flex justify-between">
             <div className="flex">
               <img
@@ -60,24 +64,33 @@ const Profile = () => {
               <div className="flex flex-col">
                 <h1 className="ml-6 text-[2rem] font-bold">{profile?.Name}</h1>
                 <h1 className="ml-6 text-[1.5rem] text-gray-600">{profile?.ProfessionalTitle}</h1>
+                <button className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-md">Change avatar</button>
               </div>
             </div>
-            <div className="">
-              <button
-                className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-xl"
-                onClick={HandleClick}
-              >
-                Log out
-              </button>
-            </div>
+
+            <button
+              className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-xl"
+              onClick={HandleClick}
+            >
+              Log out
+            </button>
           </div>
           <div className="mt-10 px-10 flex justify-between">
             <div className="w-[35%] bg-gray-bg px-10 py-5 rounded-md">
-              <h1 className="text-[1.5rem] font-bold">My Skill</h1>
-              <div className="">
-                {skills[0]?.map((item, index) => (
-                  <Progressbar key={item} title={item} per={skills[1][index]} />
-                ))}
+              <div className="flex justify-between mb-2">
+                <h1 className="text-[1.5rem] font-bold">My Skill</h1>
+                <Link
+                  to="/register"
+                  className="px-4 py-1 bg-orange-btn rounded-[30px] text-white text-xl"
+                >
+                  Add skill
+                </Link>
+              </div>
+              <div>
+                {skills &&
+                  skills[0].map((item, index) => (
+                    <Progressbar key={item} title={item} percent={skills[1][index]} />
+                  ))}
               </div>
             </div>
             <div className="w-[60%] bg-gray-bg px-5 py-5 rounded-md">

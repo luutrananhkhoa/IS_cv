@@ -4,7 +4,7 @@ import { ImEarth } from 'react-icons/im'
 import { Web3Context } from '../../Context/Web3ContextProvider'
 import { useSearchParams } from 'react-router-dom'
 import Web3 from 'web3'
-import ModalWarning from '@/Components/ModalWarning'
+import ModalWarning from '@/Component/ModalWarning'
 import Recruit from './Recruit'
 
 export default function Index() {
@@ -22,23 +22,20 @@ export default function Index() {
           setAddressError(true)
           return
         }
-        // await contractStudentBusiness.methods
-        //   .checkExistBusiness(addressBusiness)
-        //   .call()
-        //   .then((success) => {
-        //     if (success !== '1') {
-        //       setAddressError(true)
-        //       return
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     console.log(error)
-        //   })
+  
         contractStudentBusiness.methods
           .getRecruit(addressBusiness)
           .call()
-          .then((success) => setPosts(success))
-          // .then((success) => console.log(success))
+          .then((success) => {
+            let isEmpty = true;
+            _.forEach(success, function(value1, key1) {
+              _.forEach(value1, function(value2, key2) {
+                if (value2!=='') isEmpty =false
+              });
+            });
+            if (isEmpty) return
+            setPosts(success)
+          })
           .catch((error) => {
             console.log(error)
           })
@@ -46,8 +43,10 @@ export default function Index() {
         contractStudentBusiness.methods
           .getBusinessProfile(addressBusiness)
           .call()
-          .then((success) => setBusinessProfile(success))
-          // .then((success) => console.log(success))
+          .then((success) => {
+            if (success[0]==="0x0000000000000000000000000000000000000000") return
+            setBusinessProfile(success)
+          })
           .catch((error) => {
             console.log(error)
           })

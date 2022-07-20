@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Context } from '../Context/Context'
-import { useNavigate } from 'react-router-dom'
 import { Web3Context } from '../Context/Web3ContextProvider'
-import ModalSuccess from '@/Components/ModalSuccess'
+import ModalSuccess from '@component/ModalSuccess'
 import { RingLoader } from 'react-spinners'
 
 export default function Register() {

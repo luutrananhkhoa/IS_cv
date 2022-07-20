@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import cv from '../assets/Group_27.png'
+import cv from '@asset/Group_27.png'
 
 const Home = () => {
   // let navigate = useNavigate()

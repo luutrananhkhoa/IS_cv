@@ -1,82 +1,84 @@
-import React, { useCallback, useContext, useEffect, useState, memo } from 'react'
-import avt from '../assets/avt_illu.jpg'
+import React, { useCallback, useContext, useEffect, useState, memo, useRef } from 'react'
+import avt from '@asset/avt_illu.jpg'
 import { IoMdMail } from 'react-icons/io'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/bs'
-import Progressbar from '../Components/Progressbar'
+import Progressbar from '../Component/Progressbar'
 import ReactToPrint from 'react-to-print'
-import { Context } from '../Context/Context'
 import _ from 'lodash'
 import { Web3Context } from '../Context/Web3ContextProvider'
-import { Link } from 'react-router-dom'
-
-const ref = React.createRef()
+import { useSearchParams } from 'react-router-dom'
+import ModalWarning from '@/Component/ModalWarning'
+import Web3 from 'web3'
 
 const Mycv = () => {
-  const [componentRef, setComponentRef] = useState()
-  const { addr, profile, setProfile, skills, setSkills } = useContext(Context)
-  const { contractStudentBusiness, address } = useContext(Web3Context)
+  const componentRef = useRef()
+  const [profile, setProfile] = useState()
+  const [skills, setSkills] = useState()
+  const [addressError, setAddressError] = useState()
+  const { contractStudentBusiness } = useContext(Web3Context)
 
-  const setProfileCallback = useCallback(
-    (res) => {
-      setProfile({
-        Birthday: res[2],
-        Email: res[4],
-        Github: res[5],
-        Linked: res[6],
-        Name: res[1],
-        ProfessionalTitle: res[3],
-      })
-    },
-    [address]
-  )
+  const [searchParams] = useSearchParams()
+  const addressEmployee = searchParams.get('address')
 
   useEffect(() => {
-    if (contractStudentBusiness) {
-      contractStudentBusiness.methods
-        .getStudentSkill(address)
-        .call()
-        .then((result) => result)
-        .then((res) => {
-          setSkills({ ...res })
-          // console.log(res)
-        })
-
-      contractStudentBusiness.methods
-        .getStudentProfile(address)
-        .call()
-        .then(function (success) {
-          setProfileCallback(success)
+    ;(async () => {
+      if (contractStudentBusiness) {
+        if (!new Web3().utils.isAddress(addressEmployee)) {
+          setAddressError(true)
           return
-        })
-    }
+        }
+        contractStudentBusiness.methods
+          .getStudentSkill(addressEmployee)
+          .call()
+          .then((success) => {
+            setSkills(success)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+
+        contractStudentBusiness.methods
+          .getStudentProfile(addressEmployee)
+          .call()
+          .then(function (success) {
+            setProfile({
+              Birthday: success[2],
+              Email: success[4],
+              Github: success[5],
+              Linked: success[6],
+              Name: success[1],
+              ProfessionalTitle: success[3],
+            })
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      }
+    })()
   }, [contractStudentBusiness])
 
   return (
     <>
+      <ModalWarning
+        state={[addressError, setAddressError]}
+        content="Address Error"
+        // action={() => navigation('/')}
+      />
       <div className="w-full min-h-screen bg-primary pb-[120px]">
         <div className="flex justify-around items-center mb-3">
           <h1 className="font-bold text-2xl text-white ">My CV</h1>
           <div>
             <ReactToPrint
-              content={() => componentRef}
+              content={() => componentRef.current}
               trigger={() => (
                 <button className="py-2 w-[140px] bg-secondary rounded-[30px] text-white text-xl">
                   Save
                 </button>
               )}
             />
-            <Link to="/register">
-              <button className="px-8 py-2 w-[140px] bg-orange-btn rounded-[30px]  ml-4 text-white text-xl">
-                Add skill
-              </button>
-            </Link>
           </div>
         </div>
-        <div
-          id="savecv"
-          ref={(response) => setComponentRef(response)}
-          className="w-[60%] h-[200vh] mx-auto bg-white flex"
-        >
+        <div id="savecv" ref={componentRef} className="w-[60%] h-[200vh] mx-auto bg-white flex">
           <div className="w-[30%] flex flex-col">
             <img
               src={avt}
@@ -120,9 +122,10 @@ const Mycv = () => {
               <h1 className="font-bold text-3xl">SKILLS</h1>
               <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary" />
               <div className="mt-4 w-[85%]">
-                {skills[0]?.map((item, index) => {
-                  return <Progressbar key={item} title={item} per={skills[1][index]} />
-                })}
+                {skills &&
+                  skills[0]?.map((item, index) => {
+                    return <Progressbar key={item} title={item} percent={skills[1][index]} />
+                  })}
               </div>
             </div>
           </div>

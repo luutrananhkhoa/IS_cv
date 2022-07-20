@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import avt from '../assets/avt.jpg'
+import avt from '@asset/avt.jpg'
 import { Context } from '../Context/Context'
 
 const EmployeeDetail = () => {

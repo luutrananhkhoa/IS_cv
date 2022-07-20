@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
-import cv from '../assets/Group_27.png'
-import logo1 from '../assets/LogoCV.png'
+import cv from '@asset/Group_27.png'
+import logo1 from '@asset/LogoCV.png'
 import { useNavigate, Link } from 'react-router-dom'
 import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
@@ -102,7 +102,7 @@ const Login = () => {
             >
               Sign in
             </button>
-            <h3 className=" text-white text-sm mx-auto font-medium mt-4">
+            {/* <h3 className=" text-white text-sm mx-auto font-medium mt-4">
               Not a member?
               <Link
                 to="/createcv"
@@ -111,7 +111,7 @@ const Login = () => {
                 {' '}
                 SIGN UP
               </Link>
-            </h3>
+            </h3> */}
           </div>
         </div>
       </div>

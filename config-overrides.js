@@ -15,8 +15,8 @@ module.exports = function override(config, env) {
   })
   config = rewireAliases.aliasesOptions({
     '@': path.resolve(__dirname, 'src'),
-    '@assets': path.resolve(__dirname, 'src/assets'),
-    '@components': path.resolve(__dirname, 'src/Components'),
+    '@asset': path.resolve(__dirname, 'src/Asset'),
+    '@component': path.resolve(__dirname, 'src/Component'),
     '@page': path.resolve(__dirname, 'src/Page'),
     '@context': path.resolve(__dirname, 'src/Context'),
     '@api': path.resolve(__dirname, 'src/Api'),

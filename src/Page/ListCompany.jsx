@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
 
 const ListCompany = () => {
