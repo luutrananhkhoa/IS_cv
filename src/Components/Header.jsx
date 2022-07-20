@@ -1,31 +1,88 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import logo1 from'../assets/LogoCV.png'; 
+import React, { useContext, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import logo1 from '../assets/LogoCV.png'
+import { AiOutlineUser } from 'react-icons/ai'
+import { Context } from '../Context/Context'
+import { Web3Context } from '../Context/Web3ContextProvider'
+import * as contractConst from '../Api/contractConst'
 
 export default function Header() {
-     let navigate=useNavigate();
-    function handleClick(){
-        navigate("/login")
-    }
-    const handleLogoClick =()=>{
-      navigate("/")
-    }
+  const { address, setAddress, removeJwtEmployee, contractStudentBusiness } =
+    useContext(Web3Context)
+  const { existAccount, setExistAccount, isLoggedIn } = useContext(Context)
+  async function connectMetamask() {
+    const accounts = await ethereum.request({
+      method: 'eth_requestAccounts',
+    })
+
+    let addressTemp = accounts[0]
+    setAddress(addressTemp)
+
+    await contractStudentBusiness.methods
+      .checkExistStudent(addressTemp)
+      .call()
+      .then((success) => {
+        if (success === '1') {
+          setExistAccount(true)
+          removeJwtEmployee()
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   return (
-      <div>
-          <nav className="w-full h-24 bg-primary flex justify-around items-center text-white">
-              <img className="w-[12%] cursor-pointer" src={logo1} alt="logo" onClick={handleLogoClick} />
-              <div className="flex items-center">
-                  <ul className="flex text-xl">
-                  <Link to="/" className="px-8">HOME</Link>
-                  <Link to="/student" className="px-8">STUDENTS</Link>
-                  <Link to="/company" className="px-8">COMPANY</Link>
-                  <Link to="/mycv" className="px-8">MY CV</Link>
-                  </ul>
-                    <button className="w-[140px] h-[40px] px-10 text-[18px] text-center bg-orange-btn rounded-[24px]"
-                      onClick={handleClick}
-                      >LOGIN</button>
-              </div>
-          </nav>
+    <div >
+      <nav className="w-full h-24 bg-primary flex justify-around items-center text-white">
+        <Link to="/">
+          <img className="w-[30%] cursor-pointer" src={logo1} alt="logo" />
+        </Link>
+
+        <div className="flex items-center">
+          <ul className="flex text-xl">
+            <Link to="/" className="px-8">
+              HOME
+            </Link>
+            <Link to="/listcompany" className="px-8">
+              COMPANY
+            </Link>
+            {isLoggedIn && (
+              <Link to="/mycv" className="px-8 ">
+                MY CV
+              </Link>
+            )}
+          </ul>
+          {!address ? (
+            <button
+              onClick={connectMetamask}
+              className=" px-4  py-2 text-[18px] text-center bg-secondary rounded-[24px]"
+            >
+              Connect Metamask
+            </button>
+          ) : existAccount ? (
+            isLoggedIn ? (
+              <Link to="/profile" className="px-8">
+                <AiOutlineUser className="cursor-pointer" size={40} />
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className=" px-10 py-2 text-[18px] text-center bg-secondary rounded-[24px]"
+              >
+                Login
+              </Link>
+            )
+          ) : (
+            <Link
+              to="/createcv"
+              className="px-10 py-2 text-[18px] text-center bg-secondary rounded-[24px]"
+            >
+              Sign up
+            </Link>
+          )}
+        </div>
+      </nav>
     </div>
   )
 }

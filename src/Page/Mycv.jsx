@@ -1,16 +1,18 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import Header from '../Components/Header'
-import avt from '../assets/avt.jpg'
-import { IoMdMail } from 'react-icons/Io'
-import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/Bs'
+import React, { useCallback, useContext, useEffect, useState, memo } from 'react'
+import avt from '../assets/avt_illu.jpg'
+import { IoMdMail } from 'react-icons/io'
+import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/bs'
 import Progressbar from '../Components/Progressbar'
-import { contract } from './../Api/Const'
-import ReactToPrint from 'react-to-print';
+import ReactToPrint from 'react-to-print'
 import { Context } from '../Context/Context'
+import _ from 'lodash'
+import { Web3Context } from '../Context/Web3ContextProvider'
+import { Link } from 'react-router-dom'
 
 const ref = React.createRef()
 
 const Mycv = () => {
+<<<<<<< HEAD
   // var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
   // web3.eth.getAccounts().then()
   // var myContract = new web3.eth.Contract(contract, '0xc321C3833B9a39193c556625961AC5066EA011c7')
@@ -71,22 +73,67 @@ const Mycv = () => {
   //   })
   // },[])
 
+=======
+  const [componentRef, setComponentRef] = useState()
+  const { addr, profile, setProfile, skills, setSkills } = useContext(Context)
+  const { contractStudentBusiness, address } = useContext(Web3Context)
+
+  const setProfileCallback = useCallback(
+    (res) => {
+      setProfile({
+        Birthday: res[2],
+        Email: res[4],
+        Github: res[5],
+        Linked: res[6],
+        Name: res[1],
+        ProfessionalTitle: res[3],
+      })
+    },
+    [address]
+  )
+
+  useEffect(() => {
+    if (contractStudentBusiness) {
+      contractStudentBusiness.methods
+        .getStudentSkill(address)
+        .call()
+        .then((result) => result)
+        .then((res) => {
+          setSkills({ ...res })
+          // console.log(res)
+        })
+
+      contractStudentBusiness.methods
+        .getStudentProfile(address)
+        .call()
+        .then(function (success) {
+          setProfileCallback(success)
+          return
+        })
+    }
+  }, [contractStudentBusiness])
+
+>>>>>>> 4da5cdec8a48154a3252309d4ee16ab08213feb9
   return (
     <>
-      <Header />
       <div className="w-full min-h-screen bg-primary pb-[120px]">
         <div className="flex justify-around items-center mb-3">
           <h1 className="font-bold text-2xl text-white ">My CV</h1>
-          <ReactToPrint
-            content={() => componentRef}
-            trigger={() => (
-              <button
-                className="h-[45px] w-[140px] bg-secondary rounded-[30px] text-white text-xl"
-              >
-                Save
+          <div>
+            <ReactToPrint
+              content={() => componentRef}
+              trigger={() => (
+                <button className="py-2 w-[140px] bg-secondary rounded-[30px] text-white text-xl">
+                  Save
+                </button>
+              )}
+            />
+            <Link to="/register">
+              <button className="px-8 py-2 w-[140px] bg-orange-btn rounded-[30px]  ml-4 text-white text-xl">
+                Add skill
               </button>
-            )}
-          />
+            </Link>
+          </div>
         </div>
         <div
           id="savecv"
@@ -103,13 +150,17 @@ const Mycv = () => {
                 <div className="w-[2rem] h-[2rem]">
                   <IoMdMail size="2rem" className="text-secondary" />
                 </div>
-                <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words">{profile?.Email}</p>
+                <p id="text-mail" className="pl-2 flex-1 w-[70%] break-words">
+                  {profile?.Email}
+                </p>
               </div>
               <div className=" flex items-center">
                 <div className="w-[2rem] h-[2rem]">
                   <BsFillCalendar2DateFill size="2rem" className="text-secondary" />
                 </div>
-                <p id="text-birthday" className="pl-2 flex-1 w-[80%] break-words">{profile?.Birthday}</p>
+                <p id="text-birthday" className="pl-2 flex-1 w-[80%] break-words">
+                  {profile?.Birthday}
+                </p>
               </div>
               <div className="flex items-center">
                 <div className="w-[2rem] h-[2rem]">
@@ -123,25 +174,37 @@ const Mycv = () => {
                 <div className="w-[2rem] h-[2rem]">
                   <BsGithub size="2rem" className="text-secondary" />
                 </div>
-                <p id="text-github" className="pl-2 flex-1 w-[80%] break-words">{profile?.Github}</p>
+                <p id="text-github" className="pl-2 flex-1 w-[80%] break-words">
+                  {profile?.Github}
+                </p>
               </div>
             </div>
             <div className="mt-[4rem] ml-6">
               <h1 className="font-bold text-3xl">SKILLS</h1>
               <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary" />
               <div className="mt-4 w-[85%]">
+<<<<<<< HEAD
                 {/* {skills[0]?.map((item,index)=>(
                     <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
                 ))} */}
                 {/* <Progressbar title={skills[0]} per="80" /> */}
+=======
+                {skills[0]?.map((item, index) => {
+                  return <Progressbar key={item} title={item} per={skills[1][index]} />
+                })}
+>>>>>>> 4da5cdec8a48154a3252309d4ee16ab08213feb9
               </div>
             </div>
           </div>
           <div className="flex-1">
             <div className="h-[10rem] mt-12 bg-secondary">
               <div className="ml-6 pt-6 text-white">
-                <h1 id="text-name" className="text-4xl font-bold">{profile?.Name}</h1>
-                <span id="text-proTitle" className="text-[1.3rem] mt-4">{profile?.ProfessionalTitle}</span>
+                <h1 id="text-name" className="text-4xl font-bold">
+                  {profile?.Name}
+                </h1>
+                <span id="text-proTitle" className="text-[1.3rem] mt-4">
+                  {profile?.ProfessionalTitle}
+                </span>
                 <hr className="w-[40%] h-[2px] mt-4 border-0 bg-white" />
               </div>
             </div>
@@ -149,7 +212,7 @@ const Mycv = () => {
               <div className="mt-[2rem] ml-4">
                 <h1 className=" text-2xl font-bold ">EDUCATION</h1>
                 <hr className="w-[90%] h-[3px] border-0 bg-primary" />
-                <div>
+                {/* <div>
                   <h1 className="font-bold text-[1.5rem] mt-3 ml-2">
                     University of Information Technology
                   </h1>
@@ -158,7 +221,7 @@ const Mycv = () => {
                     <span>08/2019</span> - <span>present</span>
                     <br />
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="mt-[3rem] ml-4 ">
                 <h1 className="text-2xl font-bold text-primary ">WORK EXPERIENCE</h1>
@@ -180,4 +243,4 @@ const Mycv = () => {
   )
 }
 
-export default Mycv
+export default memo(Mycv)

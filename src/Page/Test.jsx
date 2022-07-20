@@ -1,9 +1,11 @@
-import React from 'react';
-import Header from '../Components/Header';
-import { contract } from './../Api/Const'
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState } from 'react'
+import ModalSuccess from '@/Components/ModalSuccess'
+import ModalWarning from '@/Components/ModalWarning'
+import ModalEvaluate from '@/Components/ModalEvaluate'
+import Loading from '@/Components/Loading'
+import { useNavigate } from 'react-router-dom'
 
+<<<<<<< HEAD
 const Test = () => {
     // const [address, setAddress] = useState  ()
     // var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
@@ -31,6 +33,24 @@ const Test = () => {
             </div> */}
         </> 
     );
+=======
+export default function Test() {
+  const navigation = useNavigate()
+  const [openModal, setOpenModal] = useState(true)
+  const [statusBtn, setStatusBtn] = useState(false)
+  return (
+    <div>
+      {/* {<ModalSuccess open={true} title="applied" setOpen={setOpenModal} />} */}
+      {/* {true && (
+        <ModalWarning
+          state={[openModal, setOpenModal]}
+          content="aaa"
+          action={()=>navigation('/')}
+        />
+      )} */}
+      <Loading state={true}></Loading>
+      {/* <ModalEvaluate open={true}></ModalEvaluate> */}
+    </div>
+  )
+>>>>>>> 4da5cdec8a48154a3252309d4ee16ab08213feb9
 }
-
-export default Test;
