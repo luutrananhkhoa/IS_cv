@@ -34,6 +34,7 @@ export default defineConfig({
       '@api': path.resolve(__dirname, 'src/Api'),
       '@middleware': path.resolve(__dirname, 'src/Middleware'),
       '@layout': path.resolve(__dirname, 'src/Layout'),
+      '@constant': path.resolve(__dirname, 'src/Constant'),
     },
   },
   base: './',

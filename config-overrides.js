@@ -22,11 +22,7 @@ module.exports = function override(config, env) {
     '@api': path.resolve(__dirname, 'src/Api'),
     '@middleware': path.resolve(__dirname, 'src/Middleware'),
     '@layout': path.resolve(__dirname, 'src/Layout'),
-    // '@store': path.resolve(__dirname, 'src/redux'),
-    // '@styles': path.resolve(__dirname, 'src/@core/scss'),
-    // '@configs': path.resolve(__dirname, 'src/configs'),
-    // '@utils': path.resolve(__dirname, 'src/utility/Utils'),
-    // '@hooks': path.resolve(__dirname, 'src/utility/hooks'),
+    '@constant': path.resolve(__dirname, 'src/Constant'),
   })(config, env)
   config.resolve.fallback = fallback
   config.plugins = (config.plugins || []).concat([

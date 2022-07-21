@@ -23,7 +23,8 @@
       "@context/*": ["./src/Context/*"],
       "@api/*": ["./src/Api/*"],
       "@middleware/*": ["./src/Middleware/*"],
-      "@layout/*": ["./src/Layout/*"]
+      "@layout/*": ["./src/Layout/*"],
+      "@constant/*": ["./src/Constant/*"]
     }
   },
   "include": ["**/*.d.js", "**/*.js", "**/*.jsx"],

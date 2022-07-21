@@ -4,7 +4,7 @@ import logo1 from '@asset/LogoCV.png'
 import { AiOutlineUser } from 'react-icons/ai'
 import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
-import * as contractConst from '../Api/contractConst'
+import * as contractConst from '@constant/contractConst'
 
 export default function Header() {
   const { address, setAddress, removeJwtEmployee, contractStudentBusiness } =

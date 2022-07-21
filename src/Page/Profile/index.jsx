@@ -7,6 +7,7 @@ import ModalWarning from '../../Component/ModalWarning'
 import { Context } from '../../Context/Context'
 import { Web3Context } from '../../Context/Web3ContextProvider'
 import ChangeAvatar from './ChangeAvatar'
+import * as profileApi from '@api/employee/profile'
 
 const Index = () => {
   let navigate = useNavigate()
@@ -15,6 +16,7 @@ const Index = () => {
   const [skills, setSkills] = useState()
   const [profile, setProfile] = useState()
   const [changeAvatar, setChangeAvatar] = useState()
+  const [avatar, setAvatar] = useState()
 
   function HandleClick() {
     removeJwtEmployee()
@@ -46,6 +48,13 @@ const Index = () => {
           })
         })
         .catch((error) => console.error(error))
+
+      profileApi
+        .getAvatar(address)
+        .then((success) => {
+          setAvatar(new Blob([success.data], { type: success.headers['content-type'] }))
+        })
+        .catch((error) => console.error(error))
     }
   }, [contractStudentBusiness])
 
@@ -53,22 +62,27 @@ const Index = () => {
 
   return (
     <>
-      <ChangeAvatar state={[changeAvatar, setChangeAvatar]}></ChangeAvatar>
+      <ChangeAvatar
+        state={[changeAvatar, setChangeAvatar]}
+        address={address}
+        avatar={avatar}
+        setAvatar={setAvatar}
+      ></ChangeAvatar>
       <div className="min-h-screen min-w-full bg-primary pt-[3rem] pb-[8rem]">
         {/* <ModalWarning state={[openModalWarning, setOpenModalWarning]} /> */}
         <div className="w-[70%] h-[100%] mx-auto pt-[4rem] bg-white rounded-md flex flex-col pb-10">
           <div className="w-full px-10 flex justify-between">
             <div className="flex">
               <img
-                src={avt}
+                src={avatar ? URL.createObjectURL(avatar) : avt}
                 alt="Avatar"
                 className="h-[160px] w-[10rem] rounded-md block object-cover"
               />
-              <div className="flex flex-col">
-                <h1 className="ml-6 text-[2rem] font-bold">{profile?.Name}</h1>
-                <h1 className="ml-6 text-[1.5rem] text-gray-600">{profile?.ProfessionalTitle}</h1>
+              <div className=" ml-6 flex flex-col">
+                <h1 className="text-[2rem] font-bold">{profile?.Name}</h1>
+                <h1 className="text-[1.5rem] text-gray-600">{profile?.ProfessionalTitle}</h1>
                 <button
-                  className="h-[45px] w-[140px] bg-orange-btn rounded-[30px] text-white text-md"
+                  className="py-1 px-2 bg-orange-btn rounded-[30px] text-white text-md"
                   onClick={() => setChangeAvatar(true)}
                 >
                   Change avatar

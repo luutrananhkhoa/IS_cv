@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import logo1 from '@asset/LogoCV.png'
 import { Context } from '../Context/Context'
 import { Web3Context } from '@context/Web3ContextProvider'
-import * as contractConst from '../Api/contractConst'
+import * as contractConst from '@constant/contractConst'
 import { FaUser } from 'react-icons/fa'
 
 export default function HeaderCompany() {

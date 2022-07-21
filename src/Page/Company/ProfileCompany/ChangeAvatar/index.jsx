@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { BsCheck2Circle } from 'react-icons/bs'
 import avt from '@asset/avt_illu.jpg'
-import { uploadAvatar } from '@api/employee/profile'
+import { uploadAvatar } from '@api/company/profile'
 import Progressbar from '@component/Progressbar'
 
 export default function Index(props) {
