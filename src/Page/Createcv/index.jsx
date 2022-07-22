@@ -2,89 +2,79 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Context } from '../../Context/Context'
 import { Web3Context } from '../../Context/Web3ContextProvider'
-import { RingLoader } from 'react-spinners'
+import Loading from '@component/Loading'
+import ModalWarning from '@component/ModalWarning'
 
 export default function Index() {
   let navigate = useNavigate()
 
   const { contractStudentBusiness, address, setJwtEmployee } = useContext(Web3Context)
-
-  const [checkPofile, setCheckPofile] = useState(false)
+  const { setIsLoggedIn } = useContext(Context)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [isUnpaid, setIsUnpaid] = useState(false)
 
-  const checkStudent = async () => {
+  const [name, setName] = useState()
+  const [birthday, setBirthday] = useState()
+  const [professional, setProfessional] = useState()
+  const [email, setEmail] = useState()
+  const [github, setGithub] = useState()
+  const [linkedin, setLinkedin] = useState()
+  const [password, setPassword] = useState()
+
+  async function addProf() {
+    setLoading(true)
     await contractStudentBusiness.methods
-      .checkStudentProfile($('#_owner').val(), $('#_password').val())
+      .checkExistStudent(address)
       .call()
-      .then((res) => setTempCheck(parseInt(res._hex)))
-  }
-
-  function addProf(e) {
-    e.preventDefault()
-    contractStudentBusiness.methods
-      .checkStudentProfile($('#_owner').val(), $('#_password').val())
-      .call()
-      .then(async (result) => {
-        console.log(parseInt(result))
-        if (parseInt(result) == 0) {
-          console.log('Successfully')
-          // setaddress($('#_owner').val())
-          setLoading(true)
+      .then(async (success) => {
+        if (success === '1') {
           await contractStudentBusiness.methods
             .addStudentProfile(
-              $('#_owner').val(),
-              $('#_name').val(),
-              $('#_birthday').val(),
-              $('#_ptitle').val(),
-              $('#_email').val(),
-              $('#_github').val(),
-              $('#_linked').val(),
-              $('#_password').val()
+              address,
+              name,
+              birthday,
+              professional,
+              email,
+              github,
+              linkedin,
+              password
             )
             .send({
-              from: $('#_owner').val(),
+              from: address,
               gas: 3000000,
             })
             .then((success) => {
-              console.log(success)
-              setJwtEmployee('0x0')
+              setJwtEmployee(address)
               navigate('/')
               setIsLoggedIn(true)
             })
             .catch((error) => {
               console.log(error)
-              if (error.code === 4001) alert('Bạn chưa thanh toán hoá đơn')
+              if (error.code === 4001) {
+                setIsUnpaid(true)
+              }
             })
-          setLoading(false)
-          // navigate('/')
-          // setStatus(true)
         } else {
-          console.log('Unsuccessfully')
-          alert('Tài khoản đã được đăng ký!')
+          setError(true)
         }
       })
+      .catch((error) => {
+        setError(true)
+        console.log(error)
+      })
+    setLoading(false)
   }
 
-  function showList(e) {
-    contractStudentBusiness.methods
-      .getListStudent(address)
-      .call()
-      .then((result) => console.log(result))
-    e.preventDefault()
-  }
-  // console.log(address)
   return (
     <>
-      <RingLoader
-        color={'#133ceb'}
-        loading={loading}
-        cssOverride={{ position: 'fixed', top: '40%', left: '45%', transform: 'trans' }}
-        size={150}
-      />
+      <ModalWarning state={[isUnpaid, setIsUnpaid]} content="Is Unpaid " />
+      <ModalWarning state={[error, setError]} content="Error" />
+      <Loading state={loading}></Loading>
       <div className="w-full min-h-screen flex flex-col justify-center items-center bg-primary">
         <div>
           <h1 className="text-left text-4xl text-white mt-[-20%] font-bold">CREATE MY CV</h1>
-          <form action="#" className="">
+          <div >
             <div className="flex">
               <div className="mt-6">
                 <label name="fname" className="text-white">
@@ -93,8 +83,10 @@ export default function Index() {
                 <br />
                 <input
                   type="text"
-                  id="_name"
-                  name="fname"
+                  id="name"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
                   className="h-10 w-[20rem] p-4 rounded-[5px] outline-none"
                   placeholder="Full name"
@@ -107,8 +99,10 @@ export default function Index() {
                 <br />
                 <input
                   type="date"
-                  id="_birthday"
+                  id="birthday"
                   name="birthday"
+                  value={birthday}
+                  onChange={(e) => setBirthday(e.target.value)}
                   required
                   className="h-10 w-[20rem] p-4 rounded-[5px] outline-none"
                   placeholder="Email"
@@ -123,8 +117,10 @@ export default function Index() {
                 <br />
                 <input
                   type="email"
-                  id="_email"
-                  name="mail"
+                  id="email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="h-10 w-[20rem] p-4 rounded-[5px] outline-none"
                   placeholder="Email"
                 />
@@ -137,8 +133,10 @@ export default function Index() {
                   <br />
                   <input
                     type="text"
-                    id="_ptitle"
-                    name="prof"
+                    id="professional"
+                    name="professional"
+                    value={professional}
+                    onChange={(e) => setProfessional(e.target.value)}
                     required
                     className="h-10 w-[20rem] p-4 rounded-[5px] outline-none"
                     placeholder="Professional title"
@@ -154,9 +152,11 @@ export default function Index() {
                 <br />
                 <input
                   type="text"
-                  id="_github"
+                  id="github"
                   name="github"
                   required
+                  value={github}
+                  onChange={(e) => setGithub(e.target.value)}
                   className="h-10 w-[20rem] p-4 rounded-[5px] outline-none"
                   placeholder="Github"
                 />
@@ -168,9 +168,11 @@ export default function Index() {
                 <br />
                 <input
                   type="text"
-                  id="_linked"
+                  id="linkedin"
+                  name="linkedin"
                   required
-                  // onChange={()=>false}
+                  value={linkedin}
+                  onChange={(e) => setLinkedin(e.target.value)}
                   className="h-10 w-[20rem] p-4 rounded-[5px] outline-none"
                   placeholder="LinkedIn"
                 />
@@ -184,10 +186,10 @@ export default function Index() {
                 <br />
                 <input
                   type="text"
-                  id="_owner"
+                  id="address"
                   name="address"
                   value={address}
-                  // disabled
+                  onChange={(e) => {}}
                   required
                   className="h-10 w-[20rem] p-4 rounded-[5px] outline-none"
                   placeholder="address owner"
@@ -200,8 +202,10 @@ export default function Index() {
                 <br />
                 <input
                   type="password"
-                  id="_password"
+                  id="password"
                   name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   className="h-10 w-[20rem] p-4 rounded-[5px] outline-none"
                   placeholder="address owner"
@@ -209,14 +213,13 @@ export default function Index() {
               </div>
             </div>
             <button
-              type="submit"
               onClick={addProf}
               id="btn_add"
               className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium hover:bg-orange-btn ease-in duration-100 bg-secondary rounded-[30px]"
             >
               CREATE
             </button>
-          </form>
+          </div>
         </div>
         {/* <button type="submit" onClick={showList} id="btn_show" className="h-[2.75rem] w-[8rem] mt-8 text-white font-medium bg-secondary rounded-[30px]">SHOW</button> */}
       </div>

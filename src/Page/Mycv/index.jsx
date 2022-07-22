@@ -31,7 +31,14 @@ const Index = () => {
           .getStudentSkill(addressEmployee)
           .call()
           .then((success) => {
-            setSkills(success)
+            let temp = { 0: [], 1: [] }
+            _.forEach(success[0], (value, index) => {
+              if (success[0][index] !== '') {
+                temp[0].push(success[0][index])
+                temp[1].push(success[1][index])
+              }
+            })
+            setSkills(temp)
           })
           .catch((error) => {
             console.error(error)
@@ -59,6 +66,7 @@ const Index = () => {
 
   return (
     <>
+      {console.log(skills)}
       <ModalWarning
         state={[addressError, setAddressError]}
         content="Address Error"
