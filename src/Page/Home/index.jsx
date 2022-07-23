@@ -36,12 +36,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-      {t('content.functional')}
-      <div style={{ position: 'fixed', marginTop: '500px' }}>
-        ...
-        <button onClick={() => i18n.changeLanguage('de')}>de</button>
-        <button onClick={() => i18n.changeLanguage('en')}>en</button>
-      </div>
+     
     </>
   )
 }
