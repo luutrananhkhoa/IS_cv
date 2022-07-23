@@ -24,7 +24,9 @@
       "@api/*": ["./src/Api/*"],
       "@middleware/*": ["./src/Middleware/*"],
       "@layout/*": ["./src/Layout/*"],
-      "@constant/*": ["./src/Constant/*"]
+      "@constant/*": ["./src/Constant/*"],
+      "@style/*": ["./src/Style/*"],
+      "@locale/*": ["./src/Locale/*"]
     }
   },
   "include": ["**/*.d.js", "**/*.js", "**/*.jsx"],

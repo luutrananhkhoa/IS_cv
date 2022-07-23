@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import './App.css'
 import Home from './Page/Home'
 import Student from './Page/Student'
 import Company from './Page/ListCompany'

@@ -35,6 +35,8 @@ export default defineConfig({
       '@middleware': path.resolve(__dirname, 'src/Middleware'),
       '@layout': path.resolve(__dirname, 'src/Layout'),
       '@constant': path.resolve(__dirname, 'src/Constant'),
+      '@style': path.resolve(__dirname, 'src/Style'),
+      '@locale': path.resolve(__dirname, 'src/Locale'),
     },
   },
   base: './',

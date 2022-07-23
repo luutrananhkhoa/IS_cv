@@ -1,0 +1,27 @@
+{
+  "content": {
+    "functional": "Functional",
+    "class": "Class",
+    "text": "This is text"
+  },
+  "components": {
+    "header": {
+      "_menus": [
+        {
+          "name": "Home",
+          "to": "/"
+        },
+        {
+          "name": "Member",
+          "to": "/team"
+        },
+        {
+          "name": "Contact",
+          "to": "/contact"
+        }
+      ],
+      "_account": "Account",
+      "a": [1,2,3,4]
+    }
+  }
+}

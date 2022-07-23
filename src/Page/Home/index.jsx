@@ -1,8 +1,9 @@
 import React, { useEffect, useContext } from 'react'
 import cv from '@asset/Group_27.png'
+import { useTranslation } from 'react-i18next'
 
 const Index = () => {
-  // let navigate = useNavigate()
+  const { t, i18n } = useTranslation()
 
   return (
     <>
@@ -34,6 +35,12 @@ const Index = () => {
             </div>
           </div>
         </div>
+      </div>
+      {t('content.functional')}
+      <div style={{ position: 'fixed', marginTop: '500px' }}>
+        ...
+        <button onClick={() => i18n.changeLanguage('de')}>de</button>
+        <button onClick={() => i18n.changeLanguage('en')}>en</button>
       </div>
     </>
   )
