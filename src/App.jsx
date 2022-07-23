@@ -19,12 +19,14 @@ import ProfileCompany from './Page/Company/ProfileCompany'
 import PostCompany from './Page/Company/PostCompany'
 import ManagePost from './Page/Company/ManagePost'
 import HomeCompany from '@page/Company/HomeCompany'
+import DashboardCompany from '@page/Company/DashboardCompany'
 import aos from 'aos'
 import ContractMiddleware from '@/Middleware/ContractMiddleware'
 import ContractMiddlewareCompany from '@/Middleware/ContractMiddlewareCompany'
 import Test from '@/Page/Test'
 import LayoutHeader from '@layout/LayoutHeader'
 import LayoutHeaderCompany from '@layout/LayoutHeaderCompany'
+import LayoutDashboardCompany from '@layout/LayoutDashboardCompany'
 
 function App() {
   aos.init()
@@ -84,6 +86,9 @@ function App() {
                 <Route path="employeedetail" element={<EmployeeDetail />} />
                 <Route path="profile" element={<ProfileCompany />} />
                 <Route path="post" element={<PostCompany />} />
+              </Route>
+              <Route path="" element={<LayoutDashboardCompany></LayoutDashboardCompany>}>
+                <Route path="dashboard" element={<DashboardCompany />} />
               </Route>
             </Route>
             <Route
