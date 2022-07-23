@@ -26,6 +26,7 @@ import ContractMiddlewareCompany from '@/Middleware/ContractMiddlewareCompany'
 import Test from '@/Page/Test'
 import LayoutHeader from '@layout/LayoutHeader'
 import LayoutHeaderCompany from '@layout/LayoutHeaderCompany'
+import IIG from './Page/IIG'
 
 function App() {
   aos.init()
@@ -40,6 +41,7 @@ function App() {
                 <Route path="" element={<Home />} />
                 <Route path="student" element={<Student />} />
                 <Route path="listcompany" element={<Company />} />
+                <Route path="iig" element={<IIG />} />
                 <Route path="companydetail" element={<CompanyDetail />} />
                 <Route path="evaluate" element={<Evaluate />} />
                 <Route path="test" element={<Test />} />
