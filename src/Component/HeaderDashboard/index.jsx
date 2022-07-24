@@ -1,26 +1,58 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './styles.module.scss'
-import logo from './images/logo.png'
+import logo from '@asset/LogoCV.png'
 import avatar from './images/avatar.jpeg'
 import { BsList, BsFillCalendarEventFill } from 'react-icons/bs'
 import { GoChevronDown, GoSearch } from 'react-icons/go'
+import { GrFormClose } from 'react-icons/gr'
+import clsx from 'clsx'
 
-export default function Index() {
+export default function Index(props) {
+  const [openSearch, setOpenSearch] = useState(false)
+  const [closeMenu, setCloseMenu] = props.state
   return (
     <header className={styles.headerDashboard}>
       <div className={styles.headerLeft}>
         <img alt="logo" src={logo} className={styles.logo}></img>
-        <BsList size="30px"></BsList>
+        <button
+          onClick={() => {
+            setCloseMenu((e) => !e)
+          }}
+        >
+          <BsList size="30px" color="#3f6ad8"></BsList>
+        </button>
       </div>
       <div className={styles.headerRight}>
         <div className={styles.tool}>
           <ul className={styles.toolUl}>
-            <li className={styles.search}>
-              <GoSearch size="15px"></GoSearch>
+            <li>
+              <div className={clsx(styles.searchWrapper, { [styles.active]: openSearch })}>
+                <div className={styles.search}>
+                  <input type="text" className={styles.searchInput} placeholder="Type to search" />
+
+                  <button
+                    className={styles.searchButton}
+                    onClick={() => {
+                      !openSearch && setOpenSearch(true)
+                    }}
+                  >
+                    <GoSearch size="20px" color="#3f6ad8"></GoSearch>
+                  </button>
+                </div>
+                <button
+                  className={styles.closeButton}
+                  onClick={() => {
+                    openSearch && setOpenSearch(false)
+                  }}
+                >
+                  <GrFormClose size="30px" color="red"></GrFormClose>
+                </button>
+              </div>
             </li>
           </ul>
         </div>
 
+                  <hr></hr>
         <div className={styles.profile}>
           <div className={styles.iconWrapper}>
             <img alt="profile" src={avatar} className={styles.profileIcon}></img>

@@ -26,7 +26,6 @@ import ContractMiddlewareCompany from '@/Middleware/ContractMiddlewareCompany'
 import Test from '@/Page/Test'
 import LayoutHeader from '@layout/LayoutHeader'
 import LayoutHeaderCompany from '@layout/LayoutHeaderCompany'
-import LayoutDashboardCompany from '@layout/LayoutDashboardCompany'
 
 function App() {
   aos.init()
@@ -87,7 +86,7 @@ function App() {
                 <Route path="profile" element={<ProfileCompany />} />
                 <Route path="post" element={<PostCompany />} />
               </Route>
-              <Route path="" element={<LayoutDashboardCompany></LayoutDashboardCompany>}>
+              <Route path="">
                 <Route path="dashboard" element={<DashboardCompany />} />
               </Route>
             </Route>
