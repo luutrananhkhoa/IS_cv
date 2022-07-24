@@ -1,0 +1,13 @@
+{
+  "title": "ccc",
+  "number": "STT",
+  "full_name": "Họ và tên",
+  "exam_date": "Ngày thi",
+  "exam_location": "Địa điểm thi",
+  "score": "Điểm",
+  "status": "Trạng thái",
+  "filter": "Lọc",
+  "exam_location_input": "Nhập địa điểm thi",
+  "status_input": "Nhập trạng thái",
+  "certificate_verification": "Xác thực chứng chỉ"
+}

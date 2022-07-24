@@ -1,4 +1,5 @@
 {
+  "title": "aaaa",
   "content": {
     "functional": "Hàm",
     "class": "Lớp",
@@ -21,7 +22,12 @@
         }
       ],
       "_account": "Tài khoản",
-      "a": [1,2,3,4]
+      "a": [
+        1,
+        2,
+        3,
+        4
+      ]
     }
   }
 }
