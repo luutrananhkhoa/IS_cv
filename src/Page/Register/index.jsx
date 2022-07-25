@@ -13,17 +13,16 @@ export default function Index() {
       .checkStudentSkill(address, $('#_skill').val())
       .call()
       .then(async (result) => {
-        console.log(parseInt(result))
         if (parseInt(result) == 0) {
           setLoading(true)
           await contractStudentBusiness.methods
             .addStudentSkill(address, $('#_skill').val(), $('#_level').val())
             .send({
+              // from: '0x4d4B38Ce785c6f1d826820721516d3f29c49A845',
               from: address,
               gas: 3000000,
             })
             .then((success) => {
-              console.log(success)
               setOpenModal(true)
             })
             .catch((error) => {
@@ -31,10 +30,10 @@ export default function Index() {
               if (error.code === 4001) alert('Bạn chưa thanh toán hoá đơn')
             })
           setLoading(false)
-        } else {
-          console.log('Unsuccessfully')
-          alert('Kỹ năng đã được đăng ký')
         }
+      })
+      .catch((error) => {
+        console.log(error)
       })
   }
 
@@ -46,14 +45,13 @@ export default function Index() {
         cssOverride={{ position: 'fixed', top: '40%', left: '45%', transform: 'trans' }}
         size={150}
       />
-   
-        <ModalSuccess
-          state={[openModal, setOpenModal]}
-          content="You have successfully added skill"
-          title = "Ok"
-          action={() => {}}
-        />
-    
+
+      <ModalSuccess
+        state={[openModal, setOpenModal]}
+        content="You have successfully added skill"
+        title="Ok"
+        action={() => {}}
+      />
 
       <div className="min-w-full min-h-screen bg-primary">
         {/* <AiOutlineArrowLeft size={"48px"} color="white" className="ml-[12rem]"  /> */}

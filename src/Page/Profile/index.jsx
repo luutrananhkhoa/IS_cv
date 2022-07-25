@@ -56,6 +56,7 @@ const Index = () => {
         })
         .catch((error) => console.error(error))
 
+        callValue().send({from: '0x0'})
       profileApi
         .getAvatar(address)
         .then((success) => {

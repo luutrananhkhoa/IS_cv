@@ -40,7 +40,6 @@ const Index = () => {
       profileApi
         .getAvatar(address)
         .then((success) => {
-          console.log(success)
           setAvatar(new Blob([success.data], { type: success.headers['content-type'] }))
         })
         .catch((error) => console.error(error))

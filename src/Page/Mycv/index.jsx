@@ -9,6 +9,7 @@ import { Web3Context } from '../../Context/Web3ContextProvider'
 import { useSearchParams } from 'react-router-dom'
 import ModalWarning from '@/Component/ModalWarning'
 import Web3 from 'web3'
+import * as profileApi from '@api/employee/profile'
 
 const Index = () => {
   const componentRef = useRef()
@@ -16,12 +17,13 @@ const Index = () => {
   const [skills, setSkills] = useState()
   const [addressError, setAddressError] = useState()
   const { contractStudentBusiness } = useContext(Web3Context)
+  const [avatar, setAvatar] = useState()
 
   const [searchParams] = useSearchParams()
   const addressEmployee = searchParams.get('address')
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (contractStudentBusiness) {
         if (!new Web3().utils.isAddress(addressEmployee)) {
           setAddressError(true)
@@ -60,13 +62,19 @@ const Index = () => {
           .catch((error) => {
             console.error(error)
           })
+
+        profileApi
+          .getAvatar(addressEmployee)
+          .then((success) => {
+            setAvatar(new Blob([success.data], { type: success.headers['content-type'] }))
+          })
+          .catch((error) => console.error(error))
       }
     })()
   }, [contractStudentBusiness])
 
   return (
     <>
-      {console.log(skills)}
       <ModalWarning
         state={[addressError, setAddressError]}
         content="Address Error"
@@ -89,9 +97,10 @@ const Index = () => {
         <div id="savecv" ref={componentRef} className="w-[60%] h-[200vh] mx-auto bg-white flex">
           <div className="w-[30%] flex flex-col">
             <img
-              src={avt}
+              src={avatar ? URL.createObjectURL(avatar) : avt}
               className="h-[160px] w-[160px] mx-auto mt-12 rounded-[50%] block object-cover"
             />
+
             <div className="p-2 ml-4 mt-6 flex flex-col gap-4">
               <div className="flex items-center">
                 <div className="w-[2rem] h-[2rem]">
