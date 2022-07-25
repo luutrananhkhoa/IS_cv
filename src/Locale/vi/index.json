@@ -1,0 +1,27 @@
+{
+  "content": {
+    "functional": "Hàm",
+    "class": "Lớp",
+    "text": "Đây là văn bản"
+  },
+  "components": {
+    "header": {
+      "_menus": [
+        {
+          "name": "Trang chủ",
+          "to": "/"
+        },
+        {
+          "name": "Thành viên",
+          "to": "/team"
+        },
+        {
+          "name": "Liên hệ",
+          "to": "/contact"
+        }
+      ],
+      "_account": "Tài khoản",
+      "a": [1,2,3,4]
+    }
+  }
+}

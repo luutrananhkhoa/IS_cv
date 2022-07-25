@@ -4,9 +4,10 @@ import logo1 from '@asset/LogoCV.png'
 import { AiOutlineUser } from 'react-icons/ai'
 import { Context } from '../Context/Context'
 import { Web3Context } from '../Context/Web3ContextProvider'
-import * as contractConst from '@constant/contractConst'
+import { useTranslation } from 'react-i18next'
 
 export default function Header() {
+  const { t, i18n } = useTranslation()
   const { address, setAddress, removeJwtEmployee, contractStudentBusiness } =
     useContext(Web3Context)
   const { existAccount, setExistAccount, isLoggedIn } = useContext(Context)
@@ -52,6 +53,12 @@ export default function Header() {
             </Link>
           )}
         </ul>
+        {/* {t('content.functional')} */}
+        <div className="flex justify-around">
+          ...
+          <button onClick={() => i18n.changeLanguage('vi')}>vi</button>
+          <button onClick={() => i18n.changeLanguage('en')}>en</button>
+        </div>
         {!address ? (
           <button
             onClick={connectMetamask}
