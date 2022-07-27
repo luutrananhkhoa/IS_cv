@@ -1,0 +1,13 @@
+{
+  "title": "ccc",
+  "number": "Number",
+  "full_name": "Full name",
+  "exam_date": "Exam date",
+  "exam_location": "Exam location",
+  "score": "Score",
+  "status": "Status",
+  "filter": "Filter",
+  "exam_location_input": "Exam location input",
+  "status_input": "Status input",
+  "certificate_verification": "Certificate Verification"
+}

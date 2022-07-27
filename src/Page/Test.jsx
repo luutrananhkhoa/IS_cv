@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import ModalSuccess from '@/Components/ModalSuccess'
-import ModalWarning from '@/Components/ModalWarning'
-import ModalEvaluate from '@/Components/ModalEvaluate'
-import Loading from '@/Components/Loading'
+import ModalSuccess from '@/Component/ModalSuccess'
+import ModalWarning from '@component/ModalWarning'
+import ModalEvaluate from '@/Component/ModalEvaluate'
+import Loading from '@component/Loading'
 import { useNavigate } from 'react-router-dom'
 
 export default function Test() {

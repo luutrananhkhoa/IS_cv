@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import ModalSuccess from '@/Components/ModalSuccess'
-import Loading from '@/Components/Loading'
-import ModalWarning from '@/Components/ModalWarning'
+import ModalSuccess from '@/Component/ModalSuccess'
+import Loading from '@/Component/Loading'
+import ModalWarning from '@/Component/ModalWarning'
 import Web3 from 'web3'
 
 export default function Index(props) {

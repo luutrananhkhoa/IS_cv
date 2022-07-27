@@ -1,0 +1,63 @@
+$borderColor: #b2b2b25b;
+
+.dropdown {
+  float: left;
+ 
+  .toggle {
+    padding: 4px 8px;
+    border-top: none;
+    border-bottom: 1px solid $borderColor;
+    border-right: 1px solid $borderColor;
+    border-left: 1px solid $borderColor;
+    border-image: initial;
+
+    position: relative;
+    list-style: none;
+    cursor: pointer;
+    float: right;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-theme-primary);
+    color: var(--color-text-primary);
+    box-shadow: rgb(239 242 245) 0px 1px 0px;
+    .icon {
+      margin: 0px 0px 0px 5px;
+    }
+  }
+  .menu {
+    z-index: 99 !important;
+    box-shadow: none;
+    background: rgb(239, 242, 245);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    position: absolute;
+    border-bottom: 1px solid $borderColor;
+    border-right: 1px solid $borderColor;
+    border-left: 1px solid $borderColor;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+  .item {
+    padding: 5px 15px;
+    font-weight: 400;
+    color: var(--color-text-primary);
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-theme-primary);
+    color: var(--color-text-primary);
+    box-shadow: rgb(239 242 245) 0px 1px 0px;
+    &:active {
+      color: #fff;
+      text-decoration: none;
+      background-color: var(--theme-color-active);
+    }
+  }
+}

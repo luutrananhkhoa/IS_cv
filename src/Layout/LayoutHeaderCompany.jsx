@@ -1,5 +1,5 @@
 import React from 'react'
-import HeaderCompany from '@components/HeaderCompany'
+import HeaderCompany from '@component/HeaderCompany'
 import { Outlet } from 'react-router-dom'
 
 export default function LayoutHeaderCompany() {

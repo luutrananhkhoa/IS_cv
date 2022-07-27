@@ -1,12 +1,12 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Outlet, useLocation, useNavigate, Navigate } from 'react-router-dom'
 import { Web3Context } from '../Context/Web3ContextProvider'
-import * as contractConst from '../Api/contractConst'
+import * as contractConst from '@constant/contractConst'
 import Cookies from 'universal-cookie'
 import { Context } from '../Context/Context'
 import Web3 from 'web3'
 import detectEthereumProvider from '@metamask/detect-provider'
-import Loading from '@components/Loading'
+import Loading from '@component/Loading'
 
 const cookie = new Cookies()
 

@@ -8,16 +8,13 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-<<<<<<< HEAD
-.firebase
-.github
-=======
+build
 firebase.json
 .firebaserc
 .firebase
->>>>>>> 4da5cdec8a48154a3252309d4ee16ab08213feb9
 dist
 dist-ssr
+build.zip
 *.local
 
 # Editor directories and files

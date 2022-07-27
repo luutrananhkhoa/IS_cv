@@ -17,13 +17,16 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@components/*": ["./src/Components/*"],
+      "@asset/*": ["./src/Asset/*"],
+      "@component/*": ["./src/Component/*"],
       "@page/*": ["./src/Page/*"],
       "@context/*": ["./src/Context/*"],
       "@api/*": ["./src/Api/*"],
       "@middleware/*": ["./src/Middleware/*"],
-      "@layout/*": ["./src/Layout/*"]
+      "@layout/*": ["./src/Layout/*"],
+      "@constant/*": ["./src/Constant/*"],
+      "@style/*": ["./src/Style/*"],
+      "@locale/*": ["./src/Locale/*"]
     }
   },
   "include": ["**/*.d.js", "**/*.js", "**/*.jsx"],
