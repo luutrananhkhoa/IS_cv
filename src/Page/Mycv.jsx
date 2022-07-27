@@ -12,68 +12,6 @@ import { Link } from 'react-router-dom'
 const ref = React.createRef()
 
 const Mycv = () => {
-<<<<<<< HEAD
-  // var web3 = new Web3(Web3.providers.HttpProvider('http://localhost:7545'))
-  // web3.eth.getAccounts().then()
-  // var myContract = new web3.eth.Contract(contract, '0xc321C3833B9a39193c556625961AC5066EA011c7')
-
-  // const [componentRef, setComponentRef] = useState()
-  // const [address, setAddress] = useState()
-  // const {skills, setSkills} = useContext(Context)
-  // const [profile, setProfile] = useState({
-  //   Birthday: "",
-  //   Email: "",
-  //   Github: "",
-  //   Linked: "",
-  //   Name: "",
-  //   ProfessionalTitle: ""
-  // })
-  // // const [skills, setSkills] = useState([])
-  // const setProfileCallback = useCallback((res) =>{
-  //   setProfile({
-  //     Birthday: res?.Birthday,
-  //     Email: res?.Email,
-  //     Github: res?.Github,
-  //     Linked: res?.Linked,
-  //     Name: res?.Name,
-  //     ProfessionalTitle:res?.ProfessionalTitle
-  //   })
-  // },[address])
-
-
-  // const getSkillsData =(address) =>{
-  //   myContract.methods
-  //     .getSkill(address)
-  //     .call()
-  //     .then((res)=>{
-  //       setSkills({...res})
-  //       return;
-  //     })
-  //     console.log(skills)
-  // }
-
-
-  // useEffect(()=>{
-  //   myContract.methods
-  //   .getSender()
-  //   .call()
-  //   .then((result)=> result)
-  //   .then(address=> {
-  //     //get profile
-  //     myContract.methods
-  //     .getProfile(address)
-  //     .call()
-  //     .then(function (res) {
-  //         setProfileCallback(res)
-  //         return;
-  //       })
-  //     //Get skill
-  //     getSkillsData(address)
-
-  //   })
-  // },[])
-
-=======
   const [componentRef, setComponentRef] = useState()
   const { addr, profile, setProfile, skills, setSkills } = useContext(Context)
   const { contractStudentBusiness, address } = useContext(Web3Context)
@@ -113,7 +51,6 @@ const Mycv = () => {
     }
   }, [contractStudentBusiness])
 
->>>>>>> 4da5cdec8a48154a3252309d4ee16ab08213feb9
   return (
     <>
       <div className="w-full min-h-screen bg-primary pb-[120px]">
@@ -183,16 +120,9 @@ const Mycv = () => {
               <h1 className="font-bold text-3xl">SKILLS</h1>
               <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary" />
               <div className="mt-4 w-[85%]">
-<<<<<<< HEAD
-                {/* {skills[0]?.map((item,index)=>(
-                    <Progressbar key={item} title={item} per={parseInt(skills[1][index]?._hex)} />
-                ))} */}
-                {/* <Progressbar title={skills[0]} per="80" /> */}
-=======
                 {skills[0]?.map((item, index) => {
                   return <Progressbar key={item} title={item} per={skills[1][index]} />
                 })}
->>>>>>> 4da5cdec8a48154a3252309d4ee16ab08213feb9
               </div>
             </div>
           </div>
