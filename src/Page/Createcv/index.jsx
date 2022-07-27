@@ -28,7 +28,8 @@ export default function Index() {
       .checkExistStudent(address)
       .call()
       .then(async (success) => {
-        if (success === '1') {
+        console.log(success)
+        if (success === '0') {
           await contractStudentBusiness.methods
             .addStudentProfile(
               address,
@@ -55,8 +56,6 @@ export default function Index() {
                 setIsUnpaid(true)
               }
             })
-        } else {
-          setError(true)
         }
       })
       .catch((error) => {
@@ -74,7 +73,7 @@ export default function Index() {
       <div className="w-full min-h-screen flex flex-col justify-center items-center bg-primary">
         <div>
           <h1 className="text-left text-4xl text-white mt-[-20%] font-bold">CREATE MY CV</h1>
-          <div >
+          <div>
             <div className="flex">
               <div className="mt-6">
                 <label name="fname" className="text-white">
