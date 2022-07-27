@@ -1,8 +1,8 @@
 $borderColor: #b2b2b25b;
-
+$paddingBorder: 2px;
 .dropdown {
   float: left;
- 
+
   .toggle {
     padding: 4px 8px;
     border-top: none;
@@ -40,12 +40,14 @@ $borderColor: #b2b2b25b;
     border-right: 1px solid $borderColor;
     border-left: 1px solid $borderColor;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 0px $paddingBorder;
   }
   .item {
     padding: 5px 15px;
     font-weight: 400;
+    width: 100%;
     color: var(--color-text-primary);
-    margin: 2px 2px;
+    margin: $paddingBorder 0px;
     cursor: pointer;
     border-radius: 8px;
     display: flex;

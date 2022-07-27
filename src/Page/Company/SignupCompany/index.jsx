@@ -7,7 +7,7 @@ import Loading from '@component/Loading'
 import ModalWarning from '@component/ModalWarning'
 import styles from './styles.module.scss'
 import Dropdown from '@component/Dropdown'
-import logo from './logo.jpeg'
+import { listCompanySpecial } from './listCompanySpecial'
 
 const Index = () => {
   const { contractStudentBusiness, address } = useContext(Web3Context)
@@ -17,7 +17,7 @@ const Index = () => {
   const [isUnpaid, setIsUnpaid] = useState(false)
 
   const [typeDropdown, setTypeDropdown] = useState(false)
-  const [typeSelected, setTypeSelected] = useState()
+  const [typeSelected, setTypeSelected] = useState(0)
 
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -31,36 +31,31 @@ const Index = () => {
 
   async function addProfCompany() {
     setLoading(true)
-    switch (typeSelected) {
-      case 0:
-        break
-      case 1:
-        break
-      default:
-        await contractStudentBusiness.methods
-          .addBusinessProfile(
-            address,
-            name,
-            national,
-            business,
-            linkedin,
-            facebook,
-            website,
-            password
-          )
-          .send({
-            from: address,
-            gas: 3000000,
-          })
-          .then((success) => {
-            setIsLoggedIn(true)
-            navigate('/company')
-          })
-          .catch((error) => {
-            console.log('error', error)
-            if (error.code === 4001) setIsUnpaid(true)
-          })
-    }
+
+    listCompanySpecial[typeSelected]
+      .HandleFunction(
+        contractStudentBusiness,
+        address,
+        name,
+        national,
+        business,
+        linkedin,
+        facebook,
+        website,
+        password
+      )
+      .send({
+        from: address,
+        gas: 3000000,
+      })
+      .then((success) => {
+        setIsLoggedIn(true)
+        navigate('/company')
+      })
+      .catch((error) => {
+        console.log('error', error)
+        if (error.code === 4001) setIsUnpaid(true)
+      })
     setLoading(false)
   }
   return (
@@ -86,16 +81,11 @@ const Index = () => {
           </div>
           <div className={styles.typeWrapper}>
             {(() => {
-              let arr = [
-                { text: 'A', key: 'iig' },
-                { text: 'b', key: 'bidv' },
-              ]
               let renderItem = (v) => {
-                // console.log(v.text)
                 return (
                   <div className={styles.itemWrapper}>
                     <a className={styles.text}>{v.text}</a>
-                    <img src={logo} alt="logo"></img>
+                    {v.logo && <img src={v.logo} alt="logo"></img>}
                   </div>
                 )
               }
@@ -104,7 +94,7 @@ const Index = () => {
                 <Dropdown
                   state={[typeDropdown, setTypeDropdown]}
                   selected={[typeSelected, setTypeSelected]}
-                  list={arr.map((value, index) => {
+                  list={listCompanySpecial.map((value, index) => {
                     return renderItem(value)
                   })}
                 ></Dropdown>

@@ -5,6 +5,8 @@ export const Context = createContext()
 const ContextProvider = ({ children }) => {
   const [completeCheckMiddleware, setCompleteCheckMiddleware] = useState(false)
 
+  const [isIIG, setIsIIG] = useState(false)
+
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [existAccount, setExistAccount] = useState(false)
   const data = {

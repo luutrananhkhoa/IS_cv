@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import avt from '@asset/avt_illu.jpg'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { Context } from '../../../Context/Context'
 import { Web3Context } from '../../../Context/Web3ContextProvider'
 import * as profileApi from '@api/company/profile'
@@ -9,7 +9,7 @@ import ChangeAvatar from './ChangeAvatar'
 const Index = () => {
   let navigate = useNavigate()
   const [profileBusiness, setProfileBusiness] = useState()
-  const { setIsLoggedIn } = useContext(Context)
+  const { setIsLoggedIn, isIIg } = useContext(Context)
   const { contractStudentBusiness, address, removeJwtCompany } = useContext(Web3Context)
   const [changeAvatar, setChangeAvatar] = useState()
   const [avatar, setAvatar] = useState()
@@ -72,6 +72,12 @@ const Index = () => {
                 >
                   Change avatar
                 </button>
+                <Link
+                to = "/company/dashboard/iig"
+                  className="py-1  my-2 px-2 bg-secondary rounded-[30px] text-white text-md"
+                >
+                  Open Dashboard
+                </Link>
               </div>
             </div>
             <div className="">

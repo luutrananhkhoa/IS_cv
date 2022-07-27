@@ -89,7 +89,7 @@ function App() {
                 <Route path="post" element={<PostCompany />} />
               </Route>
               <Route path="">
-                <Route path="dashboard" element={<DashboardCompany />} />
+                <Route path="dashboard/:special" element={<DashboardCompany />} />
               </Route>
             </Route>
             <Route

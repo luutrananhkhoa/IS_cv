@@ -24,6 +24,7 @@ export default function ContractMiddlewareCompany(props) {
     existAccount,
     completeCheckMiddleware,
     setCompleteCheckMiddleware,
+    setIsIIG,
   } = useContext(Context)
   const checkProvider = async () => {
     if (!completeCheckMiddleware) {
@@ -51,6 +52,26 @@ export default function ContractMiddlewareCompany(props) {
                     if (getJwtCompany() === addressTemp) {
                       setIsLoggedIn(true)
                       setJwtCompany(addressTemp)
+                    } else {
+                      removeJwtCompany()
+                    }
+                  }
+                })
+                .catch((error) => {
+                  console.log(error)
+                })
+
+              ///IIG
+              await myContract.methods
+                .checkExistIIG(addressTemp)
+                .call()
+                .then((success) => {
+                  if (success === '1') {
+                    setExistAccount(true)
+                    if (getJwtCompany() === addressTemp) {
+                      setIsLoggedIn(true)
+                      setJwtCompany(addressTemp)
+                      setIsIIG(true)
                     } else {
                       removeJwtCompany()
                     }
