@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './Page/Home'
 import Student from './Page/Student'
@@ -27,6 +27,7 @@ import Test from '@/Page/Test'
 import LayoutHeader from '@layout/LayoutHeader'
 import LayoutHeaderCompany from '@layout/LayoutHeaderCompany'
 import IIG from './Page/IIG'
+import DashboardContextProvider from '@page/Company/DashboardCompany/DashboardContextProvider'
 
 function App() {
   aos.init()
@@ -52,17 +53,17 @@ function App() {
             </Route>
             <Route
               path=""
-              element={<ContractMiddleware requestAddress={true}> </ContractMiddleware>}
+              element={<ContractMiddleware requestAddress> </ContractMiddleware>}
             >
               <Route path="createcv" element={<Createcv />} />
             </Route>
             <Route
               path=""
-              element={<ContractMiddleware requestAccount={true}> </ContractMiddleware>}
+              element={<ContractMiddleware requestAccount> </ContractMiddleware>}
             >
               <Route path="login" element={<Login />} />
             </Route>
-            <Route path="" element={<ContractMiddleware requestLogin={true}></ContractMiddleware>}>
+            <Route path="" element={<ContractMiddleware requestLogin></ContractMiddleware>}>
               <Route path="" element={<LayoutHeader></LayoutHeader>}>
                 <Route path="mycv" element={<Mycv />} />
                 <Route path="register" element={<Register />} />
@@ -79,7 +80,7 @@ function App() {
             </Route>
             <Route
               path=""
-              element={<ContractMiddlewareCompany requestLogin={true}></ContractMiddlewareCompany>}
+              element={<ContractMiddlewareCompany requestLogin></ContractMiddlewareCompany>}
             >
               <Route path="" element={<LayoutHeaderCompany></LayoutHeaderCompany>}>
                 <Route path="employee" element={<EmployeeCompany />} />
@@ -95,7 +96,7 @@ function App() {
             <Route
               path=""
               element={
-                <ContractMiddlewareCompany requestAddress={true}> </ContractMiddlewareCompany>
+                <ContractMiddlewareCompany requestAddress> </ContractMiddlewareCompany>
               }
             >
               <Route path="" element={<LayoutHeaderCompany></LayoutHeaderCompany>}>
@@ -106,7 +107,7 @@ function App() {
             <Route
               path=""
               element={
-                <ContractMiddlewareCompany requestAccount={true}> </ContractMiddlewareCompany>
+                <ContractMiddlewareCompany requestAccount> </ContractMiddlewareCompany>
               }
             >
               <Route path="login" element={<LoginCompany />} />

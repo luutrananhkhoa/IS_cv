@@ -9,5 +9,9 @@
   "filter": "Lọc",
   "exam_location_input": "Nhập địa điểm thi",
   "status_input": "Nhập trạng thái",
-  "certificate_verification": "Xác thực chứng chỉ"
+  "certificate_verification": "Xác thực chứng chỉ",
+  "address": "Địa chỉ",
+  "id": "CCCD",
+  "request_date": "Ngày yêu cầu",
+  "waiting": "Đang chờ"
 }

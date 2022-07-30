@@ -1,7 +1,10 @@
-import React, { memo } from 'react'
-import { BsCheck2Circle } from 'react-icons/bs'
+import React, { memo, useState, useContext } from 'react'
 import styles from './styles.module.scss'
-import { GrFormClose } from 'react-icons/gr'
+import { Web3Context } from '@context/Web3ContextProvider'
+import ModalWarning from '@component/ModalWarning'
+import { useNavigate } from 'react-router-dom'
+import Loading from '@component/Loading'
+import ModalSuccess from '@component/ModalSuccess'
 
 /**
  * to Create ModalWarning
@@ -13,8 +16,57 @@ import { GrFormClose } from 'react-icons/gr'
  */
 function Index(props) {
   const [openModal, setOpenModal] = props.state
+  const { contractStudentBusiness, address } = useContext(Web3Context)
+  const [requestAddressModal, setRequestAddressModal] = useState(false)
+  const [error, setError] = useState(false)
+  const [isUnpaid, setIsUnpaid] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const { addressIIG } = props
+
+  const [id, setId] = useState('')
+  const navigation = useNavigate()
+  const handleSubmit = async () => {
+    if (!address) {
+      setRequestAddressModal(true)
+      return
+    }
+    const date = new Date().getTime()
+    setLoading(true)
+    await contractStudentBusiness.methods
+      .sendIIGRequest(address, addressIIG, id, date.toString())
+      .send({
+        from: address,
+        gas: 3000000,
+      })
+      .then((success) => {
+        setSuccess(true)
+      })
+      .catch((error) => {
+        console.log(error)
+        if (error.code === 4001) {
+          setIsUnpaid(true)
+        } else {
+          setError(true)
+        }
+      })
+
+    setLoading(false)
+  }
   return (
     <>
+      <Loading state={loading}></Loading>
+      <ModalWarning state={[isUnpaid, setIsUnpaid]} content="Is Unpaid " />
+      <ModalSuccess state={[success, setSuccess]} content="Ssuccess" actionText="Ssuccess" />
+      <ModalWarning state={[error, setError]} content="Error" />
+      <ModalWarning
+        state={[requestAddressModal, setRequestAddressModal]}
+        content="Request Login"
+        action={() => navigation('/')}
+        nonactionText="Cancel"
+        actionText="To Login"
+        secondaryAction={() => {}}
+      ></ModalWarning>
       {openModal && (
         <>
           <div
@@ -27,7 +79,6 @@ function Index(props) {
           <div className={styles.container}>
             <div className={styles.title}>
               <div className={styles.buttonWrapper}>
-                {' '}
                 <button
                   onClick={() => {
                     setOpenModal((e) => !e)
@@ -45,28 +96,25 @@ function Index(props) {
               <div className={styles.group}>
                 <div className={styles.personalInfo}>Thong tin ca nhan </div>
                 <div className={styles.infoRow}>
-                  <div className={styles.infoRowCol1}>Nguyen Minh Nhut</div>
-                  <div className={styles.infoRowCol2}>Ngày sinh: 09/07/1999</div>
+                  <div className={styles.infoRowCol1}>Address</div>
+                  <div className={styles.infoRowCol2}>0x00</div>
                 </div>
                 <div className={styles.infoRow}>
-                  <div className={styles.infoRowCol1}>Nguyen Minh Nhut</div>
-                  <div className={styles.infoRowCol2}>Ngày sinh: 09/07/1999</div>
-                </div>
-              </div>
-
-              <div className={styles.group}>
-                <div className={styles.personalInfo}>THÔNG TIN KÌ THI</div>
-                <div className={styles.infoRow}>
-                  <div className={styles.infoRowCol1}>Ngày thi: 24/04/2022</div>
-                  <div className={styles.infoRowCol2}>Giờ thi: 08h459</div>
-                </div>
-                <div className={styles.infoRow}>
-                  <div className={styles.infoRowCol1}>Địa điểm thi: Trụ sở chính IIG VN</div>
+                  <div className={styles.infoRowCol1}>id</div>
                   <div className={styles.infoRowCol2}>
-                    <a className={styles.resultTitle}>Kết quả:</a> 605
+                    <input
+                      type="number"
+                      id="id"
+                      placeholder="Id"
+                      name="id"
+                      value={id}
+                      onChange={(e) => setId(e.target.value)}
+                      className={styles.inputId}
+                    ></input>
                   </div>
                 </div>
               </div>
+
               <div className={styles.end}>
                 <button
                   className={styles.cancel}
@@ -74,15 +122,16 @@ function Index(props) {
                     setOpenModal((e) => !e)
                   }}
                 >
-                  {props.title ? props.title : 'Go to homepage'}
+                  Cancel
                 </button>
                 <button
                   className={styles.accept}
                   onClick={() => {
+                    handleSubmit()
                     setOpenModal((e) => !e)
                   }}
                 >
-                  {props.title ? props.title : 'Go to homepage'}
+                  Submit
                 </button>
               </div>
             </div>

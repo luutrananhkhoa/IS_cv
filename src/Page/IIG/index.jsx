@@ -29,7 +29,7 @@ const Index = () => {
         content="Address Error"
         // action={() => navigation('/')}
       ></ModalWarning>
-      <Modal state={[requestModal, setRequestModal]}></Modal>
+      <Modal state={[requestModal, setRequestModal]} addressIIG={addressIIG}></Modal>
       <div className={styles.container}>
         <div className={styles.containerContent}>
           <div className={styles.containerSection}>

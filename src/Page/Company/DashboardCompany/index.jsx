@@ -1,21 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import styles from './styles.module.scss'
-import DashboardMenu from '@component/DashboardMenu'
-import HeaderDashboard from '@component/HeaderDashboard'
-import ListCertificate from './ListCertificate'
+import DashboardMenu from './DashboardMenu'
+import HeaderDashboard from './/HeaderDashboard'
 import { useTranslation } from 'react-i18next'
+import { menu } from './menu'
+import DashboardContextProvider, { DashboardContext } from './DashboardContextProvider'
 
-export default function Index() {
-  const [closeMenu, setCloseMenu] = useState(false)
-  const { t } = useTranslation('page', { keyPrefix: 'company.dashboard' })
+function Index() {
+  const { t } = useTranslation('page', { keyPrefix: 'company.dashboard.index' })
+  const { menuSelected, closeMenu, setCloseMenu } = useContext(DashboardContext)
   return (
     <>
-      {console.log(t('title'))}
-      <HeaderDashboard state={[closeMenu, setCloseMenu]}></HeaderDashboard>
+      {/* {console.log(t('title'))} */}
+      <HeaderDashboard></HeaderDashboard>
       <div className={styles.container}>
-        <DashboardMenu state={[closeMenu, setCloseMenu]}></DashboardMenu>
-        <ListCertificate></ListCertificate>
+        <DashboardMenu></DashboardMenu>
+        {menuSelected.element}
       </div>
     </>
+  )
+}
+
+export default function Wrapper() {
+  return (
+    <DashboardContextProvider>
+      <Index></Index>
+    </DashboardContextProvider>
   )
 }

@@ -9,5 +9,9 @@
   "filter": "Filter",
   "exam_location_input": "Exam location input",
   "status_input": "Status input",
-  "certificate_verification": "Certificate Verification"
+  "certificate_verification": "Certificate Verification",
+  "address": "Address",
+  "id": "Personal ID",
+  "request_date": "Request date",
+  "waiting": "Waiting"
 }

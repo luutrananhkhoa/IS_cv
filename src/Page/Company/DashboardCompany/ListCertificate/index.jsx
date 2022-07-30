@@ -1,20 +1,51 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styles from './styles.module.scss'
 import { BsChevronDown } from 'react-icons/bs'
 import { useTranslation } from 'react-i18next'
-import Modal from '../Modal'
+import { Web3Context } from '@context/Web3ContextProvider'
+import _ from 'lodash'
+import Item from './Item'
 
 export default function Index() {
-  const { t } = useTranslation('page', { keyPrefix: 'company.dashboard' })
-  const [openModal, setOpenModal] = useState(false)
+  const { t } = useTranslation('page', { keyPrefix: 'company.dashboard.index' })
+  const [list, setList] = useState()
+
+  const { contractStudentBusiness, address } = useContext(Web3Context)
+  useEffect(() => {
+    if (contractStudentBusiness) {
+      contractStudentBusiness.methods
+        .getListIIGRequest(address)
+        .call({ from: address })
+        .then((success) => {
+          console.log(success)
+          let arr = []
+          if (success[0]) {
+            _.forEach(success[0], (value, index) => {
+              if (success[0][index] !== '') {
+                arr.push({
+                  requestCode: success[0][index],
+                  address: success[1][index],
+                  id: success[3][index],
+                  requestDate: success[4][index],
+                  status: success[5][index],
+                })
+              }
+            })
+          }
+
+          setList(arr)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }, [])
   return (
     <>
-      <Modal state={[openModal, setOpenModal]}></Modal>
       <div className={styles.container}>
         <div className={styles.titleWrapper}>
           <div className={styles.title}>{t('certificate_verification')} </div>
         </div>
-
         <div className={styles.filterWrapper}>
           <p>{t('filter')}: </p>
           <div className={styles.inputWrapper}>
@@ -50,87 +81,17 @@ export default function Index() {
           <table className={styles.table}>
             <thead className={styles.thead}>
               <tr className={styles.body}>
-                <th className={`${styles.theaderStyle} ${styles.column1}`} onClick={()=>setOpenModal(true)}>{t('number')}</th>
-                <th className={`${styles.theaderStyle} ${styles.column2}`}>{t('full_name')}</th>
-                <th className={`${styles.theaderStyle} ${styles.column3}`}>{t('exam_date')}</th>
-                <th className={`${styles.theaderStyle} ${styles.column4}`}>{t('exam_location')}</th>
-                <th className={`${styles.theaderStyle} ${styles.column5}`}>{t('score')}</th>
-                <th className={`${styles.theaderStyle} ${styles.column6}`}>{t('status')}</th>
+                <th className={`${styles.theaderStyle} ${styles.column1}`}>{t('number')}</th>
+                <th className={`${styles.theaderStyle} ${styles.column2}`}>{t('address')}</th>
+                <th className={`${styles.theaderStyle} ${styles.column3}`}>{t('id')}</th>
+                <th className={`${styles.theaderStyle} ${styles.column4}`}>{t('request_date')}</th>
+                <th className={`${styles.theaderStyle} ${styles.column5}`}>{t('status')}</th>
               </tr>
             </thead>
             <tbody>
-              <tr className={styles.body}>
-                <th className={styles.column1}>Class name</th>
-                <th className={styles.column2}>Type</th>
-                <th className={styles.column3}>Hours</th>
-                <th className={styles.column4}>Trainer</th>
-                <th className={styles.column5}>Spots</th>
-                <th className={styles.column6}>Spots</th>
-              </tr>
-              <tr className={styles.body}>
-                <th className={styles.column1}>Class name</th>
-                <th className={styles.column2}>Type</th>
-                <th className={styles.column3}>Hours</th>
-                <th className={styles.column4}>Trainer</th>
-                <th className={styles.column5}>Spots</th>
-                <th className={styles.column6}>Spots</th>
-              </tr>
-              <tr className={styles.body}>
-                <th className={styles.column1}>Class name</th>
-                <th className={styles.column2}>Type</th>
-                <th className={styles.column3}>Hours</th>
-                <th className={styles.column4}>Trainer</th>
-                <th className={styles.column5}>Spots</th>
-                <th className={styles.column6}>Spots</th>
-              </tr>
-              <tr className={styles.body}>
-                <th className={styles.column1}>Class name</th>
-                <th className={styles.column2}>Type</th>
-                <th className={styles.column3}>Hours</th>
-                <th className={styles.column4}>Trainer</th>
-                <th className={styles.column5}>Spots</th>
-                <th className={styles.column6}>Spots</th>
-              </tr>
-              <tr className={styles.body}>
-                <th className={styles.column1}>Class name</th>
-                <th className={styles.column2}>Type</th>
-                <th className={styles.column3}>Hours</th>
-                <th className={styles.column4}>Trainer</th>
-                <th className={styles.column5}>Spots</th>
-                <th className={styles.column6}>Spots</th>
-              </tr>
-              <tr className={styles.body}>
-                <th className={styles.column1}>Class name</th>
-                <th className={styles.column2}>Type</th>
-                <th className={styles.column3}>Hours</th>
-                <th className={styles.column4}>Trainer</th>
-                <th className={styles.column5}>Spots</th>
-                <th className={styles.column6}>Spots</th>
-              </tr>
-              <tr className={styles.body}>
-                <th className={styles.column1}>Class name</th>
-                <th className={styles.column2}>Type</th>
-                <th className={styles.column3}>Hours</th>
-                <th className={styles.column4}>Trainer</th>
-                <th className={styles.column5}>Spots</th>
-                <th className={styles.column6}>Spots</th>
-              </tr>
-              <tr className={styles.body}>
-                <th className={styles.column1}>Class name</th>
-                <th className={styles.column2}>Type</th>
-                <th className={styles.column3}>Hours</th>
-                <th className={styles.column4}>Trainer</th>
-                <th className={styles.column5}>Spots</th>
-                <th className={styles.column6}>Spots</th>
-              </tr>
-              <tr className={styles.body}>
-                <th className={styles.column1}>Class name</th>
-                <th className={styles.column2}>Type</th>
-                <th className={styles.column3}>Hours</th>
-                <th className={styles.column4}>Trainer</th>
-                <th className={styles.column5}>Spots</th>
-                <th className={styles.column6}>Spots</th>
-              </tr>
+              {list?.map((value, index) => {
+                return <Item key={index} value={value} index={index}></Item>
+              })}
             </tbody>
           </table>
         </div>

@@ -13,7 +13,6 @@ module.exports = function override(config, env) {
   //   url: require.resolve('url'),
   // })
   config = rewireAliases.aliasesOptions({
-    '@': path.resolve(__dirname, 'src'),
     '@asset': path.resolve(__dirname, 'src/Asset'),
     '@component': path.resolve(__dirname, 'src/Component'),
     '@page': path.resolve(__dirname, 'src/Page'),
@@ -24,6 +23,7 @@ module.exports = function override(config, env) {
     '@constant': path.resolve(__dirname, 'src/Constant'),
     '@style': path.resolve(__dirname, 'src/Style'),
     '@locale': path.resolve(__dirname, 'src/Locale'),
+    '@': path.resolve(__dirname, 'src'),
   })(config, env)
   // config.resolve.fallback = fallback
   config.resolve.fallback = {

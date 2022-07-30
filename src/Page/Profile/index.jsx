@@ -12,7 +12,7 @@ import * as profileApi from '@api/employee/profile'
 const Index = () => {
   let navigate = useNavigate()
   const { setIsLoggedIn } = useContext(Context)
-  const { contractStudentBusiness, address, removeJwtEmployee } = useContext(Web3Context)
+  const { contractStudentBusiness, address, removeJwtEmployee, setAddress } = useContext(Web3Context)
   const [skills, setSkills] = useState()
   const [profile, setProfile] = useState()
   const [changeAvatar, setChangeAvatar] = useState()
@@ -21,6 +21,7 @@ const Index = () => {
   function HandleClick() {
     removeJwtEmployee()
     setIsLoggedIn(false)
+    setAddress(undefined)
     navigate('/')
   }
 

@@ -1,4 +1,5 @@
 @use './base/reset';
+@use './abtracts/mixins';
 @use './abtracts/variables';
 @tailwind base;
 @tailwind components;

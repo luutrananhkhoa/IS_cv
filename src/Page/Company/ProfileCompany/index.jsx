@@ -10,11 +10,12 @@ const Index = () => {
   let navigate = useNavigate()
   const [profileBusiness, setProfileBusiness] = useState()
   const { setIsLoggedIn, isIIg } = useContext(Context)
-  const { contractStudentBusiness, address, removeJwtCompany } = useContext(Web3Context)
+  const { contractStudentBusiness, address, removeJwtCompany, setAddress } = useContext(Web3Context)
   const [changeAvatar, setChangeAvatar] = useState()
   const [avatar, setAvatar] = useState()
   const handleLogout = () => {
     removeJwtCompany()
+    setAddress(undefined)
     setIsLoggedIn(false)
     navigate('/company')
   }
@@ -73,7 +74,7 @@ const Index = () => {
                   Change avatar
                 </button>
                 <Link
-                to = "/company/dashboard/iig"
+                  to="/company/dashboard/iig"
                   className="py-1  my-2 px-2 bg-secondary rounded-[30px] text-white text-md"
                 >
                   Open Dashboard

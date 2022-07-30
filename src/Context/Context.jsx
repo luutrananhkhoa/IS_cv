@@ -16,6 +16,7 @@ const ContextProvider = ({ children }) => {
     setIsLoggedIn,
     completeCheckMiddleware,
     setCompleteCheckMiddleware,
+    isIIG, setIsIIG
   }
 
   return <Context.Provider value={data}>{children}</Context.Provider>

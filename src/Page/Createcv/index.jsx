@@ -4,23 +4,26 @@ import { Context } from '../../Context/Context'
 import { Web3Context } from '../../Context/Web3ContextProvider'
 import Loading from '@component/Loading'
 import ModalWarning from '@component/ModalWarning'
+import avt from '@asset/avt_illu.jpg'
+import { uploadAvatar } from '@api/employee/profile'
 
 export default function Index() {
   let navigate = useNavigate()
 
   const { contractStudentBusiness, address, setJwtEmployee } = useContext(Web3Context)
-  const { setIsLoggedIn } = useContext(Context)
+  const { setIsLoggedIn, setExistAccount } = useContext(Context)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const [isUnpaid, setIsUnpaid] = useState(false)
 
   const [name, setName] = useState()
-  const [birthday, setBirthday] = useState()
+  const [phone, setPhone] = useState()
   const [professional, setProfessional] = useState()
   const [email, setEmail] = useState()
   const [github, setGithub] = useState()
   const [linkedin, setLinkedin] = useState()
   const [password, setPassword] = useState()
+  const [image, setImage] = useState()
 
   async function addProf() {
     setLoading(true)
@@ -28,17 +31,29 @@ export default function Index() {
       .checkExistStudent(address)
       .call()
       .then(async (success) => {
-        console.log(success)
         if (success === '0') {
+          let avatarUrl
+          if (image) {
+            const fd = new FormData()
+            fd.append('address', address)
+            fd.append('avatar', image)
+            await uploadAvatar(fd)
+              .then((success) => {
+                avatarUrl = `https://laravel.iscv.ftisu.vn/api/employee/getavatar?address=${address}`
+              })
+              .catch((error) => console.log(error))
+          }
+
           await contractStudentBusiness.methods
             .addStudentProfile(
               address,
               name,
-              birthday,
+              phone,
               professional,
               email,
               github,
               linkedin,
+              avatarUrl,
               password
             )
             .send({
@@ -47,8 +62,9 @@ export default function Index() {
             })
             .then((success) => {
               setJwtEmployee(address)
-              navigate('/')
               setIsLoggedIn(true)
+              setExistAccount(true)
+              navigate('/', { replace: true })
             })
             .catch((error) => {
               console.log(error)
@@ -74,6 +90,20 @@ export default function Index() {
         <div>
           <h1 className="text-left text-4xl text-white mt-[-20%] font-bold">CREATE MY CV</h1>
           <div>
+            <div className="flex justify-start items-end">
+              <img
+                className="h-[160px] w-[160px] rounded-md block object-cover"
+                alt="img"
+                src={image !== undefined ? URL.createObjectURL(image) : avt}
+              ></img>
+              <input
+                type="file"
+                name="avatar"
+                id="avatar"
+                onChange={(e) => setImage(e.target.files[0])}
+                className="ml-2 w-[100%] h-[100%] px-4 py-3 text-sm rounded-[8px] bg-white"
+              />
+            </div>
             <div className="flex">
               <div className="mt-6">
                 <label name="fname" className="text-white">
@@ -92,19 +122,19 @@ export default function Index() {
                 />
               </div>
               <div className="mt-6 ml-[4rem]">
-                <label name="birthday" className="text-white">
-                  Date of birth
+                <label name="phone" className="text-white">
+                  Phone
                 </label>
                 <br />
                 <input
-                  type="date"
-                  id="birthday"
-                  name="birthday"
-                  value={birthday}
-                  onChange={(e) => setBirthday(e.target.value)}
+                  type="number"
+                  id="phone"
+                  name="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   required
                   className="h-10 w-[20rem] p-4 rounded-[5px] outline-none"
-                  placeholder="Email"
+                  placeholder="Phone"
                 />
               </div>
             </div>

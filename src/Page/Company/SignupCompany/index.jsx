@@ -10,8 +10,8 @@ import Dropdown from '@component/Dropdown'
 import { listCompanySpecial } from './listCompanySpecial'
 
 const Index = () => {
-  const { contractStudentBusiness, address } = useContext(Web3Context)
-  const { setIsLoggedIn } = useContext(Context)
+  const { contractStudentBusiness, address, setJwtCompany } = useContext(Web3Context)
+  const { setIsLoggedIn, setExistAccount } = useContext(Context)
 
   const [loading, setLoading] = useState(false)
   const [isUnpaid, setIsUnpaid] = useState(false)
@@ -32,7 +32,7 @@ const Index = () => {
   async function addProfCompany() {
     setLoading(true)
 
-    listCompanySpecial[typeSelected]
+    await listCompanySpecial[typeSelected]
       .HandleFunction(
         contractStudentBusiness,
         address,
@@ -44,13 +44,17 @@ const Index = () => {
         website,
         password
       )
+      //  await contractStudentBusiness.methods
+      //     .addBusinessProfile(address, name, national, business, linkedin, facebook, website, password)
       .send({
         from: address,
         gas: 3000000,
       })
       .then((success) => {
+        setJwtCompany(address)
+        setExistAccount(true)
         setIsLoggedIn(true)
-        navigate('/company')
+        navigate('/company', { replace: true })
       })
       .catch((error) => {
         console.log('error', error)
@@ -60,6 +64,7 @@ const Index = () => {
   }
   return (
     <>
+      {/* {console.log(listCompanySpecial[typeSelected].HandleFunction)} */}
       <ModalWarning state={[isUnpaid, setIsUnpaid]} content="Is Unpaid" />
       <Loading state={loading}></Loading>
       <div className="min-h-screen min-w-full bg-primary pb-[8rem] float-left">

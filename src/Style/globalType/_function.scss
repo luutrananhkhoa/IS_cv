@@ -1,0 +1,23 @@
+@mixin paperBlank {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 0 6px 1px rgba(186, 184, 184, 0.755);
+}
+
+@mixin button($width, $height, $radius, $background) {
+  width: $width;
+  height: $height;
+  border-radius: $radius;
+  background-color: $background;
+  text-align: center;
+  line-height: $height;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+@mixin truncate($width: 100%) {
+  width: $width;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

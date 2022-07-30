@@ -4,7 +4,7 @@ import { API_ENDPOINT_LARAVEL } from '@constant/index'
 export const uploadAvatar = (fd, setProgress) => {
   return axiosServices.post(`${API_ENDPOINT_LARAVEL}/api/company/uploadavatar`, fd, {
     onUploadProgress: (progressEvent) => {
-      setProgress((progressEvent.loaded / progressEvent.total) * 100)
+      setProgress && setProgress((progressEvent.loaded / progressEvent.total) * 100)
     },
   })
 }

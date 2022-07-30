@@ -16,7 +16,6 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
       "@asset/*": ["./src/Asset/*"],
       "@component/*": ["./src/Component/*"],
       "@page/*": ["./src/Page/*"],
@@ -26,7 +25,8 @@
       "@layout/*": ["./src/Layout/*"],
       "@constant/*": ["./src/Constant/*"],
       "@style/*": ["./src/Style/*"],
-      "@locale/*": ["./src/Locale/*"]
+      "@locale/*": ["./src/Locale/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["**/*.d.js", "**/*.js", "**/*.jsx"],
