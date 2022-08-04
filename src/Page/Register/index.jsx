@@ -20,7 +20,7 @@ export default function Index() {
             .send({
               // from: '0x4d4B38Ce785c6f1d826820721516d3f29c49A845',
               from: address,
-              gas: 3000000,
+              
             })
             .then((success) => {
               setOpenModal(true)

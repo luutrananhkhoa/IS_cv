@@ -170,12 +170,16 @@ $dropdownIconWidth: 50px;
 .buttonStatus {
   @extend %button;
   color: var(--color-text-secondary);
+  min-width: 130px;
 }
 .buttonWaiting {
   background: var(--color-button-primary);
 }
 .buttonAccepted {
   background: var(--color-button-secondary);
+}
+.buttonDeclined {
+  background: var(--color-button-tertiary);
 }
 
 $marginValue: 2px;

@@ -48,7 +48,6 @@ const Index = () => {
       //     .addBusinessProfile(address, name, national, business, linkedin, facebook, website, password)
       .send({
         from: address,
-        gas: 3000000,
       })
       .then((success) => {
         setJwtCompany(address)

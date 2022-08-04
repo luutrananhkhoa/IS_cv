@@ -15,23 +15,46 @@ const Index = () => {
   const [dialog, setDialog] = useState(true)
 
   let navigate = useNavigate()
-  async function checkBPro(e) {
+  async function checkBPro() {
     setLoading(true)
-    await contractStudentBusiness.methods
-      .checkBusinessProfile(address, password)
-      .call()
-      .then((result) => {
-        if (parseInt(result) == 1) {
-          setJwtCompany(address)
-          setIsLoggedIn(true)
-          navigate('/company')
-        } else {
-          setDialog(true)
-        }
+
+    await Promise.allSettled([
+      await contractStudentBusiness.methods
+        .checkBusinessProfile(address, password)
+        .call()
+        .then((result) => {
+          if (parseInt(result) == 1) {
+            setJwtCompany(address)
+            setIsLoggedIn(true)
+            navigate('/company')
+          } else {
+            setDialog(true)
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        }),
+
+      await contractStudentBusiness.methods
+        .checkIIGProfile(address, password)
+        .call({ from: address })
+        .then((success) => {
+          if (parseInt(success) == 1) {
+            setJwtCompany(address)
+            setIsLoggedIn(true)
+            navigate('/company')
+          } else {
+            setDialog(true)
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        }),
+    ])
+      .then((success) => {
+        console.log(success)
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch((error) => console.log(error))
     setLoading(false)
   }
 
@@ -85,14 +108,9 @@ const Index = () => {
                 onClick={checkBPro}
                 className="mt-[2rem] mx-auto w-[75%] h-10 text-white bg-primary hover:bg-orange-btn ease-in duration-100 rounded-[30px]"
               >
-                Sign in
+                Login
               </button>
-              {/* <h3 className=" text-white text-sm mx-auto font-medium mt-4">
-                Not a member?
-                <Link to="/companymanage" className="text-primary text-sm font-bold mt-4">
-                  SIGN UP
-                </Link>
-              </h3> */}
+
             </div>
           </div>
         </div>

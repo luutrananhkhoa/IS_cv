@@ -43,43 +43,50 @@ export default function ContractMiddlewareCompany(props) {
             const addressTemp = success[0]
             if (addressTemp) {
               setAddress(addressTemp)
-              await myContract.methods
-                .checkExistBusiness(addressTemp)
-                .call()
-                .then((success) => {
-                  if (success === '1') {
-                    setExistAccount(true)
-                    if (getJwtCompany() === addressTemp) {
-                      setIsLoggedIn(true)
-                      setJwtCompany(addressTemp)
-                    } else {
-                      removeJwtCompany()
-                    }
-                  }
-                })
-                .catch((error) => {
-                  console.log(error)
-                })
 
-              ///IIG
-              await myContract.methods
-                .checkExistIIG(addressTemp)
-                .call()
-                .then((success) => {
-                  if (success === '1') {
-                    setExistAccount(true)
-                    if (getJwtCompany() === addressTemp) {
-                      setIsLoggedIn(true)
-                      setJwtCompany(addressTemp)
-                      setIsIIG(true)
-                    } else {
-                      removeJwtCompany()
+              await Promise.allSettled([
+                await myContract.methods
+                  .checkExistBusiness(addressTemp)
+                  .call()
+                  .then((success) => {
+                    if (success === '1') {
+                      setExistAccount(true)
+                      if (getJwtCompany() === addressTemp) {
+                        setIsLoggedIn(true)
+                        setJwtCompany(addressTemp)
+                      } else {
+                        removeJwtCompany()
+                      }
                     }
-                  }
+                  })
+                  .catch((error) => {
+                    console.log(error)
+                  }),
+
+                //check IIG
+                await myContract.methods
+                  .checkExistIIG(addressTemp)
+                  .call()
+                  .then((success) => {
+                    if (success === '1') {
+                      setExistAccount(true)
+                      if (getJwtCompany() === addressTemp) {
+                        setIsLoggedIn(true)
+                        setJwtCompany(addressTemp)
+                        setIsIIG(true)
+                      } else {
+                        removeJwtCompany()
+                      }
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(error)
+                  }),
+              ])
+                .then((success) => {
+                  console.log(success)
                 })
-                .catch((error) => {
-                  console.log(error)
-                })
+                .catch((error) => console.log(error))
             }
           })
           .catch((error) => {

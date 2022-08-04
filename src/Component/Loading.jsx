@@ -13,8 +13,8 @@ function Loading(props) {
     <>
       {open && (
         <>
-          <div className="fixed top-0 left-0 right-0 w-[100vw] h-[100vh] opacity-90 bg-slate-600 z-[6]"></div>
-          <div className="fixed top-0 left-0 right-0 z-[7]">
+          <div className="fixed top-0 left-0 right-0 w-[100vw] h-[100vh] opacity-90 bg-slate-600 z-[100]"></div>
+          <div className="fixed top-0 left-0 right-0 z-[101]">
             <RingLoader
               color={'#133ceb'}
               loading={true}

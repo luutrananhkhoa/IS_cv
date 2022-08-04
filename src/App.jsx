@@ -23,11 +23,11 @@ import DashboardCompany from '@page/Company/DashboardCompany'
 import aos from 'aos'
 import ContractMiddleware from '@/Middleware/ContractMiddleware'
 import ContractMiddlewareCompany from '@/Middleware/ContractMiddlewareCompany'
-import Test from '@/Page/Test'
+import Test from '@page/Test'
 import LayoutHeader from '@layout/LayoutHeader'
 import LayoutHeaderCompany from '@layout/LayoutHeaderCompany'
 import IIG from './Page/IIG'
-import DashboardContextProvider from '@page/Company/DashboardCompany/DashboardContextProvider'
+import AddressMiddleware from '@middleware/AddressMiddleware'
 
 function App() {
   aos.init()
@@ -47,25 +47,18 @@ function App() {
                 <Route path="evaluate" element={<Evaluate />} />
                 <Route path="test" element={<Test />} />
               </Route>
-              <Route path="">
+              <Route path="" element={<AddressMiddleware></AddressMiddleware>}>
                 <Route path="mycv" element={<Mycv />} />
               </Route>
             </Route>
-            <Route
-              path=""
-              element={<ContractMiddleware requestAddress> </ContractMiddleware>}
-            >
+            <Route path="" element={<ContractMiddleware requestAddress> </ContractMiddleware>}>
               <Route path="createcv" element={<Createcv />} />
             </Route>
-            <Route
-              path=""
-              element={<ContractMiddleware requestAccount> </ContractMiddleware>}
-            >
+            <Route path="" element={<ContractMiddleware requestAccount> </ContractMiddleware>}>
               <Route path="login" element={<Login />} />
             </Route>
             <Route path="" element={<ContractMiddleware requestLogin></ContractMiddleware>}>
               <Route path="" element={<LayoutHeader></LayoutHeader>}>
-                <Route path="mycv" element={<Mycv />} />
                 <Route path="register" element={<Register />} />
                 <Route path="profile" element={<Profile />} />
               </Route>
@@ -95,9 +88,7 @@ function App() {
             </Route>
             <Route
               path=""
-              element={
-                <ContractMiddlewareCompany requestAddress> </ContractMiddlewareCompany>
-              }
+              element={<ContractMiddlewareCompany requestAddress> </ContractMiddlewareCompany>}
             >
               <Route path="" element={<LayoutHeaderCompany></LayoutHeaderCompany>}>
                 <Route path="signup" element={<SignupCompany />} />
@@ -106,9 +97,7 @@ function App() {
 
             <Route
               path=""
-              element={
-                <ContractMiddlewareCompany requestAccount> </ContractMiddlewareCompany>
-              }
+              element={<ContractMiddlewareCompany requestAccount> </ContractMiddlewareCompany>}
             >
               <Route path="login" element={<LoginCompany />} />
             </Route>

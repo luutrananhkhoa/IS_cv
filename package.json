@@ -6,11 +6,10 @@
     "start": "react-app-rewired start",
     "dev": "vite",
     "build": "react-app-rewired build",
-    "preview": "vite preview",
-    "rstart": "react-app-rewired start",
-    "rbuild": "react-app-rewired build"
+    "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/helper-string-parser": "^7.18.10",
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@metamask/detect-provider": "^1.2.0",
     "aos": "^2.3.4",

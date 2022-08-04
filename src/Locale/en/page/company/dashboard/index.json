@@ -13,5 +13,7 @@
   "address": "Address",
   "id": "Personal ID",
   "request_date": "Request date",
-  "waiting": "Waiting"
+  "waiting": "Waiting",
+  "success": "Success",
+  "declined": "Declined"
 }

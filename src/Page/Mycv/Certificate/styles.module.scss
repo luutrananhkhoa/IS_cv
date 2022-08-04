@@ -1,0 +1,53 @@
+@use '../../../Style/abtracts/mixins' as mixin;
+@use '../../../Style/globalType/function' as function;
+$margin: 20px;
+$width: 230px;
+$dateWidth: 150px;
+$minInputWidth: 200px;
+.wrapper {
+  width: 100%;
+  .container {
+    display: flex;
+    flex-direction: column;
+    .content {
+      // widt h: 800px;
+      width: 100%;
+      position: relative;
+
+      display: flex;
+      // justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: stretch;
+      @include mixin.md {
+        flex-direction: column;
+      }
+      .inputWrapper {
+        position: relative;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        margin: 5px 10px;
+        .addressTitle {
+          width: 100%;
+          flex: 1;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .label {
+          color: var(--color-text-primary);
+          font-weight: 400;
+        }
+        .input {
+          margin: 0px 0px 0px 0px;
+          background: var(--color-background-primary);
+          padding: 3px 7px;
+          // min-width: $minInputWidth;
+          flex: 1;
+          border-radius: 10px;
+          @include function.truncate();
+        }
+      }
+    }
+  }
+}

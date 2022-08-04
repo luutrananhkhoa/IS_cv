@@ -1,16 +1,30 @@
 @use '../../../../Style/abtracts/mixins' as mixin;
-@use "../../../../Style/globalType/function" as function; 
+@use '../../../../Style/globalType/function' as function;
 $margin: 20px;
 $width: 230px;
 $dateWidth: 150px;
 $dropdownIconWidth: 50px;
 $minInputWidth: 300px;
+$tableScrollHeight: 500px;
+%theaderStyle {
+  font-weight: 600;
+  padding: 20px 20px;
+
+  color: var(--color-text-secondary);
+}
 %inputStyle {
   padding: 5px 10px;
   font-size: 15px;
   color: rgb(85, 85, 85);
   height: 40px;
   background: var(--color-theme-primary);
+}
+%thStyle {
+  padding: 5px 10px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+
+  // background: purple;
 }
 %dropdownStyle {
   // padding: 5px 5px;
@@ -36,6 +50,7 @@ $minInputWidth: 300px;
   box-shadow: var(--box-shadown-primary);
   border: var(--border-primary);
   border-radius: 0.25rem;
+  width: 100%;
 }
 .container {
   position: relative;
@@ -91,76 +106,119 @@ $minInputWidth: 300px;
       }
     }
   }
-}
 
-.listWrapper {
-  position: relative;
-  background: var(--color-background-primary);
-  // background: blue;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  .left {
-    flex: 1;
-    margin: $margin;
-  }
-  .right {
-    flex: 1;
-    margin: $margin;
-  }
   .group {
-    @extend %group;
-    .header {
+    margin: 70px 50px;
+    .tableWrapper {
+      box-shadow: 0 0 40px 0rgba (0, 0, 0, 0.15);
+
       display: flex;
-      -ms-flex-align: center;
+      background: white;
+      justify-content: center;
       align-items: center;
-      border-bottom-width: 1px;
-      padding: 5px 10px;
-      height: 3.5rem;
-      border-bottom: 1.5px solid var(--color-background-primary);
-      color: var(--color-text-primary);
-      .iconGroup {
-        background: -webkit-linear-gradient(#12b5b5 0%, rgb(43, 51, 215) 100%);
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin: 0px 10px;
-      }
-    }
-    .scroll {
-      height: 400px;
-      // overflow-y: scroll;
-
-      .list {
-        overflow-y: scroll;
-
-        // overflow: hidden;
+      border-radius: 10px;
+      .table {
         width: 100%;
         height: 100%;
-        .item {
-          height: 3rem;
-          border-bottom: 1.5px solid var(--color-background-primary);
-          padding: 10px 20px;
+        box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+        th {
+          &:first-child {
+            border-radius: 10px 0 0 10px;
+          }
+          &:last-child {
+            border-radius: 0 10px 10px 0;
+          }
         }
+
+        .thead {
+          position: relative;
+          display: block;
+          text-align: center;
+          tr {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            align-content: center;
+            background-color: var(--color-background-secondary);
+            border-radius: 10px;
+          }
+          .theaderStyle {
+            @extend %theaderStyle;
+          }
+        }
+        tbody {
+          display: block;
+          max-height: $tableScrollHeight;
+          overflow: auto;
+          tr {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            &:nth-child(even) {
+              background-color: #f5f5f5;
+            }
+            td {
+              display: block;
+              height: 60px;
+              text-align: center;
+            }
+          }
+        }
+      }
+      .column1 {
+        width: 5%;
+        @extend %thStyle;
+      }
+      .column2 {
+        width: 20%;
+        @extend %thStyle;
+      }
+      .column3 {
+        width: 10%;
+        @extend %thStyle;
+      }
+      .column4 {
+        width: 10%;
+        @extend %thStyle;
+      }
+      .column5 {
+        width: 20%;
+        @extend %thStyle;
+      }
+      .column6 {
+        width: 20%;
+        @extend %thStyle;
+      }
+      .column7 {
+        width: 20%;
+        @extend %thStyle;
       }
     }
 
-    .footer {
+    .groupTitleWrapper {
       display: flex;
-      -ms-flex-align: center;
-      align-items: center;
-      justify-content: flex-end;
-      border-bottom-width: 1px;
-      padding: 5px 10px;
-      height: 3.5rem;
-      border-top: 1.5px solid var(--color-background-primary);
-      color: var(--color-text-primary);
-      .buttonCancel {
-        @extend %button;
+      justify-content: space-between;
+      margin: 0px 0px 10px 0px;
+      .textTitle {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .iconWrapper {
+          margin: 0px 10px 0px 0px;
+          .icon {
+            background: -webkit-linear-gradient(rgb(224, 70, 70), rgb(230, 212, 76));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+        }
       }
+
       .buttonAdd {
-        @extend %button;
+        background: var(--color-button-primary);
+        color: var(--color-text-secondary);
+        padding: 6px 15px;
+        border-radius: 12px;
       }
     }
   }
@@ -172,10 +230,7 @@ $minInputWidth: 300px;
   flex-direction: column;
   align-items: center;
   position: relative;
-  max-width: 100%;
   .content {
-    // width: 800px;
-
     position: relative;
 
     display: flex;
@@ -191,7 +246,7 @@ $minInputWidth: 300px;
       justify-content: flex-start;
       flex-direction: column;
       margin: 5px 10px;
-      .addressTitle{
+      .addressTitle {
         width: 100%;
         flex: 1;
         white-space: nowrap;
@@ -208,8 +263,21 @@ $minInputWidth: 300px;
         padding: 7px 15px;
         min-width: $minInputWidth;
         border-radius: 10px;
-        @include function.truncate()
+        @include function.truncate();
       }
     }
   }
+}
+
+%button {
+  border-radius: 20px;
+  padding: 5px 15px;
+  margin: 2px 5px;
+}
+.buttonStatus {
+  @extend %button;
+  color: var(--color-text-secondary);
+}
+.buttonWaiting {
+  background: var(--color-button-primary);
 }

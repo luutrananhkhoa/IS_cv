@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next'
 function Index(props) {
   const [openModal, setOpenModal] = props.state
   const { action, nonaction, content, actionText, nonactionText, title, children } = props
-  const { t } = useTranslation('translate')
+  const { t } = useTranslation('')
   return (
     <>
       {openModal && (
@@ -45,7 +45,7 @@ function Index(props) {
             <div className={styles.contentWrapper}>{content ? content : children}</div>
 
             <div className={styles.end}>
-              {nonactionText && (
+              {nonaction && (
                 <button
                   className={styles.cancel}
                   onClick={() => {
@@ -59,7 +59,7 @@ function Index(props) {
               <button
                 className={styles.accept}
                 onClick={() => {
-                  action && action()
+                  action ? action() : setOpenModal((e) => !e)
                 }}
               >
                 {actionText ? actionText : t('oke')}

@@ -13,5 +13,7 @@
   "address": "Địa chỉ",
   "id": "CCCD",
   "request_date": "Ngày yêu cầu",
-  "waiting": "Đang chờ"
+  "waiting": "Đang chờ",
+  "success": "Thành công",
+  "declined": "Từ chối"
 }

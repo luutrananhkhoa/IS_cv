@@ -8,8 +8,8 @@ import _ from 'lodash'
 import { Web3Context } from '../../Context/Web3ContextProvider'
 import { useSearchParams } from 'react-router-dom'
 import ModalWarning from '@/Component/ModalWarning'
-import Web3 from 'web3'
 import * as profileApi from '@api/employee/profile'
+import Certificate from './Certificate'
 
 const Index = () => {
   const componentRef = useRef()
@@ -23,12 +23,8 @@ const Index = () => {
   const addressEmployee = searchParams.get('address')
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       if (contractStudentBusiness) {
-        if (!new Web3().utils.isAddress(addressEmployee)) {
-          setAddressError(true)
-          return
-        }
         contractStudentBusiness.methods
           .getStudentSkill(addressEmployee)
           .call()
@@ -180,6 +176,7 @@ const Index = () => {
               <div className="mt-[3rem] ml-4 ">
                 <h1 className="text-2xl font-bold text-primary ">CERTIFICATES</h1>
                 <hr className="w-[90%] h-[3px] border-0 bg-primary" />
+                <Certificate addressEmployee={addressEmployee}></Certificate>
               </div>
               <div className="mt-[3rem] ml-4 ">
                 <h1 className="text-2xl font-bold text-primary ">PERSONAL PROJECTS</h1>

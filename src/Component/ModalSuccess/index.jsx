@@ -1,5 +1,6 @@
 import React, { memo, useState, useContext } from 'react'
 import styles from './styles.module.scss'
+import { useTranslation } from 'react-i18next'
 
 /**
  * to Create ModalWarning
@@ -15,6 +16,7 @@ import styles from './styles.module.scss'
 function Index(props) {
   const [openModal, setOpenModal] = props.state
   const { action, nonaction, content, actionText, nonactionText, title } = props
+  const { t } = useTranslation('')
   return (
     <>
       {openModal && (
@@ -41,11 +43,11 @@ function Index(props) {
               </div>
               <p className={styles.titleText}>
                 <i className={`fa-solid fa-exclamation ${styles.icon}`}></i>
-                {title ? title : 'Warning'}
+                {title ? title : t('success')}
               </p>
             </div>
             <div className={styles.contentWrapper}>
-              <div className={styles.group}>{content ? content : 'Warning'}</div>
+              <div className={styles.group}>{content ? content : t('success')}</div>
 
               <div className={styles.end}>
                 {nonactionText && (
@@ -56,17 +58,16 @@ function Index(props) {
                       setOpenModal((e) => !e)
                     }}
                   >
-                    {nonactionText ? nonactionText : 'Cancel'}
+                    {nonactionText ? nonactionText : t('cancel')}
                   </button>
                 )}
                 <button
                   className={styles.accept}
                   onClick={() => {
-                    action && action()
-                    setOpenModal((e) => !e)
+                    action ? action() : setOpenModal((e) => !e)
                   }}
                 >
-                  {actionText ? actionText : 'Oke'}
+                  {actionText ? actionText : t('oke')}
                 </button>
               </div>
             </div>

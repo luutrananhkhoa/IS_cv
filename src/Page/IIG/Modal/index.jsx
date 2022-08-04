@@ -19,7 +19,7 @@ function Index(props) {
   const { contractStudentBusiness, address } = useContext(Web3Context)
   const [requestAddressModal, setRequestAddressModal] = useState(false)
   const [error, setError] = useState(false)
-  const [isUnpaid, setIsUnpaid] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const { addressIIG } = props
@@ -31,34 +31,61 @@ function Index(props) {
       setRequestAddressModal(true)
       return
     }
-    const date = new Date().getTime()
+    
+
     setLoading(true)
+
+    let alreadyRequested = false
     await contractStudentBusiness.methods
-      .sendIIGRequest(address, addressIIG, id, date.toString())
-      .send({
-        from: address,
-        gas: 3000000,
-      })
+      .checkIIGRequest(address, addressIIG)
+      .call({ from: address })
       .then((success) => {
-        setSuccess(true)
+        console.log(success)
+        if (parseInt(success) === 1) {
+          setError(true)
+          setErrorMessage('Already request')
+          alreadyRequested = true
+        }
       })
       .catch((error) => {
         console.log(error)
-        if (error.code === 4001) {
-          setIsUnpaid(true)
-        } else {
-          setError(true)
-        }
       })
+      
+    if (!alreadyRequested) {
+      const date = new Date().getTime()
+      await contractStudentBusiness.methods
+        .sendIIGRequest(address, addressIIG, id, date.toString())
+        .send({
+          from: address,
+        })
+        .then((success) => {
+          setSuccess(true)
+        })
+        .catch((error) => {
+          console.log(error)
+          if (error.code === 4001) {
+            setError(true)
+            setErrorMessage('Is unpaid')
+          } else {
+            setError(true)
+            setErrorMessage('error')
+          }
+        })
+    }
 
     setLoading(false)
   }
   return (
     <>
       <Loading state={loading}></Loading>
-      <ModalWarning state={[isUnpaid, setIsUnpaid]} content="Is Unpaid " />
       <ModalSuccess state={[success, setSuccess]} content="Ssuccess" actionText="Ssuccess" />
-      <ModalWarning state={[error, setError]} content="Error" />
+      <ModalWarning
+        state={[error, setError]}
+        content={errorMessage}
+        action={() => {
+          setError(false)
+        }}
+      />
       <ModalWarning
         state={[requestAddressModal, setRequestAddressModal]}
         content="Request Login"

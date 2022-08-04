@@ -456,6 +456,35 @@ export const abiStudentBusiness = [
     inputs: [
       {
         internalType: 'address',
+        name: '_studentOwner',
+        type: 'address',
+      },
+      {
+        internalType: 'string',
+        name: '_testDate',
+        type: 'string',
+      },
+      {
+        internalType: 'uint256',
+        name: '_shiftTest',
+        type: 'uint256',
+      },
+    ],
+    name: 'checkIIGLRResult',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
         name: '_iigOwner',
         type: 'address',
       },
@@ -466,6 +495,59 @@ export const abiStudentBusiness = [
       },
     ],
     name: 'checkIIGProfile',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_studentOwner',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: '_iigOwner',
+        type: 'address',
+      },
+    ],
+    name: 'checkIIGRequest',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_studentOwner',
+        type: 'address',
+      },
+      {
+        internalType: 'string',
+        name: '_testDate',
+        type: 'string',
+      },
+      {
+        internalType: 'uint256',
+        name: '_shiftTest',
+        type: 'uint256',
+      },
+    ],
+    name: 'checkIIGSWResult',
     outputs: [
       {
         internalType: 'uint256',
@@ -1653,4 +1735,4 @@ export const abiStudentBusiness = [
     type: 'function',
   },
 ]
-export const addressStudentBusiness = '0x573dc3726e8d30b54a3f809839ccd108830a1073'
+export const addressStudentBusiness = '0x64b1729CCAbF4642F6197A3ae3d649f549FdAa3E'

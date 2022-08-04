@@ -1,0 +1,229 @@
+$anim: 0.75s;
+$moveEase: cubic-bezier(0.39, 0.575, 0.565, 1);
+$circEase: cubic-bezier(0.61, 0.425, 0.565, 1);
+$sizeEase: ease-out;
+$fontSize: 17px;
+$height: 65px;
+$borderRadius: 6px;
+$marginHeight: 2px;
+
+$info: linear-gradient(
+  54deg,
+  rgb(49, 140, 231) 17%,
+  rgb(70, 154, 232) 41%,
+  rgba(125, 164, 235, 0.995) 80%
+);
+$success: linear-gradient(
+  54deg,
+  rgba(49, 227, 231, 1) 17%,
+  rgba(70, 232, 211, 1) 41%,
+  rgba(125, 235, 167, 0.9948573179271709) 80%
+);
+$warning: linear-gradient(
+  54deg,
+  rgb(231, 189, 49) 17%,
+  rgb(232, 178, 70) 41%,
+  rgba(235, 198, 125, 0.995) 80%
+);
+$error: linear-gradient(
+  54deg,
+  rgb(231, 119, 49) 17%,
+  rgb(232, 127, 70) 41%,
+  rgba(235, 149, 125, 0.995) 80%
+);
+.info {
+  background: $info;
+  span {
+    background: $info;
+  }
+}
+.success {
+  background: $success;
+  span {
+    background: $success;
+  }
+}
+.warning {
+  background: $warning;
+  span {
+    background: $warning;
+  }
+}
+.error {
+  background: $error;
+  span {
+    background: $error;
+  }
+}
+@keyframes transform-close {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(8px);
+  }
+}
+@keyframes transform-open {
+  from {
+    transform: translateX(8px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes circle-reveal-revert {
+  100% {
+    clip-path: circle(250px at center);
+  }
+  75% {
+    opacity: 1;
+  }
+  0% {
+    opacity: 0;
+    clip-path: circle(10px at 100% 50%);
+  }
+}
+@keyframes circle-reveal {
+  0% {
+    opacity: 0;
+    clip-path: circle(10px at 100% 50%);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    clip-path: circle(250px at center);
+  }
+}
+.notifications {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  max-height: 100%;
+}
+.notificationAnimation {
+  transition: 300px $anim * 4/5 $circEase;
+  animation: circle-reveal $anim * 3/4 $circEase, transform-open $anim $moveEase;
+}
+.notificationAnimationRevert {
+  animation-name: fade-in;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+}
+.notificationsItemRevert {
+  width: 0px;
+}
+
+.pauseOnHover {
+  &:hover {
+    .progressBar {
+      span {
+        animation-play-state: paused !important;
+      }
+    }
+  }
+}
+.notificationsItem {
+  min-width: 200px;
+  cursor: pointer;
+  height: $height;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  justify-items: flex-start;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--background-primary);
+  border-radius: $borderRadius;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  color: var(--color-text-primary);
+  margin: $marginHeight 0px;
+  .notificationContent {
+    padding: 10px 20px;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    .icon {
+      margin: 0px 20px 0px 0px;
+      font-size: 30px;
+      background-clip: text;
+      color: transparent;
+      flex-shrink: 0;
+    }
+    .text {
+      font-size: $fontSize;
+      line-height: 1;
+      flex: 1;
+      text-align: left;
+    }
+  }
+  .progressBar {
+    flex-shrink: 0;
+    box-sizing: content-box;
+    height: 5px;
+    // max-height: 6px;
+    // aspect-ratio: 25/1;
+    width: 100%;
+    border-bottom-right-radius: $borderRadius;
+    border-bottom-left-radius: $borderRadius;
+    span {
+      border-bottom-left-radius: $borderRadius;
+      display: block;
+      height: 100%;
+      width: 0px;
+      animation: move linear;
+
+      animation-play-state: running;
+      animation-iteration-count: 1;
+      opacity: 1;
+
+      overflow: hidden;
+    }
+
+    @keyframes move {
+      from {
+        width: 100%;
+      }
+      to {
+        width: 0%;
+      }
+    }
+  }
+}
+
+.displayNone {
+  height: 0px;
+  margin: 0px;
+  width: 0px;
+  min-width: 0px;
+  animation: hide $anim * 3/4 $circEase;
+  overflow: hidden;
+}
+
+@keyframes hide {
+  from {
+    clip-path: circle(250px at center);
+    opacity: 1;
+    width: 100%;
+    margin: $marginHeight 0px;
+    height: $height;
+  }
+  to {
+    opacity: 0;
+    width: 0px;
+    height: 0px;
+    margin: 0px;
+    clip-path: circle(10px at 100% 50%);
+  }
+}
+
+// .displayNone {
+//   display: none;
+// }

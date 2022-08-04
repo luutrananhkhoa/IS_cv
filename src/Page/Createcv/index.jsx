@@ -32,7 +32,7 @@ export default function Index() {
       .call()
       .then(async (success) => {
         if (success === '0') {
-          let avatarUrl
+          let avatarUrl = ''
           if (image) {
             const fd = new FormData()
             fd.append('address', address)
@@ -58,7 +58,7 @@ export default function Index() {
             )
             .send({
               from: address,
-              gas: 3000000,
+              //
             })
             .then((success) => {
               setJwtEmployee(address)

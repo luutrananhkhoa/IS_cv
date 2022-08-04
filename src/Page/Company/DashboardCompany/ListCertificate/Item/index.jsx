@@ -29,8 +29,16 @@ export default function Index(props) {
                 {t('waiting')}
               </button>
             )}
-            {value.status === 'Accepted' && <button></button>}
-            {value.status === 'Decline' && <button></button>}
+            {value.status === 'Accepted' && (
+              <button className={clsx(styles.buttonStatus, styles.buttonAccepted)}>
+                {t('success')}
+              </button>
+            )}
+            {value.status === 'Declined' && (
+              <button className={clsx(styles.buttonStatus, styles.buttonDeclined)}>
+                {t('declined')}
+              </button>
+            )}
             <button className={styles.buttonSW} onClick={hanldeClick}>
               <i className={clsx('fa-regular fa-pen-to-square', styles.iconS)}></i>
             </button>

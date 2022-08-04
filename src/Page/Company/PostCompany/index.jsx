@@ -12,7 +12,7 @@ const Index = () => {
       .addRecruit(address, $('#_title').val(), $('#_description').val())
       .send({
         from: address,
-        gas: 3000000,
+        
       })
       .then((success) => navigate('/company'))
       .catch((error) => {

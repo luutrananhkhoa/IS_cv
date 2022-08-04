@@ -38,7 +38,7 @@ export default function Index(props) {
             .sendCV(address, addressBusiness, title, content)
             .send({
               from: address,
-              gas: 3000000,
+              
             })
             .then((success) => {
               setIsSuccess(true)
