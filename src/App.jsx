@@ -28,12 +28,14 @@ import LayoutHeader from '@layout/LayoutHeader'
 import LayoutHeaderCompany from '@layout/LayoutHeaderCompany'
 import IIG from './Page/IIG'
 import AddressMiddleware from '@middleware/AddressMiddleware'
+import { ToastContainer } from '@component/Toast'
 
 function App() {
   aos.init()
   aos.refresh()
   return (
     <div className="App">
+      <ToastContainer></ToastContainer>
       <Routes>
         <Route path="">
           <Route path="">

@@ -1,53 +1,174 @@
 @use '../../../Style/abtracts/mixins' as mixin;
 @use '../../../Style/globalType/function' as function;
-$margin: 20px;
-$width: 230px;
-$dateWidth: 150px;
-$minInputWidth: 200px;
-.wrapper {
-  width: 100%;
-  .container {
-    display: flex;
-    flex-direction: column;
-    .content {
-      // widt h: 800px;
-      width: 100%;
-      position: relative;
 
+$circleScoreWidth: 30px;
+$valueBackground: #989292;
+.container {
+  padding: 0px 56px 0px 0px;
+  .title {
+    color: var(--color-text-tertiary);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 30px;
+  }
+
+  .wrapper {
+    .date {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 21px;
+    }
+    .bar {
       display: flex;
-      // justify-content: space-between;
-      flex-wrap: wrap;
-      align-items: stretch;
-      @include mixin.md {
-        flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+      &:not(:first-child) {
+        margin: 40px 0px 0px 0px;
       }
-      .inputWrapper {
-        position: relative;
+      .line {
+        width: 100%;
+        flex: 1;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
+        align-items: flex-start;
         flex-direction: column;
-        margin: 5px 10px;
-        .addressTitle {
+        .lineWrapper {
           width: 100%;
-          flex: 1;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          margin: 5px 0px;
+          .line1 {
+            flex: 1;
+            .name {
+              font-weight: 600;
+              font-size: 18px;
+              width: 100px;
+            }
+          }
+          .line1Text {
+            flex-shrink: 0;
+            width: 40px;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 18px;
+            text-align: end;
+          }
         }
-        .label {
-          color: var(--color-text-primary);
-          font-weight: 400;
+      }
+      .circle {
+        flex-shrink: 0;
+        width: 100px;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        .circleTitleWrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0px 0px 10px 0px;
+          background: var(--color-background-tertiary);
+          color: var(--color-text-secondary);
+          font-weight: 600;
+          font-size: 15px;
+          width: 80px;
+          height: 60px;
+          a {
+            text-align: center;
+          }
         }
-        .input {
-          margin: 0px 0px 0px 0px;
-          background: var(--color-background-primary);
-          padding: 3px 7px;
-          // min-width: $minInputWidth;
-          flex: 1;
-          border-radius: 10px;
-          @include function.truncate();
+        .circleImage {
+          border: 5px solid $valueBackground;
+          border-radius: 50%;
+          -moz-border-radius: 50%;
+          -webkit-border-radius: 50%;
+          width: 60px;
+          aspect-ratio: 1/1;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: var(--color-text-tertiary);
+          font-weight: 600;
         }
       }
     }
+  }
+}
+
+.progressBar {
+  flex-shrink: 0;
+  box-sizing: content-box;
+  height: 10px;
+  background: $valueBackground;
+  width: 100%;
+
+  span {
+    display: block;
+    height: 100%;
+    width: var(--percent);
+    background-color: var(--color-background-tertiary);
+    box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-image: linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.2) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.2) 75%,
+        transparent 75%,
+        transparent
+      );
+      z-index: 1;
+      background-size: 50px 50px;
+      animation: move 2s linear infinite;
+
+      overflow: hidden;
+    }
+  }
+
+  @keyframes move {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+}
+
+.scoreCircleWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin: 0px 0px 5px 0px;
+  .circleImage {
+    border: 3px solid $valueBackground;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    width: $circleScoreWidth;
+    aspect-ratio: 1/1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text-tertiary);
+    font-weight: 600;
+    font-size: 12px;
   }
 }
