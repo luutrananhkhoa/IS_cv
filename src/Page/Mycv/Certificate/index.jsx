@@ -12,6 +12,7 @@ export default function Index(props) {
   const { t } = useTranslation('page', { keyPrefix: 'mycv.cerificate' })
   const [listLR, setListLR] = useState()
   const [listSW, setListSW] = useState()
+  const [listIIG, setListIIG] = useState()
   useEffect(() => {
     if (contractStudentBusiness) {
       contractStudentBusiness.methods
@@ -32,6 +33,7 @@ export default function Index(props) {
               })
             }
           })
+          setListIIG(true)
           let max = 0
           _.forEach(listIIG, (value, index) => {
             contractStudentBusiness.methods
@@ -74,7 +76,6 @@ export default function Index(props) {
               .getListIIGSWResult(value.address, addressEmployee)
               .call()
               .then((s) => {
-                console.log(s)
                 let maxItem = _.maxBy(s[5], function (o) {
                   return parseInt(o)
                 })
@@ -109,117 +110,150 @@ export default function Index(props) {
     }
   }, [contractStudentBusiness])
   return (
-    <div className={styles.container}>
-      {console.log(listSW)}
-      <div className={styles.title}>{listLR?.iigName}</div>
-      {/* LR */}
-      <div className={styles.wrapper}>
-        <div className={styles.date}>{listLR?.testDate?.toLocaleDateString()}</div>
-        {/* LR */}
-        <div>
-          <div className={styles.bar}>
-            <div className={styles.line}>
-              <div className={styles.lineWrapper}>
-                <div className={styles.line1}>
-                  <div className={styles.scoreCircleWrapper}>
-                    <a className={styles.name}>Listening</a>
-                    <div className={styles.circleImage}>
-                      <a>{listLR?.readingScore}</a>
+    <>
+      {listIIG && (
+        <div className={styles.container}>
+          <div className={styles.title}>{listLR?.iigName}</div>
+          {/* LR */}
+          <div className={styles.wrapper}>
+            <div className={styles.date}>{listLR?.testDate?.toLocaleDateString()}</div>
+            {/* LR */}
+            <div>
+              <div className={styles.bar}>
+                <div className={styles.line}>
+                  <div className={styles.lineWrapper}>
+                    <div className={styles.line1}>
+                      <a className={styles.name}>Listening</a>
+                      <div className={styles.scoreCircleWrapper}>
+                        <span
+                          className={styles.gap}
+                          style={{
+                            '--percent':
+                              Math.round((parseInt(listLR?.readingScore) / 495) * 100) + '%',
+                          }}
+                        ></span>
+                        <div className={styles.circleImage}>
+                          <a>{listLR?.readingScore}</a>
+                        </div>
+                      </div>
+                      <div className={styles.progressBar}>
+                        <span
+                          style={{
+                            '--percent':
+                              Math.round((parseInt(listLR?.readingScore) / 495) * 100) + '%',
+                          }}
+                        ></span>
+                      </div>
                     </div>
+                    <div className={styles.line1Text}>495</div>
                   </div>
-                  <div className={styles.progressBar}>
-                    <span
-                      style={{
-                        '--percent': Math.round((parseInt(listLR?.readingScore) / 495) * 100) + '%',
-                      }}
-                    ></span>
+                  <div className={styles.lineWrapper}>
+                    <div className={styles.line1}>
+                      <a className={styles.name}>Reading</a>
+                      <div className={styles.scoreCircleWrapper}>
+                        <span
+                          className={styles.gap}
+                          style={{
+                            '--percent':
+                              Math.round((parseInt(listLR?.listeningScore) / 495) * 100) + '%',
+                          }}
+                        ></span>
+                        <div className={styles.circleImage}>
+                          <a>{listLR?.listeningScore}</a>
+                        </div>
+                      </div>
+                      <div className={styles.progressBar}>
+                        <span
+                          style={{
+                            width: Math.round((parseInt(listLR?.listeningScore) / 495) * 100) + '%',
+                          }}
+                        ></span>
+                      </div>
+                    </div>
+                    <div className={styles.line1Text}>495</div>
                   </div>
                 </div>
-                <div className={styles.line1Text}>495</div>
-              </div>
-              <div className={styles.lineWrapper}>
-                <div className={styles.line1}>
-                  <div className={styles.scoreCircleWrapper}>
-                    <a className={styles.name}>Reading</a>
-                    <div className={styles.circleImage}>
-                      <a>{listLR?.listeningScore}</a>
-                    </div>
-                  </div>
-                  <div className={styles.progressBar}>
-                    <span
-                      style={{
-                        width: Math.round((parseInt(listLR?.listeningScore) / 495) * 100) + '%',
-                      }}
-                    ></span>
-                  </div>
-                </div>
-                <div className={styles.line1Text}>495</div>
-              </div>
-            </div>
 
-            <div className={styles.circle}>
-              <div className={styles.circleTitleWrapper}>
-                <a>TOTAL SCORE</a>
+                <div className={styles.circle}>
+                  <div className={styles.circleTitleWrapper}>
+                    <a>TOTAL SCORE</a>
+                  </div>
+                  <div className={styles.circleImage}>
+                    <a>{listLR?.totalScore}</a>
+                  </div>
+                </div>
               </div>
-              <div className={styles.circleImage}>
-                <a>{listLR?.totalScore}</a>
-              </div>
+
+              {/* SW */}
+              <li className={styles.bar}>
+                <div className={styles.line}>
+                  <div className={styles.lineWrapper}>
+                    <div className={styles.line1}>
+                      <a className={styles.name}>Speaking</a>
+                      <div className={styles.scoreCircleWrapper}>
+                        <span
+                          className={styles.gap}
+                          style={{
+                            '--percent':
+                              Math.round((parseInt(listSW?.speakingScore) / 200) * 100) + '%',
+                          }}
+                        ></span>
+                        <div className={styles.circleImage}>
+                          <a>{listLR?.readingScore}</a>
+                        </div>
+                      </div>
+                      <div className={styles.progressBar}>
+                        <span
+                          style={{
+                            '--percent':
+                              Math.round((parseInt(listSW?.speakingScore) / 200) * 100) + '%',
+                          }}
+                        ></span>
+                      </div>
+                    </div>
+                    <div className={styles.line1Text}>200</div>
+                  </div>
+                  <div className={styles.lineWrapper}>
+                    <div className={styles.line1}>
+                      <a className={styles.name}>Writing</a>
+                      <div className={styles.scoreCircleWrapper}>
+                        <span
+                          className={styles.gap}
+                          style={{
+                            '--percent':
+                              Math.round((parseInt(listSW?.writingScore) / 200) * 100) + '%',
+                          }}
+                        ></span>
+                        <div className={styles.circleImage}>
+                          <a>{listLR?.readingScore}</a>
+                        </div>
+                      </div>
+                      <div className={styles.progressBar}>
+                        <span
+                          style={{
+                            '--percent':
+                              Math.round((parseInt(listSW?.writingScore) / 200) * 100) + '%',
+                          }}
+                        ></span>
+                      </div>
+                    </div>
+                    <div className={styles.line1Text}>200</div>
+                  </div>
+                </div>
+
+                <div className={styles.circle}>
+                  <div className={styles.circleTitleWrapper}>
+                    <a>TOTAL SCORE</a>
+                  </div>
+                  <div className={styles.circleImage}>
+                    <a>{listSW?.totalScore}</a>
+                  </div>
+                </div>
+              </li>
             </div>
           </div>
-
-          {/* SW */}
-          <li className={styles.bar}>
-            <div className={styles.line}>
-              <div className={styles.lineWrapper}>
-                <div className={styles.line1}>
-                  <div className={styles.scoreCircleWrapper}>
-                    <a className={styles.name}>Speaking</a>
-                    <div className={styles.circleImage}>
-                      <a>{listSW?.speakingScore}</a>
-                    </div>
-                  </div>
-                  <div className={styles.progressBar}>
-                    <span
-                      style={{
-                        '--percent':
-                          Math.round((parseInt(listSW?.speakingScore) / 200) * 100) + '%',
-                      }}
-                    ></span>
-                  </div>
-                </div>
-                <div className={styles.line1Text}>200</div>
-              </div>
-              <div className={styles.lineWrapper}>
-                <div className={styles.line1}>
-                  <div className={styles.scoreCircleWrapper}>
-                    <a className={styles.name}>Writing</a>
-                    <div className={styles.circleImage}>
-                      <a>{listSW?.writingScore}</a>
-                    </div>
-                  </div>
-                  <div className={styles.progressBar}>
-                    <span
-                      style={{
-                        '--percent': Math.round((parseInt(listSW?.writingScore) / 200) * 100) + '%',
-                      }}
-                    ></span>
-                  </div>
-                </div>
-                <div className={styles.line1Text}>200</div>
-              </div>
-            </div>
-
-            <div className={styles.circle}>
-              <div className={styles.circleTitleWrapper}>
-                <a>TOTAL SCORE</a>
-              </div>
-              <div className={styles.circleImage}>
-                <a>{listSW?.totalScore}</a>
-              </div>
-            </div>
-          </li>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   )
 }

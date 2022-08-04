@@ -34,6 +34,7 @@ $valueBackground: #989292;
         justify-content: space-between;
         align-items: flex-start;
         flex-direction: column;
+        margin: 0px 10px 0px 0px;
         .lineWrapper {
           width: 100%;
           display: flex;
@@ -45,7 +46,21 @@ $valueBackground: #989292;
             .name {
               font-weight: 600;
               font-size: 18px;
-              width: 100px;
+
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background: var(--color-background-tertiary);
+              color: var(--color-text-secondary);
+              font-weight: 600;
+              font-size: 13px;
+              line-height: 20px;
+              padding: 2px 3px;
+              width: 80px;
+              margin: 0px 0px 0px 40px;
+              a {
+                text-align: center;
+              }
             }
           }
           .line1Text {
@@ -66,6 +81,13 @@ $valueBackground: #989292;
         justify-content: space-between;
         flex-direction: column;
         align-items: center;
+        border-left: 1px solid;
+        border-image-slice: 1;
+        border-image-source: linear-gradient(
+          rgba(250, 249, 249, 1) 0%,
+          rgba(0, 0, 0, 1) 50%,
+          rgba(242, 241, 241, 0.9948573179271709) 100%
+        );
         .circleTitleWrapper {
           display: flex;
           justify-content: center;
@@ -105,7 +127,7 @@ $valueBackground: #989292;
   box-sizing: content-box;
   height: 10px;
   background: $valueBackground;
-  width: 100%;
+  // width: 100%;
 
   span {
     display: block;
@@ -155,7 +177,10 @@ $valueBackground: #989292;
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
-  margin: 0px 0px 5px 0px;
+  margin: 3px 0px 5px 0px;
+  .gap {
+    width: calc(var(--percent) - ($circleScoreWidth / 2));
+  }
   .circleImage {
     border: 3px solid $valueBackground;
     border-radius: 50%;
