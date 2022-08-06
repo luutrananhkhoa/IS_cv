@@ -59,29 +59,4 @@ $width: 350px;
 
 .close {
   width: 0px;
-  transform: all 0.3s linear;
-  ul {
-    .menuItem {
-      width: 0px;
-      animation: menuclose 1s linear;
-
-      // .text {
-      //   width: 0px;
-      //   visibility: hidden;
-      //   position: absolute;
-      //   animation: textclose 0.3s ease-in-out;
-      // }
-    }
-  }
-}
-
-@keyframes menuclose {
-  from {
-    width: 100%;
-    visibility: visible;
-  }
-  to {
-    width: 0px;
-    visibility: hidden;
-  }
 }

@@ -41,8 +41,8 @@ export default function ToastContainer() {
     })
 
     eventEmitter.on('removeItem', (id) => {
+      if (listOnNone.includes(id)) return
       let listOnNoneTemp = [...listOnNone, id]
-
       let listOnShownTemp = listOnShown.map(function (item) {
         return item.id
       })

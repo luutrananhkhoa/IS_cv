@@ -30,7 +30,9 @@ function ToastItem(props) {
       ref.current.addEventListener('animationend', handleEnd)
     }
     return () => {
-      ref && ref.current && ref.current.removeEventListener('animationend', () => {})
+      ref && ref.current && ref.current.removeEventListener('animationend', () => {
+        
+      })
     }
   }, [display])
 

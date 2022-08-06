@@ -29,45 +29,49 @@ function Index(props) {
               setOpenModal((e) => !e)
             }}
           ></div>
-          <div className={styles.container}>
-            <div className={styles.title}>
-              <div className={styles.buttonWrapper}>
-                <button
-                  onClick={() => {
-                    setOpenModal((e) => !e)
-                  }}
-                  className={styles.buttonClose}
-                  // className="text-4xl text-white absolute top-0 right-2 align-center cursor-pointer alert-del"
-                >
-                  <i className={`fa-solid fa-xmark ${styles.iconClose}`}></i>
-                </button>
+          {/* <div className={styles.container}> */}
+            <div className={styles.container}>
+              <div className={styles.title}>
+                <div className={styles.buttonWrapper}>
+                  <button
+                    onClick={() => {
+                      setOpenModal((e) => !e)
+                    }}
+                    className={styles.buttonClose}
+                    // className="text-4xl text-white absolute top-0 right-2 align-center cursor-pointer alert-del"
+                  >
+                    <i className={`fa-solid fa-xmark ${styles.iconClose}`}></i>
+                  </button>
+                </div>
+                <p className={styles.titleText}>{title ? title : t('title')}</p>
               </div>
-              <p className={styles.titleText}>{title ? title : t('title')}</p>
-            </div>
-            <div className={styles.contentWrapper}>{content ? content : children}</div>
+              <div className={styles.contentWrapper}>{content ? content : children}</div>
 
-            <div className={styles.end}>
-              {nonaction && (
-                <button
-                  className={styles.cancel}
-                  onClick={() => {
-                    nonaction && nonaction()
-                    setOpenModal((e) => !e)
-                  }}
-                >
-                  {nonactionText ? nonactionText : t('cancel')}
-                </button>
-              )}
-              <button
-                className={styles.accept}
-                onClick={() => {
-                  action ? action() : setOpenModal((e) => !e)
-                }}
-              >
-                {actionText ? actionText : t('oke')}
-              </button>
+              <div className={styles.end}>
+                <div className={styles.endButtonWrapper}>
+                  {nonaction && (
+                    <button
+                      className={styles.cancel}
+                      onClick={() => {
+                        nonaction && nonaction()
+                        setOpenModal((e) => !e)
+                      }}
+                    >
+                      {nonactionText ? nonactionText : t('cancel')}
+                    </button>
+                  )}
+                  <button
+                    className={styles.accept}
+                    onClick={() => {
+                      action ? action() : setOpenModal((e) => !e)
+                    }}
+                  >
+                    {actionText ? actionText : t('oke')}
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+         
         </>
       )}
     </>

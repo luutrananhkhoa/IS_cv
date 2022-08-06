@@ -46,7 +46,6 @@ export default function Index(props) {
                 maxItem = parseInt(maxItem)
                 if (maxItem > max) {
                   max = maxItem
-
                   _.forEach(s[0], (v, i) => {
                     if (parseInt(s[5][i]) === max) {
                       setListLR({
