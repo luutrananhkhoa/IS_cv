@@ -2,19 +2,18 @@ import React, { useContext, useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import logo from './images/logo_iig.png'
 import { Web3Context } from '@context/Web3ContextProvider'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import Web3 from 'web3'
 import ModalWarning from '@component/ModalWarning'
 import Modal from './Modal'
 
 const Index = () => {
   const [addressError, setAddressError] = useState()
-  const { address, contractStudentBusiness } = useContext(Web3Context)
   const [params] = useSearchParams()
   const [addressIIG, setAddressIIG] = useState(params.get('address'))
   const [requestModal, setRequestModal] = useState(false)
+  const navigation = useNavigate()
 
-  const handleSubmit = async () => {}
   useEffect(() => {
     if (!new Web3().utils.isAddress(addressIIG)) {
       setAddressError(true)
@@ -27,6 +26,9 @@ const Index = () => {
       <ModalWarning
         state={[addressError, setAddressError]}
         content="Address Error"
+        actionOutside={() => {
+          navigation('/', { replace: true })
+        }}
         // action={() => navigation('/')}
       ></ModalWarning>
       <Modal state={[requestModal, setRequestModal]} addressIIG={addressIIG}></Modal>

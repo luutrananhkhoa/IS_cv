@@ -17,11 +17,11 @@ $width: 350px;
   ul {
     margin: 10px 20px;
     // white-space: nowrap;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.5s ease-in-out;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+    // transition: all 0.5s ease-in-out;
     // width: 100%;
     .menuItem {
       height: 40px;
@@ -35,40 +35,53 @@ $width: 350px;
       cursor: pointer;
 
       -webkit-transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
-        transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
-        &:hover{
-            cursor: pointer;
-            box-shadow: 0 0 40px 40px var(--color-button-secondary) inset;
-        }
+      transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 40px 40px var(--color-button-secondary) inset;
+      }
       .text {
         margin: 1px 20px;
         display: inline-block;
+        white-space: nowrap;
+        overflow: hidden 
       }
       &:not(:last-child) {
         margin-bottom: 10px;
       }
     }
     .active {
-      background: var(--color-button-primary)!important;
-      color: var(--color-text-secondary)
+      background: var(--color-button-primary) !important;
+      color: var(--color-text-secondary);
     }
   }
 }
 
 .close {
   width: 0px;
-  transition: all 0.5s ease-in-out;
+  transform: all 0.3s linear;
   ul {
-    // width: 0px;
-    transition: all 0.5s ease-in-out;
     .menuItem {
       width: 0px;
-      transition: all 0.5s ease-in-out;
+      animation: menuclose 1s linear;
 
-      .text {
-        display: none;
-        transition: all 0.3s ease-in-out;
-      }
+      // .text {
+      //   width: 0px;
+      //   visibility: hidden;
+      //   position: absolute;
+      //   animation: textclose 0.3s ease-in-out;
+      // }
     }
+  }
+}
+
+@keyframes menuclose {
+  from {
+    width: 100%;
+    visibility: visible;
+  }
+  to {
+    width: 0px;
+    visibility: hidden;
   }
 }

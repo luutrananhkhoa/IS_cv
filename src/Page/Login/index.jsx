@@ -5,13 +5,15 @@ import logo1 from '@asset/LogoCV.png'
 import { useNavigate, Link } from 'react-router-dom'
 import { Context } from '../../Context/Context'
 import { Web3Context } from '../../Context/Web3ContextProvider'
+import { useToast } from '@component/Toast'
 
 const Index = () => {
   const { contractStudentBusiness, address, setJwtEmployee } = useContext(Web3Context)
 
   const { setExistAccount, setIsLoggedIn } = useContext(Context)
-  const [diaglog, setDialog] = useState(false)
+  const [password, setPassword] = useState()
 
+  const toast = useToast()
   let navigate = useNavigate()
   const HandleClick = () => {
     navigate('/')
@@ -19,22 +21,26 @@ const Index = () => {
   async function checkPro(e) {
     e.preventDefault()
     await contractStudentBusiness.methods
-      .checkStudentProfile(address, $('#_pwd').val())
+      .checkStudentProfile(address, password)
       .call()
       .then((result) => {
         if (parseInt(result) == 1) {
+          toast.success('dang nhap thanh cong', { pauseOnHover: true, closeOnClick: true })
           setJwtEmployee(address)
           setIsLoggedIn(true)
-          navigate('/')
           setExistAccount(true)
+          navigate('/')
         } else {
-          console.log('Unsuccessfully')
-          setDialog(true)
+          toast.error('Username or passoword is incorrect', {
+            pauseOnHover: true,
+            closeOnClick: true,
+          })
         }
       })
       .catch((error) => {
         console.log(error)
-        if (error.code === 4001) alert('Bạn chưa thanh toán hoá đơn')
+        if (error.code === 4001)
+          toast.warning('Chua thanh toan hoa don', { pauseOnHover: true, closeOnClick: true })
       })
   }
   return (
@@ -85,33 +91,24 @@ const Index = () => {
             <div className="w-[75%] mt-4 mx-auto">
               <label name="pwd" className="text-white">
                 Password
-              </label>{' '}
+              </label>
               <br />
               <input
-                type="text"
-                name="pwd"
-                id="_pwd"
-                placeholder="123456"
+                type="password"
+                name="password"
+                id="password"
+                placeholder="password cua ban"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"
               />
-              {diaglog && <span className="">Invalid!</span>}
             </div>
             <button
               onClick={checkPro}
               className="mt-[4rem] mx-auto w-[75%] h-10 text-white bg-primary hover:bg-orange-btn rounded-[30px] ease-in duration-100"
             >
-              Sign in
+              Login
             </button>
-            {/* <h3 className=" text-white text-sm mx-auto font-medium mt-4">
-              Not a member?
-              <Link
-                to="/createcv"
-                className="text-primary text-sm font-bold mt-4 hover:text-orange-btn tra"
-              >
-                {' '}
-                SIGN UP
-              </Link>
-            </h3> */}
           </div>
         </div>
       </div>

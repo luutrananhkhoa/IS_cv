@@ -4,15 +4,17 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Context } from '@context/Context'
 import { Web3Context } from '@context/Web3ContextProvider'
 import { RingLoader } from 'react-spinners'
+import { useToast } from '@component/Toast'
 
 const Index = () => {
   const { contractStudentBusiness, address, setJwtCompany } = useContext(Web3Context)
+
+  const toast = useToast()
+  
   const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState()
-  const [isUnpaid, setIsUnpaid] = useState(false)
 
   const { setIsLoggedIn } = useContext(Context)
-  const [dialog, setDialog] = useState(true)
 
   let navigate = useNavigate()
   async function checkBPro() {
@@ -26,13 +28,16 @@ const Index = () => {
           if (parseInt(result) == 1) {
             setJwtCompany(address)
             setIsLoggedIn(true)
+            toast.success('success', { pauseOnHover: true, closeOnClick: true })
             navigate('/company')
           } else {
-            setDialog(true)
+            // setDialog(true)
           }
         })
         .catch((error) => {
           console.log(error)
+          if (error.code === 4001)
+            toast.warning('is unpaid', { pauseOnHover: true, closeOnClick: true })
         }),
 
       await contractStudentBusiness.methods
@@ -44,11 +49,13 @@ const Index = () => {
             setIsLoggedIn(true)
             navigate('/company')
           } else {
-            setDialog(true)
+            // setDialog(true)
           }
         })
         .catch((error) => {
           console.log(error)
+          if (error.code === 4001)
+            toast.warning('is unpaid', { pauseOnHover: true, closeOnClick: true })
         }),
     ])
       .then((success) => {
@@ -102,7 +109,6 @@ const Index = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full h-[2.5rem] p-4 text-sm rounded-[8px]"
                 />
-                {dialog && <span className="">Invalid!</span>}
               </div>
               <button
                 onClick={checkBPro}
@@ -110,7 +116,6 @@ const Index = () => {
               >
                 Login
               </button>
-
             </div>
           </div>
         </div>

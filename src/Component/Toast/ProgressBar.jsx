@@ -3,13 +3,12 @@ import styles from './styles.module.scss'
 import clsx from 'clsx'
 
 function ProgressBar(props) {
-  const { totalTime, removeItem } = props
+  const { totalTime, removeItem, nonDisplay } = props
   const ref = useRef()
-
 
   useEffect(() => {
     const handleEnd = () => {
-      removeItem() 
+      nonDisplay()
     }
     ref.current.addEventListener('animationend', handleEnd)
     return () => {

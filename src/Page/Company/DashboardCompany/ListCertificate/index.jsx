@@ -17,11 +17,10 @@ export default function Index() {
         .getListIIGRequest(address)
         .call({ from: address })
         .then((success) => {
-          console.log(success)
           let arr = []
           if (success[0]) {
             _.forEach(success[0], (value, index) => {
-              if (success[0][index] !== '') {
+              if (success[0][index] !== '0x00000000') {
                 arr.push({
                   requestCode: success[0][index],
                   address: success[1][index],
@@ -32,7 +31,7 @@ export default function Index() {
               }
             })
           }
-
+          arr = _.orderBy(arr, (o) => parseInt(o.requestDate), 'desc')
           setList(arr)
         })
         .catch((error) => {

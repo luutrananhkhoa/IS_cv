@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next'
  */
 function Index(props) {
   const [openModal, setOpenModal] = props.state
-  const { action, nonaction, content, actionText, nonactionText, title } = props
+  const { action, nonaction, content, actionText, nonactionText, title, actionOutside } = props
   const { t } = useTranslation('')
   return (
     <>
@@ -25,6 +25,7 @@ function Index(props) {
             className={styles.wrapper}
             // className="w-[100vw] h-[100vh] top-0 fixed bg-slate-700 z-[8] opacity-60"
             onClick={() => {
+              actionOutside && actionOutside()
               setOpenModal((e) => !e)
             }}
           ></div>

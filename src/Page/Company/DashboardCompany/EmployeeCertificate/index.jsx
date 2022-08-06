@@ -11,8 +11,7 @@ import _ from 'lodash'
 import ItemLR from './ItemLR'
 import ItemSW from './ItemSW'
 import Modal from '@component/Modal'
-import ModalSuccess from '@component/ModalSuccess'
-import ModalWarning from '@component/ModalWarning'
+import { useToast } from '@component/Toast'
 import Loading from '@component/Loading'
 
 export default function Index() {
@@ -24,8 +23,6 @@ export default function Index() {
   const [loading, setLoading] = useState(false)
 
   const [request, setRequest] = useState()
-  const [modalConfirmSuccess, setModalConfirmSuccess] = useState(false)
-  const [modalConfirmError, setModalConfirmError] = useState(false)
 
   const [toggleResetListLR, setToggleResetListLR] = useState(false)
   const [toggleResetListSW, setToggleResetListSW] = useState(false)
@@ -34,6 +31,8 @@ export default function Index() {
   const [employeeAddress, setEmployeeAddress] = useState()
 
   const [modalConfirm, setModalConfirm] = useState(false)
+
+  const toast = useToast()
   const { t } = useTranslation('page', { keyPrefix: 'company.dashboard.index' })
   useEffect(() => {
     if (contractStudentBusiness && employeeAddress) {
@@ -43,37 +42,20 @@ export default function Index() {
         .then((success) => {
           let temp = []
           _.forEach(success[0], (value, index) => {
-            temp.push({
-              testDate: new Date(parseInt(success[0][index])),
-              shiftTest: parseInt(success[1][index]),
-              expireDate: new Date(parseInt(success[2][index])),
-              listeningScore: parseInt(success[3][index]),
-              readingScore: parseInt(success[4][index]),
-              totalScore: parseInt(success[5][index]),
-            })
-          })
-          setListLR(temp)
-        })
-        .catch((error) => console.log(error))
-
-      let requestTemp
-      contractStudentBusiness.methods
-        .getListIIGRequestStudent(address, employeeAddress)
-        .call({ from: address })
-        .then((success) => {
-          _.forEach(success[0], (value, index) => {
-            console.log(success)
-            if (success[5][index] === 'Waiting') {
-              requestTemp = {
-                code: success[0][index],
-                address: success[1][index],
-                id: success[3][index],
-                requestDate: success[2][index],
-              }
-              console.log(requestTemp)
+            if (success[0][index] !== '') {
+              temp.push({
+                testDate: new Date(parseInt(success[0][index])),
+                shiftTest: parseInt(success[1][index]),
+                expireDate: new Date(parseInt(success[2][index])),
+                listeningScore: parseInt(success[3][index]),
+                readingScore: parseInt(success[4][index]),
+                totalScore: parseInt(success[5][index]),
+              })
             }
           })
-          setRequest(requestTemp)
+          temp = _.orderBy(temp, (o) => parseInt(o.testDate), 'desc')
+
+          setListLR(temp)
         })
         .catch((error) => console.log(error))
     }
@@ -86,17 +68,44 @@ export default function Index() {
         .call({ from: address })
         .then((success) => {
           let temp = []
+          console.log(success)
           _.forEach(success[0], (value, index) => {
-            temp.push({
-              testDate: new Date(parseInt(success[0][index])),
-              shiftTest: parseInt(success[1][index]),
-              expireDate: new Date(parseInt(success[2][index])),
-              speakingScore: parseInt(success[3][index]),
-              writingScore: parseInt(success[4][index]),
-              totalScore: parseInt(success[5][index]),
-            })
+            if (success[0][index] !== '') {
+              temp.push({
+                testDate: new Date(parseInt(success[0][index])),
+                shiftTest: parseInt(success[1][index]),
+                expireDate: new Date(parseInt(success[2][index])),
+                speakingScore: parseInt(success[3][index]),
+                writingScore: parseInt(success[4][index]),
+                totalScore: parseInt(success[5][index]),
+              })
+            }
           })
+          temp = _.orderBy(temp, (o) => parseInt(o.testDate), 'desc')
           setListSW(temp)
+        })
+        .catch((error) => console.log(error))
+    }
+  }, [employeeAddress, toggleResetListSW])
+
+  useEffect(() => {
+    if (contractStudentBusiness && employeeAddress) {
+      let requestTemp
+      contractStudentBusiness.methods
+        .getListIIGRequestStudent(address, employeeAddress)
+        .call({ from: address })
+        .then((success) => {
+          _.forEach(success[0], (value, index) => {
+            if (success[5][index] === 'Waiting') {
+              requestTemp = {
+                code: success[0][index],
+                address: success[1][index],
+                id: success[3][index],
+                requestDate: success[2][index],
+              }
+            }
+          })
+          setRequest(requestTemp)
         })
         .catch((error) => console.log(error))
     }
@@ -129,8 +138,6 @@ export default function Index() {
         ></ModalAddSW>
       )}
 
-      <ModalSuccess state={[modalConfirmSuccess, setModalConfirmSuccess]}></ModalSuccess>
-      <ModalWarning state={[modalConfirmError, setModalConfirmError]}></ModalWarning>
       <Modal
         state={[modalConfirm, setModalConfirm]}
         nonaction={async () => {
@@ -139,12 +146,13 @@ export default function Index() {
             .confirmIIGRequest(employeeAddress, address, request.code, 'Declined')
             .send({ from: address })
             .then((success) => {
-              console.log(success)
-              setModalConfirmSuccess(true)
+              toast.success('success', { closeOnClick: true, pauseOnHover: true })
             })
             .catch((error) => {
               console.log(error)
-              setModalConfirmError(true)
+              if (error.code === 4001)
+                toast.warning('unpaid', { closeOnClick: true, pauseOnHover: true })
+              else toast.error('error', { closeOnClick: true, pauseOnHover: true })
             })
           setLoading(false)
         }}
@@ -154,12 +162,13 @@ export default function Index() {
             .confirmIIGRequest(employeeAddress, address, request.code, 'Accepted')
             .send({ from: address })
             .then((success) => {
-              console.log(success)
-              setModalConfirmSuccess(true)
+              toast.success('success', { closeOnClick: true, pauseOnHover: true })
             })
             .catch((error) => {
               console.log(error)
-              setModalConfirmError(true)
+              if (error.code === 4001)
+                toast.warning('unpaid', { closeOnClick: true, pauseOnHover: true })
+              else toast.error('error', { closeOnClick: true, pauseOnHover: true })
             })
           setLoading(false)
         }}

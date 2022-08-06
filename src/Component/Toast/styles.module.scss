@@ -55,32 +55,12 @@ $error: linear-gradient(
     background: $error;
   }
 }
-@keyframes transform-close {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(8px);
-  }
-}
 @keyframes transform-open {
   from {
     transform: translateX(8px);
   }
   to {
     transform: translateX(0);
-  }
-}
-@keyframes circle-reveal-revert {
-  100% {
-    clip-path: circle(250px at center);
-  }
-  75% {
-    opacity: 1;
-  }
-  0% {
-    opacity: 0;
-    clip-path: circle(10px at 100% 50%);
   }
 }
 @keyframes circle-reveal {
@@ -96,29 +76,19 @@ $error: linear-gradient(
   }
 }
 .notifications {
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   position: fixed;
   top: 16px;
   right: 16px;
-  max-height: 100%;
+  // max-height: 100%;
 }
 .notificationAnimation {
   transition: 300px $anim * 4/5 $circEase;
   animation: circle-reveal $anim * 3/4 $circEase, transform-open $anim $moveEase;
 }
-.notificationAnimationRevert {
-  animation-name: fade-in;
-  animation-duration: 0.2s;
-  animation-timing-function: ease-in-out;
-  animation-direction: alternate;
-  animation-iteration-count: 1;
-}
-.notificationsItemRevert {
-  width: 0px;
-}
-
 .pauseOnHover {
   &:hover {
     .progressBar {
@@ -128,102 +98,115 @@ $error: linear-gradient(
     }
   }
 }
-.notificationsItem {
-  min-width: 200px;
-  cursor: pointer;
-  height: $height;
+.container {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  justify-items: flex-start;
-  overflow: hidden;
-  flex-shrink: 0;
-  background: var(--background-primary);
-  border-radius: $borderRadius;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  color: var(--color-text-primary);
-  margin: $marginHeight 0px;
-  .notificationContent {
-    padding: 10px 20px;
-    flex: 1;
+  flex-direction: row-reverse;
+  .notificationsItem {
+    cursor: pointer;
+    height: $height;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    .icon {
-      margin: 0px 20px 0px 0px;
-      font-size: 30px;
-      background-clip: text;
-      color: transparent;
-      flex-shrink: 0;
-    }
-    .text {
-      font-size: $fontSize;
-      line-height: 1;
-      flex: 1;
-      text-align: left;
-    }
-  }
-  .progressBar {
+    justify-items: flex-start;
+    overflow: hidden;
     flex-shrink: 0;
-    box-sizing: content-box;
-    height: 5px;
-    // max-height: 6px;
-    // aspect-ratio: 25/1;
-    width: 100%;
-    border-bottom-right-radius: $borderRadius;
-    border-bottom-left-radius: $borderRadius;
-    span {
-      border-bottom-left-radius: $borderRadius;
-      display: block;
-      height: 100%;
-      width: 0px;
-      animation: move linear;
-
-      animation-play-state: running;
-      animation-iteration-count: 1;
-      opacity: 1;
-
-      overflow: hidden;
-    }
-
-    @keyframes move {
-      from {
-        width: 100%;
+    background: var(--color-theme-primary);
+    border-radius: $borderRadius;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    color: var(--color-text-primary);
+    margin: $marginHeight 0px;
+    .notificationContent {
+      padding: 10px 20px;
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      .icon {
+        margin: 0px 20px 0px 0px;
+        font-size: 30px;
+        background-clip: text;
+        color: transparent;
+        flex-shrink: 0;
       }
-      to {
-        width: 0%;
+      .text {
+        font-size: $fontSize;
+        line-height: 1;
+        flex: 1;
+        text-align: left;
+        display: inline-block;
+        white-space: nowrap;
+      }
+    }
+    .progressBar {
+      flex-shrink: 0;
+      box-sizing: content-box;
+      height: 5px;
+      // max-height: 6px;
+      // aspect-ratio: 25/1;
+      width: 100%;
+      border-bottom-right-radius: $borderRadius;
+      border-bottom-left-radius: $borderRadius;
+      span {
+        border-bottom-left-radius: $borderRadius;
+        display: block;
+        height: 100%;
+        width: 0px;
+        animation: move linear;
+
+        animation-play-state: running;
+        animation-iteration-count: 1;
+        opacity: 1;
+
+        overflow: hidden;
+      }
+
+      @keyframes move {
+        from {
+          width: 100%;
+        }
+        to {
+          width: 0%;
+        }
       }
     }
   }
 }
 
 .displayNone {
-  height: 0px;
-  margin: 0px;
-  width: 0px;
-  min-width: 0px;
-  animation: hide $anim * 3/4 $circEase;
   overflow: hidden;
+  .notificationsItem {
+    margin: 0px;
+    width: 0px;
+    height: 0px;
+    transition: 0px $anim * 4/5 $circEase;
+    min-width: 0px;
+    animation: hidewidth $anim * 3/4 $circEase, hideheight $anim * 1 ease-in forwards;
+    overflow: hidden;
+  }
+}
+@keyframes hideheight {
+  0% {
+    height: $height;
+  }
+  100% {
+    height: 0px;
+  }
 }
 
-@keyframes hide {
-  from {
+@keyframes hidewidth {
+  0% {
     clip-path: circle(250px at center);
     opacity: 1;
     width: 100%;
+    // height: $height;
     margin: $marginHeight 0px;
-    height: $height;
   }
-  to {
+  100% {
     opacity: 0;
     width: 0px;
-    height: 0px;
+    // height: 0px;
     margin: 0px;
     clip-path: circle(10px at 100% 50%);
   }
 }
-
-// .displayNone {
-//   display: none;
-// }

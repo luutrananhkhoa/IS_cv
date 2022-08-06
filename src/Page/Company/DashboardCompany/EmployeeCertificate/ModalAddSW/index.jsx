@@ -7,22 +7,7 @@ import { Web3Context } from '@context/Web3ContextProvider'
 import ModalWarning from '@component/ModalWarning'
 import Loading from '@component/Loading'
 import ModalSuccess from '@component/ModalSuccess'
-
-const initialModalWarning = {
-  open: false,
-  message: 'error',
-}
-
-const modalWarningReducer = (state, action) => {
-  switch (action.open) {
-    case true:
-      return { ...state, open: true, message: action.message ? action.message : 'error' }
-    case false:
-      return { ...state, open: false, message: 'error' }
-    default:
-      return state
-  }
-}
+import { useToast } from '@component/Toast'
 
 export default function Index(props) {
   const [open, setOpen] = props.state
@@ -39,16 +24,7 @@ export default function Index(props) {
   const [speakingScore, setSpeakingScore] = useState()
   const [writingScore, setWritingScore] = useState()
 
-  const [modalWarningState, dispatch] = useReducer(modalWarningReducer, initialModalWarning)
-  const [modalSuccess, setModalSuccess] = useState(false)
-
-  const openModalWarning = (message) => {
-    dispatch({ open: true, message })
-  }
-
-  const closeModalWarning = () => {
-    dispatch({ open: false })
-  }
+  const toast = useToast()
 
   useEffect(() => {
     setTestDate(undefined)
@@ -60,23 +36,23 @@ export default function Index(props) {
 
   const handleAddSW = async () => {
     if (!testDate) {
-      openModalWarning('testdate')
+      toast.warning('testDate', { closeOnClick: true, pauseOnHover: true })
       return
     }
     if (!testShift) {
-      openModalWarning('testShift')
+      toast.warning('testShift', { closeOnClick: true, pauseOnHover: true })
       return
     }
     if (!expireDate) {
-      openModalWarning('expireDate')
+      toast.warning('expireDate', { closeOnClick: true, pauseOnHover: true })
       return
     }
     if (!speakingScore) {
-      openModalWarning('speakingScore')
+      toast.warning('reaspeakingScoreingScore', { closeOnClick: true, pauseOnHover: true })
       return
     }
     if (!writingScore) {
-      openModalWarning('writingScore')
+      toast.warning('writingScore', { closeOnClick: true, pauseOnHover: true })
       return
     }
     setLoading(true)
@@ -91,16 +67,16 @@ export default function Index(props) {
       )
       .send({
         from: address,
-        // gas: 20000000,
       })
       .then((success) => {
-        setModalSuccess(true)
+        toast.success('success', { closeOnClick: true, pauseOnHover: true })
         setToggleResetList((e) => !e)
         setOpen(false)
       })
       .catch((error) => {
         console.log(error)
-        openModalWarning('error')
+        if (error.code === 4001) toast.warning('unpaid', { closeOnClick: true, pauseOnHover: true })
+        else toast.error('error', { closeOnClick: true, pauseOnHover: true })
       })
 
     setLoading(false)
@@ -118,21 +94,8 @@ export default function Index(props) {
 
   return (
     <>
-      <ModalSuccess
-        state={[modalSuccess, setModalSuccess]}
-        action={() => {
-          setModalSuccess(false)
-        }}
-      >
-        SUCCESS
-      </ModalSuccess>
       <Loading state={loading}></Loading>
-      <ModalWarning
-        state={[modalWarningState.open, closeModalWarning]}
-        action={() => closeModalWarning()}
-      >
-        {modalWarningState.message}
-      </ModalWarning>
+
       <Modal
         state={[open, setOpen]}
         action={() => {
@@ -143,7 +106,7 @@ export default function Index(props) {
       >
         <div className={styles.modalContainer}>
           <div className={styles.content}>
-            <div className={styles.inputWrapper}>
+            <div className={clsx(styles.inputWrapper, styles.address)}>
               <label className={styles.label}>{t('employee_address')}</label>
               <input
                 type="text"
@@ -214,7 +177,7 @@ export default function Index(props) {
                 value={speakingScore}
                 placeholder={`${t('enter')} ${t('speaking_score').toLowerCase()}`}
                 onChange={(e) => {
-                  return setSpeakingScore(parseInt(e.target.value.toString()))
+                  setSpeakingScore(parseInt(e.target.value.toString()))
                 }}
               ></input>
             </div>
@@ -227,7 +190,9 @@ export default function Index(props) {
                 className={styles.input}
                 placeholder={`${t('enter')} ${t('speaking_score').toLowerCase()}`}
                 value={writingScore}
-                onChange={(e) => setWritingScore(parseInt(e.target.value.toString()))}
+                onChange={(e) => {
+                  return setWritingScore(parseInt(e.target.value.toString()))
+                }}
               ></input>
             </div>
           </div>

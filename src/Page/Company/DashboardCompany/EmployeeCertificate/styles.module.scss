@@ -239,13 +239,23 @@ $tableScrollHeight: 500px;
     align-items: center;
     @include mixin.md {
       flex-direction: column;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
     }
+
     .inputWrapper {
       position: relative;
       display: flex;
       justify-content: flex-start;
       flex-direction: column;
       margin: 5px 10px;
+      flex: 1;
+      @include mixin.xl {
+        width: 100%;
+        margin: 5px 0px;
+      }
+
       .addressTitle {
         width: 100%;
         flex: 1;
@@ -265,6 +275,10 @@ $tableScrollHeight: 500px;
         border-radius: 10px;
         @include function.truncate();
       }
+    }
+    .address {
+      width: 100%;
+      flex: unset;
     }
   }
 }

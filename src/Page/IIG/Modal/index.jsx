@@ -1,10 +1,10 @@
 import React, { memo, useState, useContext } from 'react'
 import styles from './styles.module.scss'
 import { Web3Context } from '@context/Web3ContextProvider'
-import ModalWarning from '@component/ModalWarning'
 import { useNavigate } from 'react-router-dom'
 import Loading from '@component/Loading'
-import ModalSuccess from '@component/ModalSuccess'
+import { useToast } from '@component/Toast'
+import Modal from '@component/Modal'
 
 /**
  * to Create ModalWarning
@@ -17,21 +17,19 @@ import ModalSuccess from '@component/ModalSuccess'
 function Index(props) {
   const [openModal, setOpenModal] = props.state
   const { contractStudentBusiness, address } = useContext(Web3Context)
-  const [requestAddressModal, setRequestAddressModal] = useState(false)
-  const [error, setError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
+
   const { addressIIG } = props
+
+  const toast = useToast()
 
   const [id, setId] = useState('')
   const navigation = useNavigate()
   const handleSubmit = async () => {
     if (!address) {
-      setRequestAddressModal(true)
+      toast.error('request login', { closeOnClick: true, pauseOnHover: true })
       return
     }
-    
 
     setLoading(true)
 
@@ -42,15 +40,14 @@ function Index(props) {
       .then((success) => {
         console.log(success)
         if (parseInt(success) === 1) {
-          setError(true)
-          setErrorMessage('Already request')
+          toast.warning('Already request', { closeOnClick: true, pauseOnHover: true })
           alreadyRequested = true
         }
       })
       .catch((error) => {
         console.log(error)
       })
-      
+
     if (!alreadyRequested) {
       const date = new Date().getTime()
       await contractStudentBusiness.methods
@@ -59,16 +56,14 @@ function Index(props) {
           from: address,
         })
         .then((success) => {
-          setSuccess(true)
+          toast.success('success', { pauseOnHover: true, closeOnClick: true })
         })
         .catch((error) => {
           console.log(error)
           if (error.code === 4001) {
-            setError(true)
-            setErrorMessage('Is unpaid')
+            toast.warning('Is unpaid', { pauseOnHover: true, closeOnClick: true })
           } else {
-            setError(true)
-            setErrorMessage('error')
+            toast.warning('error', { pauseOnHover: true, closeOnClick: true })
           }
         })
     }
@@ -78,93 +73,41 @@ function Index(props) {
   return (
     <>
       <Loading state={loading}></Loading>
-      <ModalSuccess state={[success, setSuccess]} content="Ssuccess" actionText="Ssuccess" />
-      <ModalWarning
-        state={[error, setError]}
-        content={errorMessage}
-        action={() => {
-          setError(false)
-        }}
-      />
-      <ModalWarning
-        state={[requestAddressModal, setRequestAddressModal]}
-        content="Request Login"
-        action={() => navigation('/')}
-        nonactionText="Cancel"
-        actionText="To Login"
-        secondaryAction={() => {}}
-      ></ModalWarning>
-      {openModal && (
-        <>
-          <div
-            className={styles.wrapper}
-            // className="w-[100vw] h-[100vh] top-0 fixed bg-slate-700 z-[8] opacity-60"
-            onClick={() => {
-              setOpenModal((e) => !e)
-            }}
-          ></div>
-          <div className={styles.container}>
-            <div className={styles.title}>
-              <div className={styles.buttonWrapper}>
-                <button
-                  onClick={() => {
-                    setOpenModal((e) => !e)
-                  }}
-                  className={styles.buttonClose}
-                  // className="text-4xl text-white absolute top-0 right-2 align-center cursor-pointer alert-del"
-                >
-                  <i className={`fa-solid fa-xmark ${styles.iconClose}`}></i>
-                </button>
+      <Modal
+        state={[openModal, setOpenModal]}
+        nonaction={() => {}}
+        nonactionText="cancel"
+        action={handleSubmit}
+        actionText="submit"
+        title="Xac thuc tin chi"
+      >
+        <div className={styles.container}>
+          <div className={styles.contentWrapper}>
+            <div className={styles.info}>Kiểm tra thông tin cá nhân và thông tin kết quả</div>
+            <div className={styles.group}>
+              <div className={styles.personalInfo}>Thong tin ca nhan </div>
+              <div className={styles.infoRow}>
+                <div className={styles.infoRowCol1}>Address</div>
+                <div className={styles.infoRowCol2}>0x00</div>
               </div>
-              <p className={styles.titleText}>Xac thuc tin chi</p>
-            </div>
-            <div className={styles.contentWrapper}>
-              <div className={styles.info}>Kiểm tra thông tin cá nhân và thông tin kết quả</div>
-              <div className={styles.group}>
-                <div className={styles.personalInfo}>Thong tin ca nhan </div>
-                <div className={styles.infoRow}>
-                  <div className={styles.infoRowCol1}>Address</div>
-                  <div className={styles.infoRowCol2}>0x00</div>
+              <div className={styles.infoRow}>
+                <div className={styles.infoRowCol1}>id</div>
+                <div className={styles.infoRowCol2}>
+                  <input
+                    type="number"
+                    id="id"
+                    placeholder="Id"
+                    name="id"
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
+                    className={styles.inputId}
+                  ></input>
                 </div>
-                <div className={styles.infoRow}>
-                  <div className={styles.infoRowCol1}>id</div>
-                  <div className={styles.infoRowCol2}>
-                    <input
-                      type="number"
-                      id="id"
-                      placeholder="Id"
-                      name="id"
-                      value={id}
-                      onChange={(e) => setId(e.target.value)}
-                      className={styles.inputId}
-                    ></input>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.end}>
-                <button
-                  className={styles.cancel}
-                  onClick={() => {
-                    setOpenModal((e) => !e)
-                  }}
-                >
-                  Cancel
-                </button>
-                <button
-                  className={styles.accept}
-                  onClick={() => {
-                    handleSubmit()
-                    setOpenModal((e) => !e)
-                  }}
-                >
-                  Submit
-                </button>
               </div>
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </Modal>
     </>
   )
 }

@@ -29,9 +29,7 @@ export default function ToastContainer() {
       type,
       message,
       id: generate(7),
-      time: options.time,
-      closeOnClick: options.closeOnClick,
-      pauseOnHover: options.pauseOnHover,
+      ...options,
     }
     listOnShown.push(data)
     setListOnShown([...listOnShown])
@@ -43,8 +41,7 @@ export default function ToastContainer() {
     })
 
     eventEmitter.on('removeItem', (id) => {
-      let listOnNoneTemp = listOnNone
-      listOnNoneTemp.push(id)
+      let listOnNoneTemp = [...listOnNone, id]
 
       let listOnShownTemp = listOnShown.map(function (item) {
         return item.id
@@ -52,18 +49,32 @@ export default function ToastContainer() {
       if (_.isEqual(listOnNoneTemp.sort(), listOnShownTemp.sort())) {
         listOnShown.splice(0, listOnShown.length)
         listOnNone.splice(0, listOnNone.length)
-        setListOnShown([])
-        setListOnNone([])
+
+        setListOnNone(listOnNone)
+        setListOnShown([...listOnShown])
       } else {
-        setListOnNone([...listOnNoneTemp])
+        listOnNone.push(id)
+        setListOnNone(listOnNone)
       }
     })
 
     eventEmitter.on('clear', () => {
-      listOnShown.splice(0, listOnShown.length)
-      listOnNone.splice(0, listOnNone.length)
-      setListOnShown([])
-      setListOnNone([])
+      let listOnNoneTemp = [...listOnNone]
+
+      let listOnShownTemp = listOnShown.map(function (item) {
+        return item.id
+      })
+      let listIdRemove = _.differenceWith(listOnShownTemp, listOnNoneTemp, _.isEqual)
+
+      for (let i = 0; i < listIdRemove.length; i++) {
+        if (i > 0) {
+          setTimeout(() => {
+            eventEmitter.emit('removeItemFromContainer' + listIdRemove[i])
+          }, i * 100)
+        } else {
+          eventEmitter.emit('removeItemFromContainer' + listIdRemove[i])
+        }
+      }
     })
   }, [])
 

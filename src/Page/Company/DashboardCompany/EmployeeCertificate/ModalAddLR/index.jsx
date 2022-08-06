@@ -7,22 +7,7 @@ import { Web3Context } from '@context/Web3ContextProvider'
 import ModalWarning from '@component/ModalWarning'
 import Loading from '@component/Loading'
 import ModalSuccess from '@component/ModalSuccess'
-
-const initialModalWarning = {
-  open: false,
-  message: 'error',
-}
-
-const modalWarningReducer = (state, action) => {
-  switch (action.open) {
-    case true:
-      return { ...state, open: true, message: action.message ? action.message : 'error' }
-    case false:
-      return { ...state, open: false, message: 'error' }
-    default:
-      return state
-  }
-}
+import { useToast } from '@component/Toast'
 
 export default function Index(props) {
   const [open, setOpen] = props.state
@@ -39,9 +24,6 @@ export default function Index(props) {
   const [listeningScore, setlisteningScore] = useState()
   const [readingScore, setreadingScore] = useState()
 
-  const [modalWarningState, dispatch] = useReducer(modalWarningReducer, initialModalWarning)
-  const [modalSuccess, setModalSuccess] = useState(false)
-
   const openModalWarning = (message) => {
     dispatch({ open: true, message })
   }
@@ -49,6 +31,8 @@ export default function Index(props) {
   const closeModalWarning = () => {
     dispatch({ open: false })
   }
+
+  const toast = useToast()
 
   useEffect(() => {
     setTestDate(undefined)
@@ -60,23 +44,23 @@ export default function Index(props) {
 
   const handleAddLR = async () => {
     if (!testDate) {
-      openModalWarning('testdate')
+      toast.warning('testdate', { closeOnClick: true, pauseOnHover: true })
       return
     }
     if (!testShift) {
-      openModalWarning('testShift')
+      toast.warning('testShift', { closeOnClick: true, pauseOnHover: true })
       return
     }
     if (!expireDate) {
-      openModalWarning('expireDate')
+      toast.warning('expireDate', { closeOnClick: true, pauseOnHover: true })
       return
     }
     if (!listeningScore) {
-      openModalWarning('listeningScore')
+      toast.warning('listeningScore', { closeOnClick: true, pauseOnHover: true })
       return
     }
     if (!readingScore) {
-      openModalWarning('readingScore')
+      toast.warning('readingScore', { closeOnClick: true, pauseOnHover: true })
       return
     }
     setLoading(true)
@@ -94,13 +78,13 @@ export default function Index(props) {
         // gas: 20000000,
       })
       .then((success) => {
-        setModalSuccess(true)
+        toast.warning('success', { closeOnClick: true, pauseOnHover: true })
         setToggleResetList((e) => !e)
         setOpen(false)
       })
       .catch((error) => {
-        console.log(error)
-        openModalWarning('error')
+        if (error.code === 4001) toast.warning('unpaid', { closeOnClick: true, pauseOnHover: true })
+        else toast.error('error', { closeOnClick: true, pauseOnHover: true })
       })
 
     setLoading(false)
@@ -118,21 +102,7 @@ export default function Index(props) {
 
   return (
     <>
-      <ModalSuccess
-        state={[modalSuccess, setModalSuccess]}
-        action={() => {
-          setModalSuccess(false)
-        }}
-      >
-        SUCCESS
-      </ModalSuccess>
       <Loading state={loading}></Loading>
-      <ModalWarning
-        state={[modalWarningState.open, closeModalWarning]}
-        action={() => closeModalWarning()}
-      >
-        {modalWarningState.message}
-      </ModalWarning>
       <Modal
         state={[open, setOpen]}
         action={() => {
@@ -143,8 +113,8 @@ export default function Index(props) {
       >
         <div className={styles.modalContainer}>
           <div className={styles.content}>
-            <div className={styles.inputWrapper}>
-              <label className={styles.label}>{t('employee_address')}</label>
+            <div className={clsx(styles.inputWrapper, styles.address)}>
+              <label className={clsx(styles.label)}>{t('employee_address')}</label>
               <input
                 type="text"
                 name="address"

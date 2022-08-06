@@ -16,15 +16,8 @@
   opacity: 0.5;
 }
 .container {
-  position: fixed;
-  z-index: 3;
-  top: 10%;
-  transform: translateY(-50%);
-  margin: auto;
-  left: 50%;
-  transform: translateX(-50%);
   width: 700px;
-  border-radius: 20px;
+
   background: var(--color-theme-primary);
   .title {
     height: 100px;

@@ -21,7 +21,7 @@ export default function Test() {
   }, [])
   const btnSuccess = () => {
     toast.success('success', {
-      time: 30000,
+      time: 2000,
       closeOnClick: true,
       pauseOnHover: true,
     })
