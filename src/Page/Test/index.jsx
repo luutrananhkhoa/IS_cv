@@ -3,7 +3,7 @@ import ModalSuccess from '@/Component/ModalSuccess'
 import ModalWarning from '@component/ModalWarning'
 import ModalEvaluate from '@/Component/ModalEvaluate'
 import Loading from '@component/Loading'
-// import { useNavigate } from 'react-router-dom'
+import { Tooltip } from '@component/Tooltip'
 import useA from './useA'
 import { eventEmitter, test } from './UserDetailComponent'
 import { useToast } from '@component/Toast'
@@ -57,6 +57,8 @@ export default function Test() {
       <button onClick={btnInfo}>succes</button>
       <button onClick={btnError}>succes</button>
       <button onClick={btnClear}>clear</button>
+
+      <Tooltip type="bottom" content="aaa">buttonnnn</Tooltip>
 
       {/* {<ModalSuccess open={true} title="applied" setOpen={setOpenModal} />} */}
       {/* {true && (

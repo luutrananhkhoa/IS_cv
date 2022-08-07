@@ -9,113 +9,117 @@ $valueBackground: #989292;
     color: var(--color-text-tertiary);
     font-style: normal;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 30px;
+    text-transform: uppercase;
   }
 
   .wrapper {
-    .date {
-      font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 21px;
-    }
-    .bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+    .group {
       &:not(:first-child) {
         margin: 40px 0px 0px 0px;
       }
-      .line {
-        width: 100%;
-        flex: 1;
+      .date {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 21px;
+      }
+      .bar {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        flex-direction: column;
-        margin: 0px 10px 0px 0px;
-        .lineWrapper {
+        align-items: flex-end;
+
+        .line {
           width: 100%;
+          flex: 1;
           display: flex;
           justify-content: space-between;
-          align-items: flex-end;
-          margin: 5px 0px;
-          .line1 {
-            flex: 1;
-            .name {
-              font-weight: 600;
-              font-size: 18px;
+          align-items: flex-start;
+          flex-direction: column;
+          margin: 0px 10px 0px 0px;
+          .lineWrapper {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin: 5px 0px;
+            .line1 {
+              flex: 1;
+              .name {
+                font-weight: 600;
+                font-size: 18px;
 
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background: var(--color-background-tertiary);
-              color: var(--color-text-secondary);
-              font-weight: 600;
-              font-size: 13px;
-              line-height: 20px;
-              padding: 2px 3px;
-              width: 80px;
-              margin: 0px 0px 0px 40px;
-              a {
-                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: var(--color-background-tertiary);
+                color: var(--color-text-secondary);
+                font-weight: 600;
+                font-size: 13px;
+                line-height: 20px;
+                padding: 2px 3px;
+                width: 80px;
+                margin: 0px 0px 0px 40px;
+                a {
+                  text-align: center;
+                }
               }
             }
+            .line1Text {
+              flex-shrink: 0;
+              width: 40px;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 18px;
+              line-height: 18px;
+              text-align: end;
+            }
           }
-          .line1Text {
-            flex-shrink: 0;
-            width: 40px;
-            font-style: normal;
+        }
+        .circle {
+          flex-shrink: 0;
+          width: 100px;
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+          align-items: center;
+          border-left: 1px solid;
+          border-image-slice: 1;
+          border-image-source: linear-gradient(
+            rgba(250, 249, 249, 1) 0%,
+            rgba(0, 0, 0, 1) 50%,
+            rgba(242, 241, 241, 0.9948573179271709) 100%
+          );
+          .circleTitleWrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0px 0px 10px 0px;
+            background: var(--color-background-tertiary);
+            color: var(--color-text-secondary);
             font-weight: 600;
-            font-size: 18px;
-            line-height: 18px;
-            text-align: end;
+            font-size: 15px;
+            width: 80px;
+            height: 60px;
+            a {
+              text-align: center;
+            }
           }
-        }
-      }
-      .circle {
-        flex-shrink: 0;
-        width: 100px;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
-        align-items: center;
-        border-left: 1px solid;
-        border-image-slice: 1;
-        border-image-source: linear-gradient(
-          rgba(250, 249, 249, 1) 0%,
-          rgba(0, 0, 0, 1) 50%,
-          rgba(242, 241, 241, 0.9948573179271709) 100%
-        );
-        .circleTitleWrapper {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin: 0px 0px 10px 0px;
-          background: var(--color-background-tertiary);
-          color: var(--color-text-secondary);
-          font-weight: 600;
-          font-size: 15px;
-          width: 80px;
-          height: 60px;
-          a {
-            text-align: center;
-          }
-        }
-        .circleImage {
-          border: 5px solid $valueBackground;
-          border-radius: 50%;
-          -moz-border-radius: 50%;
-          -webkit-border-radius: 50%;
-          width: 60px;
-          aspect-ratio: 1/1;
+          .circleImage {
+            border: 5px solid $valueBackground;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            width: 60px;
+            aspect-ratio: 1/1;
 
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          color: var(--color-text-tertiary);
-          font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-text-tertiary);
+            font-weight: 600;
+          }
         }
       }
     }
@@ -156,7 +160,7 @@ $valueBackground: #989292;
       );
       z-index: 1;
       background-size: 50px 50px;
-      animation: move 2s linear infinite;
+      // animation: move 2s linear infinite;
 
       overflow: hidden;
     }
