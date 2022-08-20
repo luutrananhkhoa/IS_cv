@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useRef } from 'react'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
 import { CustomCVContext } from '../../CustomCVContext'
-import Item from "./Item"
-import {dataTypes} from "../../ItemTypes"
+import Item from './Item'
+import { dataTypes } from '../../ItemTypes'
 
 function Index() {
   const { layerGroupDimension } = useContext(CustomCVContext)
@@ -25,8 +25,15 @@ function Index() {
       </div>
       <div ref={toolboxRef} className={styles.toolbox}>
         <div className={styles.toolboxScrollContainer}>
-          {Object.keys(dataTypes).map((key, index) =>{
-            return <Item key={index} type={key} {...dataTypes[key]}></Item>
+          {Object.keys(dataTypes).map((key, index) => {
+            return (
+              <Item
+                key={index}
+                index={index}
+                type={dataTypes[key].type}
+                icon={dataTypes[key].icon}
+              ></Item>
+            )
           })}
         </div>
       </div>

@@ -1,34 +1,54 @@
 import { useCallback, useState, useRef, useEffect, useContext } from 'react'
 import { useDrop } from 'react-dnd'
 import { DraggableBox } from './DraggableBox'
-import { ItemTypes } from '../ItemTypes'
+import { defaultComponent } from '../config'
+import { dataTypes } from '../ItemTypes'
 import { snapToGrid as doSnapToGrid } from './snapToGrid'
 import _ from 'lodash'
-import { BOARDDIMENSION } from './config'
+import { BOARDDIMENSION } from '../config'
 import { CustomCVContext } from '../CustomCVContext'
 import styles from './styles.module.scss'
 import update from 'immutability-helper'
 import generate from '@helper/generate'
+import { id } from 'ethers/lib/utils'
 
-export const Container = (props) => {
-  const { snapToGrid, caculatedDimension } = props
-  const style = {
-    width: caculatedDimension.width,
-    height: caculatedDimension.height,
-  }
-  const { list, setList } = useContext(CustomCVContext)
-  const moveBox = useCallback(
-    (id, left, top) => {
-      let item = _.find(list, (o) => {
-        if (o.id === id) return true
-      })
-      setList(update(list, { [id]: { $merge: { top, left } } }))
-    },
-    [list]
-  )
-  const addBox = useCallback(
-    (type, left, top) => {
-      setList(update(list, { $merge: { id: generate(5), type, top, left, width: 20, height: 10 } }))
+const boardDimension = {
+  left: window.screen.width / 2 - BOARDDIMENSION.width / 2,
+  top: BOARDDIMENSION.top,
+  width: BOARDDIMENSION.width,
+  height: BOARDDIMENSION.height,
+}
+export default function Container(props) {
+  const { snapToGrid } = props
+
+  const { list, setList, setSelected } = useContext(CustomCVContext)
+
+  const addComponent = useCallback(
+    (type, top, left) => {
+      let newData
+      let newId = generate(5)
+      switch (type) {
+        case dataTypes.text.type:
+          newData = {
+            top,
+            left,
+            type: dataTypes.text.type,
+            name: 'Text' + newId,
+            ...defaultComponent.text,
+          }
+          break
+        case dataTypes.box.type:
+          newData = {
+            top,
+            left,
+            type: dataTypes.box.type,
+            name: 'Box' + newId,
+            ...defaultComponent.box,
+          }
+          break
+      }
+      setList({ ...list, [newId]: newData })
+      setSelected(newId)
     },
     [list]
   )
@@ -37,10 +57,9 @@ export const Container = (props) => {
       accept: 'box',
       drop(item, monitor) {
         let left, top
-        let board = document.getElementById('custom_board')
         let boardPosition = {
-          left: board.getBoundingClientRect().left,
-          top: board.getBoundingClientRect().top,
+          left: boardDimension.left,
+          top: boardDimension.top,
         }
         let newBoxPosition = {
           left: monitor.getClientOffset().x,
@@ -51,31 +70,18 @@ export const Container = (props) => {
         if (snapToGrid) {
           ;[left, top] = doSnapToGrid(left, top)
         }
-        if (left < 0 || left > caculatedDimension.width) return
-        if (top < 0 || top > caculatedDimension.height) return
-
-        let temp = list[item.id]
-        if (temp) {
-          const delta = monitor.getDifferenceFromInitialOffset()
-          left = Math.round(temp.left + delta.x)
-          top = Math.round(temp.top + delta.y)
-          if (snapToGrid) {
-            ;[left, top] = doSnapToGrid(left, top)
-          }
-          moveBox(item.id, left, top)
-        } else {
-          addBox(left, top)
-        }
-
+        if (left < 0 || left > boardDimension.width) return
+        if (top < 0 || top > boardDimension.height) return
+        addComponent(item.type, top, left)
         return undefined
       },
     }),
-    [moveBox]
+    [list]
   )
   return (
-    <div ref={drop} id="custom_board" style={style} className={styles.board}>
+    <div ref={drop} style={boardDimension} className={styles.board}>
       {Object.keys(list).map((id, index) => {
-        return <DraggableBox key={index} id={id} />
+        return <DraggableBox key={index} id={id} boardDimension={boardDimension} />
       })}
     </div>
   )

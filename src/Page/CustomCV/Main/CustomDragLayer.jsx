@@ -1,7 +1,6 @@
 import { useContext } from 'react'
 import { useDragLayer } from 'react-dnd'
 import { dataTypes } from '../ItemTypes'
-import { snapToGrid } from './snapToGrid'
 import { CustomCVContext } from '../CustomCVContext'
 import styles from './styles.module.scss'
 import TextItem from './Component/TextItem'
@@ -14,13 +13,6 @@ function getItemStyles(initialOffset, currentOffset, isSnapToGrid) {
     }
   }
   let { x, y } = currentOffset
-  if (isSnapToGrid) {
-    x -= initialOffset.x
-    y -= initialOffset.y
-    ;[x, y] = snapToGrid(x, y)
-    x += initialOffset.x
-    y += initialOffset.y
-  }
   const transform = `translate(${x}px, ${y}px)`
   return {
     display: 'inline-block',
@@ -28,7 +20,7 @@ function getItemStyles(initialOffset, currentOffset, isSnapToGrid) {
     WebkitTransform: transform,
   }
 }
-export const CustomDragLayer = (props) => {
+export default function CustomDragLayer(props) {
   const { list, setList } = useContext(CustomCVContext)
   const { itemType, isDragging, item, initialOffset, currentOffset } = useDragLayer((monitor) => ({
     item: monitor.getItem(),
@@ -45,25 +37,24 @@ export const CustomDragLayer = (props) => {
     <div className={styles.boardPreview}>
       <div
         style={{
-          ...getItemStyles(initialOffset, currentOffset, props.snapToGrid),
-          width: list[item.id].width + 'px',
-          height: list[item.id].height + 'px',
-          borderRadius: list[item.id].borderRadius + 'px',
+          ...getItemStyles(initialOffset, currentOffset),
+          // position: 'fixed',
+          width: "100px",
+          height: "30px",
+          // zIndex: 20
         }}
         className={styles.active}
       >
         {(() => {
-          if (list[item.id]) {
-            switch (list[item.id].type) {
-              case dataTypes.text.type:
-                return <TextItem key={item.id} id={item.id} item={list[item.id]}></TextItem>
-              case dataTypes.box.type:
-                return <BoxItem key={item.id} id={item.id}></BoxItem>
-            }
-          } else {
-            return <div>test</div>
-          }
+          // switch (item.type) {
+          //   case dataTypes.text.type:
+          //     return <TextItem key={item.type} type={item.type} ></TextItem>
+          //   case dataTypes.box.type:
+          //     return <BoxItem key={item.type} type={item.type}></BoxItem>
+          // }
+          
         })()}
+        <div>Test</div>
       </div>
     </div>
   )

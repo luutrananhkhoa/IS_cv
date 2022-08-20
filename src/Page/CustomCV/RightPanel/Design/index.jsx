@@ -3,6 +3,7 @@ import styles from './styles.module.scss'
 import ColorPanel from './ColorPanel/ColorPanel'
 import Dimension from './Dimension'
 import Text from './Text'
+import Style from './Style'
 
 function Index() {
   return (
@@ -10,6 +11,7 @@ function Index() {
       <ColorPanel></ColorPanel>
       <Dimension></Dimension>
       <Text></Text>
+      <Style></Style>
     </div>
   )
 }

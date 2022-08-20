@@ -33,3 +33,8 @@
     }
   }
 }
+
+@mixin borderRadiusStyle {
+  border-radius: 5px;
+  border: $borderStyle;
+}

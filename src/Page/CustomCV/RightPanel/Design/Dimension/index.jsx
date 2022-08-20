@@ -18,7 +18,7 @@ function Index() {
     setList(update(list, { [selected]: { $merge: { height: e.target.value } } }))
   }
   const handleChangeBorderRadius = (e) => {
-    setList(update(list, { [selected]: { $merge: { borderRadius: e.target.value } } }))
+    setList(update(list, { [selected]: { $merge: { borderRadius: parseInt(e.target.value) } } }))
   }
   return (
     <>

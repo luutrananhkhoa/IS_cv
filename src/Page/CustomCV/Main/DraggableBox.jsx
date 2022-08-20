@@ -1,4 +1,4 @@
-import { memo, useEffect, useContext } from 'react'
+import { memo, useRef, useContext } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 import { dataTypes } from '@page/CustomCV/ItemTypes'
@@ -7,67 +7,76 @@ import TextItem from './Component/TextItem'
 import { CustomCVContext } from '../CustomCVContext'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
-import { ResizeableContainer } from '../Resizeable'
+import { Rnd } from 'react-rnd'
+
+import update from 'immutability-helper'
 
 export const DraggableBox = memo(function DraggableBox(props) {
-  const { id } = props
-  const { list, selected, setSelected } = useContext(CustomCVContext)
-  const [{ isDragging }, drag, preview] = useDrag(
-    () => ({
-      type: 'box',
-      item: { id },
-      collect: (monitor) => ({
-        isDragging: monitor.isDragging(),
-      }),
-    }),
-    [id]
-  )
+  const { id, boardDimension } = props
+  const { list, setList, selected, setSelected } = useContext(CustomCVContext)
+  const preWDrag = useRef()
+  const preHDrag = useRef()
   const handleClick = () => {
+    if (list[id].lock) return
     setSelected(id)
   }
-  useEffect(() => {
-    preview(getEmptyImage(), { captureDraggingState: true })
-  }, [])
   return (
-    <div
-      onClick={handleClick}
-      ref={drag}
+    <Rnd
       style={{
-        transform: `translate3d(${list[id].left}px, ${list[id].top}px, 0)`,
-        width: list[id].width + 'px',
-        height: list[id].height + 'px',
-        borderRadius: list[id].borderRadius + 'px',
+        display: 'flex',
+        borderRadius: list[id].borderRadius,
       }}
-      role="DraggableBox"
-      className={clsx(styles.draggableBox, { [styles.active]: selected == id })}
+      size={{ width: list[id].width, height: list[id].height }}
+      position={{ x: list[id].left, y: list[id].top }}
+      onResizeStart={(e, d, ref) => {
+        preWDrag.current = list[id].width
+        preHDrag.current = list[id].height
+      }}
+      onResize={(e, dir, ref, delta, position) => {
+        setList(
+          update(list, {
+            [id]: {
+              $merge: {
+                left: position.x,
+                top: position.y,
+                width: preWDrag.current + delta.width,
+                height: preHDrag.current + delta.height,
+              },
+            },
+          })
+        )
+      }}
+      onResizeStop={(e, direction, ref, delta, position) => {}}
+      onDrag={(e, d) => {
+        !list[id].lock &&
+          setList(
+            update(list, {
+              [id]: {
+                $merge: {
+                  top: d.y,
+                  left: d.x,
+                },
+              },
+            })
+          )
+      }}
+      enableResizing={selected == id && !list[id].lock}
+      onDragStop={(e, d) => {}}
+      onClick={handleClick}
+      className={clsx(
+        styles.draggableBox,
+        { [styles.active]: selected == id },
+        { [styles.canNotHover]: list[id].lock && selected != id }
+      )}
     >
-      <ResizeableContainer
-        // endResize={(e) => console.log(e)}
-        dimension={{
-          top: list[id].top,
-          left: list[id].left,
-          width: list[id].width,
-          height: list[id].height,
-        }}
-        resizeTop
-        resizeLeft
-        resizeBottom
-        resizeRight
-        setDimension={(e) => {
-          console.log(e)
-        }}
-        minTop={100}
-  
-      >
-        {(() => {
-          switch (list[id].type) {
-            case dataTypes.text.type:
-              return <TextItem key={id} id={id} item={list[id]}></TextItem>
-            case dataTypes.box.type:
-              return <BoxItem key={id} id={id}></BoxItem>
-          }
-        })()}
-      </ResizeableContainer>
-    </div>
+      {(() => {
+        switch (list[id].type) {
+          case dataTypes.text.type:
+            return <TextItem key={id} id={id} item={list[id]}></TextItem>
+          case dataTypes.box.type:
+            return <BoxItem key={id} id={id}></BoxItem>
+        }
+      })()}
+    </Rnd>
   )
 })

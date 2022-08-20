@@ -8,39 +8,12 @@ const CustomCVContextProvider = ({ children }) => {
   const [doubleClick, setDoubleClick] = useState(false)
 
   const [leftTab, setLeftTab] = useState(0)
-
-  const [layerGroupDimension, setLayerGroupDimension] = useState()
-  const [list, setList] = useState({
-    [generate(5)]: {
-      type: dataTypes.box.type,
-      name: 'Lorem1,...',
-      top: 20,
-      left: 80,
-      width: 30,
-      height: 10,
-      borderRadius: 0,
-    },
-    [generate(5)]: {
-      type: dataTypes.text.type,
-      name: 'Lorem2...',
-      top: 180,
-      left: 20,
-      width: 30,
-      height: 10,
-      borderRadius: 0,
-      content: 'Drag me too',
-    },
-    [generate(5)]: {
-      type: dataTypes.text.type,
-      name: 'Lorem3,...',
-      top: 180,
-      left: 70,
-      width: 30,
-      height: 10,
-      borderRadius: 0,
-      content: 'Drag me too2',
-    },
+  const [linkColor, setLinkColor] = useState({
+    id: 0,
+    for: ''
   })
+  const [layerGroupDimension, setLayerGroupDimension] = useState()
+  const [list, setList] = useState({})
   const [selected, setSelected] = useState()
   const data = {
     list,
@@ -53,6 +26,8 @@ const CustomCVContextProvider = ({ children }) => {
     setLayerGroupDimension,
     leftTab,
     setLeftTab,
+    linkColor,
+    setLinkColor,
   }
 
   return <CustomCVContext.Provider value={data}>{children}</CustomCVContext.Provider>

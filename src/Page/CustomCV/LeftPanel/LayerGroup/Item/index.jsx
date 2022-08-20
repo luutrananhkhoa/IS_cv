@@ -9,8 +9,8 @@ import { CustomCVContext } from '../../../CustomCVContext'
 function Index(props) {
   const { index, id, name } = props
   const { selected, setSelected, doubleClick, setDoubleClick } = useContext(CustomCVContext)
-  const [lock, setLock] = useState(false)
-  const [hidden, setHidden] = useState(false)
+  // const [lock, setLock] = useState(false)
+  // const [hidden, setHidden] = useState(false)
   const handleClick = (e) => {
     setSelected(id)
   }
@@ -22,8 +22,8 @@ function Index(props) {
       <i className="fa-solid fa-folder"></i>
       <Text index={index} id={id} name={name}></Text>
       <div className={styles.toolbox}>
-        <ToggleLock state={[lock, setLock]}></ToggleLock>
-        <ToggleHidden state={[hidden, setHidden]}></ToggleHidden>
+        <ToggleLock key={0} id={id}></ToggleLock>
+        <ToggleHidden key={1} id={id}></ToggleHidden>
       </div>
     </div>
   )

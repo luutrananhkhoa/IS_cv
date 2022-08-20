@@ -38,13 +38,15 @@
     font-size: 1em;
     flex: 1;
     height: 27px;
+    display: flex;
+    align-items: center;
   }
   .toolbox {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
-    
+
     .lock {
       @extend %toolStyle;
     }
@@ -64,8 +66,7 @@
   filter: sepia(100%) hue-rotate(178deg) saturate(100%);
   background: #dabebe;
   input {
-    border: 1px solid red;
-    @include mixin.borderBox;
+    outline: 1px solid red;
   }
   &:hover {
     background: #dabebe;

@@ -7,19 +7,28 @@ export const dataTypes = {
     type: 'box',
     icon: 'fa-solid fa-layer-group',
   },
-  box1: {
-    icon: 'fa-solid fa-layer-group',
-  },
-  box2: {
-    icon: 'fa-solid fa-layer-group',
-  },
-  box3: {
-    icon: 'fa-solid fa-layer-group',
-  },
-  box4: {
-    icon: 'fa-solid fa-layer-group',
-  },
-  box5: {
-    icon: 'fa-solid fa-layer-group',
-  },
+  // box1: {
+  //   type: 'box',
+  //   icon: 'fa-solid fa-layer-group',
+  // },
+  // box2: {
+  //   type: 'box',
+  //   icon: 'fa-solid fa-layer-group',
+  // },
+  // box3: {
+  //   type: 'box',
+  //   icon: 'fa-solid fa-layer-group',
+  // },
+  // box4: {
+  //   type: 'box',
+  //   icon: 'fa-solid fa-layer-group',
+  // },
+  // box5: {
+  //   type: 'box',
+  //   icon: 'fa-solid fa-layer-group',
+  // },
+  // box6: {
+  //   type: 'box',
+  //   icon: 'fa-solid fa-layer-group',
+  // },
 }
