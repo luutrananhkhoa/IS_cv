@@ -5,8 +5,8 @@ import { AiOutlineUser } from 'react-icons/ai'
 import { Context } from '../../Context/Context'
 import { Web3Context } from '../../Context/Web3ContextProvider'
 import { useTranslation } from 'react-i18next'
-import styles from './styles.module.scss'
 import { Tooltip } from '@component/Tooltip'
+import Language from "./Language"
 
 export default function Header() {
   const { t, i18n } = useTranslation()
@@ -57,25 +57,8 @@ export default function Header() {
         </ul>
         {/* {t('content.functional')} */}
         <div className="flex justify-around">
-          <Tooltip
-            content={
-              <ul className={styles.ulLanguage}>
-                <li className={styles.languageButton}>
-                  <img src="https://cdn-icons-png.flaticon.com/512/323/323319.png"></img>
-                  <div className={styles.buttonSelect}>Tieng viet</div>
-                </li>
-                <li className={styles.languageButton}>
-                  <img src="https://cleandye.com/wp-content/uploads/2020/01/English-icon.png"></img>
-                  <div className={styles.buttonSelect}>English</div>
-                </li>
-              </ul>
-            }
-          >
-            <div className={styles.languageButton}>
-              <img src="https://cdn-icons-png.flaticon.com/512/323/323319.png"></img>
-              <div className={styles.buttonSelect}>Tieng viet</div>
-            </div>
-          </Tooltip>
+          <Language></Language>
+        
 
           {/* <button onClick={() => i18n.changeLanguage('vi')}>vi</button>
           <button onClick={() => i18n.changeLanguage('en')}>en</button> */}

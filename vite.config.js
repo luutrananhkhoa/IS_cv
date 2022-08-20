@@ -36,6 +36,7 @@ export default defineConfig({
       '@constant': path.resolve(__dirname, 'src/Constant'),
       '@style': path.resolve(__dirname, 'src/Style'),
       '@locale': path.resolve(__dirname, 'src/Locale'),
+      '@helper': path.resolve(__dirname, 'src/Helper'),
       '@': path.resolve(__dirname, 'src'),
     },
   },

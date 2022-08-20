@@ -23,6 +23,7 @@ module.exports = function override(config, env) {
     '@constant': path.resolve(__dirname, 'src/Constant'),
     '@style': path.resolve(__dirname, 'src/Style'),
     '@locale': path.resolve(__dirname, 'src/Locale'),
+    '@helper': path.resolve(__dirname, 'src/Helper'),
     '@': path.resolve(__dirname, 'src'),
   })(config, env)
   // config.resolve.fallback = fallback
@@ -39,8 +40,16 @@ module.exports = function override(config, env) {
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
+      'react/jsx-dev-runtime.js': require.resolve('react/jsx-dev-runtime.js'),
+      'react/jsx-runtime.js': require.resolve('react/jsx-runtime.js'),
     }),
   ])
   config.ignoreWarnings = [/Failed to parse source map/]
+  config.module.rules.unshift({
+    test: /\.m?js$/,
+    resolve: {
+      fullySpecified: false, // disable the behavior
+    },
+  })
   return config
 }

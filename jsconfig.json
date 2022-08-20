@@ -26,6 +26,7 @@
       "@constant/*": ["./src/Constant/*"],
       "@style/*": ["./src/Style/*"],
       "@locale/*": ["./src/Locale/*"],
+      "@helper/*": ["./src/Helper/*"],
       "@/*": ["./src/*"]
     }
   },

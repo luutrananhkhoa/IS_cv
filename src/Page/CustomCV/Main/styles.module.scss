@@ -1,0 +1,26 @@
+.index {
+  position: relative;
+}
+.board {
+  border: 1px solid black;
+  position: relative;
+  background-color: var(--color-background-primary);
+}
+.draggableBox {
+  position: absolute;
+}
+.active {
+  outline: 2px outset #39a1db;
+}
+.component {
+  // white-space: nowrap;
+}
+.boardPreview {
+  position: fixed;
+  pointer-events: none;
+  z-index: 89;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}

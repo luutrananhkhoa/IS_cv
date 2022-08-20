@@ -1,0 +1,55 @@
+@use '../../mixin.scss' as mixin;
+@import '../../variable.scss';
+
+%row {
+  margin: calc($itemRowGap / 2) 0px;
+}
+.container {
+  @include mixin.toolContainer;
+  .title {
+    @include mixin.title;
+  }
+  .wrapper {
+    @include mixin.wrapper;
+    .font {
+      @extend %row;
+    }
+    .font2 {
+      @extend %row;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 5px;
+      .fontWeight {
+        width: 150px;
+      }
+      .fontSize {
+        flex: 1;
+      }
+    }
+    .font3 {
+      @extend %row;
+      margin: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      .item {
+        @include mixin.item;
+      }
+    }
+    .font4 {
+        @extend %row;
+        margin: 10px 10px;
+        display: flex;
+        align-items: center;
+        gap: 35px;
+        .item {
+          @include mixin.item;
+        }
+      }
+  }
+}
+
+.svg{
+    color: blue;
+}

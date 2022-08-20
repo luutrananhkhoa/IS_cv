@@ -29,6 +29,7 @@ import LayoutHeaderCompany from '@layout/LayoutHeaderCompany'
 import IIG from './Page/IIG'
 import AddressMiddleware from '@middleware/AddressMiddleware'
 import { ToastContainer } from '@component/Toast'
+import CustomCV from './Page/CustomCV'
 
 function App() {
   aos.init()
@@ -48,6 +49,9 @@ function App() {
                 <Route path="companydetail" element={<CompanyDetail />} />
                 <Route path="evaluate" element={<Evaluate />} />
                 <Route path="test" element={<Test />} />
+              </Route>
+              <Route path="">
+                <Route path="customcv" element={<CustomCV />} />
               </Route>
               <Route path="" element={<AddressMiddleware></AddressMiddleware>}>
                 <Route path="mycv" element={<Mycv />} />

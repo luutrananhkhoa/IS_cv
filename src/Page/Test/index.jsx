@@ -4,13 +4,10 @@ import ModalWarning from '@component/ModalWarning'
 import ModalEvaluate from '@/Component/ModalEvaluate'
 import Loading from '@component/Loading'
 import { Tooltip } from '@component/Tooltip'
-import useA from './useA'
-import { eventEmitter, test } from './UserDetailComponent'
 import { useToast } from '@component/Toast'
 
 export default function Test() {
   // const navigation = useNavigate()
-  const contextData = useA()
   const [openModal, setOpenModal] = useState(true)
   const [statusBtn, setStatusBtn] = useState(false)
   const toast = useToast()
