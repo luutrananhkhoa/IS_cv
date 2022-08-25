@@ -1,0 +1,21 @@
+{
+    "menu": [
+        {
+            "name": "Trang chủ",
+            "to": "/"
+        },
+        {
+            "name": "Thành viên",
+            "to": "/team"
+        },
+        {
+            "name": "Liên hệ",
+            "to": "/contact"
+        },
+        {
+            "name": "Test",
+            "to": "/test"
+        }
+    ],
+    "_account": "Tài khoản"
+}

@@ -25,7 +25,7 @@ function Index(props) {
         height: '100%',
       }}
     >
-      <div className={styles.container}>
+      <div id="leftPanel" className={styles.container}>
         <ComponentGroup></ComponentGroup>
         <LayerGroup></LayerGroup>
       </div>

@@ -33,3 +33,20 @@
   -moz-box-sizing: border-box; /* Firefox, other Gecko */
   box-sizing: border-box;
 }
+
+@mixin inputStyle {
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-theme-primary);
+}
+
+@mixin button {
+  background: var(--color-button-primary);
+  border-radius: 20px;
+  padding: 7px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-text-secondary);
+}

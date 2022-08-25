@@ -14,8 +14,17 @@ import { useTranslation } from 'react-i18next'
  */
 function Index(props) {
   const [openModal, setOpenModal] = props.state
-  const { action, nonaction, content, actionText, nonactionText, title, children, actionOutside } =
-    props
+  const {
+    action,
+    nonaction,
+    content,
+    actionText,
+    nonactionText,
+    title,
+    children,
+    actionOutside,
+    top,
+  } = props
   const { t } = useTranslation('')
   return (
     <>
@@ -30,36 +39,37 @@ function Index(props) {
             }}
           ></div>
           {/* <div className={styles.container}> */}
-            <div className={styles.container}>
-              <div className={styles.title}>
-                <div className={styles.buttonWrapper}>
+          <div style={{ top: top }} className={styles.container}>
+            <div className={styles.title}>
+              <div className={styles.buttonWrapper}>
+                <button
+                  onClick={() => {
+                    setOpenModal((e) => !e)
+                  }}
+                  className={styles.buttonClose}
+                  // className="text-4xl text-white absolute top-0 right-2 align-center cursor-pointer alert-del"
+                >
+                  <i className={`fa-solid fa-xmark ${styles.iconClose}`}></i>
+                </button>
+              </div>
+              <p className={styles.titleText}>{title ? title : t('title')}</p>
+            </div>
+            <div className={styles.contentWrapper}>{content ? content : children}</div>
+
+            <div className={styles.end}>
+              <div className={styles.endButtonWrapper}>
+                {nonaction && (
                   <button
+                    className={styles.cancel}
                     onClick={() => {
+                      nonaction && nonaction()
                       setOpenModal((e) => !e)
                     }}
-                    className={styles.buttonClose}
-                    // className="text-4xl text-white absolute top-0 right-2 align-center cursor-pointer alert-del"
                   >
-                    <i className={`fa-solid fa-xmark ${styles.iconClose}`}></i>
+                    {nonactionText ? nonactionText : t('cancel')}
                   </button>
-                </div>
-                <p className={styles.titleText}>{title ? title : t('title')}</p>
-              </div>
-              <div className={styles.contentWrapper}>{content ? content : children}</div>
-
-              <div className={styles.end}>
-                <div className={styles.endButtonWrapper}>
-                  {nonaction && (
-                    <button
-                      className={styles.cancel}
-                      onClick={() => {
-                        nonaction && nonaction()
-                        setOpenModal((e) => !e)
-                      }}
-                    >
-                      {nonactionText ? nonactionText : t('cancel')}
-                    </button>
-                  )}
+                )}
+                {action && (
                   <button
                     className={styles.accept}
                     onClick={() => {
@@ -68,10 +78,10 @@ function Index(props) {
                   >
                     {actionText ? actionText : t('oke')}
                   </button>
-                </div>
+                )}
               </div>
             </div>
-         
+          </div>
         </>
       )}
     </>

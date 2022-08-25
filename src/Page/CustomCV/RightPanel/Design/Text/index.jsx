@@ -5,43 +5,7 @@ import clsx from 'clsx'
 import { CustomCVContext } from '../../../CustomCVContext'
 import { optionsFont, optionsFontWeight, optionsFontSize } from '../../../config'
 import update from 'immutability-helper'
-
-const customStyles = {
-  option: (provided, state) => ({
-    ...provided,
-    borderBottom: '1px solid #e5e6e6',
-    //   color: state.isSelected ? 'red' : 'blue',
-    padding: 20,
-    height: 10,
-    // background: 'black',
-    display: 'flex',
-    alignItems: 'center',
-  }),
-  menu: (provided, state) => ({
-    ...provided,
-    // width: state.selectProps.width,
-    // borderBottom: '1px dotted pink',
-    borderRadius: '5px',
-    color: state.selectProps.menuColor,
-    // padding: 20,
-  }),
-  control: (_, { selectProps: { onFocus } }) => ({
-    // none of react-select's styles are passed to <Control />
-    // width: 200,
-    // color={}
-    display: 'flex',
-    borderRadius: '5px',
-    height: 30,
-    border: '1px solid #e5e6e6',
-    alignItems: 'center',
-  }),
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1
-    const transition = 'opacity 300ms'
-
-    return { ...provided, opacity, transition }
-  },
-}
+import { customStyles } from '../../../config'
 
 export default function Index(props) {
   const { list, setList, selected, linkColor, setLinkColor } = useContext(CustomCVContext)
@@ -167,30 +131,26 @@ export default function Index(props) {
               <div className={styles.item}>
                 <span
                   onClick={() => {
-                    setList(
-                      update(list, { [selected]: { $merge: { justifyContent: 'flex-start' } } })
-                    )
+                    setList(update(list, { [selected]: { $merge: { textAlign: 'left' } } }))
                   }}
                   className={clsx('fa-thin fa-align-left', {
-                    [styles.active]: list[selected].justifyContent == 'flex-start',
+                    [styles.active]: list[selected].textAlign == 'left',
                   })}
                 ></span>
                 <span
                   onClick={() => {
-                    setList(update(list, { [selected]: { $merge: { justifyContent: 'center' } } }))
+                    setList(update(list, { [selected]: { $merge: { textAlign: 'center' } } }))
                   }}
                   className={clsx('fa-thin fa-align-center', {
-                    [styles.active]: list[selected].justifyContent == 'center',
+                    [styles.active]: list[selected].textAlign == 'center',
                   })}
                 ></span>
                 <span
                   onClick={() => {
-                    setList(
-                      update(list, { [selected]: { $merge: { justifyContent: 'flex-end' } } })
-                    )
+                    setList(update(list, { [selected]: { $merge: { textAlign: 'right' } } }))
                   }}
                   className={clsx('fa-thin fa-align-right', {
-                    [styles.active]: list[selected].justifyContent == 'flex-end',
+                    [styles.active]: list[selected].textAlign == 'right',
                   })}
                 ></span>
               </div>

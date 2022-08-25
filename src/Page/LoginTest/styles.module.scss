@@ -1,0 +1,129 @@
+@use '../../Style/abtracts/mixins' as mixin;
+@use '../../Style/globalType/function' as function;
+$leftWidth: 70%;
+%label {
+  margin: 0px 0px 0px 10px;
+  font-size: 15px;
+  font-weight: 550;
+}
+%marginLeftItem {
+  margin: 7px 0px;
+}
+%input {
+  @include function.inputStyle;
+  font-size: 15px;
+  font-weight: 450;
+  line-height: 20px;
+  border: 2px solid var(--color-border);
+  padding: 10px 15px;
+  margin: 5px 0px 0px 0px;
+  overflow: scroll;
+  white-space: nowrap;
+  //   @include function.truncate;
+  &:focus {
+    border: 2px solid var(--color-active-primary);
+  }
+}
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  .left {
+    width: 65%;
+    height: 100vh;
+    color: var(--color-text-secondary);
+    background-size: cover;
+    display: flex;
+    align-items: flex-start;
+    .backgroundWrapper {
+      margin: 10% 0px 0px 10%;
+      width: 70%;
+      .backgroundText {
+        font-size: 50px;
+        font-weight: bold;
+        line-height: 50px;
+        margin: 30px 0px;
+      }
+      .smallBackgroundText {
+        font-size: 20px;
+      }
+    }
+    @include mixin.sm {
+      display: none;
+    }
+  }
+  .right {
+    width: 500px;
+    height: 100vh;
+    flex-shrink: 0;
+    background-color: var(--color-background-primary);
+    color: var(--color-text-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .languageWrapper {
+      margin: 20px 20px 0px 0px;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      .language {
+        @include function.button;
+        background: var(--color-button-tertiary);
+      }
+    }
+    .loginTitle {
+      margin: 10% 0px;
+      width: $leftWidth;
+      font-size: 30px;
+      font-weight: 550;
+    }
+    .boxWrapper {
+      display: flex;
+      flex-direction: column;
+      width: $leftWidth;
+      @extend %marginLeftItem;
+      .label {
+        @extend %label;
+      }
+      .input {
+        @extend %input;
+      }
+      button {
+        @extend %input;
+        border: unset;
+        &:focus {
+          border: unset;
+        }
+        background: var(--color-button-tertiary) !important;
+        color: var(--color-text-secondary);
+        text-transform: capitalize;
+        font-size: 18px;
+        font-weight: 550;
+      }
+    }
+    .rememberForgot {
+      width: $leftWidth;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      @extend %marginLeftItem;
+      .remenber {
+        font-size: 13px;
+        display: flex;
+        label {
+          margin: 0px 0px 0px 5px;
+        }
+      }
+      .forgot {
+        font-size: 13px;
+        font-weight: bold;
+      }
+    }
+    @include mixin.md {
+      width: 45%;
+    }
+    @include mixin.sm {
+      width: 100%;
+    }
+  }
+}

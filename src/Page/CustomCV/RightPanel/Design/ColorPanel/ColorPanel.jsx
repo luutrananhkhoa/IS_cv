@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useRef, useEffect, useContext } from 'react'
 import { ColorPicker, useColor } from 'react-color-palette'
 import './styles.scss'
 import * as constant from '../../constant'
@@ -10,6 +10,7 @@ import update from 'immutability-helper'
 function ColorPanel() {
   const { selected, linkColor, setLinkColor, list, setList } = useContext(CustomCVContext)
   const [color, setColor] = useColor('hex', '#000000')
+  const preChange = useRef()
   useEffect(() => {
     if (selected == linkColor.id && list[selected].hex != color.hex) {
       switch (linkColor.for) {
@@ -23,38 +24,8 @@ function ColorPanel() {
     }
   }, [color])
 
-  // useEffect(() => {
-  //   console.log(list[selected]?.color)
-  // }, [list])
   useEffect(() => {
-    if (linkColor.id) {
-      if (selected != linkColor.id) {
-        setColor({
-          hex: '#000000',
-          rgb: {
-            r: 0,
-            g: 0,
-            b: 0,
-          },
-          hsv: {
-            h: 0,
-            s: 0,
-            v: 0,
-          },
-        })
-
-        setLinkColor({})
-      } else {
-        switch (linkColor.for) {
-          case 'color':
-            setColor(list[selected].color)
-            break
-          case 'background':
-            setColor(list[selected].background)
-            break
-        }
-      }
-    } else {
+    if (!linkColor.id) {
       setColor({
         hex: '#000000',
         rgb: {
@@ -68,8 +39,65 @@ function ColorPanel() {
           v: 0,
         },
       })
+      return
+    }
+
+    if (selected != linkColor.id) {
+      setColor({
+        hex: '#000000',
+        rgb: {
+          r: 0,
+          g: 0,
+          b: 0,
+        },
+        hsv: {
+          h: 0,
+          s: 0,
+          v: 0,
+        },
+      })
+
+      setLinkColor({})
+      return
+    }
+    switch (linkColor.for) {
+      case 'color':
+        setColor(list[selected].color)
+        break
+      case 'background':
+        setColor(list[selected].background)
+        break
     }
   }, [selected, linkColor.id])
+  useEffect(() => {
+    if (selected != linkColor.id) {
+      return
+    }
+    if (!linkColor.for) {
+      setColor({
+        hex: '#000000',
+        rgb: {
+          r: 0,
+          g: 0,
+          b: 0,
+        },
+        hsv: {
+          h: 0,
+          s: 0,
+          v: 0,
+        },
+      })
+      return
+    }
+    switch (linkColor.for) {
+      case 'color':
+        setColor(list[selected].color)
+        break
+      case 'background':
+        setColor(list[selected].background)
+        break
+    }
+  }, [linkColor.for])
   return (
     <div className={styles.container}>
       <div className={styles.targetWrapper}>

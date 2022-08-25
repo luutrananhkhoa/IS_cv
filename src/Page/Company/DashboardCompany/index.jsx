@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 import DashboardMenu from './DashboardMenu'
 import HeaderDashboard from './/HeaderDashboard'
 import { useTranslation } from 'react-i18next'
-import { menu } from './menu'
+
 import DashboardContextProvider, { DashboardContext } from './DashboardContextProvider'
 
 function Index() {

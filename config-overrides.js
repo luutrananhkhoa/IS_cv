@@ -40,8 +40,8 @@ module.exports = function override(config, env) {
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
-      'react/jsx-dev-runtime.js': require.resolve('react/jsx-dev-runtime.js'),
-      'react/jsx-runtime.js': require.resolve('react/jsx-runtime.js'),
+      // 'react/jsx-dev-runtime.js': require.resolve('react/jsx-dev-runtime.js'),
+      // 'react/jsx-runtime.js': require.resolve('react/jsx-runtime.js'),
     }),
   ])
   config.ignoreWarnings = [/Failed to parse source map/]

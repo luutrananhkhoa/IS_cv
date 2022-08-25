@@ -10,7 +10,7 @@ import vn from './vi/index.json'
 import dashboardIndexVi from './vi/page/company/dashboard/index.json'
 import dashboardMenuVi from './vi/page/company/dashboard/menu.json'
 import employeeCertificateVi from './vi/page/company/dashboard/employeeCertificate.json'
-
+import headerVi from './vi/component/header/index.json'
 
 // the translations
 const resources = {
@@ -35,6 +35,11 @@ const resources = {
           menu: dashboardMenuVi,
           employeeCertificate: employeeCertificateVi,
         },
+      },
+    },
+    component: {
+      header: {
+        index: headerVi,
       },
     },
   },

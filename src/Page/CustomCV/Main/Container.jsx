@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef, useEffect, useContext } from 'react'
+import { useCallback, useState, useRef, useEffect, useContext, useLayoutEffect } from 'react'
 import { useDrop } from 'react-dnd'
 import { DraggableBox } from './DraggableBox'
 import { defaultComponent } from '../config'
@@ -8,9 +8,9 @@ import _ from 'lodash'
 import { BOARDDIMENSION } from '../config'
 import { CustomCVContext } from '../CustomCVContext'
 import styles from './styles.module.scss'
-import update from 'immutability-helper'
-import generate from '@helper/generate'
-import { id } from 'ethers/lib/utils'
+import events from 'events'
+
+export const customcvEmitter = new events.EventEmitter()
 
 const boardDimension = {
   left: window.screen.width / 2 - BOARDDIMENSION.width / 2,
@@ -21,19 +21,20 @@ const boardDimension = {
 export default function Container(props) {
   const { snapToGrid } = props
 
-  const { list, setList, setSelected } = useContext(CustomCVContext)
+  const { list, setList, setSelected, getNewAutoCreatement } = useContext(CustomCVContext)
 
   const addComponent = useCallback(
     (type, top, left) => {
       let newData
-      let newId = generate(5)
+      let newId = getNewAutoCreatement()
       switch (type) {
         case dataTypes.text.type:
           newData = {
             top,
             left,
             type: dataTypes.text.type,
-            name: 'Text' + newId,
+            name: 'Text ' + newId,
+            ...defaultComponent.common,
             ...defaultComponent.text,
           }
           break
@@ -42,8 +43,29 @@ export default function Container(props) {
             top,
             left,
             type: dataTypes.box.type,
-            name: 'Box' + newId,
+            name: 'Box ' + newId,
+            ...defaultComponent.common,
             ...defaultComponent.box,
+          }
+          break
+        case dataTypes.image.type:
+          newData = {
+            top,
+            left,
+            type: dataTypes.image.type,
+            name: 'Image ' + newId,
+            // ...defaultComponent.common,
+            ...defaultComponent.image,
+          }
+          break
+        case dataTypes.icon.type:
+          newData = {
+            top,
+            left,
+            type: dataTypes.icon.type,
+            name: 'Icon ' + newId,
+            // ...defaultComponent.common,
+            ...defaultComponent.icon,
           }
           break
       }
@@ -78,11 +100,15 @@ export default function Container(props) {
     }),
     [list]
   )
+
   return (
-    <div ref={drop} style={boardDimension} className={styles.board}>
-      {Object.keys(list).map((id, index) => {
-        return <DraggableBox key={index} id={id} boardDimension={boardDimension} />
-      })}
+    <div ref={drop} id={'custom_board'} style={boardDimension} className={styles.board}>
+      <div id="draw_child" className={styles.drawChild}>
+        {Object.keys(list).map((id, index) => {
+          return <DraggableBox key={index} id={id} boardDimension={boardDimension} />
+        })}
+        <div id="draw_table" style={{ width: '100vw', height: '100vh', background: 'white' }}></div>
+      </div>
     </div>
   )
 }

@@ -9,7 +9,7 @@
   --color-text-secondary: #ffffff;
   --color-text-tertiary: #ff7a1a;
 
-  --color-text-active: #0259fa !important;
+  --color-active-primary: #0259fa;
 
   --color-background-primary: #ffffff;
   --color-background-secondary: #10aa98;
@@ -17,12 +17,13 @@
   --color-background-blur: rgba(9, 9, 9, 0.9);
   --color-background-tertiary: #ff7a1a;
 
-  --color-button-primary: #ff7a1a;
-  --color-button-secondary: #02b2c5;
-  --color-button-tertiary: rgba(232, 35, 28, 0.667);
+  --color-button-primary: linear-gradient(to right, #e44d26, #f16529);
+  --color-button-secondary: linear-gradient(135deg, #05f, #09f);
+  --color-button-tertiary: linear-gradient(to right, #ee0979, #ff6a00);
+  --color-button-fourth: linear-gradient(to right, #f2994a, #f2c94c);
   --theme-lineheight-primary: 1.5;
 
-  --color-modal-primary: gray;
+  --color-modal-primary: #545e6587;
 
   --font-family-primary: Open Sans, sans-serif;
   --color-border: #b2b2b25b;
@@ -43,7 +44,6 @@
   --color-customcv-active-primary: #39a1db;
   --color-customcv-hover-primary: #97c9e4;
   --color-customcv-hover-secondary: #09273f;
-
 
   --color-customcv-title-primary: #363c3e;
   --color-customcv-title-secondary: #85919a;
