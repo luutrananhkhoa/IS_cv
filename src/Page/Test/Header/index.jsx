@@ -59,7 +59,9 @@ const Header = () => {
       </nav>
       <nav id="navbar" className={clsx(styles.navRight)} ref={menuRight}>
         <Language></Language>
-        <button className={styles.buttonAccount}>Tài khoản</button>
+        <Link to={'/logintest'} className={styles.buttonAccount}>
+          Tài khoản
+        </Link>
       </nav>
     </header>
   )
