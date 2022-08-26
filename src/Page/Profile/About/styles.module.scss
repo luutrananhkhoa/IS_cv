@@ -1,0 +1,53 @@
+@import '../variable.scss';
+.container {
+  position: relative;
+  @extend %wrapper;
+
+  .personalWrapper {
+    margin: 20px 0px;
+    background: var(--color-background-primary);
+    border-radius: $borderRadius;
+    .title {
+      @include title;
+    }
+    .personal {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      .itemWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+
+        .item {
+          display: flex;
+          gap: 15px;
+          align-items: center;
+          .iconWrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            i {
+              font-size: 20px;
+            }
+          }
+        }
+        .tool {
+          display: flex;
+          gap: 15px;
+          i {
+            cursor: pointer;
+          }
+        }
+        &:hover {
+          background-color: #acacac;
+        }
+        &:last-child {
+          border-bottom-left-radius: $borderRadius;
+          border-bottom-right-radius: $borderRadius;
+        }
+      }
+    }
+  }
+}

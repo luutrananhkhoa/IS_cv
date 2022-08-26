@@ -1,4 +1,4 @@
-@use '../../../Style/abtracts/mixins' as mixin;
+@use '../../Style/abtracts/mixins' as mixin;
 
 $headerHeight: 60px;
 $borderActive: 3px solid var(--color-active-primary);
@@ -24,6 +24,7 @@ $mobileWidth: 350px;
     flex: 1;
     margin: 0px 0px 0px $marginOut;
     height: 100%;
+    display: flex;
     .logo {
       height: 100%;
       margin: 0;
@@ -52,7 +53,7 @@ $mobileWidth: 350px;
       margin: 0;
       padding: 0;
 
-      li {
+      .navItem {
         position: relative;
         display: flex;
         height: 100%;
@@ -70,8 +71,8 @@ $mobileWidth: 350px;
             transition: all 0.3s ease-in-out 0s;
             display: inline-block;
           }
-          a {
-            transform: translateY(0px);
+          .name {
+            transform: translateY(-5px);
             opacity: 1;
             transition: all 0.3s ease-in-out 0s;
           }
@@ -82,7 +83,7 @@ $mobileWidth: 350px;
           transform: translateY(calc($headerHeight / 4) + 2px);
           transition: all 0.3s ease-in-out 0s;
         }
-        a {
+        .name {
           color: var(--color-text-primary);
           font-size: 18px;
           transition: all 0.3s ease-in-out 0s;
@@ -132,7 +133,7 @@ $mobileWidth: 350px;
     }
     ul {
       padding: 10px 30px;
-      li {
+      .navItem {
         display: flex;
         align-items: center;
         margin: 10px 0px;
@@ -148,7 +149,7 @@ $mobileWidth: 350px;
             font-size: 22px;
           }
         }
-        a {
+        .name {
           text-transform: capitalize;
           margin: 0px 0px 0px 10px;
           font-weight: 550;
@@ -198,6 +199,8 @@ $mobileWidth: 350px;
   border-radius: 2.625rem;
   padding: 0.5rem 20px;
   align-items: center;
+  font-size: 18px;
+
   color: var(--color-text-secondary);
 }
 

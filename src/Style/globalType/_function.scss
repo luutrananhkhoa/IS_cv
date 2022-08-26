@@ -3,18 +3,6 @@
   border-radius: 1rem;
   box-shadow: 0 0 6px 1px rgba(186, 184, 184, 0.755);
 }
-
-@mixin button($width, $height, $radius, $background) {
-  width: $width;
-  height: $height;
-  border-radius: $radius;
-  background-color: $background;
-  text-align: center;
-  line-height: $height;
-  font-size: 1rem;
-  font-weight: 500;
-}
-
 @mixin truncate($width: 100%) {
   width: $width;
   white-space: nowrap;
@@ -45,8 +33,20 @@
   background: var(--color-button-primary);
   border-radius: 2.625rem;
   padding: 0.5rem 20px;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--color-text-secondary);
+}
+
+@mixin panel {
+  background: var(--color-button-primary);
+  border-radius: var(--border-radius-primary);
+  color: var(--color-text-secondary);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+@mixin textGradient {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

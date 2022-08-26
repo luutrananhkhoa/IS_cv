@@ -20,7 +20,6 @@ import PostCompany from './Page/Company/PostCompany'
 import ManagePost from './Page/Company/ManagePost'
 import HomeCompany from '@page/Company/HomeCompany'
 import DashboardCompany from '@page/Company/DashboardCompany'
-import aos from 'aos'
 import ContractMiddleware from '@/Middleware/ContractMiddleware'
 import ContractMiddlewareCompany from '@/Middleware/ContractMiddlewareCompany'
 import Test from '@page/Test'
@@ -30,11 +29,8 @@ import IIG from './Page/IIG'
 import AddressMiddleware from '@middleware/AddressMiddleware'
 import { ToastContainer } from '@component/Toast'
 import CustomCV from './Page/CustomCV'
-import LoginTest from './Page/LoginTest'
 
 function App() {
-  aos.init()
-  aos.refresh()
   return (
     <div className="App">
       <ToastContainer></ToastContainer>
@@ -53,7 +49,8 @@ function App() {
               <Route path="">
                 <Route path="customcv" element={<CustomCV />} />
                 <Route path="test" element={<Test />} />
-                <Route path="logintest" element={<LoginTest />} />
+
+                <Route path="profile" element={<Profile />} />
               </Route>
               <Route path="" element={<AddressMiddleware></AddressMiddleware>}>
                 <Route path="mycv" element={<Mycv />} />
@@ -68,7 +65,7 @@ function App() {
             <Route path="" element={<ContractMiddleware requestLogin></ContractMiddleware>}>
               <Route path="" element={<LayoutHeader></LayoutHeader>}>
                 <Route path="register" element={<Register />} />
-                <Route path="profile" element={<Profile />} />
+        
               </Route>
             </Route>
           </Route>

@@ -20,7 +20,7 @@ export default function Index() {
           {list.map((value, index) => {
             return (
               <div className={styles.buttonWrapper}>
-                <button
+                <div
                   key={index}
                   className={clsx(styles.languageButtonList, {
                     [styles.active]: i18n.language == value.value,
@@ -29,7 +29,7 @@ export default function Index() {
                 >
                   <img src={flag[value.value]}></img>
                   <div className={styles.buttonSelect}>{value.name}</div>
-                </button>
+                </div>
                 <hr></hr>
               </div>
             )

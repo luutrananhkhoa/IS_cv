@@ -1,15 +1,18 @@
-import React, { useContext, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import logo1 from '@asset/LogoCV.png'
-import { AiOutlineUser } from 'react-icons/ai'
+import React, { useContext, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { Context } from '../../Context/Context'
 import { Web3Context } from '../../Context/Web3ContextProvider'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from '@component/Tooltip'
-import Language from "./Language"
+import Language from '@component/Language'
+import styles from './styles.module.scss'
+import clsx from 'clsx'
+import { listMenuHeader } from './listMenuHeader'
+import logo from '@asset/LogoCV.png'
 
 export default function Header() {
   const { t, i18n } = useTranslation()
+  const location = useLocation()
+  const [showMobile, setShowModile] = useState(false)
   const { address, setAddress, removeJwtEmployee, contractStudentBusiness } =
     useContext(Web3Context)
   const { existAccount, setExistAccount, isLoggedIn } = useContext(Context)
@@ -36,62 +39,73 @@ export default function Header() {
   }
 
   return (
-    <nav className="w-full h-24 bg-primary flex justify-around items-center text-white">
-      <Link to="/">
-        <img className="w-[30%] cursor-pointer" src={logo1} alt="logo" />
-      </Link>
-
-      <div className="flex items-center">
-        <ul className="flex text-xl">
-          <Link to="/" className="px-8">
-            HOME
-          </Link>
-          <Link to="/listcompany" className="px-8">
-            COMPANY
-          </Link>
-          {isLoggedIn && (
-            <Link to={`/mycv?address=${address}`} className="px-8 ">
-              MY CV
-            </Link>
-          )}
+    <header className={clsx(styles.container)}>
+      <div className={styles.toggleNavigation} onClick={() => setShowModile(!showMobile)}>
+        {showMobile ? (
+          <i key={0} className="fa-regular fa-xmark"></i>
+        ) : (
+          <i key={1} className="fa-regular fa-list-ul"></i>
+        )}
+      </div>
+      <div className={clsx(styles.navMobile, { [styles.showMobile]: showMobile })}>
+        <div className={styles.textModileTitle}>Navigation</div>
+        <ul>
+          {listMenuHeader.map((value, index) => {
+            return (
+              <Link key={index} to={value.to}>
+                <div className={styles.icon}>
+                  <i className={value.icon}></i>
+                </div>
+                <div className={styles.name}>{value.name}</div>
+              </Link>
+            )
+          })}
         </ul>
-        {/* {t('content.functional')} */}
-        <div className="flex justify-around">
-          <Language></Language>
-        
+      </div>
+      <div className={styles.navLeft}>
+        <Link  to="/">
+          <img className={styles.logo} alt="Logo" src={logo}></img>
+        </Link>
+      </div>
+      <nav id="navbar" className={clsx(styles.navCenter)}>
+        <ul>
+          {listMenuHeader.map((value, index) => {
+            return (
+              <Link
+                key={index}
+                to={value.to}
+                className={clsx(styles.navItem, { [styles.active]: location.pathname == value.to })}
+              >
+                <i className={value.icon}></i>
+                <div className={styles.name}>{value.name}</div>
+              </Link>
+            )
+          })}
+        </ul>
+      </nav>
+      <nav id="navbar" className={clsx(styles.navRight)}>
+        <Language key={0}></Language>
 
-          {/* <button onClick={() => i18n.changeLanguage('vi')}>vi</button>
-          <button onClick={() => i18n.changeLanguage('en')}>en</button> */}
-        </div>
         {!address ? (
-          <button
-            onClick={connectMetamask}
-            className=" px-4  py-2 text-[18px] text-center bg-secondary rounded-[24px]"
-          >
+          <button key={1} onClick={connectMetamask} className={styles.buttonAccount}>
             Connect Metamask
           </button>
         ) : existAccount ? (
           isLoggedIn ? (
-            <Link to="/profile" className="px-8">
-              <AiOutlineUser className="cursor-pointer" size={40} />
+            <Link key={2} to="/profile" className={styles.buttonAccount}>
+              Account
             </Link>
           ) : (
-            <Link
-              to="/login"
-              className=" px-10 py-2 text-[18px] text-center bg-secondary rounded-[24px]"
-            >
+            <Link key={3} to="/login" className={styles.buttonAccount}>
               Login
-            </Link>
+            </Link> 
           )
         ) : (
-          <Link
-            to="/createcv"
-            className="px-10 py-2 text-[18px] text-center bg-secondary rounded-[24px]"
-          >
+          <Link key={4} to="/createcv" className={styles.buttonAccount}>
             Sign up
           </Link>
         )}
-      </div>
-    </nav>
+      </nav>
+    </header>
   )
 }

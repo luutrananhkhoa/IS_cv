@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import '@style/global.scss'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
@@ -9,7 +9,10 @@ import { CookiesProvider } from 'react-cookie'
 import setup from '@locale/setup'
 import { I18nextProvider } from 'react-i18next'
 
-ReactDOM.render(
+const container = document.getElementById('root')
+const root = createRoot(container)
+
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <CookiesProvider>
@@ -22,6 +25,5 @@ ReactDOM.render(
         </I18nextProvider>
       </CookiesProvider>
     </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 )

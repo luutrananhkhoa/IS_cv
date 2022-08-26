@@ -6,7 +6,7 @@ export const listMenuHeader = [
   },
   {
     name: 'company',
-    to: '/company',
+    to: '/listcompany',
     icon: 'fa-regular fa-buildings',
   },
   {
