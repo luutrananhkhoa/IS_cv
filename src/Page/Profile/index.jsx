@@ -1,6 +1,6 @@
 import React, { useContext, memo } from 'react'
 import styles from './styles.module.scss'
-import cover from './cover.png'
+import cover from '@asset/cover.png'
 import avatar from '@asset/avatar.jpg'
 import clsx from 'clsx'
 import ProfileContextProvider, { ProfileContext } from './ProfileContext'

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './Page/Home'
 import Student from './Page/Student'
-import Company from './Page/ListCompany'
+import Social from './Page/Social'
 import Mycv from './Page/Mycv'
 import Login from './Page/Login'
 import LoginCompany from './Page/Company/LoginCompany/Index'
@@ -41,16 +41,16 @@ function App() {
               <Route path="" element={<LayoutHeader></LayoutHeader>}>
                 <Route path="" element={<Home />} />
                 <Route path="student" element={<Student />} />
-                <Route path="listcompany" element={<Company />} />
+                <Route path="social" element={<Social />} />
                 <Route path="iig" element={<IIG />} />
                 <Route path="companydetail" element={<CompanyDetail />} />
                 <Route path="evaluate" element={<Evaluate />} />
+                <Route path="profile" element={<Profile />} />
               </Route>
               <Route path="">
                 <Route path="customcv" element={<CustomCV />} />
                 <Route path="test" element={<Test />} />
-
-                <Route path="profile" element={<Profile />} />
+                <Route path="register" element={<Register />} />
               </Route>
               <Route path="" element={<AddressMiddleware></AddressMiddleware>}>
                 <Route path="mycv" element={<Mycv />} />
@@ -63,10 +63,7 @@ function App() {
               <Route path="login" element={<Login />} />
             </Route>
             <Route path="" element={<ContractMiddleware requestLogin></ContractMiddleware>}>
-              <Route path="" element={<LayoutHeader></LayoutHeader>}>
-                <Route path="register" element={<Register />} />
-        
-              </Route>
+              <Route path="" element={<LayoutHeader></LayoutHeader>}></Route>
             </Route>
           </Route>
 

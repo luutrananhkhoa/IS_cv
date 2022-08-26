@@ -1,8 +1,10 @@
+@use '../../../Style/abtracts/mixins' as mixin;
+@import '../variables.scss';
 .container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 10px 0px;
+  padding: $paddingGap 0px;
   gap: 5px;
   background: var(--color-theme-primary);
 
@@ -35,5 +37,22 @@
   .active {
     border-left: 3px solid var(--color-active-primary);
     color: var(--color-active-primary);
+  }
+  @include mixin.md {
+    flex-direction: row;
+    padding: $paddingGap;
+    flex-wrap: wrap;
+    .item {
+      padding: 10px 15px;
+
+      border-left: unset;
+      border-top-right-radius: unset;
+      border-bottom-right-radius: unset;
+      border-radius: 10px;
+      &:hover {
+        border-left: unset;
+        color: var(--color-active-primary);
+      }
+    }
   }
 }

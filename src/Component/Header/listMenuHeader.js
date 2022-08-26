@@ -1,12 +1,12 @@
 export const listMenuHeader = [
   {
-    name: 'home',
+    name: 'Home',
     to: '/',
     icon: 'fa-regular fa-house-heart',
   },
   {
-    name: 'company',
-    to: '/listcompany',
+    name: 'Social',
+    to: '/social',
     icon: 'fa-regular fa-buildings',
   },
   {
