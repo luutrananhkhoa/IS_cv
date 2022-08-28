@@ -1,65 +1,38 @@
-$borderColor: #b2b2b25b;
-$paddingBorder: 2px;
-.dropdown {
-  float: left;
+$arrowWidth: 5px;
+.tooltip {
+  position: relative;
+  display: inline-block;
 
-  .toggle {
-    padding: 4px 8px;
-    border-top: none;
-    border-bottom: 1px solid $borderColor;
-    border-right: 1px solid $borderColor;
-    border-left: 1px solid $borderColor;
-    border-image: initial;
-
-    position: relative;
-    list-style: none;
-    cursor: pointer;
-    float: right;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-theme-primary);
-    color: var(--color-text-primary);
-    box-shadow: rgb(239 242 245) 0px 1px 0px;
-    .icon {
-      margin: 0px 0px 0px 5px;
-    }
-  }
-  .menu {
-    z-index: 99 !important;
-    box-shadow: none;
-    background: rgb(239, 242, 245);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-direction: column;
+  .tooltipContent {
     position: absolute;
-    border-bottom: 1px solid $borderColor;
-    border-right: 1px solid $borderColor;
-    border-left: 1px solid $borderColor;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    padding: 0px $paddingBorder;
+    background-color: var(--color-background-primary);
+    color: var(--color-text-primary);
+    text-align: center;
+    padding: 5px 5px;
+    border-radius: 6px;
+    z-index: 1;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.6s;
+    white-space: nowrap;
+    box-shadow: var(--box-shadow-secondary);
+    width: max-content;
   }
-  .item {
-    padding: 5px 15px;
-    font-weight: 400;
-    width: 100%;
-    color: var(--color-text-primary);
-    margin: $paddingBorder 0px;
-    cursor: pointer;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-theme-primary);
-    color: var(--color-text-primary);
-    box-shadow: rgb(239 242 245) 0px 1px 0px;
-    &:active {
-      color: #fff;
-      text-decoration: none;
-      background-color: var(--theme-color-active);
-    }
+}
+.bottom {
+  transform: translate(-50%, 100%);
+  bottom: -$arrowWidth;
+  left: 50%;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -$arrowWidth;
+    width: 0;
+    height: 0;
+    border-left: $arrowWidth solid transparent;
+    border-right: $arrowWidth solid transparent;
+    border-bottom: $arrowWidth solid var(--color-background-primary);
   }
 }

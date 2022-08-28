@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Context } from '../../Context/Context'
 import { Web3Context } from '../../Context/Web3ContextProvider'
 import { useTranslation } from 'react-i18next'
 import Language from '@component/Language'
@@ -13,33 +12,51 @@ export default function Header() {
   const { t, i18n } = useTranslation()
   const location = useLocation()
   const [showMobile, setShowModile] = useState(false)
-  const { address, setAddress, removeJwtEmployee, contractStudentBusiness } =
-    useContext(Web3Context)
-  const { existAccount, setExistAccount, isLoggedIn } = useContext(Context)
-  async function connectMetamask() {
+  const { loginState, dispatchLogin, showMorePanel, setShowMorePanel } = useContext(Web3Context)
+  async function handleConnectMetamask() {
     const accounts = await ethereum.request({
       method: 'eth_requestAccounts',
     })
-
     let addressTemp = accounts[0]
-    setAddress(addressTemp)
-
-    await contractStudentBusiness.methods
-      .checkExistStudent(addressTemp)
-      .call()
-      .then((success) => {
-        if (success === '1') {
-          setExistAccount(true)
-          removeJwtEmployee()
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    if (addressTemp) {
+      let jwt
+      if (web3.utils.isAddress(loginState.jwt)) jwt = loginState.jwt
+      else jwt = '0x0000000000000000000000000000000000000000'
+      await myContract.methods
+        .autoLogin(jwt)
+        .call({ from: addressTemp })
+        .then((success) => {
+          const id = parseInt(success)
+          if (id > 0) {
+            dispatchLogin({
+              type: 'employee_auto_login',
+              isLoggedIn: true,
+              for: 'employee',
+              address: addressTemp,
+              id: id,
+              contractEmployee: myContract,
+              jwt: addressTemp,
+            })
+          } else {
+            dispatchLogin({
+              type: 'employee_auto_login',
+              isLoggedIn: false,
+              for: 'employee',
+              address: addressTemp,
+              id: 0,
+              contractEmployee: myContract,
+              jwt: '',
+            })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   }
 
   return (
-    <header className={clsx(styles.container)}>
+    <header id="header" className={clsx(styles.container)}>
       <div className={styles.toggleNavigation} onClick={() => setShowModile(!showMobile)}>
         {showMobile ? (
           <i key={0} className="fa-regular fa-xmark"></i>
@@ -63,7 +80,7 @@ export default function Header() {
         </ul>
       </div>
       <div className={styles.navLeft}>
-        <Link  to="/">
+        <Link to="/">
           <img className={styles.logo} alt="Logo" src={logo}></img>
         </Link>
       </div>
@@ -85,25 +102,47 @@ export default function Header() {
       </nav>
       <nav id="navbar" className={clsx(styles.navRight)}>
         <Language key={0}></Language>
-
-        {!address ? (
-          <button key={1} onClick={connectMetamask} className={styles.buttonAccount}>
+        <button
+          onClick={() => {
+            setShowMorePanel((e) => {
+              return {
+                show: e.show == false ? true : e.panel != 2 ? true : false,
+                panel: 2,
+              }
+            })
+          }}
+          id="notification_header_button"
+          key={5}
+          className={styles.buttonItem}
+        >
+          <i className="fa-regular fa-bells"></i>
+        </button>
+        {!loginState.address && (
+          <button key={1} onClick={handleConnectMetamask} className={styles.buttonAccount}>
             Connect Metamask
           </button>
-        ) : existAccount ? (
-          isLoggedIn ? (
-            <Link key={2} to="/profile" className={styles.buttonAccount}>
-              Account
-            </Link>
-          ) : (
-            <Link key={3} to="/login" className={styles.buttonAccount}>
-              Login
-            </Link> 
-          )
-        ) : (
-          <Link key={4} to="/createcv" className={styles.buttonAccount}>
-            Sign up
+        )}
+        {loginState.address && !loginState.isLoggedIn && (
+          <Link key={3} to="/login" className={styles.buttonAccount}>
+            Login
           </Link>
+        )}
+        {loginState.address && loginState.isLoggedIn && (
+          <button
+            id="profile_header_button"
+            onClick={() => {
+              setShowMorePanel((e) => {
+                return {
+                  show: e.show == false ? true : e.panel != 1 ? true : false,
+                  panel: 1,
+                }
+              })
+            }}
+            key={4}
+            className={clsx(styles.buttonItem, styles.account)}
+          >
+            <i className="fa-solid fa-user"></i>
+          </button>
         )}
       </nav>
     </header>

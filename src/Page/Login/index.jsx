@@ -3,42 +3,51 @@ import styles from './styles.module.scss'
 import background from './background.jpg'
 import Language from '@component/Language'
 import { Web3Context } from '@context/Web3ContextProvider'
-import { Context } from '@context/Context'
 import { useToast } from '@component/Toast'
-import { useNavigate } from 'react-router-dom'
-function Index() {
-  const [password, setPassword] = useState('')
-  const [remember, setRemember] = useState(true)
-  const { contractStudentBusiness, address, setJwtEmployee } = useContext(Web3Context)
+import { useNavigate, Link } from 'react-router-dom'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
-  const { setExistAccount, setIsLoggedIn } = useContext(Context)
+function Index() {
+  const { loginState, dispatchLogin } = useContext(Web3Context)
 
   const toast = useToast()
-  const navigation = useNavigate()
-  async function handleLogin() {
-    await contractStudentBusiness.methods
-      .checkStudentProfile(address, password)
-      .call()
-      .then((result) => {
-        if (parseInt(result) == 1) {
-          toast.success('dang nhap thanh cong', { pauseOnHover: true, closeOnClick: true })
-          remember && setJwtEmployee(address)
-          setIsLoggedIn(true)
-          setExistAccount(true)
-          navigation('/')
-        } else {
-          toast.error('Username or passoword is incorrect', {
-            pauseOnHover: true,
-            closeOnClick: true,
-          })
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-        if (error.code === 4001)
-          toast.warning('Chua thanh toan hoa don', { pauseOnHover: true, closeOnClick: true })
-      })
-  }
+  const navigate = useNavigate()
+  const formik = useFormik({
+    initialValues: {
+      password: '',
+      remember: true,
+    },
+    validationSchema: Yup.object({
+      password: Yup.string().required('Password is required'),
+      remember: Yup.boolean(),
+    }),
+    onSubmit: (values) => {
+      loginState.contractEmployee.methods
+        .login(values.password)
+        .call({ from: loginState.address })
+        .then((success) => {
+          const id = parseInt(success)
+          if (parseInt(id) > 0) {
+            toast.success('Thanh cong', { pauseOnHover: true, closeOnClick: true })
+            dispatchLogin({
+              type: 'employeee_login',
+              isLoggedIn: true,
+              id: id,
+              jwt: loginState.address,
+              remember: values.remember,
+            })
+            navigate('/', { replace: true })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          if (error.code === 4001)
+            toast.warning('Chua thanh toan hoa don', { pauseOnHover: true, closeOnClick: true })
+        })
+    },
+  })
+
   return (
     <div className={styles.container}>
       <div style={{ backgroundImage: `url(${background})` }} className={styles.left}>
@@ -53,7 +62,10 @@ function Index() {
         </div>
       </div>
       <div className={styles.right}>
-        <div className={styles.languageWrapper}>
+        <div className={styles.topWrapper}>
+          <div className={styles.register}>
+            <Link to="/register">Register</Link>
+          </div>
           <div className={styles.language}>
             <Language></Language>
           </div>
@@ -61,7 +73,7 @@ function Index() {
         <div className={styles.loginTitle}>Login into your account</div>
         <div className={styles.boxWrapper}>
           <label className={styles.label}>Address</label>
-          <p className={styles.input}>{address}</p>
+          <p className={styles.input}>{loginState.address}</p>
         </div>
         <div className={styles.boxWrapper}>
           <label className={styles.label}>Password</label>
@@ -69,24 +81,30 @@ function Index() {
             type="password"
             name="password"
             className={styles.input}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formik.values.password}
+            onChange={formik.handleChange}
           ></input>
+          {
+            <p className={styles.error}>
+              {formik.errors.password && formik.touched.password && formik.errors.password}
+            </p>
+          }
         </div>
         <div className={styles.rememberForgot}>
           <div className={styles.remenber}>
             <input
               type="checkbox"
-              defaultChecked={true}
-              value={remember}
-              onChange={(e) => setRemember(e.target.checked)}
+              name="remember"
+              // defaultChecked={true}
+              checked={formik.values.remember}
+              onChange={formik.handleChange}
             ></input>
             <label>Remember me</label>
           </div>
           <div className={styles.forgot}>Forgot your password?</div>
         </div>
-        <div onClick={handleLogin} className={styles.boxWrapper}>
-          <button>Login</button>
+        <div onClick={formik.handleSubmit} className={styles.boxWrapper}>
+          <button type="submit">Login</button>
         </div>
       </div>
     </div>

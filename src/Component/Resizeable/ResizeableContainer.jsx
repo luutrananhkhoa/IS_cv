@@ -185,10 +185,18 @@ function ResizeableContainer(props) {
     }
 
     return () => {
-      refRight.current.removeEventListener('mousedown', onMouseDownRightResize)
-      refTop.current.removeEventListener('mousedown', onMouseDownTopResize)
-      refBottom.current.removeEventListener('mousedown', onMouseDownBottomResize)
-      refLeft.current.removeEventListener('mousedown', onMouseDownLeftResize)
+      resizeRight &&
+        resizeRight.current &&
+        refRight.current.removeEventListener('mousedown', onMouseDownRightResize)
+      refTop &&
+        refTop.current &&
+        refTop.current.removeEventListener('mousedown', onMouseDownTopResize)
+      refBottom &&
+        refBottom.current &&
+        refBottom.current.removeEventListener('mousedown', onMouseDownBottomResize)
+      refLeft &&
+        refLeft.current &&
+        refLeft.current.removeEventListener('mousedown', onMouseDownLeftResize)
     }
   }, [active])
 

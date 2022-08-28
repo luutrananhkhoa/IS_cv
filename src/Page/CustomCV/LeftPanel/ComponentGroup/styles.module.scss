@@ -19,14 +19,14 @@
   }
   .toolbox {
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: overlay;
     .toolboxScrollContainer {
       width: 100%;
       display: grid;
       grid-gap: 5px;
       padding: 5px 5px;
       grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-      scroll-snap-type: y mandatory;
+      overlay-snap-type: y mandatory;
     }
   }
 }

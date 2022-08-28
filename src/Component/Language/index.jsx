@@ -43,7 +43,7 @@ export default function Index() {
         return (
           <div onClick={() => setOpen(true)} className={clsx(styles.languageButton)}>
             <img src={flag[i18n.language]}></img>
-            <div className={styles.buttonSelect}>{item.name}</div>
+            {/* <div className={styles.buttonSelect}>{item.name}</div> */}
           </div>
         )
       })()}

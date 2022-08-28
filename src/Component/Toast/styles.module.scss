@@ -76,14 +76,13 @@ $error: linear-gradient(
   }
 }
 .notifications {
-  z-index: 1000;
+  z-index: 9998;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   position: fixed;
   top: 16px;
   right: 16px;
-  // max-height: 100%;
 }
 .notificationAnimation {
   transition: 300px $anim * 4/5 $circEase;
@@ -99,8 +98,10 @@ $error: linear-gradient(
   }
 }
 .container {
+  z-index: 9997;
   display: flex;
   flex-direction: row-reverse;
+  color: var(--color-text-grey);
   .notificationsItem {
     cursor: pointer;
     height: $height;
@@ -110,7 +111,7 @@ $error: linear-gradient(
     justify-items: flex-start;
     overflow: hidden;
     flex-shrink: 0;
-    background: var(--color-theme-primary);
+    background: var(--color-background-primary);
     border-radius: $borderRadius;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     color: var(--color-text-primary);

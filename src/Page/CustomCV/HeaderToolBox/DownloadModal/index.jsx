@@ -1,11 +1,13 @@
-import React, { memo, useRef, useEffect } from 'react'
+import React, { memo, useRef, useEffect, useContext } from 'react'
 import Modal from '@component/Modal'
 import styles from './styles.module.scss'
 import html2canvas from 'html2canvas'
 import { useReactToPrint } from 'react-to-print'
+import { CustomCVContext } from '../../CustomCVContext'
 
 function Index(props) {
   const [open, setOpen] = props.state
+  const { autoCreatement, list } = useContext(CustomCVContext)
   const boardRef = useRef()
   useEffect(() => {
     boardRef.current = document.getElementById('draw_child')
@@ -23,6 +25,16 @@ function Index(props) {
       link.click()
     })
   }
+  const handleJSON = () => {
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify({ list, autoCreatement })
+    )}`
+    const link = document.createElement('a')
+    link.href = jsonString
+    link.download = 'iscv.json'
+
+    link.click()
+  }
   return (
     <Modal state={[open, setOpen]} title={'download'}>
       <div className={styles.container}>
@@ -35,7 +47,7 @@ function Index(props) {
           <i className="fa-light fa-file-pdf"></i>
           <a>Save to PNG</a>
         </div>
-        <div className={styles.item}>
+        <div onClick={handleJSON} className={styles.item}>
           <i className="fa-light fa-file-pdf"></i>
           <a>Save to JSON</a>
         </div>

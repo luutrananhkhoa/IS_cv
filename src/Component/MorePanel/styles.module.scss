@@ -1,0 +1,44 @@
+@use './../../Style/globalType/function' as function;
+@use '../../Style/abtracts/mixins' as mixin;
+.container {
+  position: fixed;
+  z-index: 3;
+  top: var(--header-height);
+  transform: translateX(-20px);
+  overflow: hidden;
+  right: 0px;
+  min-width: 300px;
+  animation-iteration-count: 1;
+  max-height: calc(100vh - 30%);
+  background: var(--color-background-primary);
+  border-bottom-left-radius: var(--border-radius-primary);
+  border-bottom-right-radius: var(--border-radius-primary);
+  animation: moveOut 0.5s ease-in-out;
+  animation-iteration-count: 1;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+.view{
+    display: block;
+}
+
+.hide {
+  animation: moveIn 0.5s ease-in-out;
+  display: none 1s;
+  transform: translateX(100%);
+}
+@keyframes moveIn {
+  from {
+    transform: translateX(-20px);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes moveOut {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-20px);
+  }
+}

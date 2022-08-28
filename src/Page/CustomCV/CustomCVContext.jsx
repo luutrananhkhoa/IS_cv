@@ -37,7 +37,9 @@ const CustomCVContextProvider = ({ children }) => {
     setLinkColor,
     autoCreatement,
     getNewAutoCreatement,
-    copy, setCopy
+    setAutoCreatement,
+    copy,
+    setCopy,
   }
 
   return <CustomCVContext.Provider value={data}>{children}</CustomCVContext.Provider>

@@ -27,6 +27,7 @@
       "@style/*": ["./src/Style/*"],
       "@locale/*": ["./src/Locale/*"],
       "@helper/*": ["./src/Helper/*"],
+      "@contract/*": ["./src/Contract/*"],
       "@/*": ["./src/*"]
     }
   },

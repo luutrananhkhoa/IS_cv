@@ -4,7 +4,7 @@ import { Web3Context } from '@context/Web3ContextProvider'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
 import _ from 'lodash'
-import Progressbar from '@component/Progressbar'
+// import Progressbar from '@component/Progressbar'
 
 export default function Index(props) {
   const { contractStudentBusiness, address } = useContext(Web3Context)

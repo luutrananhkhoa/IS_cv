@@ -1,7 +1,7 @@
-@import '../variable.scss';
+@import '../variables.scss';
 .container {
   position: relative;
-  @extend %wrapper;
+  width: 70%;
 
   .personalWrapper {
     margin: 20px 0px;

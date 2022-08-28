@@ -1,6 +1,6 @@
 @use '../..//Style/abtracts/mixins' as mixin;
 @use '../../Style/globalType/function' as function;
-@import './variable.scss';
+@import './variables.scss';
 
 .container {
   width: 100%;
@@ -9,15 +9,17 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 30px 0px 30px 0px;
   overflow: hidden;
+ 
   .panel {
-    @extend %wrapper;
+    position: relative;
+    width: 100%;
     .cover {
       width: 100%;
-      aspect-ratio: 4/1;
+      aspect-ratio: 5/1;
       width: 100%;
-      border-radius: $borderRadius;
+      border-bottom-left-radius: $borderRadius;
+      border-bottom-right-radius: $borderRadius;
       background-color: #03132e;
       display: flex;
       justify-content: center;
@@ -28,8 +30,8 @@
     }
     .avatarWrapper {
       position: absolute;
-      bottom: 20px;
-      left: 20px;
+      bottom: 40px;
+      left: 40px;
 
       display: flex;
       align-items: flex-end;
@@ -66,24 +68,29 @@
     }
   }
   .tableWrapper {
-    @extend %wrapper;
-    margin: 20px 0px 0px 0px;
-    padding: 0px 30px;
+    width: 100%;
+    padding: 3px 40px 0px 40px;
     position: relative;
     display: flex;
     align-items: center;
     gap: 5px;
-    // overflow: hidden;
+    overflow: inherit;
+    background: var(--color-background-primary);
     .tab {
       @include function.button;
-      border-radius: $borderRadius;
-      border: 3px solid var(--color-border-secondary);
+      border-radius: unset;
+      width: 100px;
       background: var(--color-background-primary);
       color: var(--color-text-primary);
+      padding: 10px 20px;
+      border-bottom: 3px solid transparent;
+      &:hover {
+        border-bottom: 3px solid var(--color-active-primary);
+      }
     }
     .active {
-      background: var(--color-button-secondary);
-      color: var(--color-text-secondary);
+      // border-bottom: 3px solid red;
+      border-bottom: 3px solid var(--color-active-primary);
     }
 
     @include mixin.sm {

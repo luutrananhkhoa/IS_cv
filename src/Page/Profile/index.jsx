@@ -5,11 +5,12 @@ import avatar from '@asset/avatar.jpg'
 import clsx from 'clsx'
 import ProfileContextProvider, { ProfileContext } from './ProfileContext'
 import About from './About'
+import Posts from './Posts'
 
 function Index() {
   const { tab, setTab } = useContext(ProfileContext)
   return (
-    <>  
+    <>
       <section className={styles.container}>
         <div className={styles.panel}>
           <div className={styles.cover}>
@@ -34,6 +35,7 @@ function Index() {
             About
           </button>
         </div>
+        {tab == 1 && <Posts></Posts>}
         {tab == 2 && <About></About>}
       </section>
     </>

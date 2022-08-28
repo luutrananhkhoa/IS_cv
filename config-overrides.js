@@ -24,6 +24,7 @@ module.exports = function override(config, env) {
     '@style': path.resolve(__dirname, 'src/Style'),
     '@locale': path.resolve(__dirname, 'src/Locale'),
     '@helper': path.resolve(__dirname, 'src/Helper'),
+    '@contract': path.resolve(__dirname, 'src/Contract'),
     '@': path.resolve(__dirname, 'src'),
   })(config, env)
   // config.resolve.fallback = fallback

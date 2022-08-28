@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import '@style/global.scss'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
-import ContextProvider from './Context/Context'
 import Web3ContextProvider from './Context/Web3ContextProvider'
 import { CookiesProvider } from 'react-cookie'
 import setup from '@locale/setup'
@@ -18,9 +17,7 @@ root.render(
       <CookiesProvider>
         <I18nextProvider i18n={setup}>
           <Web3ContextProvider>
-            <ContextProvider>
-              <App />
-            </ContextProvider>
+            <App />
           </Web3ContextProvider>
         </I18nextProvider>
       </CookiesProvider>

@@ -1,45 +1,14 @@
 import React from 'react'
 import styles from './styles.module.scss'
+import News from './News'
+import Suggestion from './Suggestion'
 
 function Index() {
   return (
     <div className={styles.container}>
-      <div className={styles.item}>
-        <div className={styles.iconWrapper}>
-          <i className="fa-solid fa-star"></i>
-        </div>
-        <span className={styles.textWrapper}>
-          <label>New</label>
-          <p>asdasdasd</p>
-        </span>
-      </div>
-      <div className={styles.item}>
-        <div className={styles.iconWrapper}>
-          <i className="fa-solid fa-star"></i>
-        </div>
-        <span className={styles.textWrapper}>
-          <label>New</label>
-          <p>asdasdasd</p>
-        </span>
-      </div>
-      <div className={styles.item}>
-        <div className={styles.iconWrapper}>
-          <i className="fa-solid fa-star"></i>
-        </div>
-        <span className={styles.textWrapper}>
-          <label>New</label>
-          <p>asdasdasd</p>
-        </span>
-      </div>
-      <div className={styles.item}>
-        <div className={styles.iconWrapper}>
-          <i className="fa-solid fa-star"></i>
-        </div>
-        <span className={styles.textWrapper}>
-          <label>New</label>
-          <p>asdasdasd</p>
-        </span>
-      </div>
+      <News></News>
+      <News></News>
+      <Suggestion></Suggestion>
     </div>
   )
 }

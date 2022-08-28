@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './styles.module.scss'
-import Item from './Item'
+import Item from '../../../../Component/PostItem'
 import Search from './Search'
 
 function Index() {

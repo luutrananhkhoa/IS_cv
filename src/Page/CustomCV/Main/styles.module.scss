@@ -4,7 +4,7 @@
 .board {
   border: 1px solid black;
   position: relative;
-  overflow-y: scroll;
+  overflow: hidden;
   background-color: var(--color-background-primary);
   overflow-x: hidden;
   .drawChild {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useLayoutEffect, useRef } from 'react'
 import styles from './styles.module.scss'
 import Button from './Button'
 import Logo from './Logo'
@@ -10,10 +10,19 @@ import { useToast } from '@component/Toast'
 import DownloadModal from './DownloadModal'
 
 function Index() {
-  const { selected, setSelected, setList, list, copy, setCopy, getNewAutoCreatement } =
-    useContext(CustomCVContext)
+  const {
+    selected,
+    setSelected,
+    setList,
+    list,
+    copy,
+    setCopy,
+    getNewAutoCreatement,
+    setAutoCreatement,
+  } = useContext(CustomCVContext)
   const toast = useToast()
   const [openModalDownload, setOpenModalDownload] = useState(false)
+  const fileImportRef = useRef()
   const handleCopy = () => {
     if (list[selected]) {
       setCopy({ ...list[selected] })
@@ -65,8 +74,34 @@ function Index() {
       })
     }
   }
+  const openUpload = () => {
+    fileImportRef.current.click()
+  }
+  const handleChange = (e) => {
+    if (e.target.value) {
+      const fileReader = new FileReader()
+      fileReader.readAsText(e.target.files[0], 'UTF-8')
+      fileReader.onload = (e) => {
+        let data = JSON.parse(e.target.result)
+        if (data.autoCreatement && data.list) {
+          setAutoCreatement(data.autoCreatement)
+          setList(data.list)
+        }
+      }
+    }
+  }
   return (
     <>
+      <input
+        type="file"
+        id="file"
+        multiple={false}
+        accept="application/JSON"
+        onChange={handleChange}
+        ref={fileImportRef}
+        style={{ display: 'none' }}
+      />
+
       <DownloadModal state={[openModalDownload, setOpenModalDownload]}></DownloadModal>
       <div className={styles.container}>
         <div className={styles.left}>
@@ -86,9 +121,9 @@ function Index() {
           <Object></Object>
         </div>
         <div className={styles.right}>
-          <Button onClick={setOpenModalDownload} icon="fa-thin fa-cloud-arrow-down"></Button>
+          <Button onClick={openUpload} icon="fa-thin fa-file-arrow-up"></Button>
+          <Button onClick={setOpenModalDownload} icon="fa-thin fa-file-arrow-down"></Button>
           <Button icon="fa-thin fa-cloud-arrow-up"></Button>
-          <Button icon="fa-thin fa-play"></Button>
         </div>
       </div>
     </>

@@ -32,50 +32,22 @@ function useOutsideAlerter(ref, toggleRef, setOnShow) {
 }
 
 export default function Index(props) {
+  const { type, content, children } = props
   const [onShow, setOnShow] = props.state
-  const [selected, setSelected] = props.selected
-  const { list } = props
   const wrapperRef = useRef(null)
   const toggleRef = useRef(null)
   useOutsideAlerter(wrapperRef, toggleRef, setOnShow)
 
   return (
-    <div className={clsx(styles.dropdown)}>
-      <span
-        className={styles.toggle}
-        type="button"
-        ref={toggleRef}
-        onClick={() => setOnShow(!onShow)}
-      >
-        {list?.at(selected)}
-        {onShow ? (
-          <i className={clsx('fa-light fa-angle-up', styles.icon)}></i>
-        ) : (
-          <i className={clsx('fa-light fa-angle-down', styles.icon)}></i>
-        )}
-      </span>
-
+    <div ref={toggleRef} className={styles.tooltip}>
+      {children || 'Button'}
       {onShow && (
-        <div
-          className={styles.menu}
+        <span
           ref={wrapperRef}
-          style={{ marginTop: toggleRef.current.clientHeight + 2 }}
+          className={clsx(styles.tooltipContent, type ? { [styles[type]]: true } : styles.bottom)}
         >
-          {list?.map((value, index) => {
-            return (
-              <span
-                key={index}
-                className={styles.item}
-                onClick={() => {
-                  setSelected(index)
-                  setOnShow(false)
-                }}
-              >
-                {value}
-              </span>
-            )
-          })}
-        </div>
+          {content}
+        </span>
       )}
     </div>
   )

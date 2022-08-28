@@ -64,11 +64,13 @@ $rightWidth: 70%;
       .input {
         @extend %input;
       }
-      .select{
+      .select {
       }
-      button {
+      .button {
         @extend %input;
         border: unset;
+        cursor: pointer;
+        text-align: center;
         &:focus {
           border: unset;
         }
@@ -81,7 +83,27 @@ $rightWidth: 70%;
     }
     .avatarBox {
       flex-direction: row;
-      align-items: center;
+      align-items: flex-end;
+      img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 100%;
+        border: 3px solid var(--color-border);
+      }
+      .iconAvatar {
+        margin: 0px 0px 0px 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        i {
+          cursor: pointer;
+          font-size: 50px;
+          color: rgb(239, 37, 162);
+          -webkit-text-stroke: 2px var(--color-background-primary);
+        }
+      }
     }
     .rememberForgot {
       width: $rightWidth;
@@ -128,8 +150,8 @@ $rightWidth: 70%;
     }
     @include mixin.lg {
       width: 40%;
-      .backgroundWrapper{
-        .backgroundText{
+      .backgroundWrapper {
+        .backgroundText {
           font-size: 30px;
         }
         .smallBackgroundText {
@@ -141,4 +163,7 @@ $rightWidth: 70%;
       display: none;
     }
   }
+}
+.error {
+  @include function.errorInput;
 }

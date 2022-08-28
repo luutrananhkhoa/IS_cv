@@ -1,4 +1,5 @@
 @use '../../Style/abtracts/mixins' as mixin;
+@use '../../Style/globalType/function' as function;
 
 $headerHeight: 60px;
 $borderActive: 3px solid var(--color-active-primary);
@@ -11,7 +12,7 @@ $mobileWidth: 350px;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 95;
+  z-index: 500;
   display: flex;
   color: var(--color-text-primary);
   justify-content: space-between;
@@ -89,7 +90,6 @@ $mobileWidth: 350px;
           transition: all 0.3s ease-in-out 0s;
           white-space: nowrap;
           text-decoration: none;
-          color: #3d3d49;
           font-weight: 500;
           margin: 0;
           text-transform: capitalize;
@@ -108,7 +108,7 @@ $mobileWidth: 350px;
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 15px;
     @include mixin.md {
       display: none;
     }
@@ -129,7 +129,6 @@ $mobileWidth: 350px;
       padding: 30px 50px 0px 50px;
       font-size: 13px;
       font-weight: bold;
-      color: #3d3d49;
     }
     ul {
       padding: 10px 30px;
@@ -185,7 +184,7 @@ $mobileWidth: 350px;
   font-size: 28px;
   line-height: 0;
   transition: 0.5s;
-
+  display: none;
   position: absolute;
   right: 5vw;
 
@@ -200,10 +199,45 @@ $mobileWidth: 350px;
   padding: 0.5rem 20px;
   align-items: center;
   font-size: 18px;
-
   color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.buttonItem {
+  background: var(--color-border);
+  border-radius: 100%;
+  width: 34px;
+  aspect-ratio: 1/1;
+  align-items: center;
+  font-size: 18px;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  i {
+    @include function.textGradient;
+    background: var(--color-button-secondary);
+  }
+}
+.account {
+  background: var(--color-button-tertiary);
+  border: unset;
+  i {
+    color: var(--color-text-secondary);
+    background: var(--color-background-primary);
+  }
 }
 
 .active {
   border-bottom: $borderActive;
+  color: var(--color-active-primary);
+  i {
+    color: var(--color-active-primary);
+  }
+  .name {
+    color: var(--color-active-primary) !important;
+  }
 }

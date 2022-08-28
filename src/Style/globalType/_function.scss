@@ -44,12 +44,45 @@
 }
 
 @mixin panel {
-  background: var(--color-button-primary);
+  background: var(--color-background-primary);
   border-radius: var(--border-radius-primary);
   color: var(--color-text-secondary);
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 @mixin textGradient {
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+@mixin panelTitle {
+  padding: 10px 10px;
+  font-size: 15px;
+  a {
+    color: var(--color-text-grey);
+    font-weight: bold;
+  }
+}
+@mixin checkoxRound {
+  position: relative;
+  margin: 4px 0px 0px 0px;
+  input {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 2px solid #ddd;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+    &:checked {
+      background-color: rgb(38, 217, 41);
+    }
+  }
+}
+
+@mixin errorInput {
+  color: var(--color-error-primary);
+  padding: 2px 10px;
+  min-height: 20px;
 }

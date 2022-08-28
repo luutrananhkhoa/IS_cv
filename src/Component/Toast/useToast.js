@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { eventEmitter } from './ToastContainer'
 import * as contants from './constants'
 
@@ -10,18 +11,19 @@ import * as contants from './constants'
  * @returns return cursor to use function
  */
 export default function useToast() {
-  const success = (message, options) => {
+  const success = useCallback((message, options) => {
     eventEmitter.emit('create', contants.SUCCESS, message, options)
-  }
-  const info = (message, options) => {
+  }, [])
+  const info = useCallback((message, options) => {
     eventEmitter.emit('create', contants.INFO, message, options)
-  }
-  const warning = (message, options) => {
+  }, [])
+  const warning = useCallback((message, options) => {
     eventEmitter.emit('create', contants.WARNING, message, options)
-  }
-  const error = (message, options) => {
+  }, [])
+  const error = useCallback((message, options) => {
+    // console.log("A")
     eventEmitter.emit('create', contants.ERROR, message, options)
-  }
+  }, [])
   const clear = () => {
     eventEmitter.emit('clear')
   }

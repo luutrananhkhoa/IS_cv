@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useCallback } from 'react'
+import React, { useState, useEffect, useReducer, useCallback, useRef } from 'react'
 import events from 'events'
 import styles from './styles.module.scss'
 import ToastItem from './ToastItem'
@@ -23,12 +23,13 @@ export const eventEmitter = new events.EventEmitter()
 export default function ToastContainer() {
   const [listOnShown, setListOnShown] = useState([])
   const [listOnNone, setListOnNone] = useState([])
-
+  const free = useRef(true)
+  const autoCreatement = useRef(1)
   const createNewNotification = (type, message, options) => {
     let data = {
       type,
       message,
-      id: generate(7),
+      id: autoCreatement.current++,
       ...options,
     }
     listOnShown.push(data)
@@ -37,7 +38,13 @@ export default function ToastContainer() {
 
   useEffect(() => {
     eventEmitter.on('create', (type, message, options) => {
-      createNewNotification(type, message, options)
+      setTimeout(() => {
+        free.current = true
+      }, 10)
+      if (free.current) {
+        free.current = false
+        createNewNotification(type, message, options)
+      }
     })
 
     eventEmitter.on('removeItem', (id) => {

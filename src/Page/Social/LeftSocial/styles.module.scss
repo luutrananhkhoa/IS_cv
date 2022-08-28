@@ -4,21 +4,20 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: $paddingGap 0px;
-  gap: 5px;
+  padding: $paddingGap 0px $paddingGap $paddingGap;
+  gap: 10px;
   background: var(--color-theme-primary);
 
   .item {
     display: flex;
     align-items: center;
-    padding: 13px 25px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    margin: 0px 15px;
+    padding: 15px 25px;
+    border-radius: 13px;
     gap: 20px;
     background: var(--color-background-primary);
     color: var(--color-text-grey);
     box-shadow: var(--box-shadow-panel);
-    border-left: 3px solid transparent;
     cursor: pointer;
     i {
       font-size: 20px;
@@ -26,17 +25,22 @@
       width: 30px;
     }
     a {
-      font-size: 18px;
+      font-size: 15px;
       font-weight: bold;
     }
     &:hover {
-      border-left: 3px solid var(--color-active-primary);
+      outline: 2px solid var(--color-active-primary);
       color: var(--color-active-primary);
     }
   }
   .active {
-    border-left: 3px solid var(--color-active-primary);
-    color: var(--color-active-primary);
+    background: var(--color-button-secondary);
+    color: var(--color-text-secondary);
+
+    &:hover {
+      outline: unset;
+      color: var(--color-text-secondary);
+    }
   }
   @include mixin.md {
     flex-direction: row;
@@ -45,12 +49,8 @@
     .item {
       padding: 10px 15px;
 
-      border-left: unset;
-      border-top-right-radius: unset;
-      border-bottom-right-radius: unset;
       border-radius: 10px;
       &:hover {
-        border-left: unset;
         color: var(--color-active-primary);
       }
     }

@@ -1,60 +1,78 @@
-import { createContext, useState, useCallback } from 'react'
+import { createContext, useState, useCallback, useReducer } from 'react'
 import { useCookies } from 'react-cookie'
 
 export const Web3Context = createContext()
 
 const Web3ContextProvider = ({ children }) => {
-  const [contractStudentBusiness, setContractStudentBusiness] = useState()
-  const [address, setAddress] = useState()
-  const [web3, setWeb3] = useState()
-
+  const [showMorePanel, setShowMorePanel] = useState({ show: false, panel: 1 })
   const [employeeCookies, setEmployeeCookies, removeEmployeeCookies] = useCookies(['employeeJwt'])
   const [companyCookies, setCompanyCookies, removeCompanyCookies] = useCookies(['companyJwt'])
-  const setJwtEmployee = useCallback((token) => {
-    setEmployeeCookies('employeeJwt', token, {
-      expires: new Date(new Date().getTime() + 86400000 * 7),
-      // httpOnly: false,
-      secure: true,
-      sameSite: true,
-    })
-  }, [])
-  const setJwtCompany = useCallback((token) => {
-    setCompanyCookies('companyJwt', token, {
-      expires: new Date(new Date().getTime() + 86400000 * 7),
-      // httpOnly: false,
-      secure: true,
-      sameSite: true,
-    })
-  }, [])
-  const removeJwtEmployee = useCallback(() => {
-    removeEmployeeCookies('employeeJwt')
-  }, [])
+  const initialLogin = {
+    isLoggedIn: false,
+    for: 'employee',
+    address: undefined,
+    id: 0,
+    contractEmployee: undefined,
+    jwt: employeeCookies.employeeJwt,
+  }
 
-  const removeJwtCompany = useCallback(() => {
-    removeCompanyCookies('companyJwt')
-  }, [])
+  const reducerLogin = (state, action) => {
+    switch (action.type) {
+      case 'employee_auto_login': {
+        setEmployeeCookies('employeeJwt', action.jwt, {
+          expires: new Date(new Date().getTime() + 86400000 * 7),
+          secure: true,
+          sameSite: true,
+        })
+        return {
+          ...state,
+          isLoggedIn: action.isLoggedIn || state.isLoggedIn,
+          for: 'employee' || state.for,
+          address: action.address || state.address,
+          id: action.id || state.id,
+          contractEmployee: action.contractEmployee || state.contractEmployee,
+          jwt: action.jwt || state.jwt,
+        }
+      }
+      case 'employeee_login': {
+        action.remember
+          ? setEmployeeCookies('employeeJwt', action.jwt, {
+              expires: new Date(new Date().getTime() + 86400000 * 7),
+              secure: true,
+              sameSite: true,
+            })
+          : removeEmployeeCookies('employeeJwt')
 
-  const getJwtEmployee = useCallback(() => {
-    return employeeCookies.employeeJwt
-  })
-  const getJwtCompany = useCallback(() => {
-    return companyCookies.companyJwt
-  })
+        return {
+          ...state,
+          isLoggedIn: action.isLoggedIn || state.isLoggedIn,
+          for: 'employee' || state.for,
+          address: action.address || state.address,
+          id: action.address || state.id,
+          contractEmployee: action.contractEmployee || state.contractEmployee,
+          jwt: action.jwt || state.jwt,
+        }
+      }
+      case 'employee_logout': {
+        removeEmployeeCookies('employeeJwt')
+        return {
+          ...state,
+          login: false,
+        }
+      }
+      default:
+        return state
+    }
+  }
+  const [loginState, dispatchLogin] = useReducer(reducerLogin, initialLogin)
+
   return (
     <Web3Context.Provider
       value={{
-        contractStudentBusiness,
-        setContractStudentBusiness,
-        address,
-        web3,
-        setWeb3,
-        setAddress,
-        setJwtEmployee,
-        setJwtCompany,
-        removeJwtEmployee,
-        removeJwtCompany,
-        getJwtEmployee,
-        getJwtCompany,
+        loginState,
+        dispatchLogin,
+        showMorePanel,
+        setShowMorePanel,
       }}
     >
       {children}

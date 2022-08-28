@@ -9,7 +9,7 @@ function Index() {
   return (
     <div className={styles.container}>
       <div onClick={() => setTab(1)} className={clsx(styles.item, { [styles.active]: tab == 1 })}>
-        <i className="fa-light fa-newspaper"></i>
+        <i className="fa-light fa-box-open-full"></i>
         <a>Feed</a>
       </div>
       <div

@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useState, memo, useRef } fro
 import avt from '@asset/avt_illu.jpg'
 import { IoMdMail } from 'react-icons/io'
 import { BsGithub, BsFillCalendar2DateFill, BsLinkedin } from 'react-icons/bs'
-import Progressbar from '../../Component/Progressbar'
+// import Progressbar from '../../Component/Progressbar'
 import ReactToPrint from 'react-to-print'
 import _ from 'lodash'
 import { Web3Context } from '../../Context/Web3ContextProvider'
@@ -135,10 +135,10 @@ const Index = () => {
               <h1 className="font-bold text-3xl">SKILLS</h1>
               <hr className="w-[90%] h-[2px] mt-4 border-0 bg-primary" />
               <div className="mt-4 w-[85%]">
-                {skills &&
+                {/* {skills &&
                   skills[0]?.map((item, index) => {
                     return <Progressbar key={item} title={item} percent={skills[1][index]} />
-                  })}
+                  })} */}
               </div>
             </div>
           </div>
