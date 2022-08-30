@@ -14,14 +14,14 @@ $rightWidth: 70%;
   font-size: 15px;
   font-weight: 450;
   line-height: 20px;
-  border: 2px solid var(--color-border);
+  outline: 2px solid var(--color-border);
   padding: 10px 15px;
   margin: 5px 0px 0px 0px;
   overflow: scroll;
   white-space: nowrap;
   //   @include function.truncate;
   &:focus {
-    border: 2px solid var(--color-active-primary);
+    outline: 2px solid var(--color-active-primary);
   }
 }
 .container {

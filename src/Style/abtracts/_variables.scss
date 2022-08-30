@@ -24,6 +24,13 @@
   --color-button-quaternary: linear-gradient(to right, #1b79e4, #05ff5d);
   --color-button-penitentiary: linear-gradient(to right, #e524e8, #ec127f);
   --color-button-hexatiary: linear-gradient(to right, #eae326, #f4d005);
+  --color-button-heptan: linear-gradient(to right, #1abe7d, #0fbcc8);
+  --color-button-octane: linear-gradient(
+    54deg,
+    #ef9502,
+    rgb(232, 178, 70) 41%,
+    rgba(235, 198, 125, 0.995) 80%
+  );
   --theme-lineheight-primary: 1.5;
   --color-error-primary: rgb(199, 32, 32);
   --color-modal-primary: #545e6587;
@@ -66,4 +73,6 @@
   --color-social-green: #eaf9e5;
   --color-calendar-primary: #f0f7e1;
   --color-active-secondary: var(--color-customcv-active-primary);
+  --color-hover-primary: rgb(52 154 177 / 21%);
+  --color-input-primary: rgba(255, 244, 249, 0.489);
 }

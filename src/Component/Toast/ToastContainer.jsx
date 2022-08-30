@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useReducer, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useReducer, useCallback, useRef, memo } from 'react'
 import events from 'events'
 import styles from './styles.module.scss'
 import ToastItem from './ToastItem'
 import _ from 'lodash'
-import { generate } from './helper'
+import update from 'immutability-helper'
 
 /**
  * @const eventEmitter
@@ -13,28 +13,18 @@ export const eventEmitter = new events.EventEmitter()
 
 /**
  * @component ToastContainer
- * @param listOnShown list item is showing
+ * @param listOnShow list item is showing
  * @param listOnNone list item is hiddening
  * @function createNewNotification to create new notification
  * @function create is an event to create new notification
  * @function removeItem event to create new notification
  * @returns
  */
-export default function ToastContainer() {
-  const [listOnShown, setListOnShown] = useState([])
-  const [listOnNone, setListOnNone] = useState([])
+function ToastContainer() {
+  const [listOnShow, setlistOnShow] = useState([])
   const free = useRef(true)
   const autoCreatement = useRef(1)
-  const createNewNotification = (type, message, options) => {
-    let data = {
-      type,
-      message,
-      id: autoCreatement.current++,
-      ...options,
-    }
-    listOnShown.push(data)
-    setListOnShown([...listOnShown])
-  }
+  const ref = useRef()
 
   useEffect(() => {
     eventEmitter.on('create', (type, message, options) => {
@@ -43,53 +33,36 @@ export default function ToastContainer() {
       }, 10)
       if (free.current) {
         free.current = false
-        createNewNotification(type, message, options)
+        listOnShow.push({ id: autoCreatement.current++, type, message, ...options })
+        setlistOnShow([...listOnShow])
       }
     })
 
     eventEmitter.on('removeItem', (id) => {
-      if (listOnNone.includes(id)) return
-      let listOnNoneTemp = [...listOnNone, id]
-      let listOnShownTemp = listOnShown.map(function (item) {
-        return item.id
+      let empty = true
+      _.forEach(ref.current.children, (value, index) => {
+        if (value.offsetHeight != 0) empty = false
       })
-      if (_.isEqual(listOnNoneTemp.sort(), listOnShownTemp.sort())) {
-        listOnShown.splice(0, listOnShown.length)
-        listOnNone.splice(0, listOnNone.length)
-
-        setListOnNone(listOnNone)
-        setListOnShown([...listOnShown])
-      } else {
-        listOnNone.push(id)
-        setListOnNone(listOnNone)
+      if (empty) {
+        listOnShow.splice(0, listOnShow.length)
+        setlistOnShow(listOnShow)
       }
     })
 
     eventEmitter.on('clear', () => {
-      let listOnNoneTemp = [...listOnNone]
-
-      let listOnShownTemp = listOnShown.map(function (item) {
-        return item.id
+      listOnShow.map((value, index) => {
+        eventEmitter.emit('removeItemFromContainer' + value.id)
       })
-      let listIdRemove = _.differenceWith(listOnShownTemp, listOnNoneTemp, _.isEqual)
-
-      for (let i = 0; i < listIdRemove.length; i++) {
-        if (i > 0) {
-          setTimeout(() => {
-            eventEmitter.emit('removeItemFromContainer' + listIdRemove[i])
-          }, i * 100)
-        } else {
-          eventEmitter.emit('removeItemFromContainer' + listIdRemove[i])
-        }
-      }
     })
   }, [])
 
   return (
-    <div className={styles.notifications}>
-      {listOnShown.map((value, index) => {
+    <div ref={ref} className={styles.notifications}>
+      {listOnShow.map((value, index) => {
         return <ToastItem {...value} key={index}></ToastItem>
       })}
     </div>
   )
 }
+
+export default memo(ToastContainer)

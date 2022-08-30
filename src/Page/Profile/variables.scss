@@ -1,3 +1,4 @@
+@use '../.././Style/globalType/function' as function;
 $borderRadius: 10px;
 $paddingGap: 13px;
 $borderRadiusItem: 7px;
@@ -8,3 +9,4 @@ $width: 120px;
   font-size: 15px;
   font-weight: bold;
 }
+

@@ -69,17 +69,14 @@ function Index() {
               )
               .send({ from: loginState.address })
               .then((success) => {
-                console.log(success)
-                if (success > 0) {
-                  toast.success('login success', { pauseOnHover: true, closeOnClick: true })
-                  dispatchLogin({
-                    type: 'employeee_login',
-                    isLoggedIn: true,
-                    id: success,
-                    jwt: loginState.address,
-                  })
-                  navigate('/', { replace: true })
-                }
+                toast.success('login success', { pauseOnHover: true, closeOnClick: true })
+                dispatchLogin({
+                  type: 'employeee_login',
+                  isLoggedIn: true,
+                  id: success,
+                  jwt: loginState.address,
+                })
+                navigate('/', { replace: true })
               })
               .catch((error) => {
                 console.log(error)

@@ -9,35 +9,28 @@ function ToastItem(props) {
   const [display, setDisplay] = useState(true)
 
   const ref = useRef()
-
   const { type, message, id, time, closeOnClick, pauseOnHover } = props
-
-  const removeItem = () => {
-    eventEmitter.emit('removeItem', id)
-  }
-
   useEffect(() => {
     eventEmitter.on('removeItemFromContainer' + id, () => {
       setDisplay(false)
     })
   }, [])
-
+  const handleEnd = useCallback(() => {
+    eventEmitter.removeListener('removeItemFromContainer' + id, () => {})
+    eventEmitter.emit('removeItem', id)
+  }, [])
   useEffect(() => {
-    const handleEnd = () => {
-      removeItem()
-    }
     if (!display) {
-      ref.current.addEventListener('animationend', handleEnd)
+      ref?.current?.addEventListener('animationend', handleEnd)
     }
     return () => {
-      ref && ref.current && ref.current.removeEventListener('animationend', () => {
-        
-      })
+      ref?.current?.removeEventListener('animationend', () => {})
     }
   }, [display])
 
   return (
     <div
+      ref={ref}
       className={clsx(styles.container, {
         [styles.pauseOnHover]: pauseOnHover,
         [styles.displayNone]: !display,
@@ -47,24 +40,50 @@ function ToastItem(props) {
         onClick={() => {
           closeOnClick && setDisplay(false)
         }}
-        ref={ref}
-        className={clsx(id, styles.notificationAnimation, styles.notificationsItem, styles[type])}
+        className={clsx(styles.notificationsItem, styles[type])}
       >
         <div className={styles.notificationContent}>
-          {type === constants.INFO && (
-            <a className={clsx('fa-solid fa-circle-info', styles.icon, styles.info)}></a>
-          )}
           {type === constants.SUCCESS && (
-            <a className={clsx('fa-solid fa-circle-check', styles.icon, styles.success)}></a>
+            <div className={styles.icon}>
+              <div className={styles.iconRound}>
+                <i className={clsx('fa-solid fa-check')}></i>
+              </div>
+            </div>
+          )}
+
+          {type === constants.INFO && (
+            <div className={styles.icon}>
+              <div className={styles.iconRound}>
+                <i className="fa-solid fa-bell"></i>
+              </div>
+            </div>
           )}
           {type === constants.WARNING && (
-            <a className={clsx('fa-solid fa-circle-exclamation', styles.icon, styles.warning)}></a>
+            <div className={styles.icon}>
+              <div className={styles.iconRound}>
+                <i className="fa-solid fa-bell-on"></i>
+              </div>
+            </div>
           )}
           {type === constants.ERROR && (
-            <a className={clsx('fa-solid fa-triangle-exclamation', styles.icon, styles.error)}></a>
+            <div className={styles.icon}>
+              <div className={styles.iconRound}>
+                <i className="fa-solid fa-triangle-exclamation"></i>
+              </div>
+            </div>
           )}
+
           <a className={styles.text}> {message}</a>
+          <button
+            onClick={() => {
+              setDisplay(false)
+            }}
+            className={styles.buttonClose}
+          >
+            <i className="fa-solid fa-xmark"></i>
+          </button>
         </div>
+
         <Progressbar
           totalTime={time ? time : 3000}
           id={id}

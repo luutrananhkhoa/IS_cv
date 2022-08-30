@@ -25,10 +25,18 @@
 @mixin inputStyle {
   padding: 5px 10px;
   border-radius: 8px;
-  border: 1px solid var(--color-border);
-  background: var(--color-theme-primary);
+  outline: 1px solid var(--color-border);
+  background: var(--color-input-primary);
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  &:focus {
+    outline: 1px solid var(--color-active-secondary);
+  }
+  &:disabled {
+    cursor: default;
+    background: rgb(206, 205, 205);
   }
 }
 
@@ -40,6 +48,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   color: var(--color-text-secondary);
 }
 
@@ -62,7 +71,7 @@
     font-weight: bold;
   }
 }
-@mixin checkoxRound {
+@mixin checkboxRound {
   position: relative;
   margin: 4px 0px 0px 0px;
   input {
@@ -84,5 +93,21 @@
 @mixin errorInput {
   color: var(--color-error-primary);
   padding: 2px 10px;
-  min-height: 20px;
+  // min-height: 20px;
+}
+
+@mixin buttonRound {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background: var(--color-hover-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  i{
+    width: 100%;
+    text-align: center;
+  }
 }

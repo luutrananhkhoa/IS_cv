@@ -5,7 +5,7 @@ import * as contractConst from '@constant/contractConst'
 import Web3 from 'web3'
 import { Context } from '../Context/Context'
 import detectEthereumProvider from '@metamask/detect-provider'
-import Loading from '@component/Loading'
+import Loading from '@component/Loading/Loading'
 
 export default function ContractMiddlewareCompany(props) {
   return <></>

@@ -1,24 +1,43 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
+import { Link } from 'react-router-dom'
+import { Web3Context } from '@context/Web3ContextProvider'
 function Index(props) {
+  const { showMorePanel, setShowMorePanel } = useContext(Web3Context)
   return (
     <div className={clsx(styles.container)}>
-      <div className={styles.item}>
+      <Link
+        onClick={() => {
+          setShowMorePanel((e) => {
+            return { ...e, show: false }
+          })
+        }}
+        to="/profile"
+        className={styles.item}
+      >
         <i className="fa-solid fa-circle-heart"></i>
-        <a>Trang ca nhan</a>
-      </div>
+        <p>Trang ca nhan</p>
+      </Link>
       <div className={styles.item}>
         <i className="fa-solid fa-bookmark"></i>
-        <a>Da luu</a>
+        <p>Da luu</p>
       </div>
-      <div className={styles.item}>
+      <Link
+        to="/setting?tab=account"
+        onClick={() => {
+          setShowMorePanel((e) => {
+            return { ...e, show: false }
+          })
+        }}
+        className={styles.item}
+      >
         <i className="fa-solid fa-gear"></i>
-        <a>Cai dat</a>
-      </div>
+        <p>Cai dat</p>
+      </Link>
       <div className={styles.item}>
         <i className="fa-solid fa-arrow-right-from-bracket"></i>
-        <a>Dang xuat</a>
+        <p>Dang xuat</p>
       </div>
     </div>
   )

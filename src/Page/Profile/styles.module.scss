@@ -1,4 +1,4 @@
-@use '../..//Style/abtracts/mixins' as mixin;
+@use '../../Style/abtracts/mixins' as mixin;
 @use '../../Style/globalType/function' as function;
 @import './variables.scss';
 
@@ -10,7 +10,7 @@
   align-items: center;
   flex-direction: column;
   overflow: hidden;
- 
+
   .panel {
     position: relative;
     width: 100%;
@@ -67,34 +67,35 @@
       }
     }
   }
-  .tableWrapper {
-    width: 100%;
-    padding: 3px 40px 0px 40px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    overflow: inherit;
-    background: var(--color-background-primary);
-    .tab {
-      @include function.button;
-      border-radius: unset;
-      width: 100px;
-      background: var(--color-background-primary);
-      color: var(--color-text-primary);
-      padding: 10px 20px;
-      border-bottom: 3px solid transparent;
-      &:hover {
-        border-bottom: 3px solid var(--color-active-primary);
-      }
-    }
-    .active {
-      // border-bottom: 3px solid red;
+}
+
+.tableWrapper {
+  width: 100%;
+  padding: 3px 40px 0px 40px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  overflow: inherit;
+  background: var(--color-background-primary);
+  .tab {
+    @include function.button;
+    border-radius: unset;
+    width: 100px;
+    background: transparent;
+    color: var(--color-text-primary);
+    padding: 10px 20px;
+    border-bottom: 3px solid transparent;
+    &:hover {
       border-bottom: 3px solid var(--color-active-primary);
     }
+  }
+  .active {
+    // border-bottom: 3px solid red;
+    border-bottom: 3px solid var(--color-active-primary);
+  }
 
-    @include mixin.sm {
-      margin: calc($width + 30px) 0px 0px 0px;
-    }
+  @include mixin.sm {
+    margin: calc($width + 30px) 0px 0px 0px;
   }
 }

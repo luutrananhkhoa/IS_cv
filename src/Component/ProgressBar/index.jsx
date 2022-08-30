@@ -1,10 +1,11 @@
 import React from 'react'
 import styles from './styles.module.scss'
+import clsx from 'clsx'
 
 function Index(props) {
-  const { percent, color } = props
+  const { percent, color, className } = props
   return (
-    <div className={styles.progressBar}>
+    <div className={clsx(styles.progressBar, className)}>
       <span
         style={{
           '--percent': Math.round(percent) + '%',

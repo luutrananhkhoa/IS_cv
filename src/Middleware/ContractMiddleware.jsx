@@ -4,15 +4,17 @@ import { Web3Context } from '../Context/Web3ContextProvider'
 import * as employeeController from '@contract/employeeController'
 import Web3 from 'web3'
 import detectEthereumProvider from '@metamask/detect-provider'
-import Loading from '@component/Loading'
 import { useToast } from '@component/Toast'
+import { useLoading } from '@component/Loading'
 
 export default function ContractMiddleware(props) {
   const { loginState, dispatchLogin } = useContext(Web3Context)
   const [complete, setComplete] = useState(false)
   const toast = useToast()
+  const loading = useLoading()
   const handleCheck = async () => {
     if (!complete) {
+      loading.open();
       const provider = await detectEthereumProvider()
       if (provider) {
         const web3 = new Web3(provider)
@@ -71,6 +73,7 @@ export default function ContractMiddleware(props) {
             console.log(error)
           })
       }
+      loading.close();
     }
     setComplete(true)
   }
@@ -85,9 +88,8 @@ export default function ContractMiddleware(props) {
       {console.log(loginState)}
       {(() => {
         let isNavigated = <Navigate key={0} to="/" replace />
-        let isLoading = <Loading key={1} state={true}></Loading>
         let isStayed = <Outlet key={2}></Outlet>
-        if (!complete) return isLoading
+        if (!complete) return
         if (props.requestAddress) {
           if (loginState.address) return isStayed
           else return isNavigated

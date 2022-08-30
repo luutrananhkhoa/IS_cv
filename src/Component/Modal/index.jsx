@@ -43,6 +43,7 @@ function Index(props) {
             <div className={styles.title}>
               <div className={styles.buttonWrapper}>
                 <button
+                  type="submit"
                   onClick={() => {
                     setOpenModal((e) => !e)
                   }}
@@ -60,6 +61,7 @@ function Index(props) {
               <div className={styles.endButtonWrapper}>
                 {nonaction && (
                   <button
+                    type="submit"
                     className={styles.cancel}
                     onClick={() => {
                       nonaction && nonaction()
@@ -71,6 +73,7 @@ function Index(props) {
                 )}
                 {action && (
                   <button
+                    type="submit"
                     className={styles.accept}
                     onClick={() => {
                       action ? action() : setOpenModal((e) => !e)

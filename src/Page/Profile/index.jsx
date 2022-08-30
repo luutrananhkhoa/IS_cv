@@ -1,14 +1,13 @@
-import React, { useContext, memo } from 'react'
+import React, { useContext, useLayoutEffect } from 'react'
 import styles from './styles.module.scss'
 import cover from '@asset/cover.png'
 import avatar from '@asset/avatar.jpg'
 import clsx from 'clsx'
 import ProfileContextProvider, { ProfileContext } from './ProfileContext'
-import About from './About'
-import Posts from './Posts'
+import { Outlet, Link, useLocation } from 'react-router-dom'
 
 function Index() {
-  const { tab, setTab } = useContext(ProfileContext)
+  const location = useLocation()
   return (
     <>
       <section className={styles.container}>
@@ -22,21 +21,20 @@ function Index() {
           </div>
         </div>
         <div className={styles.tableWrapper}>
-          <button
-            onClick={() => setTab(1)}
-            className={clsx(styles.tab, { [styles.active]: tab == 1 })}
+          <Link
+            to="/profile"
+            className={clsx(styles.tab, { [styles.active]: location.pathname == '/profile' })}
           >
             Post
-          </button>
-          <button
-            onClick={() => setTab(2)}
-            className={clsx(styles.tab, { [styles.active]: tab == 2 })}
+          </Link>
+          <Link
+            to="/profile/about"
+            className={clsx(styles.tab, { [styles.active]: location.pathname == '/profile/about' })}
           >
             About
-          </button>
+          </Link>
         </div>
-        {tab == 1 && <Posts></Posts>}
-        {tab == 2 && <About></About>}
+        <Outlet></Outlet>
       </section>
     </>
   )
