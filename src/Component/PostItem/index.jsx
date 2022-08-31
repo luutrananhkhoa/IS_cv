@@ -70,8 +70,6 @@ function Item() {
         </div>
         <CommentItem></CommentItem>
         <CommentItem></CommentItem>
-        <CommentItem></CommentItem>
-        <CommentItem></CommentItem>
       </div>
     </div>
   )

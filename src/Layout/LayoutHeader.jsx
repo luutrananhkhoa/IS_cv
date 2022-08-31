@@ -9,7 +9,7 @@ export default function LayoutHeader() {
       <Header></Header>
       <MorePanel></MorePanel>
       <Outlet></Outlet>
-      <Footer></Footer>
+
     </>
   )
 }

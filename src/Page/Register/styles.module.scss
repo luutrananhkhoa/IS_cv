@@ -47,6 +47,13 @@ $rightWidth: 70%;
         background: var(--color-button-tertiary);
       }
     }
+    .toggleWrapper {
+      display: flex;
+      gap: 20px;
+      font-size: 20px;
+      font-weight: 500;
+      align-items: center;
+    }
     .loginTitle {
       margin: 10% 0px;
       width: $rightWidth;

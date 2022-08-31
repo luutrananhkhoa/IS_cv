@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import background from '@asset/background.jpg'
 import SlideShow from './SlideShow'
 import ItemCategory from './ItemCategory'
-
+import Footer from '@component/Footer'
 const Index = () => {
   const { t, i18n } = useTranslation()
 
@@ -39,6 +39,7 @@ const Index = () => {
         </div>
         <SlideShow></SlideShow>
       </section>
+      <Footer></Footer>
     </>
   )
 }

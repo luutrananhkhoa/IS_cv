@@ -3,8 +3,15 @@ import styles from './styles.module.scss'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import { Web3Context } from '@context/Web3ContextProvider'
+import { useNavigate } from 'react-router-dom'
 function Index(props) {
-  const { showMorePanel, setShowMorePanel } = useContext(Web3Context)
+  const { showMorePanel, setShowMorePanel, dispatchLogin, loginState } = useContext(Web3Context)
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    if (dispatchLogin.for == 'employee') dispatchLogin({ type: 'employee_logout' })
+    if (dispatchLogin.for == 'business') dispatchLogin({ type: 'business_logout' })
+    navigate('/')
+  }
   return (
     <div className={clsx(styles.container)}>
       <Link
@@ -35,7 +42,7 @@ function Index(props) {
         <i className="fa-solid fa-gear"></i>
         <p>Cai dat</p>
       </Link>
-      <div className={styles.item}>
+      <div onClick={handleLogout} className={styles.item}>
         <i className="fa-solid fa-arrow-right-from-bracket"></i>
         <p>Dang xuat</p>
       </div>

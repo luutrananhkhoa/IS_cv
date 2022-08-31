@@ -12,7 +12,7 @@ $paddingGap: 10px;
   .search {
     @include function.panel;
     width: 100%;
-    textarea {
+    input {
       width: 100%;
     }
     background: var(--color-background-primary);

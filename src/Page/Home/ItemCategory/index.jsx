@@ -10,17 +10,22 @@ function Index() {
       <div className={styles.title}>Data Analytics</div>
       <div className={styles.content}>
         <p>
-          <i className="fa-solid fa-star"></i> <i> </i>Lorem ipsum dolor sit amet
+          {/* <i className="fa-solid fa-star"></i>  */}
+          <a>Lorem ipsum dolor sit am</a>
         </p>
         <p>
-          <i className="fa-solid fa-star"></i> <i> </i>Lorem ipsum dolor sit amet
+          {/* <i className="fa-solid fa-star"></i>  */}
+          <a>Lorem ipsum dolor sit am</a>
         </p>
         <p>
-          <i className="fa-solid fa-star"></i> <i> </i>Lorem ipsum dolor sit amet
+          {/* <i className="fa-solid fa-star"></i>  */}
+          <a>Lorem ipsum dolor sit am</a>
         </p>
         <p>
-          <i className="fa-solid fa-star"></i> <i> </i>Lorem ipsum dolor sit amet
+          {/* <i className="fa-solid fa-star"></i>  */}
+          <a>Lorem ipsum dolor sit am</a>
         </p>
+       
       </div>
       <div className={styles.result}>
         <a>1001 Members</a>

@@ -41,7 +41,7 @@
 }
 
 @mixin button {
-  background: var(--color-button-primary);
+  background: var(--color-button-tertiary);
   border-radius: 2.625rem;
   padding: 0.5rem 20px;
   font-weight: bold;
@@ -55,8 +55,7 @@
 @mixin panel {
   background: var(--color-background-primary);
   border-radius: var(--border-radius-primary);
-  color: var(--color-text-secondary);
-  // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  color: var(--color-text-grey);
 }
 @mixin textGradient {
   -webkit-background-clip: text !important;
@@ -106,8 +105,13 @@
   align-items: center;
   cursor: pointer;
   flex-shrink: 0;
-  i{
+  i {
     width: 100%;
     text-align: center;
+  }
+}
+@mixin hideScrollbar {
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

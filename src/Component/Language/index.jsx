@@ -19,7 +19,7 @@ export default function Index() {
         <ul className={styles.ulLanguage}>
           {list.map((value, index) => {
             return (
-              <div className={styles.buttonWrapper}>
+              <div key={index} className={styles.buttonWrapper}>
                 <div
                   key={index}
                   className={clsx(styles.languageButtonList, {

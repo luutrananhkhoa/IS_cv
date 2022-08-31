@@ -8,55 +8,53 @@ import { useToast } from '@component/Toast'
 import { useLoading } from '@component/Loading'
 
 export default function ContractMiddleware(props) {
-  const { loginState, dispatchLogin } = useContext(Web3Context)
-  const [complete, setComplete] = useState(false)
+  const { loginState, dispatchLogin, complete, setComplete } = useContext(Web3Context)
+
   const toast = useToast()
   const loading = useLoading()
-  const handleCheck = async () => {
-    if (!complete) {
-      loading.open();
-      const provider = await detectEthereumProvider()
-      if (provider) {
-        const web3 = new Web3(provider)
+  const handleGetAddress = async () => {
+    const provider = await detectEthereumProvider()
+    if (provider) {
+      const web3 = new Web3(provider)
 
-        const myContract = new web3.eth.Contract(employeeController.ABI, employeeController.ADDRESS)
-        await web3.eth
-          .getAccounts()
-          .then(async (success) => {
-            const addressTemp = success[0]
-            if (addressTemp) {
-              let jwt
-              if (web3.utils.isAddress(loginState.jwt)) jwt = loginState.jwt
-              else jwt = '0x0000000000000000000000000000000000000000'
-              await myContract.methods
-                .autoLogin(jwt)
-                .call({ from: addressTemp })
-                .then((success) => {
-                  const id = parseInt(success)
-                  if (id > 0) {
-                    dispatchLogin({
-                      type: 'employee_auto_login',
-                      isLoggedIn: true,
-                      for: 'employee',
-                      address: addressTemp,
-                      id: id,
-                      contractEmployee: myContract,
-                      jwt: addressTemp,
-                    })
-                  } else {
-                    dispatchLogin({
-                      type: 'employee_auto_login',
-                      isLoggedIn: false,
-                      for: 'employee',
-                      address: addressTemp,
-                      id: 0,
-                      contractEmployee: myContract,
-                      jwt: '',
-                    })
-                  }
-                })
-                .catch((error) => {
-                  console.log(error)
+      await web3.eth
+        .getAccounts()
+        .then(async (success) => {
+          dispatchLogin({ type: 'set_address', address: success[0] })
+        })
+        .catch((error) => console.log(error))
+    }
+  }
+  const handleCheck = async () => {
+    loading.open()
+    const provider = await detectEthereumProvider()
+    if (provider) {
+      const web3 = new Web3(provider)
+
+      const myContract = new web3.eth.Contract(employeeController.ABI, employeeController.ADDRESS)
+      await web3.eth
+        .getAccounts()
+        .then(async (success) => {
+          const addressTemp = success[0]
+          dispatchLogin({ type: 'set_address', address: addressTemp })
+          if (addressTemp) {
+            if (!loginState.jwt || web3.utils.isAddress(loginState.jwt)) return
+            await myContract.methods
+              .autoLogin(jwt)
+              .call({ from: addressTemp })
+              .then((success) => {
+                const id = parseInt(success)
+                if (id > 0) {
+                  dispatchLogin({
+                    type: 'employee_auto_login',
+                    isLoggedIn: true,
+                    for: 'employee',
+                    address: addressTemp,
+                    id: id,
+                    contractEmployee: myContract,
+                    jwt: addressTemp,
+                  })
+                } else {
                   dispatchLogin({
                     type: 'employee_auto_login',
                     isLoggedIn: false,
@@ -66,30 +64,45 @@ export default function ContractMiddleware(props) {
                     contractEmployee: myContract,
                     jwt: '',
                   })
+                }
+              })
+              .catch((error) => {
+                console.log(error)
+                dispatchLogin({
+                  type: 'employee_auto_login',
+                  isLoggedIn: false,
+                  for: 'employee',
+                  address: addressTemp,
+                  id: 0,
+                  contractEmployee: myContract,
+                  jwt: '',
                 })
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      }
-      loading.close();
+              })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
+    loading.close()
+
     setComplete(true)
   }
 
   useEffect(() => {
     ;(async () => {
+      if (complete) return
+      await handleGetAddress()
       await handleCheck()
     })()
-  }, [])
+  }, [complete])
   return (
     <>
       {console.log(loginState)}
       {(() => {
         let isNavigated = <Navigate key={0} to="/" replace />
         let isStayed = <Outlet key={2}></Outlet>
-        if (!complete) return
+        // if (!complete) return
         if (props.requestAddress) {
           if (loginState.address) return isStayed
           else return isNavigated

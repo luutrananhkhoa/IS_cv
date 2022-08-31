@@ -22,15 +22,17 @@
   --color-button-secondary: linear-gradient(135deg, #05f, #09f);
   --color-button-tertiary: linear-gradient(to right, #ee0979, #ff6a00);
   --color-button-quaternary: linear-gradient(to right, #1b79e4, #05ff5d);
-  --color-button-penitentiary: linear-gradient(to right, #e524e8, #ec127f);
+  --color-button-penitentiary: linear-gradient(to right, #fd3597, #e92e9b);
   --color-button-hexatiary: linear-gradient(to right, #eae326, #f4d005);
   --color-button-heptan: linear-gradient(to right, #1abe7d, #0fbcc8);
+  --color-button-green: linear-gradient(to right, #63ab77, #8cbf57);
   --color-button-octane: linear-gradient(
     54deg,
     #ef9502,
     rgb(232, 178, 70) 41%,
     rgba(235, 198, 125, 0.995) 80%
   );
+  --color-button-purple: linear-gradient(to right, #c166d1, #a364cc);
   --theme-lineheight-primary: 1.5;
   --color-error-primary: rgb(199, 32, 32);
   --color-modal-primary: #545e6587;
@@ -40,9 +42,7 @@
   --color-border: #b2b2b25b;
   --color-border-secondary: rgb(226, 226, 226);
 
-  --box-shadown-primary: 0 0.46875rem 2.1875rem rgb(4 9 20 / 3%),
-    0 0.9375rem 1.40625rem rgb(4 9 20 / 3%), 0 0.25rem 0.53125rem rgb(4 9 20 / 5%),
-    0 0.125rem 0.1875rem rgb(4 9 20 / 3%);
+  --box-shadow-primary: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
   --box-shadow-secondary: 0px 1px 2px rgba(128, 138, 157, 0.12),
     0px 8px 32px rgba(128, 138, 157, 0.24);
 
@@ -73,6 +73,7 @@
   --color-social-green: #eaf9e5;
   --color-calendar-primary: #f0f7e1;
   --color-active-secondary: var(--color-customcv-active-primary);
-  --color-hover-primary: rgb(52 154 177 / 21%);
+  --color-hover-primary: #edf2f6;
   --color-input-primary: rgba(255, 244, 249, 0.489);
+  --color-disable-primary: #cee6f39c;
 }

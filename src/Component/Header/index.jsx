@@ -12,46 +12,14 @@ export default function Header() {
   const { t, i18n } = useTranslation()
   const location = useLocation()
   const [showMobile, setShowModile] = useState(false)
-  const { loginState, dispatchLogin, showMorePanel, setShowMorePanel } = useContext(Web3Context)
+  const { loginState, dispatchLogin, setComplete, setShowMorePanel } = useContext(Web3Context)
   async function handleConnectMetamask() {
     const accounts = await ethereum.request({
       method: 'eth_requestAccounts',
     })
     let addressTemp = accounts[0]
     if (addressTemp) {
-      let jwt
-      if (web3.utils.isAddress(loginState.jwt)) jwt = loginState.jwt
-      else jwt = '0x0000000000000000000000000000000000000000'
-      await myContract.methods
-        .autoLogin(jwt)
-        .call({ from: addressTemp })
-        .then((success) => {
-          const id = parseInt(success)
-          if (id > 0) {
-            dispatchLogin({
-              type: 'employee_auto_login',
-              isLoggedIn: true,
-              for: 'employee',
-              address: addressTemp,
-              id: id,
-              contractEmployee: myContract,
-              jwt: addressTemp,
-            })
-          } else {
-            dispatchLogin({
-              type: 'employee_auto_login',
-              isLoggedIn: false,
-              for: 'employee',
-              address: addressTemp,
-              id: 0,
-              contractEmployee: myContract,
-              jwt: '',
-            })
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      setComplete(false)
     }
   }
 

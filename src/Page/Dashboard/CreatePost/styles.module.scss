@@ -1,0 +1,111 @@
+@use '../../../Style/globalType/function' as function;
+@use '../external.scss' as external;
+@import '../variables.scss';
+$paddingWrapperItem: 5px 10px;
+%item {
+  @include function.panel;
+  border: 1px solid var(--color-hover-primary);
+  box-shadow: var(--box-shadow-primary);
+  padding: $paddingWrapperItem;
+  a {
+    font-weight: bold;
+    color: var(--color-text-primary);
+  }
+}
+.container {
+  @include external.container;
+
+  .title {
+    @include external.title;
+  }
+
+  .group {
+    display: flex;
+
+    gap: 10px;
+    .left {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 17px;
+      flex: 1;
+
+      color: var(--color-text-grey);
+      .image {
+        @extend %item;
+        .imageTool {
+          padding: 10px 20px;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          background: inherit;
+          i {
+            font-size: 1.5em;
+            @include function.textGradient;
+            background: var(--color-button-tertiary);
+          }
+          a {
+            font-weight: 500;
+            @include function.textGradient;
+
+            background: var(--color-button-tertiary);
+          }
+        }
+      }
+      .content {
+        @extend %item;
+        .hashtag {
+          display: flex;
+          gap: 5px;
+          cursor: pointer;
+          align-items: center;
+          i {
+            @include function.textGradient;
+            background: var(--color-button-hexatiary);
+          }
+          a {
+            font-weight: 450;
+            color: inherit;
+            text-decoration: capitalize;
+          }
+        }
+        textarea {
+          @include function.panel;
+          width: 100%;
+          padding: 5px 5px;
+          border: 1px solid var(--color-border);
+        }
+        .tool {
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .button {
+        @extend %item;
+        display: flex;
+        gap: 10px;
+        flex-direction: row-reverse;
+        .cancel {
+          @include function.button;
+          background: var(--color-background-primary);
+          border: 2px solid var(--color-border);
+          color: var(--color-text-primary);
+        }
+        .publish {
+          @include function.button;
+        }
+      }
+      .panelTitle {
+        padding: $paddingWrapperItem;
+        font-size: 1rem;
+        color: var(--color-text-primary);
+      }
+    }
+    .right {
+      @include function.panel;
+      flex: 1.7;
+      box-shadow: var(--box-shadow-primary);
+    }
+  }
+}

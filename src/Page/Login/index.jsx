@@ -7,11 +7,19 @@ import { useToast } from '@component/Toast'
 import { useNavigate, Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import clsx from 'clsx'
+import Toggle from '@component/Toggle'
+import * as employeeController from '@contract/employeeController'
+import * as businessController from '@contract/businessController'
+import { useLoading } from '@component/Loading'
+import Web3 from 'web3'
+import detectEthereumProvider from '@metamask/detect-provider'
 
 function Index() {
   const { loginState, dispatchLogin } = useContext(Web3Context)
-
+  const loading = useLoading()
   const toast = useToast()
+  const [typeFor, setTypeFor] = useState(false)
   const navigate = useNavigate()
   const formik = useFormik({
     initialValues: {
@@ -22,29 +30,66 @@ function Index() {
       password: Yup.string().required('Password is required'),
       remember: Yup.boolean(),
     }),
-    onSubmit: (values) => {
-      loginState.contractEmployee.methods
-        .login(values.password)
-        .call({ from: loginState.address })
-        .then((success) => {
-          const id = parseInt(success)
-          if (parseInt(id) > 0) {
-            toast.success('Thanh cong', { pauseOnHover: true, closeOnClick: true })
-            dispatchLogin({
-              type: 'employeee_login',
-              isLoggedIn: true,
-              id: id,
-              jwt: loginState.address,
-              remember: values.remember,
-            })
-            navigate('/', { replace: true })
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-          if (error.code === 4001)
-            toast.warning('Chua thanh toan hoa don', { pauseOnHover: true, closeOnClick: true })
-        })
+    onSubmit: async (values) => {
+      const provider = await detectEthereumProvider()
+      const web3 = new Web3(provider)
+      if (typeFor) {
+        loading.open()
+        const contractBusiness = new web3.eth.Contract(
+          businessController.ABI,
+          businessController.ADDRESS
+        )
+        await contractBusiness.methods
+          .login(values.password)
+          .call({ from: loginState.address })
+          .then((success) => {
+            const id = parseInt(success)
+            if (id > 0) {
+              toast.success('Thanh cong', { pauseOnHover: true, closeOnClick: true })
+              dispatchLogin({
+                type: 'business_login',
+                id: id,
+                contractBusiness: contractBusiness,
+                remember: values.remember,
+              })
+              navigate('/', { replace: true })
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+            if (error.code === 4001)
+              toast.warning('Chua thanh toan hoa don', { pauseOnHover: true, closeOnClick: true })
+          })
+        loading.close()
+      } else {
+        loading.open()
+        const contractEmployee = new web3.eth.Contract(
+          employeeController.ABI,
+          employeeController.ADDRESS
+        )
+        await contractEmployee.methods
+          .login(values.password)
+          .call({ from: loginState.address })
+          .then((success) => {
+            const id = parseInt(success)
+            if (id > 0) {
+              toast.success('Thanh cong', { pauseOnHover: true, closeOnClick: true })
+              dispatchLogin({
+                type: 'employee_login',
+                id: id,
+                contractEmployee: contractEmployee,
+                remember: values.remember,
+              })
+              navigate('/', { replace: true })
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+            if (error.code === 4001)
+              toast.warning('Chua thanh toan hoa don', { pauseOnHover: true, closeOnClick: true })
+          })
+        loading.close()
+      }
     },
   })
 
@@ -61,6 +106,7 @@ function Index() {
           </div>
         </div>
       </div>
+
       <div className={styles.right}>
         <div className={styles.topWrapper}>
           <div className={styles.register}>
@@ -71,9 +117,18 @@ function Index() {
           </div>
         </div>
         <div className={styles.loginTitle}>Login into your account</div>
+        <div className={styles.toggleWrapper}>
+          <span>Employee</span>
+          <Toggle
+            positiveColor="blue"
+            negativeColor="purple"
+            state={[typeFor, setTypeFor]}
+          ></Toggle>
+          <span>Company</span>
+        </div>
         <div className={styles.boxWrapper}>
           <label className={styles.label}>Address</label>
-          <p className={styles.input}>{loginState.address}</p>
+          <p className={clsx(styles.input, styles.address, styles.notedit)}>{loginState.address}</p>
         </div>
         <div className={styles.boxWrapper}>
           <label className={styles.label}>Password</label>
