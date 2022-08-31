@@ -11,11 +11,7 @@ export const Index = (props) => {
   const ref = useRef()
   useEffect(() => {
     function handleClickOutside(event) {
-      let data = [
-        ref.current,
-        document.getElementById('profile_header_button'),
-        document.getElementById('notification_header_button'),
-      ]
+      let data = [ref.current, ...Array.from(document.querySelectorAll('[id=header_button]'))]
       if (!showMorePanel.show) return
 
       var yes = true

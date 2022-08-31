@@ -79,7 +79,7 @@ export default function Header() {
               }
             })
           }}
-          id="notification_header_button"
+          id="header_button"
           key={5}
           className={styles.buttonItem}
         >
@@ -97,7 +97,7 @@ export default function Header() {
         )}
         {loginState.address && loginState.isLoggedIn && (
           <button
-            id="profile_header_button"
+            id="header_button"
             onClick={() => {
               setShowMorePanel((e) => {
                 return {

@@ -8,8 +8,11 @@ function Index(props) {
   const { showMorePanel, setShowMorePanel, dispatchLogin, loginState } = useContext(Web3Context)
   const navigate = useNavigate()
   const handleLogout = () => {
-    if (dispatchLogin.for == 'employee') dispatchLogin({ type: 'employee_logout' })
-    if (dispatchLogin.for == 'business') dispatchLogin({ type: 'business_logout' })
+    if (loginState.for == 'employee') dispatchLogin({ type: 'employee_logout' })
+    if (loginState.for == 'business') dispatchLogin({ type: 'business_logout' })
+    setShowMorePanel((e) => {
+      return { ...e, show: false }
+    })
     navigate('/')
   }
   return (

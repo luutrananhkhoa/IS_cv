@@ -1,127 +1,165 @@
 import { createContext, useState, useCallback, useReducer } from 'react'
 import { useCookies } from 'react-cookie'
+import update from 'immutability-helper'
+import Cookies from 'universal-cookie'
 
 export const Web3Context = createContext()
 
+const cookies = new Cookies()
+const time = new Date(new Date().getTime() + 86400000 * 7)
+
 const Web3ContextProvider = ({ children }) => {
   const [complete, setComplete] = useState(false)
+
   const [showMorePanel, setShowMorePanel] = useState({ show: false, panel: 1 })
-  const [employeeCookies, setEmployeeCookies, removeEmployeeCookies] = useCookies(['employeeJwt'])
-  const [forCookies, setForCookies, removeForCookies] = useCookies(['for'])
-  const [businessCookies, setBusinessCookies, removeBusinessCookies] = useCookies(['businessJwt'])
-  const initialLogin = {
+
+  const [loginState, setLoginState] = useState({
     isLoggedIn: false,
-    for: forCookies.for,
+    for: cookies.get('for'),
     address: undefined,
     id: undefined,
     contractEmployee: undefined,
     contractBusiness: undefined,
-    jwt:
-      forCookies.for == 'employee'
-        ? employeeCookies.employeeJwt
-        : forCookies.for == 'business' && undefined,
-  }
-
-  const reducerLogin = (state, action) => {
+    jwt: cookies.get('jwt'),
+  })
+  const dispatchLogin = (action) => {
     switch (action.type) {
       case 'set_address': {
-        return { ...state, address: action.address }
+        setLoginState(update(loginState, { $merge: { address: action.address } }))
+        return
       }
-      case 'employee_auto_login': {
-        setEmployeeCookies('employeeJwt', action.jwt, {
-          expires: new Date(new Date().getTime() + 86400000 * 7),
+      case 'auto_login': {
+        cookies.set('jwt', action.address, {
+          expires: time,
           secure: true,
           sameSite: true,
         })
-        return {
-          ...state,
-          isLoggedIn: action.isLoggedIn || state.isLoggedIn,
-          for: 'employee' || state.for,
-          address: action.address || state.address,
-          id: action.id || state.id,
-          contractEmployee: action.contractEmployee || state.contractEmployee,
-          jwt: action.jwt || state.jwt,
-        }
-      }
-      case 'employee_login': {
-        action.remember
-          ? setEmployeeCookies('employeeJwt', action.address, {
-              expires: new Date(new Date().getTime() + 86400000 * 7),
-              secure: true,
-              sameSite: true,
-            })
-          : removeEmployeeCookies('employeeJwt')
+        cookies.set('for', action.for, {
+          expires: time,
+          secure: true,
+          sameSite: true,
+        })
 
-        return {
-          ...state,
-          isLoggedIn: true,
-          for: 'employee',
-          id: action?.address,
-          contractEmployee: action?.contractEmployee,
-          jwt: action?.address,
+        setLoginState(
+          update(loginState, {
+            $merge: {
+              isLoggedIn: true,
+              for: cookies.get('for'),
+              id: action.id,
+              address: action.address,
+              contractEmployee: action.contractEmployee,
+              jwt: action.address,
+            },
+          })
+        )
+        return
+      }
+
+      case 'employee_login': {
+
+        if (action.remember) {
+          cookies.set('jwt', loginState.address, {
+            expires: time,
+            secure: true,
+            sameSite: true,
+          })
+          cookies.set('for', 'employee', {
+            expires: time,
+            secure: true,
+            sameSite: true,
+          })
+        } else {
+          cookies.remove('jwt')
+          cookies.remove('for')
         }
+
+        setLoginState(
+          update(loginState, {
+            $merge: {
+              isLoggedIn: true,
+              for: 'employee',
+              id: action?.id,
+              contractEmployee: action?.contractEmployee,
+              jwt: loginState?.address,
+            },
+          })
+        )
+        return
       }
       case 'employee_logout': {
-        removeEmployeeCookies('employeeJwt')
-        return {
-          ...state,
-          isLoggedIn: false,
-          for: undefined,
-          id: undefined,
-          address: undefined,
-          contractEmployee: undefined,
-          contractBusiness: undefined,
-          jwt: undefined,
-        }
+        cookies.remove('jwt')
+        cookies.remove('for')
+        setLoginState(
+          update(loginState, {
+            $merge: {
+              isLoggedIn: false,
+              for: undefined,
+              id: undefined,
+              address: undefined,
+              contractEmployee: undefined,
+              contractBusiness: undefined,
+              jwt: undefined,
+            },
+          })
+        )
+        return
       }
       case 'business_logout': {
-        removeBusinessCookies('businessJwt')
-        return {
-          ...state,
-          isLoggedIn: false,
-          for: undefined,
-          id: undefined,
-          address: undefined,
-          contractEmployee: undefined,
-          contractBusiness: undefined,
-          jwt: undefined,
-        }
+        cookies.remove('jwt')
+        cookies.remove('for')
+        setLoginState(
+          update(loginState, {
+            $merge: {
+              isLoggedIn: false,
+              for: undefined,
+              id: undefined,
+              address: undefined,
+              contractEmployee: undefined,
+              contractBusiness: undefined,
+              jwt: undefined,
+            },
+          })
+        )
+        return
       }
-      case 'business_login': {
-        action.remember
-          ? setBusinessCookies('businessJwt', action.address, {
-              expires: new Date(new Date().getTime() + 86400000 * 7),
+      case 'business_login':
+        {
+          if (action.remember) {
+            cookies.set('jwt', action.address, {
+              expires: time,
               secure: true,
               sameSite: true,
             })
-          : removeBusinessCookies('businessJwt')
+            cookies.set('for', 'business', {
+              expires: time,
+              secure: true,
+              sameSite: true,
+            })
+          } else {
+            cookies.remove('jwt')
+            cookies.remove('for')
+          }
 
-        return {
-          ...state,
-          isLoggedIn: true,
-          for: 'business',
-          id: action?.address,
-          contractBusiness: action?.contractBusiness,
-          jwt: action?.address,
+          setLoginState(
+            update(loginState, {
+              $merge: {
+                isLoggedIn: true,
+                for: 'business',
+                id: action?.address,
+                contractBusiness: action?.contractBusiness,
+                jwt: action?.address,
+              },
+            })
+          )
         }
-      }
-      case 'employee_logout': {
-        removeEmployeeCookies('employeeJwt')
-        return {
-          ...state,
-          login: false,
-        }
-      }
-      default:
-        return state
+        return
     }
   }
-  const [loginState, dispatchLogin] = useReducer(reducerLogin, initialLogin)
 
   return (
     <Web3Context.Provider
       value={{
-        loginState,
+        loginState: loginState,
         dispatchLogin,
         showMorePanel,
         setShowMorePanel,

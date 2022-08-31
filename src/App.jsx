@@ -27,11 +27,6 @@ function App() {
       <Routes>
         <Route path="">
           <Route path="">
-            <Route path="">
-              <Route path="" element={<LayoutHeader></LayoutHeader>}>
-                <Route path="post" element={<Post></Post>}></Route>
-              </Route>
-            </Route>
             <Route path="" element={<ContractMiddleware></ContractMiddleware>}>
               <Route path="" element={<LayoutHeader></LayoutHeader>}>
                 <Route path="" element={<Home />} />
@@ -44,7 +39,11 @@ function App() {
                   <Route path="" element={<Feed />}></Route>
                 </Route>
               </Route>
-
+              <Route path="">
+                <Route path="" element={<LayoutHeader></LayoutHeader>}>
+                  <Route path="post" element={<Post></Post>}></Route>
+                </Route>
+              </Route>
               <Route path="">
                 <Route path="customcv" element={<CustomCV />} />
                 <Route path="test" element={<Test />} />

@@ -31,10 +31,9 @@ const Index = () => {
             <a>Categories</a>
           </div>
           <div className={styles.categoryItemWrapper}>
-            <ItemCategory></ItemCategory>
-            <ItemCategory></ItemCategory>
-            <ItemCategory></ItemCategory>
-            <ItemCategory></ItemCategory>
+            {[...Array(4)].map((value, index) => {
+              return <ItemCategory key={index}></ItemCategory>
+            })}
           </div>
         </div>
         <SlideShow></SlideShow>
