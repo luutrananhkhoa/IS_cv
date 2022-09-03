@@ -48,7 +48,7 @@ export default function Header() {
         </ul>
       </div>
       <div className={styles.navLeft}>
-        <Link to="/">
+        <Link key="header_icon" to="/">
           <img className={styles.logo} alt="Logo" src={logo}></img>
         </Link>
       </div>
@@ -70,6 +70,12 @@ export default function Header() {
       </nav>
       <nav id="navbar" className={clsx(styles.navRight)}>
         <Language key={0}></Language>
+        <Link to="/messages"
+          key={6}
+          className={styles.buttonItem}
+        >
+          <i className="fa-solid fa-comment-lines"></i>
+        </Link>
         <button
           onClick={() => {
             setShowMorePanel((e) => {
@@ -85,6 +91,7 @@ export default function Header() {
         >
           <i className="fa-regular fa-bells"></i>
         </button>
+
         {!loginState.address && (
           <button key={1} onClick={handleConnectMetamask} className={styles.buttonAccount}>
             Connect Metamask

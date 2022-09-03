@@ -32,13 +32,13 @@ const Index = () => {
           </div>
           <div className={styles.categoryItemWrapper}>
             {[...Array(4)].map((value, index) => {
-              return <ItemCategory key={index}></ItemCategory>
+              return <ItemCategory key={value}></ItemCategory>
             })}
           </div>
         </div>
-        <SlideShow></SlideShow>
+        <SlideShow key={10}></SlideShow>
       </section>
-      <Footer></Footer>
+      <Footer key={11}></Footer>
     </>
   )
 }

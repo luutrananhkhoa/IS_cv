@@ -7,9 +7,9 @@ import { useToast } from '@component/Toast'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useLoading } from '@component/Loading'
+import { getContract as getContractEmployee } from '@contract/employeeController'
 
-function Item(props) {
-  const { title, level, id, skillId } = props
+function Item({ id, owner, title, level, skillId }) {
   const { loginState } = useContext(Web3Context)
   const [openDelete, setOpenDelete] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
@@ -26,22 +26,29 @@ function Item(props) {
     }),
     onSubmit: async (values) => {
       loading.open()
-      await loginState.contractEmployee.methods
-        .editSkill(
-          parseInt(loginState.id),
-          parseInt(skillId),
-          values.title.toString(),
-          parseInt(values.level)
-        )
-        .send({ from: loginState.address })
-        .then((success) => {
-          toast.success('success', { pauseOnHover: true, closeOnClick: true })
-          setOpenEdit(false)
+      await getContractEmployee()
+        .then(async (contractEmployee) => {
+          await contractEmployee.methods
+            .editSkill(
+              parseInt(id),
+              parseInt(skillId),
+              values.title.toString(),
+              parseInt(values.level)
+            )
+            .send({ from: loginState.address })
+            .then((success) => {
+              toast.success('success', { pauseOnHover: true, closeOnClick: true })
+              setOpenEdit(false)
+            })
+            .catch((error) => {
+              console.log(error)
+              toast.error('error', { pauseOnHover: true, closeOnClick: true })
+            })
         })
         .catch((error) => {
-          console.log(error)
-          toast.error('error', { pauseOnHover: true, closeOnClick: true })
+          console.error(error)
         })
+
       loading.close()
     },
   })
@@ -104,10 +111,12 @@ function Item(props) {
             <ProgressBar percent={level}></ProgressBar>
           </div>
         </span>
-        <span className={styles.tool}>
-          <i onClick={() => setOpenEdit(true)} className="fa-solid fa-pen-to-square"></i>
-          <i onClick={() => setOpenDelete(true)} className="fa-solid fa-trash-can"></i>
-        </span>
+        {owner && (
+          <span className={styles.tool}>
+            <i onClick={() => setOpenEdit(true)} className="fa-solid fa-pen-to-square"></i>
+            <i onClick={() => setOpenDelete(true)} className="fa-solid fa-trash-can"></i>
+          </span>
+        )}
       </div>
     </>
   )

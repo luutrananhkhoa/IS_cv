@@ -7,6 +7,8 @@ import * as Yup from 'yup'
 import { phoneRegExp, emailRegExp, urlRegExp } from '@helper/regex'
 import { useLoading } from '@component/Loading'
 import { useToast } from '@component/Toast'
+import { getContract as getContractEmployee } from '@contract/employeeController'
+import { getContract as getContractBusiness } from '@contract/businessController'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
@@ -69,20 +71,26 @@ function Index() {
   })
 
   useEffect(() => {
-    loginState.contractEmployee.methods
-      .getProfile(loginState.id)
-      .call({ from: loginState.address })
-      .then((success) => {
-        let temp = { ...success }
-        formik.setFieldValue('name', temp.name)
-        formik.setFieldValue('phone', temp.phone)
-        formik.setFieldValue('professional', temp.professional)
-        formik.setFieldValue('email', temp.email)
-        formik.setFieldValue('github', temp.github)
-        formik.setFieldValue('linkedin', temp.linkedin)
-        setList(temp)
+    if (loginState.for != 'employee') return
+    getContractEmployee()
+      .then((contractEmployee) => {
+        contractEmployee.methods
+          .getProfile(loginState.id)
+          .call({ from: loginState.address })
+          .then((success) => {
+            let temp = { ...success }
+            formik.setFieldValue('name', temp.name)
+            formik.setFieldValue('phone', temp.phone)
+            formik.setFieldValue('professional', temp.professional)
+            formik.setFieldValue('email', temp.email)
+            formik.setFieldValue('github', temp.github)
+            formik.setFieldValue('linkedin', temp.linkedin)
+            console.log(temp)
+            setList(temp)
+          })
+          .catch((error) => console.log(error))
       })
-      .catch((error) => console.log(error))
+      .catch((error) => console.error(error))
   }, [])
   return (
     <div className={styles.container}>

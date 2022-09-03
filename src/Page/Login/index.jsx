@@ -9,8 +9,8 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import Toggle from '@component/Toggle'
-import * as employeeController from '@contract/employeeController'
-import * as businessController from '@contract/businessController'
+import { getContract as getContractBusiness } from '@contract/businessController'
+import { getContract as getContractEmployee } from '@contract/employeeController'
 import { useLoading } from '@component/Loading'
 import Web3 from 'web3'
 import detectEthereumProvider from '@metamask/detect-provider'
@@ -31,65 +31,85 @@ function Index() {
       remember: Yup.boolean(),
     }),
     onSubmit: async (values) => {
-      const provider = await detectEthereumProvider()
-      const web3 = new Web3(provider)
+      loading.open()
       if (typeFor) {
-        loading.open()
-        const contractBusiness = new web3.eth.Contract(
-          businessController.ABI,
-          businessController.ADDRESS
-        )
-        await contractBusiness.methods
-          .login(values.password)
-          .call({ from: loginState.address })
-          .then((success) => {
-            const id = parseInt(success)
-            if (id > 0) {
-              toast.success('Thanh cong', { pauseOnHover: true, closeOnClick: true })
-              dispatchLogin({
-                type: 'business_login',
-                id: id,
-                contractBusiness: contractBusiness,
-                remember: values.remember,
+        await getContractBusiness()
+          .then(async (contract) => {
+            await contract.methods
+              .login(values.password)
+              .call({ from: loginState.address })
+              .then(async (success) => {
+                const id = parseInt(success)
+                if (id > 0) {
+                  await contract.methods
+                    .getProfile(id)
+                    .call({ from: loginState.address })
+                    .then((profile) => {
+                      toast.success('Thanh cong', { pauseOnHover: true, closeOnClick: true })
+                      dispatchLogin({
+                        type: 'business_login',
+                        id: id,
+                        profile: { ...profile },
+                        remember: values.remember,
+                      })
+                      navigate('/', { replace: true })
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                    })
+                }
               })
-              navigate('/', { replace: true })
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-            if (error.code === 4001)
-              toast.warning('Chua thanh toan hoa don', { pauseOnHover: true, closeOnClick: true })
-          })
-        loading.close()
-      } else {
-        loading.open()
-        const contractEmployee = new web3.eth.Contract(
-          employeeController.ABI,
-          employeeController.ADDRESS
-        )
-        await contractEmployee.methods
-          .login(values.password)
-          .call({ from: loginState.address })
-          .then((success) => {
-            const id = parseInt(success)
-            if (id > 0) {
-              toast.success('Thanh cong', { pauseOnHover: true, closeOnClick: true })
-              dispatchLogin({
-                type: 'employee_login',
-                id: id,
-                contractEmployee: contractEmployee,
-                remember: values.remember,
+              .catch((error) => {
+                console.log(error)
+                if (error.code === 4001)
+                  toast.warning('Chua thanh toan hoa don', {
+                    pauseOnHover: true,
+                    closeOnClick: true,
+                  })
               })
-              navigate('/', { replace: true })
-            }
           })
-          .catch((error) => {
-            console.log(error)
-            if (error.code === 4001)
-              toast.warning('Chua thanh toan hoa don', { pauseOnHover: true, closeOnClick: true })
-          })
-        loading.close()
+          .catch((error) => console.error(error))
       }
+
+      if (!typeFor) {
+        await getContractEmployee()
+          .then(async (contract) => {
+            await contract.methods
+              .login(values.password)
+              .call({ from: loginState.address })
+              .then(async (success) => {
+                const id = parseInt(success)
+                if (id > 0) {
+                  await contract.methods
+                    .getProfile(id)
+                    .call({ from: loginState.address })
+                    .then((profile) => {
+                      toast.success('Thanh cong', { pauseOnHover: true, closeOnClick: true })
+                      dispatchLogin({
+                        type: 'employee_login',
+                        id: id,
+                        profile: { ...profile },
+                        remember: values.remember,
+                      })
+                      navigate('/', { replace: true })
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                    })
+                }
+              })
+              .catch((error) => {
+                console.log(error)
+                if (error.code === 4001)
+                  toast.warning('Chua thanh toan hoa don', {
+                    pauseOnHover: true,
+                    closeOnClick: true,
+                  })
+              })
+          })
+          .catch((error) => console.error(error))
+      }
+      loading.close()
     },
   })
 

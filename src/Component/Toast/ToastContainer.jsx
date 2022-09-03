@@ -40,7 +40,7 @@ function ToastContainer() {
 
     eventEmitter.on('removeItem', (id) => {
       let empty = true
-      _.forEach(ref.current.children, (value, index) => {
+      _.forEach(ref?.current?.children, (value, index) => {
         if (value.offsetHeight != 0) empty = false
       })
       if (empty) {

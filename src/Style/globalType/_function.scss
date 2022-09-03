@@ -25,6 +25,7 @@
 @mixin inputStyle {
   padding: 5px 10px;
   border-radius: 8px;
+  width: 100%;
   outline: 1px solid var(--color-border);
   background: var(--color-input-primary);
   &::-webkit-scrollbar {
@@ -114,4 +115,11 @@
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+@mixin imageRound {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  object-fit: cover;
 }

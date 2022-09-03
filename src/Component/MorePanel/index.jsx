@@ -4,7 +4,7 @@ import { Web3Context } from '@context/Web3ContextProvider'
 import clsx from 'clsx'
 import _ from 'lodash'
 import Profile from './Profile'
-import Notification from './Notification'
+import Notification from '../Notification'
 
 export const Index = (props) => {
   const { showMorePanel, setShowMorePanel } = useContext(Web3Context)

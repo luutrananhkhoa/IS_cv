@@ -1,26 +1,20 @@
 @use '../../../Style/globalType/function' as function;
-@use '../external.scss' as external;
+@use '../.../../../../Style/globalType/internal' as internal;
 @import '../variables.scss';
 .container {
   width: 100%;
   display: flex;
   .left {
-    @include external.container;
+    @include internal.dashboardContainer;
     .title {
-      @include external.title;
-    }
-    .preview {
-      padding: 10px;
-      box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+      @include internal.title;
     }
   }
   .right {
+    @include internal.dashboardContainer;
     width: 550px;
-    display: flex;
-    flex-direction: column;
-    background: inherit;
     .title {
-      @include external.title;
+      @include internal.title;
     }
     .wrapper {
       display: flex;

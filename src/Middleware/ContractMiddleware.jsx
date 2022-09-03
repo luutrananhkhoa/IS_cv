@@ -7,8 +7,9 @@ import detectEthereumProvider from '@metamask/detect-provider'
 import { useToast } from '@component/Toast'
 import { useLoading } from '@component/Loading'
 import Cookies from 'universal-cookie'
-
-const cookies = new Cookies()
+import * as businessController from '@contract/businessController'
+import { getContract as getContractBusiness } from '@contract/businessController'
+import { getContract as getContractEmployee } from '@contract/employeeController'
 
 export default function ContractMiddleware(props) {
   const { loginState, dispatchLogin, complete, setComplete } = useContext(Web3Context)
@@ -25,10 +26,13 @@ export default function ContractMiddleware(props) {
         .getAccounts()
         .then(async (success) => {
           const address = success[0]
+
           dispatchLogin({
             type: 'set_address',
             address: address,
           })
+          const cookies = new Cookies()
+
           if (!address) return
           if (!cookies.get('for')) return
           if (!cookies.get('jwt')) return
@@ -42,17 +46,24 @@ export default function ContractMiddleware(props) {
           await myContract.methods
             .autoLogin(address)
             .call({ from: address })
-            .then((success) => {
+            .then(async (success) => {
               const id = parseInt(success)
               if (id > 0) {
-                dispatchLogin({
-                  type: 'auto_login',
-                  for: cookies.get('for'),
-                  address: address,
-                  id: id,
-                  contractEmployee: myContract,
-                  jwt: address,
-                })
+                await myContract.methods
+                  .getProfile(id)
+                  .call({ from: address })
+                  .then((profile) => {
+                    dispatchLogin({
+                      type: 'auto_login',
+                      isLoggedIn: true,
+                      address: address,
+                      for: cookies.get('for'),
+                      id: id,
+                      profile: { ...profile },
+                    })
+                    return
+                  })
+                  .catch((error) => console.error(error))
               }
             })
             .catch((error) => {
@@ -76,6 +87,7 @@ export default function ContractMiddleware(props) {
   }, [complete])
   return (
     <>
+      {console.log(complete)}
       {console.log(loginState)}
       {(() => {
         let isNavigated = <Navigate key={0} to="/" replace />
@@ -84,11 +96,11 @@ export default function ContractMiddleware(props) {
         if (props.requestAddress) {
           if (loginState.address) return isStayed
           else return isNavigated
-        } else if (props.requestAccount) {
-          if (connectMetamask) return isStayed
-          else return isNavigated
         } else if (props.requestLogin) {
           if (loginState.isLoggedIn) return isStayed
+          else return isNavigated
+        } else if (props.isBusiness) {
+          if (loginState.for == 'business') return isStayed
           else return isNavigated
         } else return isStayed
       })()}

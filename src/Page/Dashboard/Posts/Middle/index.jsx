@@ -1,14 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styles from './styles.module.scss'
-import clsx from 'clsx'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-function Index() {
-  const [searchParams, setSearchParams] = useSearchParams()
+import Item from './Item'
+import { getContract as getContractBusiness } from '@contract/businessController'
+import { Web3Context } from '@context/Web3ContextProvider'
 
-  const gotoViewPost = () => {
-    searchParams.set('view', '1')
-    setSearchParams(searchParams)
-  }
+function Index() {
+  const { loginState } = useContext(Web3Context)
+  const [list, setList] = useState()
+  useEffect(() => {
+    getContractBusiness()
+      .then(async (contract) => {
+        contract.methods
+          .getListPostOfBusiness(loginState.id, 1659312020, Date.now())
+          .call({ from: loginState.address })
+          .then((success) => {
+            let temp = []
+            _.forEach(success, (value, index) => {
+              temp.push({ ...value })
+            })
+            temp = _.orderBy(temp, (o) => parseInt(o.time), 'desc')
+            setList(temp)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      })
+      .catch((error) => console.log(error))
+  }, [])
   return (
     <>
       <div className={styles.container}>
@@ -22,7 +41,7 @@ function Index() {
         </div>
         <div className={styles.tableWrapper}>
           <div className={styles.panel}>
-            <table cellspacing="0">
+            <table cellSpacing="0">
               <tr>
                 <th>Post name</th>
                 <th>Date</th>
@@ -30,44 +49,9 @@ function Index() {
                 <th>Detail</th>
                 <th>Apply</th>
               </tr>
-              <tr onClick={gotoViewPost}>
-                <td>
-                  <div class={styles.name}>
-                    <img
-                      src={
-                        'https://image.thanhnien.vn/1200x630/Uploaded/2022/zxaijr/2021_03_16/rosealbumkyluc1_lgic.png'
-                      }
-                    ></img>
-                    <p>Bai dang Tuyen dung 1 nhan vien FE</p>
-                  </div>
-                </td>
-                <td>10:00AM 20/07/2022</td>
-                <td>
-                  <div className={styles.status}>
-                    <a>Upcoming</a>
-                  </div>
-                </td>
-                <td>
-                  <div className={styles.detail}>
-                    <div className={styles.recruit}>Mobile App</div>
-                    <p>Ngon ngu Java</p>
-                  </div>
-                </td>
-                <td>
-                  <div className={styles.apply}>
-                    <div className={styles.iconWrapper}>
-                      <div className={styles.icon}>
-                        <img
-                          className={styles.itemIcon}
-                          src="https://image.thanhnien.vn/1200x630/Uploaded/2022/zxaijr/2021_03_16/rosealbumkyluc1_lgic.png"
-                        ></img>
-                        <div className={clsx(styles.itemIcon, styles.push)}>+1</div>
-                      </div>
-                      <p className={styles.quantity}> 10 nguoi apply</p>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+              {list?.map((value, index) => {
+                return <Item key={index} {...value}></Item>
+              })}
             </table>
           </div>
         </div>

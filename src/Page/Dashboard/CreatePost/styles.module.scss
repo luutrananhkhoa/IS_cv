@@ -1,5 +1,5 @@
 @use '../../../Style/globalType/function' as function;
-@use '../external.scss' as external;
+@use "../../../Style/globalType/internal" as internal;
 @import '../variables.scss';
 $paddingWrapperItem: 5px 10px;
 %item {
@@ -13,10 +13,10 @@ $paddingWrapperItem: 5px 10px;
   }
 }
 .container {
-  @include external.container;
+  @include internal.dashboardContainer;
 
   .title {
-    @include external.title;
+    @include internal.title;
   }
 
   .group {
@@ -69,18 +69,27 @@ $paddingWrapperItem: 5px 10px;
             text-decoration: capitalize;
           }
         }
-        textarea {
-          @include function.panel;
-          width: 100%;
-          padding: 5px 5px;
-          border: 1px solid var(--color-border);
+        .contentDropdown {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          align-content: stretch;
+          span{
+            cursor: pointer;
+            text-align: left;
+          }
         }
         .tool {
           display: flex;
           align-items: center;
         }
       }
-
+      .job {
+        @extend %item;
+        input {
+          @include function.inputStyle;
+        }
+      }
       .button {
         @extend %item;
         display: flex;
@@ -105,7 +114,7 @@ $paddingWrapperItem: 5px 10px;
     .right {
       @include function.panel;
       flex: 1.7;
-      box-shadow: var(--box-shadow-primary);
+      // box-shadow: var(--box-shadow-primary);
     }
   }
 }

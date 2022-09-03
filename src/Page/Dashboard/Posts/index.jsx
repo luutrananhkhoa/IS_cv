@@ -9,7 +9,7 @@ function Index() {
   return (
     <div className={styles.container}>
       {(() => {
-        if (searchParams.get('view')) {
+        if (searchParams.get('businessPostId')) {
           return <ViewPost></ViewPost>
         } else if (searchParams.get('create')) return <CreatePost></CreatePost>
         else return <Middle></Middle>

@@ -1,3 +1,6 @@
+import Web3 from 'web3'
+import detectEthereumProvider from '@metamask/detect-provider'
+
 export const ABI = [
   {
     inputs: [
@@ -87,6 +90,35 @@ export const ABI = [
         internalType: 'bool',
         name: '',
         type: 'bool',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'employeeId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'businessId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'postId',
+        type: 'uint256',
+      },
+    ],
+    name: 'applyPost',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
       },
     ],
     stateMutability: 'nonpayable',
@@ -204,6 +236,16 @@ export const ABI = [
         name: 'listSkillAddress',
         type: 'address',
       },
+      {
+        internalType: 'address',
+        name: 'listApplyAddress',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: 'listAppointmenAddress',
+        type: 'address',
+      },
     ],
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -265,6 +307,78 @@ export const ABI = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'applyId',
+        type: 'uint256',
+      },
+    ],
+    name: '_checkApplyIdBelongsToEmployeeId',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'postId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'applyId',
+        type: 'uint256',
+      },
+    ],
+    name: '_checkApplyIdBelongsToPostId',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'employeeId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'postId',
+        type: 'uint256',
+      },
+    ],
+    name: '_checkExistApply',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: '_checkExistEmployeeAccount',
     outputs: [
@@ -291,6 +405,113 @@ export const ABI = [
         internalType: 'uint256',
         name: '',
         type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'employeeId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'businessId',
+        type: 'uint256',
+      },
+    ],
+    name: 'getListAppointmentByEmployeeIdAndBusinessId',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'appointmentId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'applyId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'employeeId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'businessId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'time',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'status',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct Appointment[]',
+        name: '',
+        type: 'tuple[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'employeeId',
+        type: 'uint256',
+      },
+    ],
+    name: 'getListApppointmentByEmployeeId',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'appointmentId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'applyId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'employeeId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'businessId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'time',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'status',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct Appointment[]',
+        name: '',
+        type: 'tuple[]',
       },
     ],
     stateMutability: 'view',
@@ -330,6 +551,57 @@ export const ABI = [
           },
         ],
         internalType: 'struct Skill[]',
+        name: '',
+        type: 'tuple[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'employeeId',
+        type: 'uint256',
+      },
+    ],
+    name: 'getPostIdAppliedOfEmployee',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'applyId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'employeeId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'businessId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'postId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'time',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'status',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct Apply[]',
         name: '',
         type: 'tuple[]',
       },
@@ -451,4 +723,10 @@ export const ABI = [
     type: 'function',
   },
 ]
-export const ADDRESS = '0x44FBFd7acB089b8a4bbaB8b4532EF3187F0DCBfD'
+export const ADDRESS = '0xc885c01991506652b1015Ef83717C1D15cCc8115'
+
+export async function getContract() {
+  const provider = await detectEthereumProvider()
+  const web3 = new Web3(provider)
+  return new web3.eth.Contract(ABI, ADDRESS)
+}

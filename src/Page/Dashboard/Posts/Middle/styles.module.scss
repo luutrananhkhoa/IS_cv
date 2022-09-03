@@ -1,13 +1,13 @@
 @use '../../../../Style/globalType/function' as function;
-@use '../../external.scss' as external;
+@use '../../../../Style/globalType/internal' as internal;
 @import '../../variables.scss';
 .container {
-  @include external.container;
+  @include internal.dashboardContainer;
   .title {
-    @include external.title;
+    @include internal.title;
   }
-  .tool{
-    .create{
+  .tool {
+    .create {
       @include function.button;
       width: 150px;
     }
@@ -59,18 +59,11 @@
                 border-radius: 100%;
               }
               p {
-                font-size: 15px;
-              }
-            }
-            .status {
-              a {
-                padding: 3px 7px;
-                border-radius: 5px;
-                background: var(--color-button-green);
-                color: var(--color-text-secondary);
+                font-size: 16px;
                 font-weight: 500;
               }
             }
+
             .detail {
               display: flex;
               flex-direction: column;

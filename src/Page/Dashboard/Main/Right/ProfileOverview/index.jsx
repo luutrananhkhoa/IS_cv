@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from './styles.module.scss'
+import { Web3Context } from '@context/Web3ContextProvider'
 
 function Index() {
+  const { showMorePanel, setShowMorePanel } = useContext(Web3Context)
   return (
     <div className={styles.container}>
       <div className={styles.top}>
@@ -12,10 +14,26 @@ function Index() {
           </div>
         </div>
         <div className={styles.tool}>
-          <button>
-            <i className="fa-regular fa-comment-dots"></i>
+          <button
+            id="header_button"
+            onClick={() =>
+              setShowMorePanel({
+                show: showMorePanel.show == false ? true : showMorePanel.panel != 1 ? true : false,
+                panel: 1,
+              })
+            }
+          >
+            <i className="fa-regular fa-user"></i>
           </button>
-          <button>
+          <button
+            id="header_button"
+            onClick={() =>
+              setShowMorePanel({
+                show: showMorePanel.show == false ? true : showMorePanel.panel != 2 ? true : false,
+                panel: 2,
+              })
+            }
+          >
             <i className="fa-regular fa-bells"></i>
           </button>
         </div>

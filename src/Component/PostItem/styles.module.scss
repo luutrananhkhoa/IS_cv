@@ -8,6 +8,7 @@
   color: var(--color-text-grey);
   margin: 10px 0px;
   padding: 20px 20px;
+  box-shadow: var(--box-shadow-secondary);
   .head {
     width: 100%;
     display: flex;
@@ -34,6 +35,9 @@
       }
 
       .avatarTextWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
         .name {
           font-size: 15px;
           color: var(--color-text-primary);
@@ -58,12 +62,43 @@
   .contentWrapper {
     p {
       padding: 5px 10px;
+      word-break: break-all;
     }
     .imageContent {
       width: 100%;
       aspect-ratio: 2/1;
       object-fit: cover;
       border-radius: var(--border-radius-primary);
+    }
+  }
+  .hashtag {
+    padding: 0px 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    i {
+      @include function.textGradient;
+      background: var(--color-button-octane);
+      font-size: 20px;
+      width: 20px;
+    }
+    a {
+      font-weight: 500;
+    }
+  }
+  .job {
+    padding: 0px 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    i {
+      @include function.textGradient;
+      background: var(--color-button-tertiary);
+      font-size: 20px;
+      width: 20px;
+    }
+    a {
+      font-weight: 500;
     }
   }
   .foot {
@@ -90,6 +125,9 @@
       .buttonApply {
         @include function.button;
         cursor: pointer;
+      }
+      .applied {
+        background: var(--color-button-green);
       }
     }
   }
@@ -140,4 +178,8 @@
       }
     }
   }
+}
+
+.closeModal {
+  padding: 10px 20px;
 }

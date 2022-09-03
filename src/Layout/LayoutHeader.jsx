@@ -7,7 +7,7 @@ export default function LayoutHeader() {
   return (
     <>
       <Header></Header>
-      <MorePanel></MorePanel>
+
       <Outlet></Outlet>
 
     </>

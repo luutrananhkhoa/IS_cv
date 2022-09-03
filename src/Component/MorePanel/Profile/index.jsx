@@ -23,12 +23,30 @@ function Index(props) {
             return { ...e, show: false }
           })
         }}
-        to="/profile"
+        to={
+          loginState.for == 'employee'
+            ? `/profile/${loginState.id}`
+            : loginState.for == 'business' && `/page/${loginState.id}`
+        }
         className={styles.item}
       >
         <i className="fa-solid fa-circle-heart"></i>
         <p>Trang ca nhan</p>
       </Link>
+      {loginState.for == 'business' && (
+        <Link
+          onClick={() => {
+            setShowMorePanel((e) => {
+              return { ...e, show: false }
+            })
+          }}
+          to="/dashboard"
+          className={styles.item}
+        >
+          <i className="fa-regular fa-grid-horizontal"></i>
+          <p>Dashboard</p>
+        </Link>
+      )}
       <div className={styles.item}>
         <i className="fa-solid fa-bookmark"></i>
         <p>Da luu</p>

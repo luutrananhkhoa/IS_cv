@@ -51,7 +51,7 @@ function Index() {
           <input
             type="file"
             id="file"
-            multiple="false"
+            multiple={false}
             accept="image/png, image/gif, image/jpeg"
             onChange={(e) => setImage(e.target.files[0])}
             ref={imageRef}

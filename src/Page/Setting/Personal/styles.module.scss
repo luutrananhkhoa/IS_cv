@@ -26,6 +26,8 @@
       gap: 10px;
       .delete {
         @include external.button;
+        background: var(--color-button-primary);
+        color: var(--color-text-secondary);
       }
       .upload {
         @include external.button;

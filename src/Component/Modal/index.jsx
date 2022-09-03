@@ -1,7 +1,5 @@
 import React, { memo } from 'react'
-import { BsCheck2Circle } from 'react-icons/bs'
 import styles from './styles.module.scss'
-import { GrFormClose } from 'react-icons/gr'
 import { useTranslation } from 'react-i18next'
 
 /**
@@ -12,19 +10,19 @@ import { useTranslation } from 'react-i18next'
  * @param action: function
  * @returns
  */
-function Index(props) {
-  const [openModal, setOpenModal] = props.state
-  const {
-    action,
-    nonaction,
-    content,
-    actionText,
-    nonactionText,
-    title,
-    children,
-    actionOutside,
-    top,
-  } = props
+function Index({
+  action,
+  nonaction,
+  content,
+  actionText,
+  nonactionText,
+  title,
+  children,
+  actionOutside,
+  top,
+  state,
+}) {
+  const [openModal, setOpenModal] = state
   const { t } = useTranslation('')
   return (
     <>

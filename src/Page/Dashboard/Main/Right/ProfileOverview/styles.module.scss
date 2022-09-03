@@ -31,17 +31,11 @@
       gap: 10px;
       flex-direction: row-reverse;
       button {
-        @include function.textGradient;
-        height: 100%;
-        aspect-ratio: 1/1;
-        border-radius: 10px;
-        background: inherit;
+        @include function.buttonRound;
         background: var(--color-button-secondary);
-        border: 1px solid var(--color-border);
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-          rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
         i {
           font-size: 115%;
+          color: var(--color-background-primary);
         }
       }
     }

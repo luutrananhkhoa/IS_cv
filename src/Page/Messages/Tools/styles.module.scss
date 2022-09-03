@@ -1,0 +1,32 @@
+@use '../../../Style/globalType/function' as function;
+@import '../variables.scss';
+.container {
+  height: 100%;
+  width: $foldWidth;
+  height: 100%;
+  border-left: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  .top {
+    margin: calc($topHeight / 2) 0px 0px 0px;
+   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  .bottom {
+    margin: 0px 0px calc($topHeight / 2) 0px;
+    transform: translate(0%, 50%);
+  }
+}
+.open {
+  .item {
+    .fold {
+      display: flex;
+    }
+  }
+}

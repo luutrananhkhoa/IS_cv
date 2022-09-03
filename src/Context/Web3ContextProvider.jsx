@@ -1,11 +1,10 @@
 import { createContext, useState, useCallback, useReducer } from 'react'
 import { useCookies } from 'react-cookie'
 import update from 'immutability-helper'
-import Cookies from 'universal-cookie'
+import Cookies from 'js-cookie'
 
 export const Web3Context = createContext()
 
-const cookies = new Cookies()
 const time = new Date(new Date().getTime() + 86400000 * 7)
 
 const Web3ContextProvider = ({ children }) => {
@@ -15,12 +14,11 @@ const Web3ContextProvider = ({ children }) => {
 
   const [loginState, setLoginState] = useState({
     isLoggedIn: false,
-    for: cookies.get('for'),
+    for: Cookies.get('for'),
     address: undefined,
     id: undefined,
-    contractEmployee: undefined,
-    contractBusiness: undefined,
-    jwt: cookies.get('jwt'),
+    profile: undefined,
+    jwt: Cookies.get('jwt'),
   })
   const dispatchLogin = (action) => {
     switch (action.type) {
@@ -29,25 +27,28 @@ const Web3ContextProvider = ({ children }) => {
         return
       }
       case 'auto_login': {
-        cookies.set('jwt', action.address, {
+        Cookies.set('jwt', action.address, {
+          path: '/',
           expires: time,
           secure: true,
           sameSite: true,
         })
-        cookies.set('for', action.for, {
+        Cookies.set('for', action.for, {
+          path: '/',
           expires: time,
           secure: true,
           sameSite: true,
         })
+        
 
         setLoginState(
           update(loginState, {
             $merge: {
               isLoggedIn: true,
-              for: cookies.get('for'),
+              for: action.for,
               id: action.id,
               address: action.address,
-              contractEmployee: action.contractEmployee,
+              profile: action.profile,
               jwt: action.address,
             },
           })
@@ -56,21 +57,22 @@ const Web3ContextProvider = ({ children }) => {
       }
 
       case 'employee_login': {
-
         if (action.remember) {
-          cookies.set('jwt', loginState.address, {
+          Cookies.set('jwt', loginState.address, {
+            path: '/',
             expires: time,
             secure: true,
             sameSite: true,
           })
-          cookies.set('for', 'employee', {
+          Cookies.set('for', 'employee', {
+            path: '/',
             expires: time,
             secure: true,
             sameSite: true,
           })
         } else {
-          cookies.remove('jwt')
-          cookies.remove('for')
+          Cookies.remove('jwt')
+          Cookies.remove('for')
         }
 
         setLoginState(
@@ -79,7 +81,7 @@ const Web3ContextProvider = ({ children }) => {
               isLoggedIn: true,
               for: 'employee',
               id: action?.id,
-              contractEmployee: action?.contractEmployee,
+              profile: action?.profile,
               jwt: loginState?.address,
             },
           })
@@ -87,57 +89,61 @@ const Web3ContextProvider = ({ children }) => {
         return
       }
       case 'employee_logout': {
-        cookies.remove('jwt')
-        cookies.remove('for')
+        Cookies.remove('jwt')
+        Cookies.remove('for')
         setLoginState(
           update(loginState, {
             $merge: {
               isLoggedIn: false,
+              address: undefined,
               for: undefined,
               id: undefined,
               address: undefined,
-              contractEmployee: undefined,
-              contractBusiness: undefined,
+              profile: undefined,
               jwt: undefined,
             },
           })
         )
+        // window.location.reload()
         return
       }
       case 'business_logout': {
-        cookies.remove('jwt')
-        cookies.remove('for')
+        Cookies.remove('jwt')
+        Cookies.remove('for')
         setLoginState(
           update(loginState, {
             $merge: {
               isLoggedIn: false,
+              address: undefined,
               for: undefined,
               id: undefined,
               address: undefined,
-              contractEmployee: undefined,
-              contractBusiness: undefined,
+              profile: undefined,
               jwt: undefined,
             },
           })
         )
+
         return
       }
       case 'business_login':
         {
           if (action.remember) {
-            cookies.set('jwt', action.address, {
+            Cookies.set('jwt', loginState.address, {
+              path: '/',
               expires: time,
               secure: true,
               sameSite: true,
             })
-            cookies.set('for', 'business', {
+            Cookies.set('for', 'business', {
+              path: '/',
               expires: time,
               secure: true,
               sameSite: true,
             })
           } else {
-            cookies.remove('jwt')
-            cookies.remove('for')
+            Cookies.remove('jwt')
+            Cookies.remove('for')
           }
 
           setLoginState(
@@ -145,9 +151,9 @@ const Web3ContextProvider = ({ children }) => {
               $merge: {
                 isLoggedIn: true,
                 for: 'business',
-                id: action?.address,
-                contractBusiness: action?.contractBusiness,
-                jwt: action?.address,
+                id: action?.id,
+                profile: action?.profile,
+                jwt: loginState?.address,
               },
             })
           )
