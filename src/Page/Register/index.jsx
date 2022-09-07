@@ -2,7 +2,7 @@ import React, { useState, useContext, memo, useRef } from 'react'
 import styles from './styles.module.scss'
 import background from '@asset/register.png'
 import Language from '@component/Language'
-import avatarMen from '@asset/avatar_men.png'
+import avatarDefault from '@asset/avatar.png'
 import clsx from 'clsx'
 import { Web3Context } from '@context/Web3ContextProvider'
 import { useToast } from '@component/Toast'
@@ -16,16 +16,20 @@ import { useLoading } from '@component/Loading'
 import * as businessController from '@contract/businessController'
 import * as employeeController from '@contract/employeeController'
 import Toggle from '@component/Toggle'
+import { CATEGORY } from '@constant/businessConst'
+import { uploadAvatar as uploadAvatarBusiness } from '@api/business/profile'
+import { uploadAvatar as uploadAvatarEmployee } from '@api/employee/profile'
 
 function Index() {
   const { loginState, dispatchLogin } = useContext(Web3Context)
   const inputImageRef = useRef()
   const toast = useToast()
   const [typeFor, setTypeFor] = useState(false)
-  const [avatar, setAvatar] = useState()
   const loading = useLoading()
+  const navigate = useNavigate()
   const formik = useFormik({
     initialValues: {
+      avatar: undefined,
       idcard: '',
       fullname: '',
       phone: '',
@@ -33,11 +37,21 @@ function Index() {
       email: '',
       github: '',
       linkedin: '',
-
+      category: '1',
       password: '',
       confirmpassword: '',
     },
     validationSchema: Yup.object({
+      avatar: Yup.mixed()
+        .required('You need to provide a file')
+        .test('type', 'Only the following formats are accepted: .jpeg, .jpg, .jpg', (value) => {
+          return (
+            value &&
+            (value.type === 'image/jpeg' ||
+              value.type === 'image/jpg' ||
+              value.type === 'image/png')
+          )
+        }),
       idcard: Yup.number('not a number').min(0, 'invalid').integer('not a number'),
       fullname: Yup.string().required('require'),
       phone: Yup.string().required('require').matches(phoneRegExp, 'notmatch'),
@@ -45,7 +59,7 @@ function Index() {
       email: Yup.string().email('not email').required('require').matches(emailRegExp, 'notmatch'),
       github: Yup.string().required('require'),
       linkedin: Yup.string().required('require'),
-
+      category: Yup.string(),
       password: Yup.string().required('require'),
       confirmpassword: Yup.string()
         .oneOf([Yup.ref('password')], 'not match')
@@ -71,7 +85,7 @@ function Index() {
               } else {
                 await contractBusiness.methods
                   .addBusiness(
-                    1,
+                    parseInt(values.category),
                     values.fullname.toString(),
                     values.phone.toString(),
                     values.professional.toString(),
@@ -82,18 +96,42 @@ function Index() {
                     values.password.toString()
                   )
                   .send({ from: loginState.address })
-                  .then((success) => {
-                    let id = parseInt(success)
-                    if (id > 0) {
-                      toast.success('login success', { pauseOnHover: true, closeOnClick: true })
-                      dispatchLogin({
-                        type: 'business_login',
-                        id: parseInt(success),
-                        contractBusiness: contractBusiness,
-                        remember: true,
+                  .then(async () => {
+                    await contractBusiness.methods
+                      .login(values.password)
+                      .call({ from: loginState.address })
+                      .then(async (success) => {
+                        const id = parseInt(success)
+                        if (id > 0) {
+                          await contractBusiness.methods
+                            .getProfile(id)
+                            .call({ from: loginState.address })
+                            .then(async (profile) => {
+                              let df = new FormData()
+                              df.append('image', values.avatar)
+                              await uploadAvatarBusiness(df, id)
+                                .then((success) => {
+                                  toast.success('Thanh cong', {
+                                    pauseOnHover: true,
+                                    closeOnClick: true,
+                                  })
+                                  dispatchLogin({
+                                    type: 'business_login',
+                                    id: id,
+                                    profile: { ...profile },
+                                    remember: true,
+                                  })
+                                  navigate('/', { replace: true })
+                                })
+                                .catch((error) => {
+                                  console.log(error)
+                                })
+                            })
+                            .catch((error) => {
+                              console.log(error)
+                            })
+                        }
                       })
-                      navigate('/', { replace: true })
-                    }
                   })
                   .catch((error) => {
                     console.log(error)
@@ -129,18 +167,42 @@ function Index() {
                   values.password.toString()
                 )
                 .send({ from: loginState.address })
-                .then((success) => {
-                  let id = parseInt(success)
-                  if (id > 0) {
-                    toast.success('login success', { pauseOnHover: true, closeOnClick: true })
-                    dispatchLogin({
-                      type: 'employee_login',
-                      id: id,
-                      contractEmployee: contractEmployee,
-                      remember: true,
+                .then(async () => {
+                  await contractEmployee.methods
+                    .login(values.password)
+                    .call({ from: loginState.address })
+                    .then(async (success) => {
+                      const id = parseInt(success)
+                      if (id > 0) {
+                        await contractEmployee.methods
+                          .getProfile(id)
+                          .call({ from: loginState.address })
+                          .then(async (profile) => {
+                            let df = new FormData()
+                            df.append('image', values.avatar)
+                            await uploadAvatarEmployee(df, id)
+                              .then((success) => {
+                                toast.success('Thanh cong', {
+                                  pauseOnHover: true,
+                                  closeOnClick: true,
+                                })
+                                dispatchLogin({
+                                  type: 'employee_login',
+                                  id: id,
+                                  profile: { ...profile },
+                                  remember: true,
+                                })
+                                navigate('/', { replace: true })
+                              })
+                              .catch((error) => {
+                                console.log(error)
+                              })
+                          })
+                          .catch((error) => {
+                            console.log(error)
+                          })
+                      }
                     })
-                    navigate('/', { replace: true })
-                  }
                 })
                 .catch((error) => {
                   console.log(error)
@@ -172,26 +234,54 @@ function Index() {
           ></Toggle>
           <span>Company</span>
         </div>
-
         <div className={clsx(styles.boxWrapper, styles.avatarBox)}>
-          <img src={avatar ? URL.createObjectURL(avatar) : avatarMen}></img>
+          <img
+            src={formik.values.avatar ? URL.createObjectURL(formik.values.avatar) : avatarDefault}
+          ></img>
           <input
             type="file"
             name="avatar"
             ref={inputImageRef}
             className={styles.input}
-            accept="image/png, image/gif, image/jpeg"
+            accept="image/png, image/jpg, image/jpeg"
             style={{ display: 'none' }}
-            onChange={(e) => setAvatar(e.target.files[0])}
+            onChange={(e) => formik.setFieldValue('avatar', e.target.files[0])}
           ></input>
           <div className={styles.iconAvatar}>
             <i onClick={() => inputImageRef.current.click()} className="fa-solid fa-camera"></i>
           </div>
         </div>
+        <p className={styles.error}>{formik.errors.avatar && formik.errors.avatar}</p>
         <div className={styles.boxWrapper}>
           <label className={styles.label}>Address</label>
           <p className={styles.input}>{loginState.address}</p>
         </div>
+        {typeFor && (
+          <div className={styles.boxWrapper}>
+            <label className={styles.label}>Category</label>
+            <select
+              // type="text"
+              name="category"
+              className={clsx(styles.input, styles.select)}
+              value={formik.values.category}
+              onChange={formik.handleChange}
+            >
+              {Object.keys(CATEGORY).map((key, index) => {
+                return (
+                  <option key={key} value={CATEGORY[key].type}>
+                    {CATEGORY[key].name}
+                  </option>
+                )
+              })}
+            </select>
+            <p className={styles.error}>
+              {formik.errors.professional &&
+                formik.touched.professional &&
+                formik.errors.professional}
+            </p>
+          </div>
+        )}
+
         {!typeFor && (
           <div className={styles.boxWrapper}>
             <label className={styles.label}>ID Card number</label>

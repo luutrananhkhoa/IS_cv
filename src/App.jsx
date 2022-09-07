@@ -20,6 +20,7 @@ import Setting from '@page/Setting'
 import Post from '@page/Post'
 import Messages from '@page/Messages'
 import PageLayout from '@layout/PageLayout'
+import Mycv from '@page/Mycv'
 
 function App() {
   return (
@@ -33,17 +34,25 @@ function App() {
             <Route path="" element={<ContractMiddleware></ContractMiddleware>}>
               <Route path="" element={<LayoutHeader></LayoutHeader>}>
                 <Route path="" element={<Home />}></Route>
-                <Route path="post" element={<Post></Post>}></Route>
+
                 <Route path="social" element={<LayoutSocial></LayoutSocial>}>
                   <Route path="" element={<Feed />}></Route>
                 </Route>
-                <Route path="page/:id" element={<PageLayout />}>
-                  <Route path="about" element={<AboutProfile />}></Route>
-                  <Route path="" element={<PostsProfile />}></Route>
+
+                <Route path="page/:id">
+                  <Route path="" element={<ProfileLayout></ProfileLayout>}>
+                    <Route path="about" element={<AboutProfile />}></Route>
+                    <Route path="" element={<PostsProfile />}></Route>
+                  </Route>
+                  <Route path="post/:postid" element={<Post></Post>}></Route>
                 </Route>
-                <Route path="profile/:id" element={<ProfileLayout />}>
-                  <Route path="" element={<PostsProfile />}></Route>
-                  <Route path="about" element={<AboutProfile />}></Route>
+                <Route path="profile/:id">
+                  <Route path="" element={<ProfileLayout></ProfileLayout>}>
+                    <Route path="mycv" element={<Mycv />} />
+                    <Route path="about" element={<AboutProfile />}></Route>
+                    <Route path="" element={<PostsProfile />}></Route>
+                  </Route>
+                  <Route path="post/:postid" element={<Post></Post>}></Route>
                 </Route>
               </Route>
             </Route>
@@ -67,6 +76,7 @@ function App() {
               </Route>
             </Route>
             <Route path="" element={<LayoutHeader></LayoutHeader>}></Route>
+
             <Route path="test" element={<Test />} />
           </Route>
         </Route>

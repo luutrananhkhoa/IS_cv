@@ -2,10 +2,9 @@
 @use '../../../../Style/globalType/internal' as internal;
 @import '../../variables.scss';
 .container {
-  @include internal.dashboardContainer;
-  .title {
-    @include internal.title;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   .tool {
     .create {
       @include function.button;

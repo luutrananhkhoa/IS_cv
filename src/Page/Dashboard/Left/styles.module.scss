@@ -20,6 +20,8 @@
       width: 40px;
       aspect-ratio: 1/1;
       flex-shrink: 0;
+      border-radius: 100%;
+      object-fit: cover;
     }
     .titleWrapper {
       .title {
@@ -43,6 +45,7 @@
       gap: 20px;
       padding: 7px 10px;
       border-radius: 7px;
+
       i {
         font-size: 25px;
         @include function.textGradient;
@@ -64,11 +67,14 @@
     &:not(:last-child) {
       border-bottom: 1px solid var(--color-border);
     }
-    &:hover {
-      .tab {
+
+    .tab {
+      &:hover {
         background: var(--color-hover-primary);
       }
-      .active {
+    }
+    .active {
+      &:hover {
         background: var(--color-button-secondary);
         i {
           background: var(--color-background-primary);

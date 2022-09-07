@@ -18,7 +18,6 @@ function Index() {
             _.forEach(success, (value, index) => {
               temp.push({ ...value })
             })
-            temp.sort((o) => parseInt(o.requestDate), 'desc')
             setList(temp)
           })
       })
@@ -27,9 +26,19 @@ function Index() {
   return (
     <div className={styles.container}>
       <Search></Search>
-      {list?.map((value, index) => {
-        return <PostItem key={index} {...value} hashtag={value.hashTag}></PostItem>
-      })}
+      {list
+        ?.map((value, index) => {
+          return (
+            <PostItem
+              key={index}
+              {...value}
+              hashtag={value.hashTag}
+              postId={value.businessPostId}
+              typeFor="business"
+            ></PostItem>
+          )
+        })
+        .reverse()}
     </div>
   )
 }

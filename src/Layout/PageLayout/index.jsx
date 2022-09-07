@@ -7,11 +7,13 @@ import ProfileContextProvider, { ProfileContext } from './ProfileContext'
 import { Outlet, Link, useLocation, useParams } from 'react-router-dom'
 import { Web3Context } from '@context/Web3ContextProvider'
 import { getContract } from '@contract/businessController'
+import { getAvatar } from '@api/business/profile'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
   const location = useLocation()
   const [info, setInfo] = useState()
+  const [hasAvatar, setHasAvatar] = useState()
   const id = parseInt(useParams().id)
   useEffect(() => {
     getContract()
@@ -25,6 +27,15 @@ function Index() {
           .catch((error) => console.log(error))
       })
       .catch((error) => console.log(error))
+
+    getAvatar(id)
+      .then((success) => {
+        setHasAvatar(success)
+      })
+      .catch((error) => {
+        setHasAvatar(undefined)
+        console.log(error)
+      })
   }, [])
   return (
     <>
@@ -34,7 +45,7 @@ function Index() {
             <img src={cover} className={styles.image}></img>
           </div>
           <div className={styles.avatarWrapper}>
-            <img src={info?.sourceImage || avatar}></img>
+            <img src={hasAvatar || avatar}></img>
             <div className={styles.name}>{info?.name}</div>
           </div>
         </div>

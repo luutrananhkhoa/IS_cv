@@ -31,6 +31,7 @@
           height: 100%;
           cursor: pointer;
           border-radius: 100%;
+          object-fit: cover;
         }
       }
 
@@ -69,6 +70,7 @@
       aspect-ratio: 2/1;
       object-fit: cover;
       border-radius: var(--border-radius-primary);
+      cursor: pointer;
     }
   }
   .hashtag {
@@ -148,6 +150,7 @@
         height: 50px;
         aspect-ratio: 1/1;
         border-radius: 100%;
+        object-fit: cover;
       }
       .commentInputWrapper {
         width: 100%;

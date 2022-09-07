@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import styles from './styles.module.scss'
-import avatarMen from '@asset/avatar_men.png'
+import avatar from '@asset/avatar.png'
 import clsx from 'clsx'
 import CommentItem from '../CommentItem'
 import PostStatus from '../PostStatus'
@@ -10,15 +10,16 @@ import { useLoading } from '@component/Loading'
 import { useToast } from '@component/Toast'
 import { getContract as getContractEmployee } from '@contract/employeeController'
 import { getContract as getContractBusiness } from '@contract/businessController'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
+import { getAvatar } from '@api/employee/profile'
 
 // Component/PostItem
-function Item({ content, name, avatar, time, postId, job, hashtag, status, id }) {
+function Item({ content, time, postId, job, hashtag, status, id, typeFor }) {
   const [comment, setComment] = useState('')
+  const [hasAvatar, setHasAvatar] = useState()
   const [openClose, setOpenClose] = useState(false)
   const { loginState } = useContext(Web3Context)
   const [applied, setApplied] = useState(false)
-  const businessId = useParams().id
   const toast = useToast()
   const loading = useLoading()
   const handleApplyPost = async () => {
@@ -28,8 +29,8 @@ function Item({ content, name, avatar, time, postId, job, hashtag, status, id })
     }
     loading.open()
     await getContractEmployee()
-      .then(async (contract) => {
-        await contract.methods
+      .then(async (contractEmployee) => {
+        await contractEmployee.methods
           ._checkExistApply(loginState.id, postId)
           .call({ from: loginState.address })
           .then(async (check) => {
@@ -37,11 +38,12 @@ function Item({ content, name, avatar, time, postId, job, hashtag, status, id })
               toast.warning('had applied', { pauseOnHover: true, closeOnClick: true })
               return
             }
-            await contract.methods
-              .applyPost(loginState.id, businessId, postId)
+            await contractEmployee.methods
+              .applyPost(loginState.id, id, postId)
               .send({ from: loginState.address })
               .then((success) => {
                 toast.success('success', { pauseOnHover: true, closeOnClick: true })
+                setApplied(true)
               })
               .catch((error) => console.log(error))
           })
@@ -60,7 +62,7 @@ function Item({ content, name, avatar, time, postId, job, hashtag, status, id })
     await getContractBusiness()
       .then(async (contract) => {
         await contract.methods
-          ._checkPostIdBelongstoId(loginState.id, postId)
+          ._checkPostIdBelongstoBusinessId(loginState.id, postId)
           .call({ from: loginState.address })
           .then(async (success) => {
             if (!success) {
@@ -82,9 +84,11 @@ function Item({ content, name, avatar, time, postId, job, hashtag, status, id })
 
     loading.close()
   }
-  const checkApply = async () => {
-    await getContractEmployee().then(async (contract) => {
-      await contract.methods
+
+  const [profile, setProfile] = useState()
+  const checkApply = () => {
+    getContractEmployee().then((employeeContract) => {
+      employeeContract.methods
         ._checkExistApply(loginState.id, postId)
         .call({ from: loginState.address })
         .then(async (check) => {
@@ -96,8 +100,33 @@ function Item({ content, name, avatar, time, postId, job, hashtag, status, id })
         .catch((error) => console.log(error))
     })
   }
+  const checkAvatar = () => {
+    getAvatar(id)
+      .then((success) => {
+        setHasAvatar(success)
+      })
+      .catch((error) => console.log(error))
+  }
+
+  const getProfileBusiness = () => {
+    getContractBusiness().then(async (businessContract) => {
+      businessContract.methods
+        .getProfile(id)
+        .call()
+        .then(async (success) => {
+          setProfile({ ...success })
+        })
+        .catch((error) => console.log(error))
+    })
+  }
   useEffect(() => {
-    checkApply()
+    if (loginState.for == 'employee') {
+      checkApply()
+      checkAvatar()
+    }
+    if (typeFor == 'business') {
+      getProfileBusiness()
+    }
   }, [])
   return (
     <>
@@ -116,11 +145,11 @@ function Item({ content, name, avatar, time, postId, job, hashtag, status, id })
         <div className={styles.head}>
           <div className={styles.personalWrapper}>
             <div className={styles.avatarWrapper}>
-              <img src={avatar ? URL.createObjectURL(avatar) : avatarMen}></img>
+              <img src={hasAvatar || avatar}></img>
             </div>
             <div className={styles.avatarTextWrapper}>
-              <div className={styles.name}>{name}</div>
-              <div className={styles.date}>{new Date(parseInt(time)).toLocaleString()}</div>
+              <div className={styles.name}>{profile?.name}</div>
+              <div className={styles.date}>{new Date(parseInt(time * 1000)).toLocaleString()}</div>
               <PostStatus
                 type={
                   (status == 1 && 'open') || (status == 2 && 'close') || (status == 3 && 'upcoming')
@@ -142,10 +171,16 @@ function Item({ content, name, avatar, time, postId, job, hashtag, status, id })
         </div>
         <div className={styles.contentWrapper}>
           <p>{content}</p>
-          <img
-            className={styles.imageContent}
-            src="https://cdn.pixabay.com/photo/2012/08/27/14/19/mountains-55067__340.png"
-          ></img>
+          <Link
+            to={
+              typeFor == 'business' ? `/page/${id}/post/${postId}` : `/profile/${id}/post/${postId}`
+            }
+          >
+            <img
+              className={styles.imageContent}
+              src="https://cdn.pixabay.com/photo/2012/08/27/14/19/mountains-55067__340.png"
+            ></img>
+          </Link>
         </div>
         <div className={styles.foot}>
           <div className={styles.footItem}>
@@ -164,7 +199,7 @@ function Item({ content, name, avatar, time, postId, job, hashtag, status, id })
             <i className="fa-light fa-share-nodes"></i>
             <div className={styles.footItemTitle}>Share</div>
           </div>
-          {!applied && loginState.for == 'employee' && (
+          {!applied && loginState.for == 'employee' && parseInt(status) == 1 && (
             <button onClick={handleApplyPost} className={styles.footItem}>
               <div className={styles.buttonApply}>Apply</div>
             </button>
@@ -172,6 +207,11 @@ function Item({ content, name, avatar, time, postId, job, hashtag, status, id })
           {loginState.for == 'business' && id == loginState.id && parseInt(status) == 1 && (
             <button onClick={() => setOpenClose(true)} className={styles.footItem}>
               <div className={styles.buttonApply}>Close</div>
+            </button>
+          )}
+          {parseInt(status) != 1 && (
+            <button className={styles.footItem}>
+              <div className={styles.buttonApply}>Closed</div>
             </button>
           )}
           {loginState.for == 'employee' && applied && (
@@ -182,7 +222,7 @@ function Item({ content, name, avatar, time, postId, job, hashtag, status, id })
         </div>
         <div className={styles.commentWrapper}>
           <div className={styles.commentItem}>
-            <img src={avatarMen} className={styles.commentIcon}></img>
+            <img src={avatar} className={styles.commentIcon}></img>
             <div className={styles.commentInputWrapper}>
               <textarea
                 onKeyDown={(e) => {

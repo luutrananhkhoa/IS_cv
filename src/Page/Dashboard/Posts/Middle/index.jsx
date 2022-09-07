@@ -4,6 +4,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Item from './Item'
 import { getContract as getContractBusiness } from '@contract/businessController'
 import { Web3Context } from '@context/Web3ContextProvider'
+import Navigation from '../../Components/Navigation'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
@@ -31,9 +32,7 @@ function Index() {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.title}>
-          <p>Manage post</p>
-        </div>
+        <Navigation title={"Manager Posts"}></Navigation>
         <div className={styles.tool}>
           <Link to="/dashboard?tab=posts&create=true" className={styles.create}>
             Create post

@@ -1,0 +1,26 @@
+@use '../../../../Style/globalType/function' as function;
+@use '../../.../../../../Style/globalType/internal' as internal;
+@import '../../variables.scss';
+.container {
+  width: 100%;
+  display: flex;
+  .left {
+    flex: 2;
+    .title {
+      @include internal.title;
+    }
+  }
+  .right {
+    @include internal.dashboardContainer;
+    min-width: 350px;
+    flex: 1.1;
+    .title {
+      @include internal.title;
+    }
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+}

@@ -2,8 +2,7 @@ import React from 'react'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
 
-function Index(props) {
-  const { percent, color, className } = props
+function Index({ percent, color, className }) {
   return (
     <div className={clsx(styles.progressBar, className)}>
       <span

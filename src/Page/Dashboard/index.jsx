@@ -5,7 +5,8 @@ import styles from './styles.module.scss'
 import Main from './Main'
 import Posts from './Posts'
 import { useSearchParams } from 'react-router-dom'
-import ViewPost from "./ViewPost"
+import ViewPost from './Posts/ViewPost'
+import Certificates from './Certificates'
 
 function Index() {
   const [searchParams] = useSearchParams()
@@ -17,6 +18,8 @@ function Index() {
           switch (searchParams.get('tab')) {
             case 'posts':
               return <Posts></Posts>
+            case 'certificates':
+              return <Certificates></Certificates>
             default:
               return <Main></Main>
           }
