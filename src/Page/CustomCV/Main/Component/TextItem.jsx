@@ -4,27 +4,27 @@ import styles from '../styles.module.scss'
 import { CustomCVContext } from '../../CustomCVContext'
 import update from 'immutability-helper'
 
-function TextItem(props) {
-  const { id, item } = props
-  const { selected, list, setList } = useContext(CustomCVContext)
+function TextItem({ id, data, selected, list, setList }) {
   useLayoutEffect(() => {
+    if (!selected) return
     if (selected != id) setList(update(list, { [id]: { $merge: { typing: false } } }))
   }, [selected])
   return (
-    <div className={styles.componentText} style={defaultStyle(item)}>
-      {list[id].typing ? (
+    <div className={styles.componentText} style={defaultStyle(data)}>
+      {data.typing ? (
         <input
-          value={list[id]?.content}
+          value={data?.content}
           type="text"
           onChange={(e) => {
+            if (!selected) return
             setList(update(list, { [id]: { $merge: { content: e.target.value } } }))
           }}
           className={styles.text}
-          style={defaultInTextStyle(item)}
+          style={defaultInTextStyle(data)}
         ></input>
       ) : (
-        <p   style={defaultInTextStyle(item)}  className={styles.text}>
-          {item?.content || 'Typing here...'}
+        <p style={defaultInTextStyle(data)} className={styles.text}>
+          {data?.content || 'Typing here...'}
         </p>
       )}
     </div>

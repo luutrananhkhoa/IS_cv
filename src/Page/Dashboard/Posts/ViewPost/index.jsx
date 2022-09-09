@@ -7,6 +7,7 @@ import { getContract as getContractBusiness } from '@contract/businessController
 import { Web3Context } from '@context/Web3ContextProvider'
 import _ from 'lodash'
 import Navigation from '../../Components/Navigation'
+import { getImage as getBusinessPostImage } from '@api/business/post'
 
 // Dashboard/ViewPost/index
 function Index() {
@@ -22,8 +23,14 @@ function Index() {
         contract.methods
           .getPost(postBusinessId)
           .call()
-          .then((success) => {
-            setPost({ ...success })
+          .then(async (success) => {
+            let imageTemp = undefined
+            await getBusinessPostImage(success.id, success.imageSource)
+              .then((image) => {
+                imageTemp = image
+              })
+              .catch((error) => console.error(error))
+            setPost({ ...success, image: imageTemp })
           })
           .catch((error) => console.log(error))
       })
@@ -68,6 +75,7 @@ function Index() {
               id={loginState.id}
               hashtag={post.hashTag}
               status={post.status}
+              image={post.image}
             ></PostItem>
           )}
         </div>

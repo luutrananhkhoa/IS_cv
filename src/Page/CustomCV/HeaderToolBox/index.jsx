@@ -3,11 +3,16 @@ import styles from './styles.module.scss'
 import Button from './Button'
 import Logo from './Logo'
 import clsx from 'clsx'
-import Object from './Object'
+import ObjectName from './ObjectName'
 import { CustomCVContext } from '../CustomCVContext'
 import update from 'immutability-helper'
 import { useToast } from '@component/Toast'
 import DownloadModal from './DownloadModal'
+import { getContract as getCVContract } from '@contract/cvController'
+import { useLoading } from '@component/Loading'
+import useToObject from '../hooks/useToObject'
+import { Web3Context } from '@context/Web3ContextProvider'
+import useToJson from '../hooks/useToJson'
 
 function Index() {
   const {
@@ -17,12 +22,15 @@ function Index() {
     list,
     copy,
     setCopy,
+    autoCreatement,
     getNewAutoCreatement,
     setAutoCreatement,
   } = useContext(CustomCVContext)
+  const { loginState } = useContext(Web3Context)
   const toast = useToast()
   const [openModalDownload, setOpenModalDownload] = useState(false)
   const fileImportRef = useRef()
+  const loading = useLoading()
   const handleCopy = () => {
     if (list[selected]) {
       setCopy({ ...list[selected] })
@@ -77,16 +85,29 @@ function Index() {
   const openUpload = () => {
     fileImportRef.current.click()
   }
+  const handleDeploy = async () => {
+    await getCVContract()
+      .then(async (contractCV) => {
+        await contractCV.methods
+          .addCV(loginState.id, JSON.stringify(useToJson(autoCreatement, list)))
+          .send({ from: loginState.address })
+          .then((success) => {
+            toast.success('success', { pauseOnHover: true.valueOf, closeOnClick: true })
+          })
+          .catch((error) => console.error(error))
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
   const handleChange = (e) => {
     if (e.target.value) {
       const fileReader = new FileReader()
       fileReader.readAsText(e.target.files[0], 'UTF-8')
       fileReader.onload = (e) => {
-        let data = JSON.parse(e.target.result)
-        if (data.autoCreatement && data.list) {
-          setAutoCreatement(data.autoCreatement)
-          setList(data.list)
-        }
+        let data = useToObject(e.target.result)
+        setAutoCreatement(data.autoCreatement)
+        setList(data.list)
       }
     }
   }
@@ -118,12 +139,12 @@ function Index() {
         </div>
 
         <div className={styles.targetContainer}>
-          <Object></Object>
+          <ObjectName></ObjectName>
         </div>
         <div className={styles.right}>
           <Button onClick={openUpload} icon="fa-thin fa-file-arrow-up"></Button>
           <Button onClick={setOpenModalDownload} icon="fa-thin fa-file-arrow-down"></Button>
-          <Button icon="fa-thin fa-cloud-arrow-up"></Button>
+          <Button onClick={handleDeploy} icon="fa-thin fa-cloud-arrow-up"></Button>
         </div>
       </div>
     </>

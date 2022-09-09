@@ -1,11 +1,8 @@
 import { memo, useRef, useContext, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
-import { dataTypes } from '@page/CustomCV/ItemTypes'
-import BoxItem from './Component/BoxItem'
-import TextItem from './Component/TextItem'
-import ImageItem from './Component/ImageItem'
-import IconItem from './Component/IconItem'
+import { designTabComponents } from '@page/CustomCV/ItemTypes'
+
 import { CustomCVContext } from '../CustomCVContext'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
@@ -13,10 +10,12 @@ import { Rnd } from 'react-rnd'
 
 import update from 'immutability-helper'
 import SelectIconModal from './Component/SelectIconModal'
+import { Web3Context } from '@context/Web3ContextProvider'
 
 export const DraggableBox = memo(function DraggableBox(props) {
   const { id, boardDimension } = props
   const { list, setList, selected, setSelected, setSelectedFor } = useContext(CustomCVContext)
+  const { loginState } = useContext(Web3Context)
   const preWDrag = useRef()
   const preHDrag = useRef()
   const [openIcon, setOpenIcon] = useState(false)
@@ -26,12 +25,15 @@ export const DraggableBox = memo(function DraggableBox(props) {
       setSelected(id)
       return
     }
-    switch (e.detail) {
-      case 2:
-        if (list[id].type == dataTypes.icon.type) setOpenIcon(true)
-        else if (list[id].type == dataTypes.text.type)
-          setList(update(list, { [id]: { $merge: { typing: true } } }))
-        break
+    if (e.detail == 2) {
+      if (list[id].type == 'icon') {
+        setOpenIcon(true)
+        return
+      }
+      if (list[id].type == 'text') {
+        setList(update(list, { [id]: { $merge: { typing: true } } }))
+        return
+      }
     }
   }
   return (
@@ -85,18 +87,14 @@ export const DraggableBox = memo(function DraggableBox(props) {
           { [styles.canNotHover]: list[id].lock && selected != id }
         )}
       >
-        {(() => {
-          switch (list[id].type) {
-            case dataTypes.text.type:
-              return <TextItem key={id} id={id} item={list[id]}></TextItem>
-            case dataTypes.box.type:
-              return <BoxItem key={id} id={id} item={list[id]}></BoxItem>
-            case dataTypes.image.type:
-              return <ImageItem key={id} id={id} item={list[id]}></ImageItem>
-            case dataTypes.icon.type:
-              return <IconItem key={id} id={id} item={list[id]}></IconItem>
-          }
-        })()}
+        {designTabComponents[list[id].type].view(
+          id,
+          list[id],
+          loginState.profile,
+          selected,
+          list,
+          setList
+        )}
       </Rnd>
     </>
   )

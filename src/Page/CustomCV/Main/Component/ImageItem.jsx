@@ -2,16 +2,14 @@ import { memo, useState } from 'react'
 import { defaultStyle, defaultImageStyle } from '../../config'
 import styles from '../styles.module.scss'
 
-function ImageItem(props) {
-  const { item } = props
+function ImageItem({ id, data }) {
   return (
     <>
-      {item.file ? (
+      {data.file ? (
         <img
-            
           className={styles.componentImage}
-          style={{ ...defaultImageStyle(item) }}
-          src={URL.createObjectURL(item.file)}
+          style={{ ...defaultImageStyle(data) }}
+          src={URL.createObjectURL(data.file)}
         ></img>
       ) : (
         <div className={styles.componentImage}>

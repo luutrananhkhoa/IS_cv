@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './styles.module.scss'
 
-function Item() {
+function Item({children}) {
   return (
     <div className={styles.item}>
-      <p>Lorem ipsum dolor sit am</p>
+      <p>{children}</p>
     </div>
   )
 }

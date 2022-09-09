@@ -15,15 +15,7 @@ function Index() {
   return (
     <div className={styles.container}>
       <ColorPanel></ColorPanel>
-      {(() => {
-        let temp
-        _.forEach(designTabComponents, (value, index) => {
-          if (list[selected]?.type == value.type) {
-            temp = value.components
-          }
-        })
-        return temp
-      })()}
+      {selected && designTabComponents[list[selected].type].components}
     </div>
   )
 }

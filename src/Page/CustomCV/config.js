@@ -48,6 +48,8 @@ export const optionsObjectFitStyle = [
 
 export const defaultComponent = {
   common: {
+    width: 200,
+    height: 50,
     lock: false,
     visible: 'visibility',
     borderRadius: 0,
@@ -101,6 +103,7 @@ export const defaultComponent = {
       },
     },
     borderStyle: optionsBorderStyle.find((o) => o.value == 'solid'),
+    typing: false,
   },
   text: {
     width: 200,

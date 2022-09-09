@@ -40,7 +40,7 @@ function App() {
                 </Route>
 
                 <Route path="page/:id">
-                  <Route path="" element={<ProfileLayout></ProfileLayout>}>
+                  <Route path="" element={<PageLayout></PageLayout>}>
                     <Route path="about" element={<AboutProfile />}></Route>
                     <Route path="" element={<PostsProfile />}></Route>
                   </Route>

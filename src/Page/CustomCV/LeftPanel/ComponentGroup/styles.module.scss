@@ -25,8 +25,7 @@
       display: grid;
       grid-gap: 5px;
       padding: 5px 5px;
-      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-      overlay-snap-type: y mandatory;
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     }
   }
 }

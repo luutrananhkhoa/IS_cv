@@ -12,9 +12,20 @@ import { getContract as getContractEmployee } from '@contract/employeeController
 import { getContract as getContractBusiness } from '@contract/businessController'
 import { useParams, Link } from 'react-router-dom'
 import { getAvatar } from '@api/employee/profile'
-
 // Component/PostItem
-function Item({ content, time, postId, job, hashtag, status, id, typeFor }) {
+function Item({
+  content,
+  time,
+  postId,
+  job,
+  hashtag,
+  status,
+  id,
+  typeFor,
+  image,
+  disabled,
+  imageName,
+}) {
   const [comment, setComment] = useState('')
   const [hasAvatar, setHasAvatar] = useState()
   const [openClose, setOpenClose] = useState(false)
@@ -45,11 +56,11 @@ function Item({ content, time, postId, job, hashtag, status, id, typeFor }) {
                 toast.success('success', { pauseOnHover: true, closeOnClick: true })
                 setApplied(true)
               })
-              .catch((error) => console.log(error))
+              .catch((error) => console.error(error))
           })
-          .catch((error) => console.log(error))
+          .catch((error) => console.error(error))
       })
-      .catch((error) => console.log(error))
+      .catch((error) => console.error(error))
 
     loading.close()
   }
@@ -76,15 +87,14 @@ function Item({ content, time, postId, job, hashtag, status, id, typeFor }) {
                 toast.success('success', { pauseOnHover: true, closeOnClick: true })
                 setOpenClose(false)
               })
-              .catch((error) => console.log(error))
+              .catch((error) => console.error(error))
           })
-          .catch((error) => console.log(error))
+          .catch((error) => console.error(error))
       })
-      .catch((error) => console.log(error))
+      .catch((error) => console.error(error))
 
     loading.close()
   }
-
   const [profile, setProfile] = useState()
   const checkApply = () => {
     getContractEmployee().then((employeeContract) => {
@@ -97,7 +107,7 @@ function Item({ content, time, postId, job, hashtag, status, id, typeFor }) {
             return
           }
         })
-        .catch((error) => console.log(error))
+        .catch((error) => console.error(error))
     })
   }
   const checkAvatar = () => {
@@ -105,7 +115,7 @@ function Item({ content, time, postId, job, hashtag, status, id, typeFor }) {
       .then((success) => {
         setHasAvatar(success)
       })
-      .catch((error) => console.log(error))
+      .catch((error) => console.error(error))
   }
 
   const getProfileBusiness = () => {
@@ -116,9 +126,10 @@ function Item({ content, time, postId, job, hashtag, status, id, typeFor }) {
         .then(async (success) => {
           setProfile({ ...success })
         })
-        .catch((error) => console.log(error))
+        .catch((error) => console.error(error))
     })
   }
+
   useEffect(() => {
     if (loginState.for == 'employee') {
       checkApply()
@@ -141,14 +152,16 @@ function Item({ content, time, postId, job, hashtag, status, id, typeFor }) {
         action={handleClosePost}
       ></Modal>
 
-      <div className={styles.item}>
+      <div className={clsx(styles.item, { [styles.disabled]: disabled })}>
         <div className={styles.head}>
           <div className={styles.personalWrapper}>
-            <div className={styles.avatarWrapper}>
+            <Link to={typeFor == 'business' && `/page/${id}`} className={styles.avatarWrapper}>
               <img src={hasAvatar || avatar}></img>
-            </div>
+            </Link>
             <div className={styles.avatarTextWrapper}>
-              <div className={styles.name}>{profile?.name}</div>
+              <Link to={typeFor == 'business' && `/page/${id}`} className={styles.name}>
+                {profile?.name}
+              </Link>
               <div className={styles.date}>{new Date(parseInt(time * 1000)).toLocaleString()}</div>
               <PostStatus
                 type={
@@ -178,7 +191,11 @@ function Item({ content, time, postId, job, hashtag, status, id, typeFor }) {
           >
             <img
               className={styles.imageContent}
-              src="https://cdn.pixabay.com/photo/2012/08/27/14/19/mountains-55067__340.png"
+              src={
+                typeof image == 'string'
+                  ? image
+                  : typeof image == 'object' && URL.createObjectURL(image)
+              }
             ></img>
           </Link>
         </div>

@@ -183,7 +183,7 @@ function ResizeableContainer(props) {
       resizeBottom && refBottom.current.addEventListener('mousedown', onMouseDownBottomResize)
       resizeLeft && refLeft.current.addEventListener('mousedown', onMouseDownLeftResize)
     }
-
+    setDimension && setDimension({ top, left, width, height })
     return () => {
       resizeRight &&
         resizeRight.current &&

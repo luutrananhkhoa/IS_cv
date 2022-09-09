@@ -41,7 +41,6 @@ function Index() {
       active
       minTop={100}
       style={{
-        position: 'absolute',
         zIndex: 8,
         left: 0,
         width: '100%',

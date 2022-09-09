@@ -68,7 +68,7 @@
     .imageContent {
       width: 100%;
       aspect-ratio: 2/1;
-      object-fit: cover;
+      object-fit: scale-down;
       border-radius: var(--border-radius-primary);
       cursor: pointer;
     }
@@ -185,4 +185,8 @@
 
 .closeModal {
   padding: 10px 20px;
+}
+.disabled {
+  pointer-events: none;
+  cursor: default;
 }

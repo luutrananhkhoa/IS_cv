@@ -10,7 +10,6 @@ $borderRadius: 10px;
   background: var(--color-customcv-active-primary);
   &::after {
     content: '';
-    position: absolute;
     text-align: right;
     float: right;
     width: 10px;

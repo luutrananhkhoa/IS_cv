@@ -4,16 +4,13 @@ import styles from './styles.module.scss'
 import html2canvas from 'html2canvas'
 import { useReactToPrint } from 'react-to-print'
 import { CustomCVContext } from '../../CustomCVContext'
+import useToJson from '../../hooks/useToJson'
 
 function Index(props) {
   const [open, setOpen] = props.state
   const { autoCreatement, list } = useContext(CustomCVContext)
-  const boardRef = useRef()
-  useEffect(() => {
-    boardRef.current = document.getElementById('draw_child')
-  }, [])
   const handlePDF = useReactToPrint({
-    content: () => boardRef.current,
+    content: () => document.getElementById('draw_child'),
   })
   const handlePNG = () => {
     html2canvas(document.getElementById('draw_child')).then(function (canvas) {
@@ -27,12 +24,11 @@ function Index(props) {
   }
   const handleJSON = () => {
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify({ list, autoCreatement })
+      JSON.stringify(useToJson(autoCreatement, list))
     )}`
     const link = document.createElement('a')
     link.href = jsonString
     link.download = 'iscv.json'
-
     link.click()
   }
   return (

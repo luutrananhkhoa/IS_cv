@@ -2,20 +2,19 @@ import { memo, useState } from 'react'
 import { defaultStyle, defaultImageStyle } from '../../config'
 import styles from '../styles.module.scss'
 
-function IconItem(props) {
-  const { id, item } = props
+function IconItem({ id, data }) {
   const [open, setOpen] = useState(false)
 
   return (
     <>
       <div className={styles.componentIcon}>
-        {item.icon ? (
+        {data.icon ? (
           <i
             style={{
-              fontSize: item.width < item.height ? item.width : item.height,
-              color: item.color.hex,
+              fontSize: data.width < data.height ? data.width : data.height,
+              color: data.color.hex,
             }}
-            className={item.icon}
+            className={data.icon}
           ></i>
         ) : (
           <i className="fa-thin fa-icons"></i>

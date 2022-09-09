@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react'
 import styles from './styles.module.scss'
-import photo from './photo.jpg'
 import CommentItem from '@component/CommentItem'
 import avatarDefault from '@asset/avatar.png'
 import { useLocation, useParams } from 'react-router-dom'
@@ -12,6 +11,7 @@ import { STATUS } from '@constant/postConst'
 import { useLoading } from '@component/Loading'
 import { useToast } from '@component/Toast'
 import clsx from 'clsx'
+import { getImage as getBusinessPostImage } from '@api/business//post'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
@@ -26,6 +26,7 @@ function Index() {
   const postId = params.postid
   const id = params.id
   const [post, setPost] = useState()
+
   const checkApply = useCallback(() => {
     getContractEmployee().then((employeeContract) => {
       employeeContract.methods
@@ -57,7 +58,15 @@ function Index() {
         contractBusiness.methods
           .getPost(postId)
           .call()
-          .then((success) => setPost({ ...success }))
+          .then(async (success) => {
+            let imageTemp = undefined
+            await getBusinessPostImage(success.id, success.imageSource)
+              .then((image) => {
+                imageTemp = image
+              })
+              .catch((error) => console.error(error))
+            setPost({ ...success, image: imageTemp })
+          })
           .catch((error) => console.error(error))
       })
       .catch((error) => console.error(error))
@@ -99,7 +108,6 @@ function Index() {
 
     loading.close()
   }
-  console.log(post)
   useEffect(() => {
     if (location.pathname.includes('page')) {
       loadBusinessPost()
@@ -113,7 +121,7 @@ function Index() {
   return (
     <section className={styles.container}>
       <div className={styles.photo}>
-        <img src={photo}></img>
+        <img src={post?.image}></img>
       </div>
       <div className={styles.comment}>
         <div className={styles.top}>

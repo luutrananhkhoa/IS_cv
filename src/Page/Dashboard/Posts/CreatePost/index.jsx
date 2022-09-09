@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import styles from './styles.module.scss'
 import PostItem from '@component/PostItem'
 import { Dropdown } from '@component/Dropdown'
@@ -9,6 +9,9 @@ import { useLoading } from '@component/Loading'
 import { useToast } from '@component/Toast'
 import { getContract } from '@contract/businessController'
 import Navigation from '../../Components/Navigation'
+import { postImage } from '@api/business/post'
+import Web3 from 'web3'
+import detectEthereumProvider from '@metamask/detect-provider'
 
 // Page/Create Post
 function Index() {
@@ -18,25 +21,30 @@ function Index() {
   const navigate = useNavigate()
   const loading = useLoading()
   const toast = useToast()
+  const [image, setImage] = useState()
   const { loginState } = useContext(Web3Context)
-
+  const openImageRef = useRef()
   const handlePublish = async () => {
     loading.open()
     await getContract()
       .then(async (success) => {
-        await success.methods
-          .addPost(loginState.id, hashtag, job, content, '/', 1)
-          .send({ from: loginState.address })
-          .then((success) => {
-            toast.success('success', { pauseOnHover: true, closeOnClick: true })
-            navigate('/dashboard?tab=posts')
+        await postImage(image, loginState.id)
+          .then(async (imageResult) => {
+            await success.methods
+              .addPost(loginState.id, hashtag, job, content, imageResult.data.name, 1)
+              .send({ from: loginState.address })
+              .then(async (success) => {
+                toast.success('success', { pauseOnHover: true, closeOnClick: true })
+                navigate('/dashboard?tab=posts')
+              })
+              .catch((error) => {
+                console.error(error)
+                if (error.code === 4001)
+                  toast.warning('chua thanh toan', { pauseOnHover: true, closeOnClick: true })
+                toast.error('error', { pauseOnHover: true, closeOnClick: true })
+              })
           })
-          .catch((error) => {
-            console.error(error)
-            if (error.code === 4001)
-              toast.warning('chua thanh toan', { pauseOnHover: true, closeOnClick: true })
-            toast.error('error', { pauseOnHover: true, closeOnClick: true })
-          })
+          .catch((error) => console.error(error))
       })
       .catch((error) => console.log(error))
 
@@ -52,9 +60,18 @@ function Index() {
             <div className={styles.panelTitle}>
               <a>Media</a>
             </div>
-            <button className={styles.imageTool}>
+            <button onClick={() => openImageRef.current.click()} className={styles.imageTool}>
               <i className="fa-regular fa-hexagon-image"></i>
               <a>Add Photo</a>
+              <input
+                type="file"
+                id="file"
+                multiple="false"
+                accept="image/png, image/jpg, image/jpeg"
+                onChange={(e) => setImage(e.target.files[0])}
+                ref={openImageRef}
+                style={{ display: 'none' }}
+              />
             </button>
           </div>
           <div className={styles.job}>
@@ -109,6 +126,8 @@ function Index() {
             job={job}
             hashtag={hashtag}
             status={'open'}
+            image={image}
+            disabled
           ></PostItem>
         </div>
       </div>

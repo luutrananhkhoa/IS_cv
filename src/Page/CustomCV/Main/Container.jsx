@@ -1,7 +1,7 @@
 import { useCallback, useState, useRef, useEffect, useContext, useLayoutEffect } from 'react'
 import { useDrop } from 'react-dnd'
 import { DraggableBox } from './DraggableBox'
-import { defaultComponent } from '../config'
+
 import { dataTypes } from '../ItemTypes'
 import { snapToGrid as doSnapToGrid } from './snapToGrid'
 import _ from 'lodash'
@@ -9,7 +9,9 @@ import { BOARDDIMENSION } from '../config'
 import { CustomCVContext } from '../CustomCVContext'
 import styles from './styles.module.scss'
 import events from 'events'
+import { Web3Context } from '@context/Web3ContextProvider'
 
+import useInitComponent from '../hooks/useInitComponent'
 export const customcvEmitter = new events.EventEmitter()
 
 const boardDimension = {
@@ -22,58 +24,9 @@ export default function Container(props) {
   const { snapToGrid } = props
 
   const { list, setList, setSelected, getNewAutoCreatement } = useContext(CustomCVContext)
+  const { loginState } = useContext(Web3Context)
 
-  const addComponent = useCallback(
-    (type, top, left) => {
-      let newData
-      let newId = getNewAutoCreatement()
-      switch (type) {
-        case dataTypes.text.type:
-          newData = {
-            top,
-            left,
-            type: dataTypes.text.type,
-            name: 'Text ' + newId,
-            ...defaultComponent.common,
-            ...defaultComponent.text,
-          }
-          break
-        case dataTypes.box.type:
-          newData = {
-            top,
-            left,
-            type: dataTypes.box.type,
-            name: 'Box ' + newId,
-            ...defaultComponent.common,
-            ...defaultComponent.box,
-          }
-          break
-        case dataTypes.image.type:
-          newData = {
-            top,
-            left,
-            type: dataTypes.image.type,
-            name: 'Image ' + newId,
-            // ...defaultComponent.common,
-            ...defaultComponent.image,
-          }
-          break
-        case dataTypes.icon.type:
-          newData = {
-            top,
-            left,
-            type: dataTypes.icon.type,
-            name: 'Icon ' + newId,
-            // ...defaultComponent.common,
-            ...defaultComponent.icon,
-          }
-          break
-      }
-      setList({ ...list, [newId]: newData })
-      setSelected(newId)
-    },
-    [list]
-  )
+  const addComponent = useCallback(useInitComponent, [list, loginState])
   const [, drop] = useDrop(
     () => ({
       accept: 'box',
@@ -94,7 +47,7 @@ export default function Container(props) {
         }
         if (left < 0 || left > boardDimension.width) return
         if (top < 0 || top > boardDimension.height) return
-        addComponent(item.type, top, left)
+        addComponent(item.type, top, left, getNewAutoCreatement, loginState,list,  setList, setSelected)
         return undefined
       },
     }),

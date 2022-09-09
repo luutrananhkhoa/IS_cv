@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 import clsx from 'clsx'
 import { CustomCVContext } from '../../CustomCVContext'
 import Item from './Item'
-import { dataTypes } from '../../ItemTypes'
+import { designTabComponents } from '../../ItemTypes'
 
 function Index() {
   const { layerGroupDimension } = useContext(CustomCVContext)
@@ -25,13 +25,13 @@ function Index() {
       </div>
       <div ref={toolboxRef} className={styles.toolbox}>
         <div className={styles.toolboxScrollContainer}>
-          {Object.keys(dataTypes).map((key, index) => {
+          {Object.keys(designTabComponents).map((key, index) => {
             return (
               <Item
                 key={index}
                 index={index}
-                type={dataTypes[key].type}
-                icon={dataTypes[key].icon}
+                type={key}
+                icon={designTabComponents[key].icon}
               ></Item>
             )
           })}

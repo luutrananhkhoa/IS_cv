@@ -4,12 +4,8 @@ import { CustomCVContext } from '../../CustomCVContext'
 
 function Index() {
   const { list, selected } = useContext(CustomCVContext)
-  const [item, setItem] = useState()
-  useLayoutEffect(() => {
-    setItem(list[selected])
-  }, [selected])
   return <div className={styles.target}>
-    <p>{item?.name}</p>
+    <p>{list?.selected?.name}</p>
   </div>
 }
 

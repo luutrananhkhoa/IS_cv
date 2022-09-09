@@ -3,7 +3,6 @@ import styles from './styles.module.scss'
 import cover from '@asset/cover.png'
 import avatar from '@asset/avatar.jpg'
 import clsx from 'clsx'
-import ProfileContextProvider, { ProfileContext } from './ProfileContext'
 import { Outlet, Link, useLocation, useParams } from 'react-router-dom'
 import { Web3Context } from '@context/Web3ContextProvider'
 import { getContract } from '@contract/businessController'
@@ -46,10 +45,12 @@ function Index() {
           </div>
           <div className={styles.avatarWrapper}>
             <img src={hasAvatar || avatar}></img>
-            <div className={styles.name}>{info?.name}</div>
+            <div className={styles.nameGroup}>
+              <div className={styles.name}>{info?.name}</div>
+              <Link to={`/messages/page/${id}`} className={styles.messages}>Messages</Link>
+            </div>
           </div>
         </div>
-        {console.log(id)}
         <div className={styles.tableWrapper}>
           <Link
             to={`/page/${id}`}
@@ -72,12 +73,4 @@ function Index() {
   )
 }
 
-function Wrapper() {
-  return (
-    <ProfileContextProvider>
-      <Index></Index>
-    </ProfileContextProvider>
-  )
-}
-
-export default Wrapper
+export default Index
