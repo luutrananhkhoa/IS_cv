@@ -4,11 +4,13 @@ import { Web3Context } from '@context/Web3ContextProvider'
 import clsx from 'clsx'
 import _ from 'lodash'
 import Profile from './Profile'
-import Notification from '../Notification'
+import Notification from './Notification'
+
 
 export const Index = (props) => {
   const { showMorePanel, setShowMorePanel } = useContext(Web3Context)
   const ref = useRef()
+
   useEffect(() => {
     function handleClickOutside(event) {
       let data = [ref.current, ...Array.from(document.querySelectorAll('[id=header_button]'))]

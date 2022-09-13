@@ -9,10 +9,10 @@ import { listMenuHeader } from './listMenuHeader'
 import logo from '@asset/LogoCV.png'
 
 export default function Header() {
-  const { t, i18n } = useTranslation()
   const location = useLocation()
   const [showMobile, setShowModile] = useState(false)
   const { loginState, dispatchLogin, setComplete, setShowMorePanel } = useContext(Web3Context)
+  const { t } = useTranslation('component', { keyPrefix: 'header.index' })
   async function handleConnectMetamask() {
     const accounts = await ethereum.request({
       method: 'eth_requestAccounts',
@@ -33,7 +33,7 @@ export default function Header() {
         )}
       </div>
       <div className={clsx(styles.navMobile, { [styles.showMobile]: showMobile })}>
-        <div className={styles.textModileTitle}>Navigation</div>
+        <div className={styles.textModileTitle}>{t('navigation')}</div>
         <ul>
           {listMenuHeader.map((value, index) => {
             return (
@@ -41,7 +41,7 @@ export default function Header() {
                 <div className={styles.icon}>
                   <i className={value.icon}></i>
                 </div>
-                <div className={styles.name}>{value.name}</div>
+                <div className={styles.name}>{t(value.name.toString())}</div>
               </Link>
             )
           })}
@@ -62,7 +62,7 @@ export default function Header() {
                 className={clsx(styles.navItem, { [styles.active]: location.pathname == value.to })}
               >
                 <i className={value.icon}></i>
-                <div className={styles.name}>{value.name}</div>
+                <div className={styles.name}>{t(value.name.toString())}</div>
               </Link>
             )
           })}
@@ -70,10 +70,7 @@ export default function Header() {
       </nav>
       <nav id="navbar" className={clsx(styles.navRight)}>
         <Language key={0}></Language>
-        <Link to="/messages"
-          key={6}
-          className={styles.buttonItem}
-        >
+        <Link to="/messages" key={6} className={styles.buttonItem}>
           <i className="fa-solid fa-comment-lines"></i>
         </Link>
         <button
@@ -94,12 +91,12 @@ export default function Header() {
 
         {!loginState.address && (
           <button key={1} onClick={handleConnectMetamask} className={styles.buttonAccount}>
-            Connect Metamask
+            {t('connect_metamask')}
           </button>
         )}
         {loginState.address && !loginState.isLoggedIn && (
           <Link key={3} to="/login" className={styles.buttonAccount}>
-            Login
+            {t('login')}
           </Link>
         )}
         {loginState.address && loginState.isLoggedIn && (

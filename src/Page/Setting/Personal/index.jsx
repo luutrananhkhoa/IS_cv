@@ -12,9 +12,11 @@ import { getContract as getContractBusiness } from '@contract/businessController
 import { uploadAvatar, getAvatar, deleteAvatar } from '@api/employee/profile'
 import FormData from 'form-data'
 import Modal from '@component/Modal'
+import { useTranslation } from 'react-i18next'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
+  const { t } = useTranslation('page', { keyPrefix: 'setting.personal' })
   const [list, setList] = useState()
   const loading = useLoading()
   const toast = useToast()
@@ -161,17 +163,17 @@ function Index() {
               style={{ display: 'none' }}
             />
             <button onClick={() => setOpenDeleteAvatar(true)} className={styles.delete}>
-              Delete
+              {t('delete')}
             </button>
             <button onClick={handleChangeAvatar} className={styles.upload}>
-              Upload
+              {t('upload')}
             </button>
           </div>
         </div>
         {list && (
           <>
             <div className={styles.itemWrapper}>
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name"> {t('name')}</label>
               <div className={styles.inputGroup}>
                 <input
                   disabled={!editName}
@@ -191,7 +193,7 @@ function Index() {
               </button>
             </div>
             <div className={styles.itemWrapper}>
-              <label htmlFor="phone">Phone</label>
+              <label htmlFor="phone"> {t('phone')}</label>
               <div className={styles.inputGroup}>
                 <input
                   disabled={!editPhone}
@@ -211,7 +213,7 @@ function Index() {
               </button>
             </div>
             <div className={styles.itemWrapper}>
-              <label htmlFor="professional">Professional</label>
+              <label htmlFor="professional"> {t('professional')}</label>
               <div className={styles.inputGroup}>
                 <input
                   disabled={!editProfessional}
@@ -294,7 +296,7 @@ function Index() {
 
         <div className={styles.saveWrapper}>
           <button type="submit" onClick={formik.handleSubmit}>
-            Save
+            {t('save')}
           </button>
         </div>
       </div>

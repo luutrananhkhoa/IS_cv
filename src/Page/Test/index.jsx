@@ -28,15 +28,6 @@ export default function Test() {
       <div style={{ position: 'fixed', right: 0, top: '100px' }}>
         {/* <OptionMenu></OptionMenu> */}
       </div>
-
-      <input type="file" onChange={(e) => setImage(e.target.files[0])}></input>
-      <div class="box-chat">
-        <div class="box-chat_message">// phần này cho tin nhắn</div>
-
-        <div class="send-box">
-          <button onClick={handleSend}>Send</button>
-        </div>
-      </div>
     </>
   )
 }

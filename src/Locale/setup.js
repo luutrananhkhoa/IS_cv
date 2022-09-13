@@ -7,39 +7,70 @@ import dashboardMenuEn from './en/page/company/dashboard/menu.json'
 import employeeCertificateEn from './en/page/company/dashboard/employeeCertificate.json'
 
 import vn from './vi/index.json'
-import dashboardIndexVi from './vi/page/company/dashboard/index.json'
-import dashboardMenuVi from './vi/page/company/dashboard/menu.json'
-import employeeCertificateVi from './vi/page/company/dashboard/employeeCertificate.json'
+import dashboardIndexVi from './vi/page/dashboard/index.json'
+import employeeCertificateVi from './vi/page/dashboard/employeeCertificate.json'
 import headerVi from './vi/component/header/index.json'
+
+import homeVi from './vi/page/home/index.json'
+import postItemVi from './vi/component/postItem/index.json'
+import morePanelVi from './vi/component/morePanel/index.json'
+import settingVi from './vi/page/setting/index.json'
+import settingPersonalVi from './vi/page/setting/personal.json'
+import postDashboardVi from './vi/page/dashboard/posts.json'
+import personalLayoutVi from './vi/layout/personal/index.json'
+import aboutPageVi from './vi/page/about/index.json'
+import toastVi from './vi/component/toast/index.json'
+import layoutSocialVi from './vi/layout/social'
+import iigPostsPageVi from './vi/page/posts/left/iig.json'
 
 // the translations
 const resources = {
   en: {
     translation: en,
-    page: {
-      company: {
-        dashboard: {
-          index: dashboardIndexEn,
-          menu: dashboardMenuEn,
-          employeeCertificate: employeeCertificateEn,
-        },
-      },
-    },
+    page: {},
   },
   vi: {
     translation: vn,
     page: {
-      company: {
-        dashboard: {
-          index: dashboardIndexVi,
-          menu: dashboardMenuVi,
-          employeeCertificate: employeeCertificateVi,
+      home: homeVi,
+      dashboard: {
+        index: dashboardIndexVi,
+        employeeCertificate: employeeCertificateVi,
+        posts: postDashboardVi,
+      },
+      setting: {
+        index: settingVi,
+        personal: settingPersonalVi,
+      },
+      about: {
+        index: aboutPageVi,
+      },
+      posts: {
+        left: {
+          iig: iigPostsPageVi,
         },
       },
     },
     component: {
       header: {
         index: headerVi,
+      },
+      postItem: {
+        index: postItemVi,
+      },
+      morePanel: {
+        index: morePanelVi,
+      },
+      toast: {
+        index: toastVi,
+      },
+    },
+    layout: {
+      social: {
+        index: layoutSocialVi,
+      },
+      personal: {
+        index: personalLayoutVi,
       },
     },
   },

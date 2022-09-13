@@ -45,7 +45,7 @@ function Index() {
                     .getProfile(id)
                     .call({ from: loginState.address })
                     .then((profile) => {
-                      toast.success('Thanh cong', { pauseOnHover: true, closeOnClick: true })
+                      toast.success("", { pauseOnHover: true, closeOnClick: true })
                       dispatchLogin({
                         type: 'business_login',
                         id: id,
@@ -84,7 +84,7 @@ function Index() {
                     .getProfile(id)
                     .call({ from: loginState.address })
                     .then((profile) => {
-                      toast.success('Thanh cong', { pauseOnHover: true, closeOnClick: true })
+                      toast.success("", { pauseOnHover: true, closeOnClick: true })
                       dispatchLogin({
                         type: 'employee_login',
                         id: id,

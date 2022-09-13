@@ -229,7 +229,6 @@ $tableScrollHeight: 500px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    align-items: center;
     @include mixin.md {
       flex-direction: column;
       width: 100%;

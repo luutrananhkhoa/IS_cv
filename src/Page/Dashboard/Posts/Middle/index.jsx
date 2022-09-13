@@ -5,10 +5,12 @@ import Item from './Item'
 import { getContract as getContractBusiness } from '@contract/businessController'
 import { Web3Context } from '@context/Web3ContextProvider'
 import Navigation from '../../Components/Navigation'
+import { useTranslation } from 'react-i18next'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
   const [list, setList] = useState()
+  const { t } = useTranslation('page', { keyPrefix: 'dashboard.posts' })
   useEffect(() => {
     getContractBusiness()
       .then(async (contract) => {
@@ -32,21 +34,21 @@ function Index() {
   return (
     <>
       <div className={styles.container}>
-        <Navigation title={"Manager Posts"}></Navigation>
+        <Navigation title={t('manager_posts')}></Navigation>
         <div className={styles.tool}>
           <Link to="/dashboard?tab=posts&create=true" className={styles.create}>
-            Create post
+            {t('create_post')}
           </Link>
         </div>
         <div className={styles.tableWrapper}>
           <div className={styles.panel}>
             <table cellSpacing="0">
               <tr>
-                <th>Post name</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Detail</th>
-                <th>Apply</th>
+                <th>{t('post_name')}</th>
+                <th>{t('date')}</th>
+                <th>{t('status')}</th>
+                <th>{t('content')}</th>
+                <th>{t('applied')}</th>
               </tr>
               {list?.map((value, index) => {
                 return <Item key={index} {...value}></Item>

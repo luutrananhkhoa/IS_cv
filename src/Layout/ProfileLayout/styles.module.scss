@@ -35,7 +35,7 @@
 
       display: flex;
       align-items: flex-end;
-
+      gap: 20px;
       img {
         width: $width;
         height: $width;
@@ -43,12 +43,20 @@
         border-radius: 100%;
         border: 3px solid var(--color-border-secondary);
       }
-      .name {
-        white-space: nowrap;
-        color: var(--color-text-secondary);
-        font-size: 25px;
-        font-weight: bold;
-        margin: 0px 0px 10px 20px;
+      .nameGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .name {
+          white-space: nowrap;
+          color: var(--color-text-secondary);
+          font-size: 25px;
+          font-weight: bold;
+        }
+        .messages {
+          @include function.button;
+          padding: 7px 10px;
+        }
       }
     }
     @include mixin.sm {
@@ -81,7 +89,7 @@
   .tab {
     @include function.button;
     border-radius: unset;
-    width: 100px;
+    min-width: 100px;
     background: transparent;
     color: var(--color-text-primary);
     padding: 10px 20px;

@@ -4,28 +4,35 @@ import CompactItem from '../../Components/CompactItem'
 import _ from 'lodash'
 import { Web3Context } from '@context/Web3ContextProvider'
 import { getContract as getContractEmployee } from '@contract/employeeController'
+import { getRecentlyPage, getRecentlyProfile } from '@api/messages/chat'
+import {ChatContext} from '../../ChatContext'
+
 function Index() {
   const { loginState } = useContext(Web3Context)
-  const [list, setList] = useState()
+  const { list, handleSend } = useContext(ChatContext)
+  const [listAccount, setListAccount] = useState()
   useEffect(() => {
-    getContractEmployee()
-      .then((contract) => {
-        contract.methods
-          .getListApppointmentByEmployeeId(loginState.id)
-          .call()
-          .then((success) => {
-            let temp = []
-            _.forEach(success, (value, index) => {
-              temp.push({ ...value })
-            })
-            setList(temp)
+    if (loginState.for == 'employee') {
+      getRecentlyPage(loginState.id)
+        .then((success) => {
+          let temp = success.data.map((value, index) => {
+            return { ...value, typeFor: 'employee' }
           })
-          .catch((error) => {
-            console.log(error)
+          setListAccount(temp)
+        })
+        .catch((error) => console.log(error))
+    }
+    if (loginState.for == 'business') {
+      getRecentlyProfile(loginState.id)
+        .then((success) => {
+          let temp = success.data.map((value, index) => {
+            return { ...value, typeFor: 'business' }
           })
-      })
-      .catch((error) => console.error(error))
-  }, [])
+          setListAccount(temp)
+        })
+        .catch((error) => console.log(error))
+    }
+  }, [list])
   return (
     <div className={styles.group}>
       <div className={styles.title}>
@@ -41,7 +48,7 @@ function Index() {
       </div>
 
       <div className={styles.main}>
-        {list?.map((value, index) => {
+        {listAccount?.map((value, index) => {
           return <CompactItem key={index} {...value}></CompactItem>
         })}
       </div>

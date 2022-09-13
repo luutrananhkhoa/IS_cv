@@ -8,6 +8,7 @@ import { Outlet, Link, useLocation, useParams } from 'react-router-dom'
 import { Web3Context } from '@context/Web3ContextProvider'
 import { getContract as getContractEmployee } from '@contract/employeeController'
 import { getAvatar } from '@api/employee/profile'
+import { useTranslation } from 'react-i18next'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
@@ -15,6 +16,7 @@ function Index() {
   const [info, setInfo] = useState()
   const [hasAvatar, setHasAvatar] = useState()
   const id = parseInt(useParams().id)
+  const { t } = useTranslation('layout', { keyPrefix: 'personal.index' })
   useEffect(() => {
     getContractEmployee().then((contractEmployee) => {
       contractEmployee.methods
@@ -43,7 +45,14 @@ function Index() {
           </div>
           <div className={styles.avatarWrapper}>
             <img src={hasAvatar || avatar}></img>
-            <div className={styles.name}>{info?.name}</div>
+            <div className={styles.nameGroup}>
+              <div className={styles.name}>{info?.name}</div>
+              {loginState.for == 'business' && (
+                <Link to={`/messages/profile/${id}`} className={styles.messages}>
+                  {t('messages')}
+                </Link>
+              )}
+            </div>
           </div>
         </div>
         <div className={styles.tableWrapper}>
@@ -52,7 +61,7 @@ function Index() {
             to={`/profile/${id}`}
             className={clsx(styles.tab, { [styles.active]: location.pathname == `/profile/${id}` })}
           >
-            Post
+            {t('posts')}
           </Link>
           <Link
             key={1}
@@ -61,7 +70,7 @@ function Index() {
               [styles.active]: location.pathname == `/profile/${id}/mycv`,
             })}
           >
-            Mycv
+            {t('mycv')}
           </Link>
           <Link
             key={1}
@@ -70,7 +79,7 @@ function Index() {
               [styles.active]: location.pathname == `/profile/${id}/about`,
             })}
           >
-            About
+            {t('about')}
           </Link>
         </div>
         <Outlet></Outlet>

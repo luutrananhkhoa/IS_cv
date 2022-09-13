@@ -89,7 +89,7 @@
   .tab {
     @include function.button;
     border-radius: unset;
-    width: 100px;
+    min-width: 100px;
     background: transparent;
     color: var(--color-text-primary);
     padding: 10px 20px;

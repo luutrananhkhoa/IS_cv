@@ -8,7 +8,7 @@ import { getContract as getContractIIG } from '@contract/iigController'
 import { Web3Context } from '@context/Web3ContextProvider'
 
 export default function Index() {
-  const { t } = useTranslation('page', { keyPrefix: 'company.dashboard.index' })
+  const { t } = useTranslation('page', { keyPrefix: 'dashboard.index' })
   const [list, setList] = useState()
   const { loginState } = useContext(Web3Context)
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function Index() {
   return (
     <>
       <div className={styles.container}>
-        <Navigation title={'Certificates'}></Navigation>
+        <Navigation title={t('certificate_verification')}></Navigation>
         <div className={styles.filterWrapper}>
           <p>{t('filter')}: </p>
           <div className={styles.inputWrapper}>
@@ -69,9 +69,11 @@ export default function Index() {
             <thead className={styles.thead}>
               <tr className={styles.body}>
                 <th className={`${styles.theaderStyle} ${styles.column1}`}>{t('number')}</th>
-                <th className={`${styles.theaderStyle} ${styles.column2}`}>Ten</th>
+                <th className={`${styles.theaderStyle} ${styles.column2}`}>{t('name')}</th>
                 <th className={`${styles.theaderStyle} ${styles.column3}`}>{t('id')}</th>
-                <th className={`${styles.theaderStyle} ${styles.column4}`}>Loai chung chi</th>
+                <th className={`${styles.theaderStyle} ${styles.column4}`}>
+                  {t('certificate_type')}
+                </th>
                 <th className={`${styles.theaderStyle} ${styles.column5}`}>{t('request_date')}</th>
                 <th className={`${styles.theaderStyle} ${styles.column6}`}>{t('status')}</th>
               </tr>

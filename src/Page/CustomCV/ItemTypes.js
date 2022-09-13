@@ -104,6 +104,7 @@ export const designTabComponents = {
   image: {
     icon: 'fa-solid fa-image',
     data: {
+      ...defaultComponent.common,
       ...defaultComponent.image,
     },
     view: (id, data) => <ImageItem key={id} id={id} data={{ ...data }}></ImageItem>,
@@ -111,6 +112,7 @@ export const designTabComponents = {
   },
   icon: {
     data: {
+      ...defaultComponent.common,
       ...defaultComponent.icon,
     },
     icon: 'fa-solid fa-icons',

@@ -7,6 +7,7 @@ import Modal from '@component/Modal'
 import { useLoading } from '@component/Loading'
 import { useToast } from '@component/Toast'
 import { Web3Context } from '@context/Web3ContextProvider'
+import { useTranslation } from 'react-i18next'
 
 function Index({ employeeId, businessId, postId, applyId, job }) {
   const { loginState } = useContext(Web3Context)
@@ -16,7 +17,7 @@ function Index({ employeeId, businessId, postId, applyId, job }) {
   const [time, setTime] = useState()
   const toast = useToast()
   const loading = useLoading()
-  
+  const { t } = useTranslation('page', { keyPrefix: 'dashboard.posts' })
   const handleAddAppointment = async () => {
     loading.open()
     await getContractBusiness()
@@ -62,12 +63,14 @@ function Index({ employeeId, businessId, postId, applyId, job }) {
     <>
       <Modal
         state={[openModal, setOpenModal]}
-        title="add appointment"
+        title={t('add_appointment')}
         action={handleAddAppointment}
       >
         <div className={styles.modalAddAppointment}>
-          <p>Xac nhan dat cuoc hen voi {profile?.name}</p>
-          <div>thoigian </div>
+          <p>
+            {t('confirm_appointment_with')} {profile?.name}
+          </p>
+          <div>{t('time')}</div>
           <input
             type="datetime-local"
             name="appointment_time"
@@ -82,9 +85,11 @@ function Index({ employeeId, businessId, postId, applyId, job }) {
           <div className={styles.textWrapper}>
             <div className={styles.title}>
               <a>{profile?.name}</a>
-              <div className={styles.follow}>Follow</div>
+              <div className={styles.follow}>{t('follow')}</div>
             </div>
-            <div className={styles.content}>Apply vao bai viet {job}</div>
+            <div className={styles.content}>
+              {t('applied_into_post')} {job}
+            </div>
             <div className={styles.time}>
               {apply && new Date(apply.time * 1000).toLocaleString()}
             </div>

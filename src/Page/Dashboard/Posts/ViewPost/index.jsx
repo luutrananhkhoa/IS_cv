@@ -8,6 +8,7 @@ import { Web3Context } from '@context/Web3ContextProvider'
 import _ from 'lodash'
 import Navigation from '../../Components/Navigation'
 import { getImage as getBusinessPostImage } from '@api/business/post'
+import {useTranslation} from 'react-i18next'
 
 // Dashboard/ViewPost/index
 function Index() {
@@ -16,7 +17,7 @@ function Index() {
   const [searchParams] = useSearchParams()
   const postBusinessId = searchParams.get('businessPostId')
   const [applier, setApplier] = useState()
-
+  const {t}= useTranslation("page", {keyPrefix: "dashboard.posts"})
   const getPost = () => {
     getContractBusiness()
       .then((contract) => {
@@ -61,7 +62,7 @@ function Index() {
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        <Navigation title={'View post'} to={-1}></Navigation>
+        <Navigation title={t("view_post")} to={-1}></Navigation>
         <div className={styles.preview}>
           {post && (
             <PostItem
@@ -82,7 +83,7 @@ function Index() {
       </div>
       <div className={styles.right}>
         <div className={styles.title}>
-          <p>Request</p>
+          <p>{t("request")}</p>
         </div>
         <div className={styles.wrapper}>
           {post &&

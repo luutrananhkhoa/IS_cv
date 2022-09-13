@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './styles.module.scss'
 import { useNavigate } from 'react-router-dom'
-import PostStatus from '@component/PostStatus'
+import PostStatus from '@component/PostItem/PostStatus'
 import clsx from 'clsx'
 import { getContract as getContractBusiness } from '@contract/businessController'
 import _ from 'lodash'

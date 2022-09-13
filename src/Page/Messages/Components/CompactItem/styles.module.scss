@@ -85,3 +85,10 @@
     }
   }
 }
+
+.active {
+  background: var(--color-button-secondary);
+  &:hover {
+    background: var(--color-button-secondary);
+  }
+}

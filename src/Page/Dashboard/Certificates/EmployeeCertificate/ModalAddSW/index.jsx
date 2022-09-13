@@ -12,7 +12,7 @@ import * as Yup from 'yup'
 
 export default function Index({ state, request, profile }) {
   const [open, setOpen] = state
-  const { t } = useTranslation('page', { keyPrefix: 'company.dashboard.employeeCertificate' })
+  const { t } = useTranslation('page', { keyPrefix: 'dashboard.employeeCertificate' })
   const { loginState } = useContext(Web3Context)
   const loading = useLoading()
   const toast = useToast()
@@ -26,11 +26,37 @@ export default function Index({ state, request, profile }) {
       writingScore: undefined,
     },
     validationSchema: Yup.object({
-      shiftTest: Yup.number().required('require').min(1, 'min1').max(4, 'max4'),
-      expireDate: Yup.date().required('require'),
-      testDate: Yup.date().required('require'),
-      speakingScore: Yup.number().required('require').min(0, 'min0').max(195, 'max495'),
-      writingScore: Yup.number().required('require').min(0, 'min0').max(195, 'max495'),
+      shiftTest: Yup.number()
+        .required(t('require'))
+        .min(1, t('min1'))
+        .max(4, t('max4'))
+        .integer(t('integer')),
+      expireDate: Yup.date()
+        .required(t('require'))
+        .test(
+          'expireDate',
+          t('greater_equal_now'),
+          (value) => new Date(value).getTime() >= new Date().getTime()
+        ),
+      testDate: Yup.date()
+        .required(t('require'))
+        .test(
+          'testDate',
+          t('less_equal_now'),
+          (value) => new Date(value).getTime() <= new Date().getTime()
+        ),
+      speakingScore: Yup.number()
+        .test('devisible 5', t('divisible_by_5'), (number) => parseInt(number % 5) == 0)
+        .required(t('require'))
+        .min(0, t('min0'))
+        .max(195, t('max195'))
+        .integer(t('integer')),
+      writingScore: Yup.number()
+        .required(t('require'))
+        .min(0, t('min0'))
+        .max(195, t('max195'))
+        .integer(t('integer'))
+        .test('devisible 5', t('divisible_by_5'), (number) => parseInt(number % 5) == 0),
     }),
     onSubmit: async (values) => {
       loading.open()
@@ -87,7 +113,7 @@ export default function Index({ state, request, profile }) {
                 placeholder={`${t('enter')} ${t('test_date').toLowerCase()}`}
                 onChange={formik.handleChange}
               ></input>
-              <p className={styles.error}>{formik.touched.testDate && formik.errors.testDate}</p>
+              <p className={styles.error}>{formik.errors.testDate}</p>
             </div>
             <div className={styles.inputWrapper}>
               <label className={styles.label}>{t('test_shift')}</label>

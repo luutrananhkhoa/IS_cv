@@ -1,9 +1,11 @@
 import React from 'react'
 import styles from './styles.module.scss'
 import { splitCamel } from '@helper/splitCamel'
+import { useTranslation } from 'react-i18next'
 
 function Index(props) {
   const { label, value } = props
+  const { t } = useTranslation('page', { keyPrefix: 'about.index' })
   return (
     <div className={styles.itemWrapper}>
       <span className={styles.item}>
@@ -15,7 +17,7 @@ function Index(props) {
           {label == 'github' && <i className="fa-brands fa-github"></i>}
           {label == 'linkedin' && <i className="fa-brands fa-linkedin"></i>}
         </div>
-        <label>{splitCamel(label)}</label>
+        <label>{t(label)}</label>
         <a>{value}</a>
       </span>
       <span className={styles.tool}>

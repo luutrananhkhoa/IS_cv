@@ -3,18 +3,16 @@ import styles from './styles.module.scss'
 import Left from './Left'
 import { useSearchParams } from 'react-router-dom'
 import Personal from './Personal'
+import { useTranslation } from 'react-i18next'
 
 function Index() {
   const [searchParams] = useSearchParams()
+  const { t } = useTranslation('page', { keyPrefix: 'setting.index' })
   return (
     <section className={styles.container}>
       <Left></Left>
       <div className={styles.right}>
-        <div className={styles.title}>General Account Settings</div>
-        <div className={styles.main}>
-
-          {searchParams.get('tab') == 'account' && <Personal></Personal>}
-        </div>
+        {searchParams.get('tab') == 'account' && <Personal></Personal>}
       </div>
     </section>
   )

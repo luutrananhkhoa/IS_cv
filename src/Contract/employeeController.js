@@ -5,6 +5,136 @@ export const ABI = [
   {
     inputs: [
       {
+        internalType: 'address',
+        name: 'listEmployeeAddress',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: 'listSkillAddress',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: 'listApplyAddress',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: 'listAppointmenAddress',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'previousOwner',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'OwnershipTransferred',
+    type: 'event',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'applyId',
+        type: 'uint256',
+      },
+    ],
+    name: '_checkApplyIdBelongsToEmployeeId',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'postId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'applyId',
+        type: 'uint256',
+      },
+    ],
+    name: '_checkApplyIdBelongsToPostId',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'employeeId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'postId',
+        type: 'uint256',
+      },
+    ],
+    name: '_checkExistApply',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: '_checkExistEmployeeAccount',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'uint256',
         name: 'catergory',
         type: 'uint256',
@@ -125,6 +255,25 @@ export const ABI = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'value',
+        type: 'address',
+      },
+    ],
+    name: 'autoLogin',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: 'destroy',
     outputs: [],
@@ -225,186 +374,75 @@ export const ABI = [
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'listEmployeeAddress',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'listSkillAddress',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'listApplyAddress',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'listAppointmenAddress',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'nonpayable',
-    type: 'constructor',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'previousOwner',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
-    ],
-    name: 'OwnershipTransferred',
-    type: 'event',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'id',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'skillId',
-        type: 'uint256',
-      },
-    ],
-    name: 'removeSkill',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
-    ],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'id',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'applyId',
-        type: 'uint256',
-      },
-    ],
-    name: '_checkApplyIdBelongsToEmployeeId',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'postId',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'applyId',
-        type: 'uint256',
-      },
-    ],
-    name: '_checkApplyIdBelongsToPostId',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'employeeId',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'postId',
-        type: 'uint256',
-      },
-    ],
-    name: '_checkExistApply',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [],
-    name: '_checkExistEmployeeAccount',
+    name: 'getAllProfile',
     outputs: [
       {
-        internalType: 'bool',
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'catergory',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'id',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'idCardNumber',
+            type: 'uint256',
+          },
+          {
+            internalType: 'address',
+            name: 'user',
+            type: 'address',
+          },
+          {
+            internalType: 'string',
+            name: 'name',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'phone',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'professional',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'email',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'github',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'linkedin',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'sourceImage',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'password',
+            type: 'string',
+          },
+        ],
+        internalType: 'struct Profile[]',
         name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'value',
-        type: 'address',
-      },
-    ],
-    name: 'autoLogin',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        type: 'tuple[]',
       },
     ],
     stateMutability: 'view',
@@ -722,8 +760,45 @@ export const ABI = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'skillId',
+        type: 'uint256',
+      },
+    ],
+    name: 'removeSkill',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
 ]
-export const ADDRESS = '0x55894e56d1a7DB3ea11adBDbCd5570039aA1BCc3'
+export const ADDRESS = '0x2Af3c7215654f7fC732651A00fEE0bd0552cbdDA'
 
 export async function getContract() {
   const provider = await detectEthereumProvider()

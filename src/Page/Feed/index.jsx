@@ -5,9 +5,11 @@ import Search from './Search'
 import { getContract as getContractBusiness } from '@contract/businessController'
 import _ from 'lodash'
 import { getImage as getBusinessPostImage } from '@api/business/post'
+import SearchModal from './SearchModal'
 
 function Index() {
   const [list, setList] = useState()
+  const [openSearch, setOpenSearch] = useState(false)
   useEffect(() => {
     getContractBusiness()
       .then((contractBusiness) => {
@@ -30,24 +32,26 @@ function Index() {
       })
       .catch((error) => console.log(error))
   }, [])
-  console.log(list)
   return (
-    <div className={styles.container}>
-      <Search></Search>
-      {list
-        ?.map((value, index) => {
-          return (
-            <PostItem
-              key={index}
-              {...value}
-              hashtag={value.hashTag}
-              postId={value.businessPostId}
-              typeFor="business"
-            ></PostItem>
-          )
-        })
-        .reverse()}
-    </div>
+    <>
+      <SearchModal state={[openSearch, setOpenSearch]}></SearchModal>
+      <div className={styles.container}>
+        <Search onClick={() => setOpenSearch(true)}></Search>
+        {list
+          ?.map((value, index) => {
+            return (
+              <PostItem
+                key={index}
+                {...value}
+                hashtag={value.hashTag}
+                postId={value.businessPostId}
+                typeFor="business"
+              ></PostItem>
+            )
+          })
+          .reverse()}
+      </div>
+    </>
   )
 }
 

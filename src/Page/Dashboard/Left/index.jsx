@@ -3,11 +3,12 @@ import styles from './styles.module.scss'
 import { Link, useSearchParams } from 'react-router-dom'
 import clsx from 'clsx'
 import avatarDefault from '@asset/avatar.png'
-import { CATEGORY } from '@constant/businessConst'
+import { useTranslation } from 'react-i18next'
 import { getAvatar } from '@api/business/profile'
 import { Web3Context } from '@context/Web3ContextProvider'
 function Index() {
   const { loginState } = useContext(Web3Context)
+  const {t} = useTranslation("page", {keyPrefix: "dashboard.index"})
   const [searchParams] = useSearchParams()
   const [avatar, setAvatar] = useState()
   useEffect(() => {
@@ -45,21 +46,21 @@ function Index() {
                 className={clsx(styles.tab, { [styles.active]: active == 'dashboard' })}
               >
                 <i className="fa-regular fa-house-heart"></i>
-                <a>Dashboard</a>
+                <a>{t("dashboard")}</a>
               </Link>
               <Link
                 to="/dashboard?tab=posts"
                 className={clsx(styles.tab, { [styles.active]: active == 'posts' })}
               >
                 <i className="fa-regular fa-blog"></i>
-                <a>Posts</a>
+                <a>{t("posts")}</a>
               </Link>
               <Link
                 to="/dashboard?tab=certificates"
                 className={clsx(styles.tab, { [styles.active]: active == 'certificates' })}
               >
                 <i className="fa-regular fa-certificate"></i>
-                <a>Certificates</a>
+                <a>{t("certificate")}</a>
               </Link>
             </>
           )

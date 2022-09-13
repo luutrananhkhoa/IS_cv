@@ -69,6 +69,7 @@ function App() {
                 <Route path="setting" element={<Setting></Setting>}></Route>
                 <Route path="messages" element={<Messages></Messages>}>
                   <Route path="page/:id" element={<Messages></Messages>}></Route>
+                  <Route path="profile/:id" element={<Messages></Messages>}></Route>
                 </Route>
               </Route>
               <Route path="">

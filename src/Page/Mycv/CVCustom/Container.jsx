@@ -6,12 +6,14 @@ import { useParams } from 'react-router-dom'
 import { Web3Context } from '@context/Web3ContextProvider'
 import useToObject from '@page/CustomCV/hooks/useToObject'
 import { CUSTOMCVDIMENSION } from './config'
+import { getContract as getContractEmployee } from '@contract/employeeController'
 
 export default function Container(props) {
   const { loginState } = useContext(Web3Context)
   const params = useParams()
   const id = params.id
   const [list, setList] = useState({})
+  const [profile, setProfile] = useState()
 
   useEffect(() => {
     getContractCV()
@@ -21,6 +23,7 @@ export default function Container(props) {
           .call()
           .then((success) => {
             let result = useToObject(success[0].data)
+
             let temp = result.list
             let newData = Object.keys(temp).map((key) => {
               let item = temp[key]
@@ -47,18 +50,26 @@ export default function Container(props) {
       })
   }, [])
 
+  useEffect(() => {
+    getContractEmployee()
+      .then((contractEmployee) => {
+        contractEmployee.methods
+          .getProfile(id)
+          .call()
+          .then((success) => {
+            setProfile({ ...success })
+          })
+          .catch((error) => console.error(error))
+      })
+      .catch((error) => console.error(error))
+  }, [])
   return (
     <div className={styles.container}>
-      {Object.keys(list).map((id) => {
-        return (
-          <DraggableBox
-            key={id}
-            id={id}
-            data={list[id]}
-            profile={loginState.profile}
-          ></DraggableBox>
-        )
-      })}
+      {profile &&
+        list &&
+        Object.keys(list).map((id) => {
+          return <DraggableBox key={id} id={id} data={list[id]} profile={profile}></DraggableBox>
+        })}
     </div>
   )
 }

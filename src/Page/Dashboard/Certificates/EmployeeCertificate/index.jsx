@@ -28,7 +28,7 @@ export default function Index() {
   const [listSW, setListSW] = useState()
 
   const toast = useToast()
-  const { t } = useTranslation('page', { keyPrefix: 'company.dashboard.index' })
+  const { t } = useTranslation('page', { keyPrefix: 'dashboard.employeeCertificate' })
   const [searchParams] = useSearchParams()
   const employeeId = searchParams.get('employeeid')
   const [profile, setProfile] = useState()
@@ -122,7 +122,7 @@ export default function Index() {
       )}
 
       <div className={styles.container}>
-        <Navigation to={-1} title={'Chung chi cua employee'}></Navigation>
+        <Navigation to={-1} title={t('certificate_of_employee')}></Navigation>
         <div className={styles.filterWrapper}>
           <p>{t('filter')}: </p>
           <div className={styles.inputWrapper}>
@@ -150,21 +150,6 @@ export default function Index() {
           </div>
         </div>
 
-        {/* <div className={styles.statusWrapper}>
-          <div className={styles.status}>
-            {request && (
-              <button
-                className={clsx(styles.buttonStatus, styles.buttonWaiting)}
-                onClick={() => {
-                  setModalConfirm(true)
-                }}
-              >
-                waiting
-              </button>
-            )}
-          </div>
-        </div> */}
-
         <div className={styles.group}>
           <div className={styles.groupTitleWrapper}>
             <div className={styles.textTitle}>
@@ -172,7 +157,7 @@ export default function Index() {
                 <i className={clsx('fa-solid fa-ear-muffs', styles.icon)}></i>
                 <i className={clsx('fa-solid fa-book-open', styles.icon)}></i>
               </a>
-              Danh sach LR
+              {t('list_lr')}
             </div>
 
             {requestLR && (
@@ -182,7 +167,7 @@ export default function Index() {
                   setOpenModalLR(true)
                 }}
               >
-                ADD
+                {t('add')}
               </button>
             )}
           </div>
@@ -191,12 +176,16 @@ export default function Index() {
               <thead className={styles.thead}>
                 <tr className={styles.body}>
                   <th className={`${styles.theaderStyle} ${styles.column1}`}>{t('number')}</th>
-                  <th className={`${styles.theaderStyle} ${styles.column2}`}>ngay test</th>
-                  <th className={`${styles.theaderStyle} ${styles.column3}`}>ca</th>
-                  <th className={`${styles.theaderStyle} ${styles.column4}`}>het han</th>
-                  <th className={`${styles.theaderStyle} ${styles.column5}`}>nghe</th>
-                  <th className={`${styles.theaderStyle} ${styles.column5}`}>doc</th>
-                  <th className={`${styles.theaderStyle} ${styles.column5}`}>tong</th>
+                  <th className={`${styles.theaderStyle} ${styles.column2}`}>{t('test_date')}</th>
+                  <th className={`${styles.theaderStyle} ${styles.column3}`}>{t('test_shift')}</th>
+                  <th className={`${styles.theaderStyle} ${styles.column4}`}>{t('expire_date')}</th>
+                  <th className={`${styles.theaderStyle} ${styles.column5}`}>
+                    {t('listening_score')}
+                  </th>
+                  <th className={`${styles.theaderStyle} ${styles.column5}`}>
+                    {t('reading_score')}
+                  </th>
+                  <th className={`${styles.theaderStyle} ${styles.column5}`}>{t('total_score')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -215,7 +204,7 @@ export default function Index() {
                 <i className={clsx('fa-solid fa-face-laugh', styles.icon)}></i>
                 <i className={clsx('fa-solid fa-feather', styles.icon)}></i>
               </a>
-              Danh sach SW
+              {t('list_sw')}
             </div>
             {requestSW && (
               <button
@@ -224,7 +213,7 @@ export default function Index() {
                   setOpenModalSW(true)
                 }}
               >
-                ADD
+                {t('add')}
               </button>
             )}
           </div>
@@ -233,12 +222,16 @@ export default function Index() {
               <thead className={styles.thead}>
                 <tr className={styles.body}>
                   <th className={`${styles.theaderStyle} ${styles.column1}`}>{t('number')}</th>
-                  <th className={`${styles.theaderStyle} ${styles.column2}`}>ngay test</th>
-                  <th className={`${styles.theaderStyle} ${styles.column3}`}>ca</th>
-                  <th className={`${styles.theaderStyle} ${styles.column4}`}>het han</th>
-                  <th className={`${styles.theaderStyle} ${styles.column5}`}>noi</th>
-                  <th className={`${styles.theaderStyle} ${styles.column5}`}>viet</th>
-                  <th className={`${styles.theaderStyle} ${styles.column5}`}>tong</th>
+                  <th className={`${styles.theaderStyle} ${styles.column2}`}>{t('test_date')}</th>
+                  <th className={`${styles.theaderStyle} ${styles.column3}`}>{t('test_shift')}</th>
+                  <th className={`${styles.theaderStyle} ${styles.column4}`}>{t('expire_date')}</th>
+                  <th className={`${styles.theaderStyle} ${styles.column5}`}>
+                    {t('speaking_score')}
+                  </th>
+                  <th className={`${styles.theaderStyle} ${styles.column5}`}>
+                    {t('writing_score')}
+                  </th>
+                  <th className={`${styles.theaderStyle} ${styles.column5}`}>{t('total_score')}</th>
                 </tr>
               </thead>
               <tbody>

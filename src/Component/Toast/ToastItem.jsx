@@ -4,10 +4,11 @@ import clsx from 'clsx'
 import Progressbar from './ProgressBar'
 import { eventEmitter } from './ToastContainer'
 import * as constants from './constants'
+import { useTranslation } from 'react-i18next'
 
 function ToastItem(props) {
   const [display, setDisplay] = useState(true)
-
+  const { t } = useTranslation('component', { keyPrefix: 'toast.index' })
   const ref = useRef()
   const { type, message, id, time, closeOnClick, pauseOnHover } = props
   useEffect(() => {
@@ -72,8 +73,9 @@ function ToastItem(props) {
               </div>
             </div>
           )}
-
-          <a className={styles.text}> {message}</a>
+          <a className={styles.text}>
+            {!message || message == type.toString() ? t(type) : message}
+          </a>
           <button
             onClick={() => {
               setDisplay(false)

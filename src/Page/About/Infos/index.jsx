@@ -5,18 +5,20 @@ import Item from './Item'
 import { useLocation } from 'react-router-dom'
 import { getContract as getContractBusiness } from '@contract/businessController'
 import { getContract as getContractEmployee } from '@contract/employeeController'
+import { useParams } from 'react-router-dom'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
   const [list, setList] = useState()
+  const id = useParams().id
   const location = useLocation()
   useEffect(() => {
     if (location.pathname.includes('profile')) {
       getContractEmployee()
-        .then((success) => {
-          success.methods
-            .getProfile(loginState.id)
-            .call({ from: loginState.address })
+        .then((contractEmployee) => {
+          contractEmployee.methods
+            .getProfile(id)
+            .call()
             .then((success) => setList({ ...success }))
             .catch((error) => console.log(error))
         })
@@ -24,11 +26,13 @@ function Index() {
     }
     if (location.pathname.includes('page')) {
       getContractBusiness()
-        .then((success) => {
-          success.methods
-            .getProfile(loginState.id)
-            .call({ from: loginState.address })
-            .then((success) => setList({ ...success }))
+        .then((contractBusiness) => {
+          contractBusiness.methods
+            .getProfile(id)
+            .call()
+            .then((success) => {
+              setList({ ...success })
+            })
             .catch((error) => console.log(error))
         })
         .catch((error) => console.log(error))

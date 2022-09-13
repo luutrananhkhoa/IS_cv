@@ -198,6 +198,7 @@ function Index() {
                 e.target.style.height = 'inherit'
                 e.target.style.height = `${e.target.scrollHeight}px`
               }}
+              rows={1}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Write your comment.."

@@ -4,7 +4,10 @@ import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import { Web3Context } from '@context/Web3ContextProvider'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 function Index(props) {
+  const { t } = useTranslation('component', { keyPrefix: 'morePanel.index' })
   const { showMorePanel, setShowMorePanel, dispatchLogin, loginState } = useContext(Web3Context)
   const navigate = useNavigate()
   const handleLogout = () => {
@@ -31,7 +34,7 @@ function Index(props) {
         className={styles.item}
       >
         <i className="fa-solid fa-circle-heart"></i>
-        <p>Trang ca nhan</p>
+        <p>{t('my_page')}</p>
       </Link>
       {loginState.for == 'business' && (
         <Link
@@ -44,12 +47,12 @@ function Index(props) {
           className={styles.item}
         >
           <i className="fa-regular fa-grid-horizontal"></i>
-          <p>Dashboard</p>
+          <p>{t('dashboard')}</p>
         </Link>
       )}
       <div className={styles.item}>
         <i className="fa-solid fa-bookmark"></i>
-        <p>Da luu</p>
+        <p>{t('saved')}</p>
       </div>
       <Link
         to="/setting?tab=account"
@@ -61,11 +64,11 @@ function Index(props) {
         className={styles.item}
       >
         <i className="fa-solid fa-gear"></i>
-        <p>Cai dat</p>
+        <p>{t("setting")}</p>
       </Link>
       <div onClick={handleLogout} className={styles.item}>
         <i className="fa-solid fa-arrow-right-from-bracket"></i>
-        <p>Dang xuat</p>
+        <p>{t('logout')}</p>
       </div>
     </div>
   )

@@ -16,6 +16,7 @@ export default function Index({
   index,
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
+  const { t } = useTranslation('page', { keyPrefix: 'dashboard.index' })
   const [profile, setProfile] = useState()
   useEffect(() => {
     contractEmployee()
@@ -46,13 +47,19 @@ export default function Index({
         <th className={clsx(styles.column6, styles.statusWrapper)}>
           <div>
             {statusRequest == parseInt(1) && (
-              <button className={clsx(styles.buttonStatus, styles.buttonWaiting)}>Waiting</button>
+              <button className={clsx(styles.buttonStatus, styles.buttonWaiting)}>
+                {t('waiting')}
+              </button>
             )}
             {statusRequest == parseInt(2) && (
-              <button className={clsx(styles.buttonStatus, styles.buttonAccepted)}>Accepted</button>
+              <button className={clsx(styles.buttonStatus, styles.buttonAccepted)}>
+                {t('accepted')}
+              </button>
             )}
             {statusRequest == parseInt(3) && (
-              <button className={clsx(styles.buttonStatus, styles.buttonDeclined)}>Declined</button>
+              <button className={clsx(styles.buttonStatus, styles.buttonDeclined)}>
+                {t('decline')}
+              </button>
             )}
             <button className={styles.buttonSW}>
               <Link

@@ -208,35 +208,6 @@ export const ABI = [
   {
     inputs: [
       {
-        internalType: 'uint256',
-        name: 'id',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'postId',
-        type: 'uint256',
-      },
-      {
-        internalType: 'enum Status',
-        name: 'status',
-        type: 'uint8',
-      },
-    ],
-    name: 'setStatusPost',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
         internalType: 'address',
         name: 'listBusinessAddress',
         type: 'address',
@@ -278,6 +249,78 @@ export const ABI = [
     ],
     name: 'OwnershipTransferred',
     type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'string',
+        name: 'hashTag',
+        type: 'string',
+      },
+      {
+        indexed: false,
+        internalType: 'string',
+        name: 'job',
+        type: 'string',
+      },
+      {
+        indexed: false,
+        internalType: 'string',
+        name: 'content',
+        type: 'string',
+      },
+      {
+        indexed: false,
+        internalType: 'string',
+        name: 'imageSource',
+        type: 'string',
+      },
+      {
+        indexed: false,
+        internalType: 'enum Status',
+        name: 'status',
+        type: 'uint8',
+      },
+    ],
+    name: 'eventAddPost',
+    type: 'event',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'postId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'enum Status',
+        name: 'status',
+        type: 'uint8',
+      },
+    ],
+    name: 'setStatusPost',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
     inputs: [
@@ -468,6 +511,76 @@ export const ABI = [
           },
         ],
         internalType: 'struct BusinessPost[]',
+        name: '',
+        type: 'tuple[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getAllProfile',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'catergory',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'id',
+            type: 'uint256',
+          },
+          {
+            internalType: 'address',
+            name: 'user',
+            type: 'address',
+          },
+          {
+            internalType: 'string',
+            name: 'name',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'phone',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'professional',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'email',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'github',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'linkedin',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'sourceImage',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'password',
+            type: 'string',
+          },
+        ],
+        internalType: 'struct Profile[]',
         name: '',
         type: 'tuple[]',
       },
@@ -869,7 +982,7 @@ export const ABI = [
     type: 'function',
   },
 ]
-export const ADDRESS = '0xfA7A2A285C9C8a5428d8040516cF5552FD717F88'
+export const ADDRESS = '0x7c24DD860159f22F4b2bacc20A51F26DDAff9C09'
 
 export async function getContract() {
   const provider = await detectEthereumProvider()

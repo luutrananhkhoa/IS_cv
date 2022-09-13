@@ -2,16 +2,10 @@ import React, { useContext } from 'react'
 import styles from './styles.module.scss'
 import { SocialContext } from '@context/SocialContext'
 
-function Search() {
-  const { search, setSearch } = useContext(SocialContext)
+function Search({ onClick }) {
   return (
-    <div className={styles.search}>
-      <input
-        placeholder="Search..."
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      ></input>
+    <div onClick={onClick} className={styles.search}>
+      <a>Search...</a>
       <i className="fa-light fa-magnifying-glass"></i>
     </div>
   )

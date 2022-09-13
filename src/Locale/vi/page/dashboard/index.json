@@ -15,5 +15,10 @@
   "request_date": "Ngày yêu cầu",
   "waiting": "Đang chờ",
   "success": "Thành công",
-  "declined": "Từ chối"
+  "declined": "Từ chối",
+  "name": "Tên",
+  "certificate_type": "Loại chứng chỉ",
+  "posts": "Bài viết",
+  "certificate": "Chứng chỉ",
+  "dashboard": "Bảng quản lý"
 }
