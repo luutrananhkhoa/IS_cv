@@ -145,6 +145,30 @@ export const ABI = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'businessId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'appointmentId',
+        type: 'uint256',
+      },
+    ],
+    name: 'deleteAllAppointment',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: 'destroy',
     outputs: [],
@@ -195,6 +219,35 @@ export const ABI = [
       },
     ],
     name: 'editBusiness',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'postId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'enum Status',
+        name: 'status',
+        type: 'uint8',
+      },
+    ],
+    name: 'setStatusPost',
     outputs: [
       {
         internalType: 'bool',
@@ -292,35 +345,6 @@ export const ABI = [
     ],
     name: 'eventAddPost',
     type: 'event',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'id',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'postId',
-        type: 'uint256',
-      },
-      {
-        internalType: 'enum Status',
-        name: 'status',
-        type: 'uint8',
-      },
-    ],
-    name: 'setStatusPost',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'nonpayable',
-    type: 'function',
   },
   {
     inputs: [
@@ -458,6 +482,51 @@ export const ABI = [
         internalType: 'uint256',
         name: '',
         type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getAllAppointment',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'appointmentId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'applyId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'employeeId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'businessId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'time',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'status',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct Appointment[]',
+        name: '',
+        type: 'tuple[]',
       },
     ],
     stateMutability: 'view',
@@ -982,7 +1051,7 @@ export const ABI = [
     type: 'function',
   },
 ]
-export const ADDRESS = '0x9A30e36A0597744B28072c1973893cf4304d7920'
+export const ADDRESS = '0xaC3c49E371243A6181bB0a6DC0Fff3701acab508'
 
 export async function getContract() {
   const provider = await detectEthereumProvider()

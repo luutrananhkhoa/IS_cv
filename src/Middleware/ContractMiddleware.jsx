@@ -66,7 +66,7 @@ export default function ContractMiddleware(props) {
                     if (cookies.get('for') == 'business') {
                       await businessProfileApi
                         .getAvatar(id)
-                        .then((avatar) => {
+                        .then((success) => {
                           avatar = success
                         })
                         .catch((error) => console.error(error))

@@ -13,6 +13,7 @@ import { getContract as getContractBusiness } from '@contract/businessController
 import { useParams, Link } from 'react-router-dom'
 import { getAvatar } from '@api/employee/profile'
 import { useTranslation } from 'react-i18next'
+import { getImage as getBusinessPostImage } from '@api/business/post'
 // Component/PostItem
 function Item({
   content,
@@ -25,6 +26,7 @@ function Item({
   typeFor,
   image,
   disabled,
+  imageSource,
   imageName,
 }) {
   const [comment, setComment] = useState('')
@@ -34,6 +36,7 @@ function Item({
   const [applied, setApplied] = useState(false)
   const { t } = useTranslation('component', { keyPrefix: 'postItem.index' })
   const toast = useToast()
+  const [loadImage, setLoadImage] = useState(image)
   const loading = useLoading()
   const handleApplyPost = async () => {
     if (loginState.for != 'employee') {
@@ -131,6 +134,12 @@ function Item({
         .catch((error) => console.error(error))
     })
   }
+  useEffect(() => {
+    if (!imageSource) return
+    getBusinessPostImage(id, imageSource)
+      .then((success) => setLoadImage(success))
+      .catch((error) => console.error(error))
+  }, [])
 
   useEffect(() => {
     if (loginState.for == 'employee') {
@@ -196,9 +205,10 @@ function Item({
             <img
               className={styles.imageContent}
               src={
-                typeof image == 'string'
+                loadImage ||
+                (typeof image == 'string'
                   ? image
-                  : typeof image == 'object' && URL.createObjectURL(image)
+                  : typeof image == 'object' && URL.createObjectURL(image))
               }
             ></img>
           </Link>

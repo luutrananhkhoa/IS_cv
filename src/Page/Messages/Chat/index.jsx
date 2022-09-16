@@ -32,13 +32,14 @@ function Index() {
             .getProfile(id)
             .call()
             .then(async (success) => {
+              let avatar = avatarDefault
               await employeeApi
                 .getAvatar(id)
-                .then((avatar) => {
-                  success.avatar = avatar
+                .then((avatarSuccess) => {
+                  avatar = avatarSuccess
                 })
                 .catch((error) => console.error(error))
-              setProfile({ ...profile, ...success })
+              setProfile({ ...profile, avatar, ...success })
             })
             .catch((error) => console.error(error))
         })
@@ -53,13 +54,14 @@ function Index() {
             .getProfile(id)
             .call()
             .then(async (success) => {
+              let avatar = avatarDefault
               await businessApi
                 .getAvatar(id)
-                .then((avatar) => {
-                  success.avatar = avatar
+                .then((avatarSuccess) => {
+                  avatar = avatarSuccess
                 })
                 .catch((error) => console.error(error))
-              setProfile({ ...profile, ...success })
+              setProfile({ ...profile, avatar, ...success })
             })
             .catch((error) => console.error(error))
         })

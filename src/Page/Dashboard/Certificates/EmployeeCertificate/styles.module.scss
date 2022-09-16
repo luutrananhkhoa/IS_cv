@@ -1,5 +1,6 @@
 @use '../../../../Style/abtracts/mixins' as mixin;
 @use '../../../../Style/globalType/function' as function;
+@use "../../variables.scss" as variables;
 $margin: 20px;
 $width: 230px;
 $dateWidth: 150px;
@@ -51,6 +52,7 @@ $tableScrollHeight: 500px;
   width: 100%;
 }
 .container {
+  margin: variables.$space;
   position: relative;
   background: var(--color-background-primary);
   // background: blue;

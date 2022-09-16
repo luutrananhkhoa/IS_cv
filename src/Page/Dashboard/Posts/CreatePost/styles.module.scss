@@ -1,5 +1,6 @@
 @use '../../../../Style/globalType/function' as function;
-@use "../../../../Style/globalType/internal" as internal;
+@use '../../../../Style/globalType/internal' as internal;
+@use '../../variables.scss' as variables;
 @import '../../variables.scss';
 $paddingWrapperItem: 5px 10px;
 %item {
@@ -13,6 +14,7 @@ $paddingWrapperItem: 5px 10px;
   }
 }
 .container {
+  margin: variables.$space;
   .title {
     @include internal.title;
   }
@@ -72,7 +74,7 @@ $paddingWrapperItem: 5px 10px;
           flex-direction: column;
           align-items: stretch;
           align-content: stretch;
-          span{
+          span {
             cursor: pointer;
             text-align: left;
           }

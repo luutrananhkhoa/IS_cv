@@ -7,6 +7,7 @@ import Posts from './Posts'
 import { useSearchParams } from 'react-router-dom'
 import ViewPost from './Posts/ViewPost'
 import Certificates from './Certificates'
+import Schedule from './Schedule'
 
 function Index() {
   const [searchParams] = useSearchParams()
@@ -20,6 +21,8 @@ function Index() {
               return <Posts></Posts>
             case 'certificates':
               return <Certificates></Certificates>
+            case 'schedule':
+              return <Schedule></Schedule>
             default:
               return <Main></Main>
           }

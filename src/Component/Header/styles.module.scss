@@ -238,7 +238,7 @@ $mobileWidth: 350px;
     color: var(--color-text-secondary);
     background: var(--color-background-primary);
     border-radius: 100%;
-    object-fit: fill;
+    object-fit: cover;
     cursor: pointer;
   }
 }

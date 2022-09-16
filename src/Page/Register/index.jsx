@@ -56,8 +56,7 @@ function Index() {
         }),
       idcard: Yup.number(t('invalid'))
         .min(0, t('invalid'))
-        .integer(t('invalid'))
-        .required(t('require')),
+        .integer(t('invalid')),
       fullname: Yup.string().required(t('require')),
       phone: Yup.string().required(t('require')).matches(phoneRegExp, t('invalid')),
       professional: Yup.string().required(t('require')),
