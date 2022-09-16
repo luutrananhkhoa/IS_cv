@@ -59,13 +59,13 @@ function Index({ id }) {
             max={SCOREMAX.LISTENING}
             level={lr.listeningScore}
           ></Item>
-          <Item key={2} title={'Reading'} max={SCOREMAX.READING} level={lr.readingScore}></Item>
+          <Item key={1} title={'Reading'} max={SCOREMAX.READING} level={lr.readingScore}></Item>
         </div>
       )}
       {sw && (
         <div className={styles.group}>
-          <Item key={0} title={'Speaking'} max={SCOREMAX.SPEAKING} level={sw.speakingScore}></Item>
-          <Item key={2} title={'Writing'} max={SCOREMAX.WRITING} level={sw.writingScore}></Item>
+          <Item key={2} title={'Speaking'} max={SCOREMAX.SPEAKING} level={sw.speakingScore}></Item>
+          <Item key={3} title={'Writing'} max={SCOREMAX.WRITING} level={sw.writingScore}></Item>
         </div>
       )}
     </div>

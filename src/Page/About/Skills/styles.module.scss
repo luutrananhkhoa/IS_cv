@@ -53,6 +53,7 @@
       @include function.inputStyle;
       width: 100%;
       color: var(--color-text-grey);
+      text-transform: uppercase;
     }
     p {
       @include function.errorInput;

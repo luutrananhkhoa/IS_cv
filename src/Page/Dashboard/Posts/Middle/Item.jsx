@@ -5,12 +5,13 @@ import PostStatus from '@component/PostItem/PostStatus'
 import clsx from 'clsx'
 import { getContract as getContractBusiness } from '@contract/businessController'
 import _ from 'lodash'
+import { getImage } from '@api/business/post'
 
 function Item(props) {
   const { businessPostId, content, hashTag, id, imageSource, job, status, time } = props
   const navigate = useNavigate()
   const [list, setList] = useState()
-
+  const [image, setImage] = useState()
   const gotoViewPost = () => {
     navigate(`/dashboard?tab=posts&businessPostId=${businessPostId}`)
   }
@@ -35,15 +36,20 @@ function Item(props) {
         console.log(error)
       })
   }, [])
+  useEffect(() => {
+    getImage(id, imageSource)
+      .then((success) => {
+        setImage(success)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
   return (
     <tr onClick={gotoViewPost}>
       <td>
         <div class={styles.name}>
-          <img
-            src={
-              'https://image.thanhnien.vn/1200x630/Uploaded/2022/zxaijr/2021_03_16/rosealbumkyluc1_lgic.png'
-            }
-          ></img>
+          <img src={image}></img>
           <p>{job}</p>
         </div>
       </td>

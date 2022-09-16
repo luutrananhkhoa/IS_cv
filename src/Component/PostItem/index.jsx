@@ -12,7 +12,7 @@ import { getContract as getContractEmployee } from '@contract/employeeController
 import { getContract as getContractBusiness } from '@contract/businessController'
 import { useParams, Link } from 'react-router-dom'
 import { getAvatar } from '@api/employee/profile'
-import {useTranslation} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 // Component/PostItem
 function Item({
   content,
@@ -32,7 +32,7 @@ function Item({
   const [openClose, setOpenClose] = useState(false)
   const { loginState } = useContext(Web3Context)
   const [applied, setApplied] = useState(false)
-  const {t} = useTranslation("component", {keyPrefix: "postItem.index"})
+  const { t } = useTranslation('component', { keyPrefix: 'postItem.index' })
   const toast = useToast()
   const loading = useLoading()
   const handleApplyPost = async () => {
@@ -148,7 +148,7 @@ function Item({
         title="confirm"
         content={
           <div div className={styles.closeModal}>
-            {t("are_you_sure_to_close_this_post")}
+            {t('are_you_sure_to_close_this_post')}
           </div>
         }
         action={handleClosePost}
@@ -167,7 +167,9 @@ function Item({
               <div className={styles.date}>{new Date(parseInt(time * 1000)).toLocaleString()}</div>
               <PostStatus
                 type={
-                  (status == 1 && 'open') || (status == 2 && 'closed') || (status == 3 && 'upcoming')
+                  (status == 1 && 'open') ||
+                  (status == 2 && 'closed') ||
+                  (status == 3 && 'upcoming')
                 }
               ></PostStatus>
             </div>
@@ -204,38 +206,38 @@ function Item({
         <div className={styles.foot}>
           <div className={styles.footItem}>
             <i className="fa-regular fa-heart"></i>
-            <div className={styles.footItemTitle}>25 {t("like")}</div>
+            <div className={styles.footItemTitle}>25 {t('like')}</div>
           </div>
           <div className={styles.footItem}>
             <i className="fa-regular fa-comment"></i>
-            <div className={styles.footItemTitle}>10  {t("comment")}</div>
+            <div className={styles.footItemTitle}>10 {t('comment')}</div>
           </div>
           <div className={styles.footItem}>
             <i className="fa-regular fa-bookmark"></i>
-            <div className={styles.footItemTitle}> {t("bookmark")}</div>
+            <div className={styles.footItemTitle}> {t('bookmark')}</div>
           </div>
           <div className={styles.footItem}>
             <i className="fa-light fa-share-nodes"></i>
-            <div className={styles.footItemTitle}> {t("share")}</div>
+            <div className={styles.footItemTitle}> {t('share')}</div>
           </div>
           {!applied && loginState.for == 'employee' && parseInt(status) == 1 && (
             <button onClick={handleApplyPost} className={styles.footItem}>
-              <div className={styles.buttonApply}> {t("apply")}</div>
+              <div className={styles.buttonApply}> {t('apply')}</div>
             </button>
           )}
           {loginState.for == 'business' && id == loginState.id && parseInt(status) == 1 && (
             <button onClick={() => setOpenClose(true)} className={styles.footItem}>
-              <div className={styles.buttonApply}> {t("close")}</div>
+              <div className={styles.buttonApply}> {t('close')}</div>
             </button>
           )}
           {parseInt(status) != 1 && (
             <button className={styles.footItem}>
-              <div className={styles.buttonApply}> {t("closed")}</div>
+              <div className={styles.buttonApply}> {t('closed')}</div>
             </button>
           )}
           {loginState.for == 'employee' && applied && (
             <button className={styles.footItem}>
-              <div className={clsx(styles.buttonApply, styles.applied)}> {t("applied")}</div>
+              <div className={clsx(styles.buttonApply, styles.applied)}> {t('applied')}</div>
             </button>
           )}
         </div>

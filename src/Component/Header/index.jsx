@@ -100,7 +100,7 @@ export default function Header() {
           </Link>
         )}
         {loginState.address && loginState.isLoggedIn && (
-          <button
+          <div
             id="header_button"
             onClick={() => {
               setShowMorePanel((e) => {
@@ -111,10 +111,10 @@ export default function Header() {
               })
             }}
             key={4}
-            className={clsx(styles.buttonItem, styles.account)}
+            className={styles.account}
           >
-            <i className="fa-solid fa-user"></i>
-          </button>
+            <img src={loginState.profile.avatar}></img>
+          </div>
         )}
       </nav>
     </header>

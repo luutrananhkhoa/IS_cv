@@ -11,18 +11,19 @@ import { useParams } from 'react-router-dom'
 import { Web3Context } from '@context/Web3ContextProvider'
 import { ChatContext } from '../ChatContext'
 import Top from './Top'
-
+import avatarDefault from '@asset/avatar.png'
+import * as employeeApi from '@api/employee/profile'
+import * as businessApi from '@api/business/profile'
 import _ from 'lodash'
 import { useLocation } from 'react-router-dom'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
   const { list, handleSend } = useContext(ChatContext)
-  const [profile, setProfile] = useState()
+  const [profile, setProfile] = useState({ avatar: avatarDefault })
   const location = useLocation()
   const id = parseInt(useParams().id)
   const [input, setInput] = useState()
-
   useEffect(() => {
     if (location.pathname.includes('profile')) {
       getContractEmployee()
@@ -30,8 +31,14 @@ function Index() {
           contractEmployee.methods
             .getProfile(id)
             .call()
-            .then((success) => {
-              setProfile({ ...success })
+            .then(async (success) => {
+              await employeeApi
+                .getAvatar(id)
+                .then((avatar) => {
+                  success.avatar = avatar
+                })
+                .catch((error) => console.error(error))
+              setProfile({ ...profile, ...success })
             })
             .catch((error) => console.error(error))
         })
@@ -41,12 +48,18 @@ function Index() {
     }
     if (location.pathname.includes('page')) {
       getContractBusiness()
-        .then((contractBusiness) => {
+        .then(async (contractBusiness) => {
           contractBusiness.methods
             .getProfile(id)
             .call()
-            .then((success) => {
-              setProfile({ ...success })
+            .then(async (success) => {
+              await businessApi
+                .getAvatar(id)
+                .then((avatar) => {
+                  success.avatar = avatar
+                })
+                .catch((error) => console.error(error))
+              setProfile({ ...profile, ...success })
             })
             .catch((error) => console.error(error))
         })
@@ -69,7 +82,7 @@ function Index() {
                     <ChatItem
                       key={index}
                       date={value.date}
-                      name={loginState.profile.name}
+                      profile={loginState.profile}
                       type="owner"
                     >
                       {value.content}
@@ -77,7 +90,7 @@ function Index() {
                   )
                 } else {
                   return (
-                    <ChatItem key={index} date={value.date} name={profile.name} type="guess">
+                    <ChatItem key={index} date={value.date} profile={profile} type="guess">
                       {value.content}
                     </ChatItem>
                   )
@@ -89,7 +102,7 @@ function Index() {
             <div className={styles.chatType}>
               <textarea
                 onChange={(e) => {
-                  e.target.style.height = '5px'
+                  e.target.style.height = 'inherit'
                   e.target.style.height = `${e.target.scrollHeight}px`
                   setInput(e.target.value)
                 }}

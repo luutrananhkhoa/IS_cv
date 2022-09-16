@@ -6,7 +6,7 @@ import { getContract as getContractEmployee } from '@contract/employeeController
 import { Web3Context } from '@context/Web3ContextProvider'
 
 function Index({ profile, id }) {
-    const { loginState } = useContext(Web3Context)
+  const { loginState } = useContext(Web3Context)
   const [appointment, setAppointment] = useState()
   useEffect(() => {
     if (!id) return
@@ -25,10 +25,11 @@ function Index({ profile, id }) {
         })
     })
   }, [id])
+
   return (
     <div className={styles.top}>
       <div className={styles.info}>
-        <Name title={profile?.name} info={'10 phut truoc'}></Name>
+        <Name avatar={profile.avatar} title={profile?.name} info={'10 phut truoc'}></Name>
         <div className={styles.tools}>
           <button className={styles.plus}>
             <i className="fa-regular fa-plus"></i>

@@ -12,8 +12,7 @@ import Toggle from '@component/Toggle'
 import { getContract as getContractBusiness } from '@contract/businessController'
 import { getContract as getContractEmployee } from '@contract/employeeController'
 import { useLoading } from '@component/Loading'
-import Web3 from 'web3'
-import detectEthereumProvider from '@metamask/detect-provider'
+import { useTranslation } from 'react-i18next'
 
 function Index() {
   const { loginState, dispatchLogin } = useContext(Web3Context)
@@ -21,13 +20,14 @@ function Index() {
   const toast = useToast()
   const [typeFor, setTypeFor] = useState(false)
   const navigate = useNavigate()
+  const { t } = useTranslation('page', { keyPrefix: 'login.index' })
   const formik = useFormik({
     initialValues: {
       password: '',
       remember: true,
     },
     validationSchema: Yup.object({
-      password: Yup.string().required('Password is required'),
+      password: Yup.string().required(t('require')),
       remember: Yup.boolean(),
     }),
     onSubmit: async (values) => {
@@ -45,7 +45,7 @@ function Index() {
                     .getProfile(id)
                     .call({ from: loginState.address })
                     .then((profile) => {
-                      toast.success("", { pauseOnHover: true, closeOnClick: true })
+                      toast.success('', { pauseOnHover: true, closeOnClick: true })
                       dispatchLogin({
                         type: 'business_login',
                         id: id,
@@ -84,7 +84,7 @@ function Index() {
                     .getProfile(id)
                     .call({ from: loginState.address })
                     .then((profile) => {
-                      toast.success("", { pauseOnHover: true, closeOnClick: true })
+                      toast.success('', { pauseOnHover: true, closeOnClick: true })
                       dispatchLogin({
                         type: 'employee_login',
                         id: id,
@@ -130,28 +130,28 @@ function Index() {
       <div className={styles.right}>
         <div className={styles.topWrapper}>
           <div className={styles.register}>
-            <Link to="/register">Register</Link>
+            <Link to="/register">{t('register')}</Link>
           </div>
           <div className={styles.language}>
             <Language></Language>
           </div>
         </div>
-        <div className={styles.loginTitle}>Login into your account</div>
+        <div className={styles.loginTitle}>{t('login_into_your_account')}</div>
         <div className={styles.toggleWrapper}>
-          <span>Employee</span>
+          <span>{t('employee')}</span>
           <Toggle
             positiveColor="blue"
             negativeColor="purple"
             state={[typeFor, setTypeFor]}
           ></Toggle>
-          <span>Company</span>
+          <span>{t('business')}</span>
         </div>
         <div className={styles.boxWrapper}>
-          <label className={styles.label}>Address</label>
+          <label className={styles.label}>{t('address')}</label>
           <p className={clsx(styles.input, styles.address, styles.notedit)}>{loginState.address}</p>
         </div>
         <div className={styles.boxWrapper}>
-          <label className={styles.label}>Password</label>
+          <label className={styles.label}>{t('password')}</label>
           <input
             type="password"
             name="password"
@@ -159,11 +159,7 @@ function Index() {
             value={formik.values.password}
             onChange={formik.handleChange}
           ></input>
-          {
-            <p className={styles.error}>
-              {formik.errors.password && formik.touched.password && formik.errors.password}
-            </p>
-          }
+          {<p className={styles.error}>{formik.errors.password}</p>}
         </div>
         <div className={styles.rememberForgot}>
           <div className={styles.remenber}>
@@ -174,12 +170,12 @@ function Index() {
               checked={formik.values.remember}
               onChange={formik.handleChange}
             ></input>
-            <label>Remember me</label>
+            <label>{t('remember_me')}</label>
           </div>
-          <div className={styles.forgot}>Forgot your password?</div>
+          <div className={styles.forgot}>{t('forgot_your_password')}</div>
         </div>
         <div onClick={formik.handleSubmit} className={styles.boxWrapper}>
-          <button type="submit">Login</button>
+          <button type="submit">{t('login')}</button>
         </div>
       </div>
     </div>

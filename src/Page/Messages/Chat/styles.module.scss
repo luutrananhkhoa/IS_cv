@@ -2,13 +2,13 @@
 @import '../variables.scss';
 .container {
   position: relative;
-  width: 100%;
+  flex: 1;
   height: 100%;
   background: inherit;
   color: inherit;
   display: flex;
   flex-direction: column;
-
+  overflow: hidden;
   .content {
     position: relative;
     height: calc(100% - $topHeight);
@@ -25,6 +25,7 @@
     flex-direction: column-reverse;
     .scroll {
       scroll-snap-type: y proximity;
+      width: 100%;
       margin: calc($pinHeight) 0px 20px 0px;
     }
   }

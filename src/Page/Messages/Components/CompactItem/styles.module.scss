@@ -9,6 +9,8 @@
   background: inherit;
   padding: 8px 10px;
   border-radius: 10px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--box-shadow-secondary);
   cursor: pointer;
   .left {
     flex: 1;

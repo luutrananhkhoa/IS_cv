@@ -22,6 +22,9 @@ export default function Container(props) {
           .getListCVByEmployeeId(id)
           .call()
           .then((success) => {
+            if (!success || success.length === 0) {
+              return
+            }
             let result = useToObject(success[0].data)
 
             let temp = result.list

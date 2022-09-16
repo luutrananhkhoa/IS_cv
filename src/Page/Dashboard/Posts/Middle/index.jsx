@@ -11,6 +11,7 @@ function Index() {
   const { loginState } = useContext(Web3Context)
   const [list, setList] = useState()
   const { t } = useTranslation('page', { keyPrefix: 'dashboard.posts' })
+
   useEffect(() => {
     getContractBusiness()
       .then(async (contract) => {

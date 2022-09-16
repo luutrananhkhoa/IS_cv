@@ -1,4 +1,4 @@
-import React, { useContext, useState, useLayoutEffect, useRef } from 'react'
+import React, { useContext, useState, useLayoutEffect, useRef, lazy } from 'react'
 import styles from './styles.module.scss'
 import Button from './Button'
 import Logo from './Logo'
@@ -7,12 +7,13 @@ import ObjectName from './ObjectName'
 import { CustomCVContext } from '../CustomCVContext'
 import update from 'immutability-helper'
 import { useToast } from '@component/Toast'
-import DownloadModal from './DownloadModal'
+const DownloadModal = lazy(() => import('./DownloadModal'))
 import { getContract as getCVContract } from '@contract/cvController'
 import { useLoading } from '@component/Loading'
 import useToObject from '../hooks/useToObject'
 import { Web3Context } from '@context/Web3ContextProvider'
 import useToJson from '../hooks/useToJson'
+const ImportBlockchain = lazy(() => import('./ImportBlockchain'))
 
 function Index() {
   const {
@@ -29,6 +30,7 @@ function Index() {
   const { loginState } = useContext(Web3Context)
   const toast = useToast()
   const [openModalDownload, setOpenModalDownload] = useState(false)
+  const [openImportBlockchain, setOpenImportBlockchain] = useState(false)
   const fileImportRef = useRef()
   const loading = useLoading()
   const handleCopy = () => {
@@ -102,7 +104,6 @@ function Index() {
   }
   const handleChange = (e) => {
     if (e.target.value) {
-      const fileReader = new FileReader()
       fileReader.readAsText(e.target.files[0], 'UTF-8')
       fileReader.onload = (e) => {
         let data = useToObject(e.target.result)
@@ -124,6 +125,7 @@ function Index() {
       />
 
       <DownloadModal state={[openModalDownload, setOpenModalDownload]}></DownloadModal>
+      <ImportBlockchain state={[openImportBlockchain, setOpenImportBlockchain]}></ImportBlockchain>
       <div className={styles.container}>
         <div className={styles.left}>
           <Logo></Logo>
@@ -142,6 +144,10 @@ function Index() {
           <ObjectName></ObjectName>
         </div>
         <div className={styles.right}>
+          <Button
+            onClick={() => setOpenImportBlockchain(true)}
+            icon="fa-thin fa-cloud-arrow-down"
+          ></Button>
           <Button onClick={openUpload} icon="fa-thin fa-file-arrow-up"></Button>
           <Button onClick={setOpenModalDownload} icon="fa-thin fa-file-arrow-down"></Button>
           <Button onClick={handleDeploy} icon="fa-thin fa-cloud-arrow-up"></Button>

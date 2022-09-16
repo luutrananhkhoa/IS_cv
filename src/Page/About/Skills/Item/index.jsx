@@ -8,21 +8,27 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useLoading } from '@component/Loading'
 import { getContract as getContractEmployee } from '@contract/employeeController'
+import { useTranslation } from 'react-i18next'
 
-function Item({ id, owner, title, level, skillId }) {
+function Item({ id, owner, skill, level, skillId, forceUpdate, setForceUpdate }) {
   const { loginState } = useContext(Web3Context)
   const [openDelete, setOpenDelete] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
   const loading = useLoading()
   const toast = useToast()
+  const { t } = useTranslation('page', { keyPrefix: 'about.index' })
   const formik = useFormik({
     initialValues: {
-      title: title,
+      skill: skill,
       level: level,
     },
     validationSchema: Yup.object({
-      title: Yup.string().required('Title is required'),
-      level: Yup.number('numer').required('require').min(0, 'min0').max(100, 'max100'),
+      skill: Yup.string().required(t('require')),
+      level: Yup.number('number')
+        .required('require')
+        .min(0, t('min0'))
+        .max(100, t('max100'))
+        .integer(t('integer')),
     }),
     onSubmit: async (values) => {
       loading.open()
@@ -32,17 +38,16 @@ function Item({ id, owner, title, level, skillId }) {
             .editSkill(
               parseInt(id),
               parseInt(skillId),
-              values.title.toString(),
               parseInt(values.level)
             )
             .send({ from: loginState.address })
             .then((success) => {
               toast.success('success', { pauseOnHover: true, closeOnClick: true })
+              setForceUpdate((e) => !e)
               setOpenEdit(false)
             })
             .catch((error) => {
-              console.log(error)
-              toast.error('error', { pauseOnHover: true, closeOnClick: true })
+              console.error(error)
             })
         })
         .catch((error) => {
@@ -55,17 +60,22 @@ function Item({ id, owner, title, level, skillId }) {
 
   const handleDelete = useCallback(async () => {
     loading.open()
-    await loginState.contractEmployee.methods
-      .removeSkill(id, skillId)
-      .send({ from: loginState.address })
-      .then((success) => {
-        toast.success('success', { pauseOnHover: true, closeOnClick: true })
-        setOpenDelete(false)
+    getContractEmployee()
+      .then(async (contractEmployee) => {
+        await contractEmployee.methods
+          .removeSkill(id, skillId)
+          .send({ from: loginState.address })
+          .then((success) => {
+            toast.success('', { pauseOnHover: true, closeOnClick: true })
+            setOpenDelete(false)
+            setForceUpdate(!forceUpdate)
+          })
+          .catch((error) => {
+            console.log(error)
+            toast.error('', { pauseOnHover: true, closeOnClick: true })
+          })
       })
-      .catch((error) => {
-        console.log(error)
-        toast.error('error', { pauseOnHover: true, closeOnClick: true })
-      })
+      .catch((error) => console.error(error))
     loading.close()
   }, [loginState])
 
@@ -73,25 +83,26 @@ function Item({ id, owner, title, level, skillId }) {
     <>
       <Modal
         state={[openDelete, setOpenDelete]}
-        title="Delete skill"
-        actionText="Delete"
+        title={t('delete_skill')}
+        actionText={t('delete')}
         action={handleDelete}
       >
-        <p className={styles.delete}>Are you sure to delete this skill?</p>
+        <p className={styles.delete}>{t('are_you_sure_to_delete_this_skill')}</p>
       </Modal>
-      <Modal state={[openEdit, setOpenEdit]} title="Edit skill" action={formik.handleSubmit}>
+      <Modal state={[openEdit, setOpenEdit]} title={t('edit_skill')} action={formik.handleSubmit}>
         <div className={styles.editContainer}>
-          <label htmlFor="title">New Title</label>
+          <label htmlFor="skill">{t('skill')}</label>
           <input
             type="text"
-            name="title"
-            value={formik.values.title}
+            name="skill"
+            value={formik.values.skill}
             onChange={formik.handleChange}
+            disabled={true}
           ></input>
-          <p>{formik.errors.title}</p>
+          <p>{formik.errors.skill}</p>
         </div>
         <div className={styles.editContainer}>
-          <label htmlFor="level">New Level</label>
+          <label htmlFor="level">{t('new_level')}</label>
           <input
             type="number"
             name="level"
@@ -104,7 +115,7 @@ function Item({ id, owner, title, level, skillId }) {
       <div className={styles.itemWrapper}>
         <span className={styles.item}>
           <div className={styles.iconWrapper}>
-            <label> {title}</label>
+            <label> {skill}</label>
           </div>
           <a>{level}%</a>
           <div className={styles.progressBar}>

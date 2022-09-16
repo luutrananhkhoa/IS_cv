@@ -9,7 +9,7 @@ import {ChatContext} from '../../ChatContext'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
-  const { list, handleSend } = useContext(ChatContext)
+  const { list, handleSend, forceUpdate } = useContext(ChatContext)
   const [listAccount, setListAccount] = useState()
   useEffect(() => {
     if (loginState.for == 'employee') {
@@ -32,7 +32,7 @@ function Index() {
         })
         .catch((error) => console.log(error))
     }
-  }, [list])
+  }, [forceUpdate])
   return (
     <div className={styles.group}>
       <div className={styles.title}>

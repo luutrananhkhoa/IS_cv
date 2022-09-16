@@ -10,12 +10,11 @@ import { useToast } from '@component/Toast'
 import { getContract } from '@contract/businessController'
 import Navigation from '../../Components/Navigation'
 import { postImage } from '@api/business/post'
-import Web3 from 'web3'
-import detectEthereumProvider from '@metamask/detect-provider'
-
+import { useTranslation } from 'react-i18next'
 // Page/Create Post
 function Index() {
   const [hashtag, setHashtag] = useState('hashtag')
+  const [openHashtag, setOpenHashtag] = useState(false)
   const [content, setContent] = useState('')
   const [job, setJob] = useState('')
   const navigate = useNavigate()
@@ -24,6 +23,7 @@ function Index() {
   const [image, setImage] = useState()
   const { loginState } = useContext(Web3Context)
   const openImageRef = useRef()
+  const { t } = useTranslation('page', { keyPrefix: 'dashboard.createPost' })
   const handlePublish = async () => {
     loading.open()
     await getContract()
@@ -58,11 +58,11 @@ function Index() {
         <div className={styles.left}>
           <div className={styles.image}>
             <div className={styles.panelTitle}>
-              <a>Media</a>
+              <a>{t('media')}</a>
             </div>
             <button onClick={() => openImageRef.current.click()} className={styles.imageTool}>
               <i className="fa-regular fa-hexagon-image"></i>
-              <a>Add Photo</a>
+              <a>{t('add_photo')}</a>
               <input
                 type="file"
                 id="file"
@@ -76,7 +76,7 @@ function Index() {
           </div>
           <div className={styles.job}>
             <div className={styles.panelTitle}>
-              <a>Job</a>
+              <a>{t('job')}</a>
             </div>
             <input
               type="text"
@@ -88,18 +88,32 @@ function Index() {
           </div>
           <div className={styles.content}>
             <div className={styles.panelTitle}>
-              <a>Text</a>
+              <a>{t('content')}</a>
             </div>
             <Dropdown
               content={
                 <div className={styles.contentDropdown}>
-                  <span onClick={() => setHashtag('common')}>common</span>
-                  <span onClick={() => setHashtag('recruit')}>recruit</span>
+                  <span
+                    onClick={() => {
+                      setHashtag('common')
+                      setOpenHashtag(false)
+                    }}
+                  >
+                    {'common'}
+                  </span>
+                  <span
+                    onClick={() => {
+                      setHashtag('recruit')
+                      setOpenHashtag(false)
+                    }}
+                  >
+                    {'recruit'}
+                  </span>
                 </div>
               }
-              state={[hashtag, setHashtag]}
+              state={[openHashtag, setOpenHashtag]}
             >
-              <div className={styles.hashtag}>
+              <div onClick={() => setOpenHashtag(true)} className={styles.hashtag}>
                 <i className={'fa-solid fa-star'}></i>
                 <a>{hashtag}</a>
               </div>
@@ -111,21 +125,22 @@ function Index() {
 
           <div className={styles.button}>
             <button onClick={handlePublish} className={styles.publish}>
-              Publish
+              {t('publish')}
             </button>
             <Link to="/dashboard?tab=posts" className={styles.cancel}>
-              Cancel
+              {t('cancel')}
             </Link>
           </div>
         </div>
         <div className={styles.right}>
           <PostItem
             name={loginState.name}
-            time={'Just now'}
+            time={new Date().getTime() / 1000}
             content={content}
             job={job}
             hashtag={hashtag}
-            status={'open'}
+            status={1}
+            typeFor={"business"}
             image={image}
             disabled
           ></PostItem>

@@ -117,6 +117,11 @@ export const ABI = [
             type: 'uint256',
           },
           {
+            internalType: 'uint256',
+            name: 'time',
+            type: 'uint256',
+          },
+          {
             internalType: 'string',
             name: 'data',
             type: 'string',
@@ -144,7 +149,7 @@ export const ABI = [
     type: 'function',
   },
 ]
-export const ADDRESS = '0x12971FbC2c27182395C71656b8c0F9507067CcC0'
+export const ADDRESS = '0xD8f6b0fDe604580982c5Fa3d72C97bF969785500'
 
 export async function getContract() {
   const provider = await detectEthereumProvider()

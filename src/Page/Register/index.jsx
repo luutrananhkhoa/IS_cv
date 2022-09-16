@@ -19,6 +19,7 @@ import Toggle from '@component/Toggle'
 import { CATEGORY } from '@constant/businessConst'
 import { uploadAvatar as uploadAvatarBusiness } from '@api/business/profile'
 import { uploadAvatar as uploadAvatarEmployee } from '@api/employee/profile'
+import { useTranslation } from 'react-i18next'
 
 function Index() {
   const { loginState, dispatchLogin } = useContext(Web3Context)
@@ -27,6 +28,7 @@ function Index() {
   const [typeFor, setTypeFor] = useState(false)
   const loading = useLoading()
   const navigate = useNavigate()
+  const { t } = useTranslation('page', { keyPrefix: 'register.index' })
   const formik = useFormik({
     initialValues: {
       avatar: undefined,
@@ -43,7 +45,7 @@ function Index() {
     },
     validationSchema: Yup.object({
       avatar: Yup.mixed()
-        .required('You need to provide a file')
+        .required(t('require'))
         .test('type', 'Only the following formats are accepted: .jpeg, .jpg, .jpg', (value) => {
           return (
             value &&
@@ -52,18 +54,24 @@ function Index() {
               value.type === 'image/png')
           )
         }),
-      idcard: Yup.number('not a number').min(0, 'invalid').integer('not a number'),
-      fullname: Yup.string().required('require'),
-      phone: Yup.string().required('require').matches(phoneRegExp, 'notmatch'),
-      professional: Yup.string().required('require'),
-      email: Yup.string().email('not email').required('require').matches(emailRegExp, 'notmatch'),
-      github: Yup.string().required('require'),
-      linkedin: Yup.string().required('require'),
+      idcard: Yup.number(t('invalid'))
+        .min(0, t('invalid'))
+        .integer(t('invalid'))
+        .required(t('require')),
+      fullname: Yup.string().required(t('require')),
+      phone: Yup.string().required(t('require')).matches(phoneRegExp, t('invalid')),
+      professional: Yup.string().required(t('require')),
+      email: Yup.string()
+        .email(t('invalid'))
+        .required(t('require'))
+        .matches(emailRegExp, t('invalid')),
+      github: Yup.string(),
+      linkedin: Yup.string(),
       category: Yup.string(),
-      password: Yup.string().required('require'),
+      password: Yup.string().required(t('require')),
       confirmpassword: Yup.string()
-        .oneOf([Yup.ref('password')], 'not match')
-        .required('require'),
+        .oneOf([Yup.ref('password')], t('invalid'))
+        .required(t('require')),
     }),
     onSubmit: async (values) => {
       const provider = await detectEthereumProvider()
@@ -80,7 +88,7 @@ function Index() {
             .call({ from: loginState.address })
             .then(async (success) => {
               if (success) {
-                toast.warning('had register')
+                toast.warning(t('had_register'), { pauseOnHover: true, closeOnClick: true })
                 return
               } else {
                 await contractBusiness.methods
@@ -111,7 +119,7 @@ function Index() {
                               df.append('image', values.avatar)
                               await uploadAvatarBusiness(df, id)
                                 .then((success) => {
-                                  toast.success('Thanh cong', {
+                                  toast.success('', {
                                     pauseOnHover: true,
                                     closeOnClick: true,
                                   })
@@ -125,20 +133,26 @@ function Index() {
                                 })
                                 .catch((error) => {
                                   console.log(error)
+                                  toast.error()
                                 })
                             })
                             .catch((error) => {
                               console.log(error)
+                              toast.error()
                             })
                         }
                       })
                   })
                   .catch((error) => {
                     console.log(error)
+                    toast.error()
                   })
               }
             })
-            .catch((error) => console.log(error))
+            .catch((error) => {
+              console.log(error)
+              toast.error()
+            })
         }
       } else {
         const contractEmployee = new web3.eth.Contract(
@@ -150,7 +164,7 @@ function Index() {
           .call({ from: loginState.address })
           .then(async (success) => {
             if (success) {
-              toast.warning('had register')
+              toast.warning(t('had_register'), { pauseOnHover: true, closeOnClick: true })
               return
             } else {
               await contractEmployee.methods
@@ -182,7 +196,7 @@ function Index() {
                             df.append('image', values.avatar)
                             await uploadAvatarEmployee(df, id)
                               .then((success) => {
-                                toast.success('Thanh cong', {
+                                toast.success('', {
                                   pauseOnHover: true,
                                   closeOnClick: true,
                                 })
@@ -196,20 +210,26 @@ function Index() {
                               })
                               .catch((error) => {
                                 console.log(error)
+                                toast.error()
                               })
                           })
                           .catch((error) => {
                             console.log(error)
+                            toast.error()
                           })
                       }
                     })
                 })
                 .catch((error) => {
                   console.log(error)
+                  toast.error()
                 })
             }
           })
-          .catch((error) => console.log(error))
+          .catch((error) => {
+            console.log(error)
+            toast.error()
+          })
       }
 
       loading.close()
@@ -218,240 +238,205 @@ function Index() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.left}>
-        <div className={styles.languageWrapper}>
-          <div className={styles.language}>
-            <Language></Language>
-          </div>
+      <div className={styles.languageWrapper}>
+        <div className={styles.language}>
+          <Language></Language>
         </div>
-        <div className={styles.loginTitle}>Register your account</div>
-        <div className={styles.toggleWrapper}>
-          <span>Employee</span>
-          <Toggle
-            positiveColor="blue"
-            negativeColor="purple"
-            state={[typeFor, setTypeFor]}
-          ></Toggle>
-          <span>Company</span>
-        </div>
-        <div className={clsx(styles.boxWrapper, styles.avatarBox)}>
-          <img
-            src={formik.values.avatar ? URL.createObjectURL(formik.values.avatar) : avatarDefault}
-          ></img>
-          <input
-            type="file"
-            name="avatar"
-            ref={inputImageRef}
-            className={styles.input}
-            accept="image/png, image/jpg, image/jpeg"
-            style={{ display: 'none' }}
-            onChange={(e) => formik.setFieldValue('avatar', e.target.files[0])}
-          ></input>
-          <div className={styles.iconAvatar}>
-            <i onClick={() => inputImageRef.current.click()} className="fa-solid fa-camera"></i>
-          </div>
-        </div>
-        <p className={styles.error}>{formik.errors.avatar && formik.errors.avatar}</p>
-        <div className={styles.boxWrapper}>
-          <label className={styles.label}>Address</label>
-          <p className={styles.input}>{loginState.address}</p>
-        </div>
-        {typeFor && (
-          <div className={styles.boxWrapper}>
-            <label className={styles.label}>Category</label>
-            <select
-              // type="text"
-              name="category"
-              className={clsx(styles.input, styles.select)}
-              value={formik.values.category}
-              onChange={formik.handleChange}
-            >
-              {Object.keys(CATEGORY).map((key, index) => {
-                return (
-                  <option key={key} value={CATEGORY[key].type}>
-                    {CATEGORY[key].name}
-                  </option>
-                )
-              })}
-            </select>
-            <p className={styles.error}>
-              {formik.errors.professional &&
-                formik.touched.professional &&
-                formik.errors.professional}
-            </p>
-          </div>
-        )}
-
-        {!typeFor && (
-          <div className={styles.boxWrapper}>
-            <label className={styles.label}>ID Card number</label>
-            <input
-              type="text"
-              name="idcard"
-              className={styles.input}
-              value={formik.values.idcard}
-              onChange={formik.handleChange}
-            ></input>
-            <p className={styles.error}>
-              {formik.errors.idcard && formik.touched.idcard && formik.errors.idcard}
-            </p>
-          </div>
-        )}
-
-        <div className={styles.boxWrapper}>
-          <label className={styles.label}>Full name</label>
-          <input
-            type="text"
-            name="fullname"
-            className={styles.input}
-            value={formik.values.fullname}
-            onChange={formik.handleChange}
-          ></input>
-          <p className={styles.error}>
-            {formik.errors.fullname && formik.touched.fullname && formik.errors.fullname}
-          </p>
-        </div>
-        <div className={styles.boxWrapper}>
-          <label className={styles.label}>Phone</label>
-          <input
-            type="phone"
-            name="phone"
-            className={styles.input}
-            value={formik.values.phone}
-            onChange={formik.handleChange}
-          ></input>
-          <p className={styles.error}>
-            {formik.errors.phone && formik.touched.phone && formik.errors.phone}
-          </p>
-        </div>
-        {!typeFor && (
-          <div className={styles.boxWrapper}>
-            <label className={styles.label}>Profressional</label>
-            <select
-              // type="text"
-              name="professional"
-              className={clsx(styles.input, styles.select)}
-              value={formik.values.professional}
-              onChange={formik.handleChange}
-            >
-              <option value="student">Student</option>
-              <option value="fresher">Fresher</option>
-              <option value="intern">Intern</option>
-              <option value="another">Another</option>
-            </select>
-            <p className={styles.error}>
-              {formik.errors.professional &&
-                formik.touched.professional &&
-                formik.errors.professional}
-            </p>
-          </div>
-        )}
-        {typeFor && (
-          <div className={styles.boxWrapper}>
-            <label className={styles.label}>Profressional</label>
-            <select
-              // type="text"
-              name="professional"
-              className={clsx(styles.input, styles.select)}
-              value={formik.values.professional}
-              onChange={formik.handleChange}
-            >
-              <option value="education">Education</option>
-              <option value="it">IT</option>
-              <option value="commerce">Commerce</option>
-              <option value="another">Another</option>
-            </select>
-            <p className={styles.error}>
-              {formik.errors.professional &&
-                formik.touched.professional &&
-                formik.errors.professional}
-            </p>
-          </div>
-        )}
-        <div className={styles.boxWrapper}>
-          <label className={styles.label}>Email</label>
-          <input
-            type="email"
-            name="email"
-            className={styles.input}
-            value={formik.values.email}
-            onChange={formik.handleChange}
-          ></input>
-          <p className={styles.error}>
-            {formik.errors.email && formik.touched.email && formik.errors.email}
-          </p>
-        </div>
-        <div className={styles.boxWrapper}>
-          <label className={styles.label}>Github</label>
-          <input
-            type="text"
-            name="github"
-            className={styles.input}
-            value={formik.values.github}
-            onChange={formik.handleChange}
-          ></input>
-          <p className={styles.error}>
-            {formik.errors.github && formik.touched.github && formik.errors.github}
-          </p>
-        </div>
-        <div className={styles.boxWrapper}>
-          <label className={styles.label}>LinkedIn</label>
-          <input
-            type="text"
-            name="linkedin"
-            className={styles.input}
-            value={formik.values.linkedin}
-            onChange={formik.handleChange}
-          ></input>
-          <p className={styles.error}>
-            {formik.errors.linkedin && formik.touched.linkedin && formik.errors.linkedin}
-          </p>
-        </div>
-        <div className={styles.boxWrapper}>
-          <label className={styles.label}>Password</label>
-          <input
-            type="password"
-            name="password"
-            className={styles.input}
-            value={formik.values.password}
-            onChange={formik.handleChange}
-          ></input>
-          <p className={styles.error}>
-            {formik.errors.password && formik.touched.password && formik.errors.password}
-          </p>
-        </div>
-        <div className={styles.boxWrapper}>
-          <label className={styles.label}>Confirm Password</label>
-          <input
-            type="password"
-            name="confirmpassword"
-            className={styles.input}
-            value={formik.values.confirmpassword}
-            onChange={formik.handleChange}
-          ></input>
-          <p className={styles.error}>
-            {formik.errors.confirmpassword &&
-              formik.touched.confirmpassword &&
-              formik.errors.confirmpassword}
-          </p>
-        </div>
-        <div className={styles.boxWrapper}>
-          <button type="submit" onClick={formik.handleSubmit} className={styles.button}>
-            Register
-          </button>
+      </div>
+      <div className={styles.loginTitle}>{t('register_your_account')}</div>
+      <div className={styles.toggleWrapper}>
+        <span>{t('employee')}</span>
+        <Toggle positiveColor="blue" negativeColor="purple" state={[typeFor, setTypeFor]}></Toggle>
+        <span>{t('business')}</span>
+      </div>
+      <div className={clsx(styles.boxWrapper, styles.avatarBox)}>
+        <img
+          src={formik.values.avatar ? URL.createObjectURL(formik.values.avatar) : avatarDefault}
+        ></img>
+        <input
+          type="file"
+          name="avatar"
+          ref={inputImageRef}
+          className={styles.input}
+          accept="image/png, image/jpg, image/jpeg"
+          style={{ display: 'none' }}
+          onChange={(e) => formik.setFieldValue('avatar', e.target.files[0])}
+        ></input>
+        <div className={styles.iconAvatar}>
+          <i onClick={() => inputImageRef.current.click()} className="fa-solid fa-camera"></i>
         </div>
       </div>
 
-      <div style={{ backgroundImage: `url(${background})` }} className={styles.right}>
-        <div className={styles.backgroundWrapper}>
-          <div className={styles.backgroundText}>
-            You don’t need to be a designer have an impressive CV
+      <p className={styles.error}>{formik.errors.avatar}</p>
+      <div className={styles.main}>
+        <div className={clsx(styles.boxWrapper, styles.address)}>
+          <label className={styles.label}>{t('address')}</label>
+          <p className={styles.input}>{loginState.address}</p>
+        </div>
+        <div className={styles.mainInput}>
+          <div className={styles.left}>
+            {!typeFor && (
+              <div className={styles.boxWrapper}>
+                <label className={styles.label}>{t('id')}</label>
+                <input
+                  type="number"
+                  name="idcard"
+                  className={styles.input}
+                  value={formik.values.idcard}
+                  onChange={formik.handleChange}
+                ></input>
+                <p className={styles.error}>{formik.errors.idcard}</p>
+              </div>
+            )}
+
+            <div className={styles.boxWrapper}>
+              <label className={styles.label}>{t('name')}</label>
+              <input
+                type="text"
+                name="fullname"
+                className={styles.input}
+                value={formik.values.fullname}
+                onChange={formik.handleChange}
+              ></input>
+              <p className={styles.error}>{formik.errors.fullname}</p>
+            </div>
+            <div className={styles.boxWrapper}>
+              <label className={styles.label}>{t('phone')}</label>
+              <input
+                type="phone"
+                name="phone"
+                className={styles.input}
+                value={formik.values.phone}
+                onChange={formik.handleChange}
+              ></input>
+              <p className={styles.error}>{formik.errors.phone}</p>
+            </div>
+            {!typeFor && (
+              <div className={styles.boxWrapper}>
+                <label className={styles.label}>{t('professional')}</label>
+                <select
+                  // type="text"
+                  name="professional"
+                  className={clsx(styles.input, styles.select)}
+                  value={formik.values.professional}
+                  onChange={formik.handleChange}
+                >
+                  <option value="student">Student</option>
+                  <option value="fresher">Fresher</option>
+                  <option value="intern">Intern</option>
+                  <option value="another">Another</option>
+                </select>
+                <p className={styles.error}>
+                  {formik.errors.professional &&
+                    formik.touched.professional &&
+                    formik.errors.professional}
+                </p>
+              </div>
+            )}
+            {typeFor && (
+              <div className={styles.boxWrapper}>
+                <label className={styles.label}>{t('category')}</label>
+                <select
+                  // type="text"
+                  name="category"
+                  className={clsx(styles.input, styles.select)}
+                  value={formik.values.category}
+                  onChange={formik.handleChange}
+                >
+                  {Object.keys(CATEGORY).map((key, index) => {
+                    return (
+                      <option key={key} value={CATEGORY[key].type}>
+                        {CATEGORY[key].name}
+                      </option>
+                    )
+                  })}
+                </select>
+                <p className={styles.error}>{formik.errors.professional}</p>
+              </div>
+            )}
+            {typeFor && (
+              <div className={styles.boxWrapper}>
+                <label className={styles.label}>{t('professional')}</label>
+                <select
+                  // type="text"
+                  name="professional"
+                  className={clsx(styles.input, styles.select)}
+                  value={formik.values.professional}
+                  onChange={formik.handleChange}
+                >
+                  <option value="education">Education</option>
+                  <option value="it">IT</option>
+                  <option value="commerce">Commerce</option>
+                  <option value="another">Another</option>
+                </select>
+                <p className={styles.error}>{formik.errors.professional}</p>
+              </div>
+            )}
           </div>
-          <div className={styles.smallBackgroundText}>
-            <i className="fa-solid fa-star"></i> Effortlessly build a job worthy resume that gets
-            you weird faster.
+          <div className={styles.right}>
+            <div className={styles.boxWrapper}>
+              <label className={styles.label}>{t('email')}</label>
+              <input
+                type="email"
+                name="email"
+                className={styles.input}
+                value={formik.values.email}
+                onChange={formik.handleChange}
+              ></input>
+              <p className={styles.error}>{formik.errors.email}</p>
+            </div>
+            <div className={styles.boxWrapper}>
+              <label className={styles.label}>{t('github')}</label>
+              <input
+                type="text"
+                name="github"
+                className={styles.input}
+                value={formik.values.github}
+                onChange={formik.handleChange}
+              ></input>
+              <p className={styles.error}>{formik.errors.github}</p>
+            </div>
+            <div className={styles.boxWrapper}>
+              <label className={styles.label}>{t('linkedin')}</label>
+              <input
+                type="text"
+                name="linkedin"
+                className={styles.input}
+                value={formik.values.linkedin}
+                onChange={formik.handleChange}
+              ></input>
+              <p className={styles.error}>{formik.errors.linkedin}</p>
+            </div>
+            <div className={styles.boxWrapper}>
+              <label className={styles.label}>{t('password')}</label>
+              <input
+                type="password"
+                name="password"
+                className={styles.input}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+              ></input>
+              <p className={styles.error}>{formik.errors.password}</p>
+            </div>
+            <div className={styles.boxWrapper}>
+              <label className={styles.label}>{t('confirm_password')}</label>
+              <input
+                type="password"
+                name="confirmpassword"
+                className={styles.input}
+                value={formik.values.confirmpassword}
+                onChange={formik.handleChange}
+              ></input>
+              <p className={styles.error}>{formik.errors.confirmpassword}</p>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div className={styles.boxWrapper}>
+        <button type="submit" onClick={formik.handleSubmit} className={styles.button}>
+          {t('register')}
+        </button>
       </div>
     </div>
   )

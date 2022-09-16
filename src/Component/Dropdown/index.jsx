@@ -5,7 +5,7 @@ import handleClickOutside from '@helper/handleClickOutside'
 
 export default function Index(props) {
   const { type, content, children } = props
-  const [onShow, setOnShow] = useState(false)
+  const [onShow, setOnShow] = props.state
   const wrapperRef = useRef(null)
   const toggleRef = useRef(null)
   useEffect(() => {

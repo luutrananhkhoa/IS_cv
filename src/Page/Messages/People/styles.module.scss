@@ -5,6 +5,7 @@
   height: 100%;
   border-right: 1px solid var(--color-border);
   overflow: overlay;
+  flex-shrink: 0;
   .top {
     width: 100%;
     height: $topHeight;

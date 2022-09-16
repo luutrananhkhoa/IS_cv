@@ -10,6 +10,7 @@ export const ChatContext = createContext()
 
 const ChatContextProvider = ({ children }) => {
   const { loginState } = useContext(Web3Context)
+  const [forceUpdate, setForceUpdate] = useState(false)
   const id = parseInt(useParams().id)
   const [list, setList] = useState([])
   useEffect(() => {
@@ -44,23 +45,29 @@ const ChatContextProvider = ({ children }) => {
         })
       })
       socketRef.current.on('businessRecive' + loginState.id, (data) => {
-        setList((e) => {
-          return [...e, data]
-        })
+        
+        if (data.employeeId == id) {
+          setList((e) => {
+            return [...e, data]
+          })
+        }
+        setForceUpdate((e) => !e)
       })
     }
     if (loginState.for == 'employee') {
       socketRef.current.on('employeeSendSuccess' + loginState.id, (data) => {
         lastSend.current = data
-
         setList((e) => {
           return [...e, data]
         })
       })
       socketRef.current.on('employeeRecive' + loginState.id, (data) => {
-        setList((e) => {
-          return [...e, data]
-        })
+        if (data.businessId == id) {
+          setList((e) => {
+            return [...e, data]
+          })
+        }
+        setForceUpdate((e) => !e)
       })
     }
 
@@ -69,6 +76,9 @@ const ChatContextProvider = ({ children }) => {
     }
   }, [])
   const handleSend = (content) => {
+    if (!content || /^\s*$/.test(content)) {
+      return
+    }
     if (loginState.for == 'employee') {
       let data = {
         _idEmployee:
@@ -105,7 +115,7 @@ const ChatContextProvider = ({ children }) => {
       socketRef.current.emit('businessSend', data)
     }
   }
-  const data = { list, setList, socketRef, handleSend }
+  const data = { list, setList, socketRef, handleSend, forceUpdate, setForceUpdate }
   return <ChatContext.Provider value={data}>{children}</ChatContext.Provider>
 }
 

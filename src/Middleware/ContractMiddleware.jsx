@@ -8,8 +8,9 @@ import { useToast } from '@component/Toast'
 import { useLoading } from '@component/Loading'
 import Cookies from 'universal-cookie'
 import * as businessController from '@contract/businessController'
-import { getContract as getContractBusiness } from '@contract/businessController'
-import { getContract as getContractEmployee } from '@contract/employeeController'
+import * as businessProfileApi from '@api/business/profile'
+import * as employeeProfileApi from '@api/employee/profile'
+import avatarDefault from '@asset/avatar.png'
 
 export default function ContractMiddleware(props) {
   const { loginState, dispatchLogin, complete, setComplete } = useContext(Web3Context)
@@ -52,14 +53,31 @@ export default function ContractMiddleware(props) {
                 await myContract.methods
                   .getProfile(id)
                   .call({ from: address })
-                  .then((profile) => {
+                  .then(async (profile) => {
+                    let avatar = avatarDefault
+                    if (cookies.get('for') == 'employee') {
+                      await employeeProfileApi
+                        .getAvatar(id)
+                        .then((success) => {
+                          avatar = success
+                        })
+                        .catch((error) => console.error(error))
+                    }
+                    if (cookies.get('for') == 'business') {
+                      await businessProfileApi
+                        .getAvatar(id)
+                        .then((avatar) => {
+                          avatar = success
+                        })
+                        .catch((error) => console.error(error))
+                    }
                     dispatchLogin({
                       type: 'auto_login',
                       isLoggedIn: true,
                       address: address,
                       for: cookies.get('for'),
                       id: id,
-                      profile: { ...profile },
+                      profile: {...profile, avatar},
                     })
                     return
                   })

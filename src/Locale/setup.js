@@ -22,6 +22,9 @@ import aboutPageVi from './vi/page/about/index.json'
 import toastVi from './vi/component/toast/index.json'
 import layoutSocialVi from './vi/layout/social'
 import iigPostsPageVi from './vi/page/posts/left/iig.json'
+import registerPageVi from './vi/page/register/index.json'
+import loginPageVi from './vi/page/login/index.json'
+import createPostDashboardPageVi from './vi/page/dashboard/createPost.json'
 
 // the translations
 const resources = {
@@ -37,6 +40,7 @@ const resources = {
         index: dashboardIndexVi,
         employeeCertificate: employeeCertificateVi,
         posts: postDashboardVi,
+        createPost: createPostDashboardPageVi,
       },
       setting: {
         index: settingVi,
@@ -49,6 +53,12 @@ const resources = {
         left: {
           iig: iigPostsPageVi,
         },
+      },
+      register: {
+        index: registerPageVi,
+      },
+      login: {
+        index: loginPageVi,
       },
     },
     component: {

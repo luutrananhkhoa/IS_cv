@@ -9,11 +9,14 @@ import Item from './Item'
 import { getContract as getContractEmployee } from '@contract/employeeController'
 import { useParams } from 'react-router-dom'
 import { useLoading } from '@component/Loading'
+import { useTranslation } from 'react-i18next'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
   const [openAdd, setOpenAdd] = useState(false)
+  const [forceUpdate, setForceUpdate] = useState(false)
   const [listKills, setListSkills] = useState()
+  const { t } = useTranslation('page', { keyPrefix: 'about.index' })
   const id = useParams().id
   const owner = id == loginState.id
   const toast = useToast()
@@ -24,23 +27,40 @@ function Index() {
       level: 0,
     },
     validationSchema: Yup.object({
-      skill: Yup.string().required('Skill name is required'),
-      level: Yup.number('number').min(0, 'min0').max('100', 'max100').required('require level'),
+      skill: Yup.string().required(t('require')),
+      level: Yup.number(t("number"))
+        .min(0, 'min0')
+        .max('100', 'max100')
+        .required(t('require'))
+        .integer(t('integer')),
     }),
     onSubmit: async (values) => {
       loading.open()
       await getContractEmployee()
-        .then(async (success) => {
-          await success.methods
-            .addSkill(loginState.id, values.skill, values.level)
-            .send({ from: loginState.address })
-            .then((success) => {
-              toast.success('Add success', { pauseOnHover: true, closeOnClick: true })
-              setOpenAdd(false)
+        .then(async (contractEmployee) => {
+          contractEmployee.methods
+            ._checkExistSkill(loginState.id, values.skill.toString().toUpperCase())
+            .call()
+            .then(async (exists) => {
+              if (exists) {
+                toast.info(t('exists_skill'), { pauseOnHover: true, closeOnClick: true })
+                return
+              }
+              await success.methods
+                .addSkill(loginState.id, values.skill.toString().toUpperCase(), values.level)
+                .send({ from: loginState.address })
+                .then((success) => {
+                  toast.success('', { pauseOnHover: true, closeOnClick: true })
+                  setOpenAdd(false)
+                  setForceUpdate(!forceUpdate)
+                })
+                .catch((error) => {
+                  console.log(error)
+                  toast.error('', { pauseOnHover: true, closeOnClick: true })
+                })
             })
             .catch((error) => {
-              console.log(error)
-              toast.error('Add error', { pauseOnHover: true, closeOnClick: true })
+              console.error(error)
             })
         })
         .catch((error) => {
@@ -64,18 +84,13 @@ function Index() {
       .catch((error) => {
         console.error(error)
       })
-  }, [])
+  }, [forceUpdate])
   return (
     <>
-      <Modal
-        state={[openAdd, setOpenAdd]}
-        title="Add Skill"
-        action={formik.handleSubmit}
-        actionText="Submit"
-      >
+      <Modal state={[openAdd, setOpenAdd]} title={t('add_skill')} action={formik.handleSubmit}>
         <div className={styles.addSkillContainer}>
           <div className={styles.itemWrapper}>
-            <label htmlFor="skill">Ki nang</label>
+            <label htmlFor="skill">{t('skill')}</label>
             <input
               type="text"
               name="skill"
@@ -85,7 +100,7 @@ function Index() {
             <p> {formik.errors.skill}</p>
           </div>
           <div className={styles.itemWrapper}>
-            <label htmlFor="level">Phan tram</label>
+            <label htmlFor="level">{t('level')}</label>
             <input
               type="number"
               name="level"
@@ -114,8 +129,10 @@ function Index() {
                 id={value.id}
                 owner={owner}
                 skillId={value.skillId}
-                title={value.title}
+                skill={value.title}
                 level={value.level}
+                forceUpdate={forceUpdate}
+                setForceUpdate={setForceUpdate}
               ></Item>
             )
           })}

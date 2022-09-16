@@ -8,6 +8,7 @@ import { useLoading } from '@component/Loading'
 import { useToast } from '@component/Toast'
 import { Web3Context } from '@context/Web3ContextProvider'
 import { useTranslation } from 'react-i18next'
+import { send } from '@api/messages/business'
 
 function Index({ employeeId, businessId, postId, applyId, job }) {
   const { loginState } = useContext(Web3Context)
@@ -25,15 +26,20 @@ function Index({ employeeId, businessId, postId, applyId, job }) {
         await contract.methods
           .addAppointment(postId, profile.id, businessId, applyId, new Date(time).getTime())
           .send({ from: loginState.address })
-          .then((success) => {
-            toast.success('success', { pauseOnHover: true, closeOnClick: true })
-            setOpenModal(false)
+          .then(async (success) => {
+            send(businessId, employeeId, 'You have a appointment')
+              .then((success) => {
+                toast.success('success', { pauseOnHover: true, closeOnClick: true })
+                setOpenModal(false)
+              })
+              .catch((error) => console.error(error))
           })
           .catch((error) => {
             console.log(error)
           })
       })
       .catch((error) => console.error(error))
+    
     loading.close()
   }
   useEffect(() => {
