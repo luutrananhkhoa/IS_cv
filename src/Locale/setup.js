@@ -25,6 +25,10 @@ import iigPostsPageVi from './vi/page/posts/left/iig.json'
 import registerPageVi from './vi/page/register/index.json'
 import loginPageVi from './vi/page/login/index.json'
 import createPostDashboardPageVi from './vi/page/dashboard/createPost.json'
+import postPageVi from './vi/page/post/index.json'
+import feedPageVi from './vi/page/feed/index.json'
+import messagesPageVi from './vi/page/messages/index.json'
+import mycvPageVi from './vi/page/mycv/index.json'
 
 // the translations
 const resources = {
@@ -54,11 +58,23 @@ const resources = {
           iig: iigPostsPageVi,
         },
       },
+      post: {
+        index: postPageVi,
+      },
       register: {
         index: registerPageVi,
       },
       login: {
         index: loginPageVi,
+      },
+      feed: {
+        index: feedPageVi,
+      },
+      messages: {
+        index: messagesPageVi,
+      },
+      mycv: {
+        index: mycvPageVi,
       },
     },
     component: {

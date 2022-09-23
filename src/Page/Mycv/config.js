@@ -3,12 +3,12 @@ import Default from './Default'
 
 export const routes = {
   mycv: {
-    name: 'My CV',
+    name: 'my_cv',
     element: <MYCV></MYCV>,
     to: 'mycv',
   },
   default: {
-    name: 'Default CV',
+    name: 'default_cv',
     element: <Default></Default>,
     to: '',
   },

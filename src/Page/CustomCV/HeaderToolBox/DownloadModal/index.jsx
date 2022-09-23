@@ -11,6 +11,18 @@ function Index(props) {
   const { autoCreatement, list } = useContext(CustomCVContext)
   const handlePDF = useReactToPrint({
     content: () => document.getElementById('draw_child'),
+    pageStyle: `
+    @media print {
+      html, body {
+        height: initial !important;
+        overflow: initial !important;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+    @page {
+      size: letter;
+      margin: 0px;
+    } `,
   })
   const handlePNG = () => {
     html2canvas(document.getElementById('draw_child')).then(function (canvas) {

@@ -5,12 +5,12 @@ import { useParams, Link } from 'react-router-dom'
 import { useReactToPrint } from 'react-to-print'
 import html2canvas from 'html2canvas'
 import { toPng } from 'html-to-image'
-
+import { useTranslation } from 'react-i18next'
 function Index() {
   const { loginState } = useContext(Web3Context)
   const params = useParams()
   const id = params.id
-
+  const { t } = useTranslation('page', { keyPrefix: 'mycv.index' })
   const handlePDF = useReactToPrint({
     content: () => document.getElementById('mycv'),
     pageStyle: `
@@ -47,16 +47,16 @@ function Index() {
       <div className={styles.panel}>
         {id == loginState.id && (
           <Link to="/customcv" className={styles.button}>
-            Custom CV
+            {t('custom_cv')}
           </Link>
         )}
 
         <button onClick={handlePDF} className={styles.button}>
-          Save to PDF
+          {t('save_to_pdf')}
         </button>
-        <button onClick={handlePNG} className={styles.button}>
+        {/* <button onClick={handlePNG} className={styles.button}>
           Save to PNG
-        </button>
+        </button> */}
       </div>
     </div>
   )

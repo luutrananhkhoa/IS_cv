@@ -6,6 +6,7 @@ import avatarDefault from '@asset/avatar.png'
 import { useTranslation } from 'react-i18next'
 import { getAvatar } from '@api/business/profile'
 import { Web3Context } from '@context/Web3ContextProvider'
+import { routes } from '../config'
 function Index() {
   const { loginState } = useContext(Web3Context)
   const { t } = useTranslation('page', { keyPrefix: 'dashboard.index' })
@@ -16,6 +17,10 @@ function Index() {
       .then((success) => setAvatar(success))
       .catch((error) => console.error(error))
   }, [])
+  const tab = searchParams.get('tab')
+
+  const active = routes[tab] ? tab : 'main'
+
   return (
     <div className={styles.container}>
       <div className={styles.topWrapper}>
@@ -26,59 +31,18 @@ function Index() {
         </div>
       </div>
       <div className={styles.tableWrapper}>
-        {(() => {
-          let active = 'dashboard'
-          switch (searchParams.get('tab')) {
-            case 'posts':
-              active = 'posts'
-              break
-            case 'certificates':
-              active = 'certificates'
-              break
-            case 'schedule':
-              active = 'schedule'
-              break
-            default:
-              active = 'dashboard'
-              break
-          }
+        {Object.keys(routes).map((key) => {
           return (
-            <>
-              <Link
-                key={1}
-                to="/dashboard"
-                className={clsx(styles.tab, { [styles.active]: active == 'dashboard' })}
-              >
-                <i className="fa-regular fa-house-heart"></i>
-                <a>{t('dashboard')}</a>
-              </Link>
-              <Link
-                key={2}
-                to="/dashboard?tab=posts"
-                className={clsx(styles.tab, { [styles.active]: active == 'posts' })}
-              >
-                <i className="fa-regular fa-blog"></i>
-                <a>{t('posts')}</a>
-              </Link>
-              <Link
-                key={3}
-                to="/dashboard?tab=certificates"
-                className={clsx(styles.tab, { [styles.active]: active == 'certificates' })}
-              >
-                <i className="fa-regular fa-certificate"></i>
-                <a>{t('certificate')}</a>
-              </Link>
-              <Link
-                key={4}
-                to="/dashboard?tab=schedule"
-                className={clsx(styles.tab, { [styles.active]: active == 'schedule' })}
-              >
-                <i className="fa-regular fa-calendar-star"></i>
-                <a>Schedule</a>
-              </Link>
-            </>
+            <Link
+              key={key}
+              to={`/dashboard?tab=${routes[key].to}`}
+              className={clsx(styles.tab, { [styles.active]: active == key })}
+            >
+              <i className={routes[key].icon}></i>
+              <a>{t(routes[key].name)}</a>
+            </Link>
           )
-        })()}
+        })}
       </div>
     </div>
   )

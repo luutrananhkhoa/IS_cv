@@ -29,7 +29,7 @@ function Index({ profile, id }) {
   return (
     <div className={styles.top}>
       <div className={styles.info}>
-        <Name avatar={profile.avatar} title={profile?.name} info={'10 phut truoc'}></Name>
+        <Name avatar={profile.avatar} title={profile?.name} info={""}></Name>
         <div className={styles.tools}>
           <button className={styles.plus}>
             <i className="fa-regular fa-plus"></i>

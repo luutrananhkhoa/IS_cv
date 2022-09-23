@@ -50,21 +50,16 @@ function Index() {
   }, [])
   return (
     <div className={styles.container}>
-      {id == loginState.id && location.pathname.includes('profile') && <StatusPanel></StatusPanel>}
+      {/* {id == loginState.id && location.pathname.includes('profile') && <StatusPanel></StatusPanel>} */}
       {info &&
         list &&
         list?.map((value, index) => {
           return (
             <PostItem
               key={index}
-              content={value.content}
-              name={info.name}
-              time={value.time}
               id={id}
-              postId={value.businessPostId}
-              job={value.job}
-              hashtag={value.hashTag}
-              status={value.status}
+              {...value}
+              typeFor={location.pathname.includes('profile') ? 'employee' : 'business'}
             ></PostItem>
           )
         })}

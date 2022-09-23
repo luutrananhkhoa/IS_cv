@@ -1,4 +1,4 @@
-import React, { useContext, useState, useLayoutEffect, useRef, lazy } from 'react'
+import React, { useContext, useState, useLayoutEffect, useRef, lazy, Suspense } from 'react'
 import styles from './styles.module.scss'
 import Button from './Button'
 import Logo from './Logo'
@@ -124,8 +124,13 @@ function Index() {
         style={{ display: 'none' }}
       />
 
-      <DownloadModal state={[openModalDownload, setOpenModalDownload]}></DownloadModal>
-      <ImportBlockchain state={[openImportBlockchain, setOpenImportBlockchain]}></ImportBlockchain>
+      <Suspense fallback={<div></div>}>
+        <DownloadModal state={[openModalDownload, setOpenModalDownload]}></DownloadModal>
+        <ImportBlockchain
+          state={[openImportBlockchain, setOpenImportBlockchain]}
+        ></ImportBlockchain>
+      </Suspense>
+
       <div className={styles.container}>
         <div className={styles.left}>
           <Logo></Logo>

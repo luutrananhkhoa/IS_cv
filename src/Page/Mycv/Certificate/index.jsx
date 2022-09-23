@@ -7,7 +7,7 @@ function Index({id}) {
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <div className={styles.title}>IGG VietNam</div>
+       
         <div className={styles.time}></div>
       </div>
 

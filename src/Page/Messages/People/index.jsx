@@ -7,32 +7,19 @@ import { Web3Context } from '@context/Web3ContextProvider'
 import avatarDefault from '@asset/avatar.png'
 import * as employeeApi from '@api/employee/profile'
 import * as businessApi from '@api/business/profile'
+import { useTranslation } from 'react-i18next'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
-  const [avatar, setAvatar] = useState(avatarDefault)
-  useEffect(() => {
-    if (loginState.for == 'employee') {
-      employeeApi
-        .getAvatar(loginState.id)
-        .then((success) => {
-          setAvatar(success)
-        })
-        .catch((error) => console.error(error))
-    }
-    if (loginState.for == 'business') {
-      businessApi
-        .getAvatar(loginState.id)
-        .then((success) => {
-          setAvatar(success)
-        })
-        .catch((error) => console.error(error))
-    }
-  }, [loginState])
+  const { t } = useTranslation('page', { keyPrefix: 'messages.index' })
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <Name avatar={avatar} title={loginState.profile.name} info={'Good morning!'}></Name>
+        <Name
+          avatar={loginState.profile.avatar}
+          title={loginState.profile.name}
+          info={t('hello')}
+        ></Name>
         <div className={styles.tools}>
           <button className={styles.plus}>
             <i className="fa-regular fa-plus"></i>

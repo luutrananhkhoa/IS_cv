@@ -15,6 +15,7 @@ function Index({ state }) {
     handleClickOutside([ref.current], open, setOpen)
   }, [ref.current, open])
   const handleSearch = useCallback((search) => {
+    console.log(search)
     searchByName(search)
       .then((success) => {
         setList(success.data)

@@ -21,15 +21,21 @@ function Index() {
                   type="file"
                   name="image"
                   accept="image/png, image/jpg, image/jpeg"
-                  onChange={(e) =>
-                    setList(update(list, { [selected]: { $merge: { file: e.target.files[0] } } }))
-                  }
+                  onChange={(e) => {
+                    let reader = new FileReader()
+                    reader.readAsDataURL(e.target.files[0])
+                    reader.onload = function () {
+                      setList(update(list, { [selected]: { $merge: { file: reader.result } } }))
+                    }
+                    reader.onerror = function (error) {
+                      console.error('Error: ', error)
+                    }
+                  }}
                 ></input>
                 <i className={clsx('fa-thin fa-circle-xmark', styles.iconX)}></i>
               </div>
             </div>
             <div className={styles.row}>
-
               <div className={styles.item}>
                 <div>Object fit</div>
                 <Select

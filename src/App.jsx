@@ -35,10 +35,6 @@ function App() {
               <Route path="" element={<LayoutHeader></LayoutHeader>}>
                 <Route path="" element={<Home />}></Route>
 
-                <Route path="social" element={<LayoutSocial></LayoutSocial>}>
-                  <Route path="" element={<Feed />}></Route>
-                </Route>
-
                 <Route path="page/:id">
                   <Route path="" element={<PageLayout></PageLayout>}>
                     <Route path="about" element={<AboutProfile />}></Route>
@@ -66,6 +62,9 @@ function App() {
             </Route>
             <Route path="" element={<ContractMiddleware requestLogin></ContractMiddleware>}>
               <Route path="" element={<LayoutHeader></LayoutHeader>}>
+                <Route path="social" element={<LayoutSocial></LayoutSocial>}>
+                  <Route path="" element={<Feed />}></Route>
+                </Route>
                 <Route path="setting" element={<Setting></Setting>}></Route>
                 <Route path="messages" element={<Messages></Messages>}>
                   <Route path="page/:id" element={<Messages></Messages>}></Route>

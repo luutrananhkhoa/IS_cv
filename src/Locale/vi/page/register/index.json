@@ -16,5 +16,7 @@
     "category": "Loại doanh nghiệp",
     "require": "Bắt buộc",
     "invalid": "Không phù hợp",
-    "had_register": "Đã đăng ký"
+    "had_register": "Đã đăng ký",
+    "idcard_must_be_12": "CCCD phải có 12 số",
+    "phone_must_be_10": "SĐT Phải 10 số"
 }

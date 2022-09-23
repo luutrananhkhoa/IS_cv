@@ -1,11 +1,10 @@
 import { createContext, useState, useEffect, useContext, useRef } from 'react'
 import { Web3Context } from '@context/Web3ContextProvider'
-import { getListMessagesByTime as getListMessagesByTimeEmployee } from '@api/messages/employee'
-import { getListMessagesByTime as getListMessagesByTimeBusiness } from '@api/messages/business'
+
 import socketIOClient from 'socket.io-client'
 import { API_ENDPOINT_NODEJS } from '@constant/index'
 import { useParams } from 'react-router-dom'
-
+import generate from '@helper/generate'
 export const ChatContext = createContext()
 
 const ChatContextProvider = ({ children }) => {
@@ -13,22 +12,7 @@ const ChatContextProvider = ({ children }) => {
   const [forceUpdate, setForceUpdate] = useState(false)
   const id = parseInt(useParams().id)
   const [list, setList] = useState([])
-  useEffect(() => {
-    if (loginState.for == 'employee') {
-      getListMessagesByTimeEmployee(loginState.id, id, 0, new Date().getTime())
-        .then((success) => {
-          setList(success.data)
-        })
-        .catch((error) => console.error(error))
-    }
-    if (loginState.for == 'business') {
-      getListMessagesByTimeBusiness(loginState.id, id, 0, new Date().getTime())
-        .then((success) => {
-          setList(success.data)
-        })
-        .catch((error) => console.error(error))
-    }
-  }, [id])
+
   const lastSend = useRef({
     _idEmployee: 0,
     _idBusiness: 0,
@@ -43,15 +27,15 @@ const ChatContextProvider = ({ children }) => {
         setList((e) => {
           return [...e, data]
         })
+        setForceUpdate((e) => !e)
       })
       socketRef.current.on('businessRecive' + loginState.id, (data) => {
-        
         if (data.employeeId == id) {
           setList((e) => {
             return [...e, data]
           })
+          setForceUpdate((e) => !e)
         }
-        setForceUpdate((e) => !e)
       })
     }
     if (loginState.for == 'employee') {
@@ -60,6 +44,7 @@ const ChatContextProvider = ({ children }) => {
         setList((e) => {
           return [...e, data]
         })
+        setForceUpdate((e) => !e)
       })
       socketRef.current.on('employeeRecive' + loginState.id, (data) => {
         if (data.businessId == id) {

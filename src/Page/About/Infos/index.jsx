@@ -6,12 +6,13 @@ import { useLocation } from 'react-router-dom'
 import { getContract as getContractBusiness } from '@contract/businessController'
 import { getContract as getContractEmployee } from '@contract/employeeController'
 import { useParams } from 'react-router-dom'
-
+import { useTranslation } from 'react-i18next'
 function Index() {
   const { loginState } = useContext(Web3Context)
   const [list, setList] = useState()
   const id = useParams().id
   const location = useLocation()
+  const { t } = useTranslation('page', { keyPrefix: 'about.index' })
   useEffect(() => {
     if (location.pathname.includes('profile')) {
       getContractEmployee()
@@ -42,7 +43,7 @@ function Index() {
     <div className={styles.personalWrapper}>
       {list && (
         <div className={styles.personal}>
-          <div className={styles.title}>Personal</div>
+          <div className={styles.title}>{t('personal')}</div>
           {Object.keys(list).map((key) => {
             if (
               !Number.isInteger(parseInt(key)) &&

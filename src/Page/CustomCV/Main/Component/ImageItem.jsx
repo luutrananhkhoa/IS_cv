@@ -3,18 +3,13 @@ import { defaultStyle, defaultImageStyle } from '../../config'
 import styles from '../styles.module.scss'
 
 function ImageItem({ id, data }) {
-  console.log(data.file)
   return (
     <>
-      {data.file && Object.keys(data.file).length !== 0 ? (
+      {data.file ? (
         <img
           className={styles.componentImage}
           style={{ ...defaultImageStyle(data) }}
-          src={
-            typeof data.file == 'string'
-              ? data.file
-              : typeof data.file == 'object' && URL.createObjectURL(data.file)
-          }
+          src={data.file}
         ></img>
       ) : (
         <div className={styles.componentImage}>

@@ -35,11 +35,7 @@ function Item({ id, owner, skill, level, skillId, forceUpdate, setForceUpdate })
       await getContractEmployee()
         .then(async (contractEmployee) => {
           await contractEmployee.methods
-            .editSkill(
-              parseInt(id),
-              parseInt(skillId),
-              parseInt(values.level)
-            )
+            .editSkill(parseInt(id), parseInt(skillId), parseInt(values.level))
             .send({ from: loginState.address })
             .then((success) => {
               toast.success('success', { pauseOnHover: true, closeOnClick: true })
@@ -117,7 +113,7 @@ function Item({ id, owner, skill, level, skillId, forceUpdate, setForceUpdate })
           <div className={styles.iconWrapper}>
             <label> {skill}</label>
           </div>
-          <a>{level}%</a>
+          <a className={styles.percent}>{level}%</a>
           <div className={styles.progressBar}>
             <ProgressBar percent={level}></ProgressBar>
           </div>

@@ -9,10 +9,12 @@ import Social from '../Social'
 import Skill from '../Skill'
 import Certificate from '../Certificate'
 import Avatar from '../Avatar'
+import { useTranslation } from 'react-i18next'
 
 function Index() {
   const id = useParams().id
   const [profile, setProfile] = useState()
+  const { t } = useTranslation('page', { keyPrefix: 'mycv.index' })
   useEffect(() => {
     getContractEmployee()
       .then((contractEmployee) => {
@@ -34,7 +36,7 @@ function Index() {
         <div className={styles.cv}>
           <div className={styles.left}>
             <div className={styles.top}>
-              <div className={styles.promotion}>CV DESIGNED BY UIT</div>
+              <div className={styles.promotion}>{t('cv_design_by_uit')}</div>
               <div className={styles.name}>{profile.name}</div>
               <div className={styles.slogan}>
                 <div className={styles.sloganItem}>
@@ -44,16 +46,14 @@ function Index() {
             </div>
 
             <div className={styles.mainLeft}>
-              <Group>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet
-              </Group>
-              <Group type="positive" title={'education'}>
+              <Group></Group>
+              <Group type="positive" title={t('education')}>
                 <Education></Education>
               </Group>
-              <Group type="positive" title={'skills'}>
+              <Group type="positive" title={t('skills')}>
                 <Skill id={id}></Skill>
               </Group>
-              <Group type="positive" title={'certificates'}>
+              <Group type="positive" title={t('certificates')}>
                 <Certificate id={id}></Certificate>
               </Group>
 
@@ -65,10 +65,10 @@ function Index() {
             <Avatar id={id}></Avatar>
 
             <div className={styles.rightInfo}>
-              <Group type="negative" title={'contract'}>
+              <Group type="negative" title={t('contract')}>
                 <Contract {...profile}></Contract>
               </Group>
-              <Group type="negative" title={'Social'}>
+              <Group type="negative" title={t('social')}>
                 <Social {...profile}></Social>
               </Group>
               <Group type="negative"></Group>

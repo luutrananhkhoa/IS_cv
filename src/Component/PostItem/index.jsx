@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import styles from './styles.module.scss'
-import avatar from '@asset/avatar.png'
+import avatarDefault from '@asset/avatar.png'
 import clsx from 'clsx'
 import CommentItem from '../CommentItem'
 import PostStatus from './PostStatus'
@@ -11,32 +11,32 @@ import { useToast } from '@component/Toast'
 import { getContract as getContractEmployee } from '@contract/employeeController'
 import { getContract as getContractBusiness } from '@contract/businessController'
 import { useParams, Link } from 'react-router-dom'
-import { getAvatar } from '@api/employee/profile'
+import { getAvatar as getAvatarBusiness } from '@api/business/profile'
+import { getAvatar as getAvatarEmployee } from '@api/employee/profile'
 import { useTranslation } from 'react-i18next'
 import { getImage as getBusinessPostImage } from '@api/business/post'
 // Component/PostItem
 function Item({
   content,
   time,
-  postId,
+  businessPostId,
   job,
-  hashtag,
+  hashTag,
   status,
   id,
   typeFor,
-  image,
   disabled,
   imageSource,
   imageName,
 }) {
   const [comment, setComment] = useState('')
-  const [hasAvatar, setHasAvatar] = useState()
+  const [avatar, setAvatar] = useState(avatarDefault)
   const [openClose, setOpenClose] = useState(false)
   const { loginState } = useContext(Web3Context)
   const [applied, setApplied] = useState(false)
   const { t } = useTranslation('component', { keyPrefix: 'postItem.index' })
   const toast = useToast()
-  const [loadImage, setLoadImage] = useState(image)
+  const [loadImage, setLoadImage] = useState()
   const loading = useLoading()
   const handleApplyPost = async () => {
     if (loginState.for != 'employee') {
@@ -47,7 +47,7 @@ function Item({
     await getContractEmployee()
       .then(async (contractEmployee) => {
         await contractEmployee.methods
-          ._checkExistApply(loginState.id, postId)
+          ._checkExistApply(loginState.id, businessPostId)
           .call({ from: loginState.address })
           .then(async (check) => {
             if (check) {
@@ -55,7 +55,7 @@ function Item({
               return
             }
             await contractEmployee.methods
-              .applyPost(loginState.id, id, postId)
+              .applyPost(loginState.id, id, businessPostId)
               .send({ from: loginState.address })
               .then((success) => {
                 toast.success('success', { pauseOnHover: true, closeOnClick: true })
@@ -78,7 +78,7 @@ function Item({
     await getContractBusiness()
       .then(async (contract) => {
         await contract.methods
-          ._checkPostIdBelongstoBusinessId(loginState.id, postId)
+          ._checkbusinessPostIdBelongstoBusinessId(loginState.id, businessPostId)
           .call({ from: loginState.address })
           .then(async (success) => {
             if (!success) {
@@ -86,7 +86,7 @@ function Item({
               return
             }
             await contract.methods
-              .setStatusPost(loginState.id, postId, 2)
+              .setStatusPost(loginState.id, businessPostId, 2)
               .send({ from: loginState.address })
               .then((success) => {
                 toast.success('success', { pauseOnHover: true, closeOnClick: true })
@@ -104,7 +104,7 @@ function Item({
   const checkApply = () => {
     getContractEmployee().then((employeeContract) => {
       employeeContract.methods
-        ._checkExistApply(loginState.id, postId)
+        ._checkExistApply(loginState.id, businessPostId)
         .call({ from: loginState.address })
         .then(async (check) => {
           if (check) {
@@ -115,10 +115,17 @@ function Item({
         .catch((error) => console.error(error))
     })
   }
-  const checkAvatar = () => {
-    getAvatar(id)
+  const checkAvatarBusiness = () => {
+    getAvatarBusiness(id)
       .then((success) => {
-        setHasAvatar(success)
+        setAvatar(success)
+      })
+      .catch((error) => console.error(error))
+  }
+  const checkAvatarEmployee = () => {
+    getAvatarEmployee(id)
+      .then((success) => {
+        setAvatar(success)
       })
       .catch((error) => console.error(error))
   }
@@ -144,10 +151,13 @@ function Item({
   useEffect(() => {
     if (loginState.for == 'employee') {
       checkApply()
-      checkAvatar()
+    }
+    if (typeFor == 'employee') {
+      checkAvatarEmployee()
     }
     if (typeFor == 'business') {
       getProfileBusiness()
+      checkAvatarBusiness()
     }
   }, [])
   return (
@@ -167,7 +177,7 @@ function Item({
         <div className={styles.head}>
           <div className={styles.personalWrapper}>
             <Link to={typeFor == 'business' && `/page/${id}`} className={styles.avatarWrapper}>
-              <img src={hasAvatar || avatar}></img>
+              <img src={avatar}></img>
             </Link>
             <div className={styles.avatarTextWrapper}>
               <Link to={typeFor == 'business' && `/page/${id}`} className={styles.name}>
@@ -189,7 +199,7 @@ function Item({
         </div>
         <div className={styles.hashtag}>
           <i className="fa-regular fa-hashtag"></i>
-          <a>{hashtag}</a>
+          <a>{hashTag}</a>
         </div>
         <div className={styles.job}>
           <i className="fa-solid fa-tags"></i>
@@ -199,7 +209,9 @@ function Item({
           <p>{content}</p>
           <Link
             to={
-              typeFor == 'business' ? `/page/${id}/post/${postId}` : `/profile/${id}/post/${postId}`
+              typeFor == 'business'
+                ? `/page/${id}/post/${businessPostId}`
+                : `/profile/${id}/post/${businessPostId}`
             }
           >
             <img
@@ -216,11 +228,11 @@ function Item({
         <div className={styles.foot}>
           <div className={styles.footItem}>
             <i className="fa-regular fa-heart"></i>
-            <div className={styles.footItemTitle}>25 {t('like')}</div>
+            <div className={styles.footItemTitle}> {t('like')}</div>
           </div>
           <div className={styles.footItem}>
             <i className="fa-regular fa-comment"></i>
-            <div className={styles.footItemTitle}>10 {t('comment')}</div>
+            <div className={styles.footItemTitle}> {t('comment')}</div>
           </div>
           <div className={styles.footItem}>
             <i className="fa-regular fa-bookmark"></i>
@@ -251,7 +263,7 @@ function Item({
             </button>
           )}
         </div>
-        <div className={styles.commentWrapper}>
+        {/* <div className={styles.commentWrapper}>
           <div className={styles.commentItem}>
             <img src={avatar} className={styles.commentIcon}></img>
             <div className={styles.commentInputWrapper}>
@@ -270,7 +282,7 @@ function Item({
             </div>
           </div>
           <CommentItem key={0}></CommentItem>
-        </div>
+        </div> */}
       </div>
     </>
   )

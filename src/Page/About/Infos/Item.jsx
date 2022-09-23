@@ -20,9 +20,9 @@ function Index(props) {
         <label>{t(label)}</label>
         <a>{value}</a>
       </span>
-      <span className={styles.tool}>
+      {/* <span className={styles.tool}>
         <i className="fa-solid fa-ellipsis-vertical"></i>
-      </span>
+      </span> */}
     </div>
   )
 }

@@ -51,6 +51,7 @@ function Index({ id }) {
   }, [])
   return (
     <div className={styles.container}>
+      {(lr || sw) && <div className={styles.title}>IGG VietNam</div>}
       {lr && (
         <div className={styles.group}>
           <Item

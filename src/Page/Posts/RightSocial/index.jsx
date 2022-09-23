@@ -11,9 +11,9 @@ function Index() {
   const owner = id == loginState.id
   return (
     <div className={styles.container}>
-      {location.pathname.includes('profile') && owner && loginState.for == 'employee' && (
+      {/* {location.pathname.includes('profile') && owner && loginState.for == 'employee' && (
         <Todos></Todos>
-      )}
+      )} */}
     </div>
   )
 }

@@ -10,6 +10,7 @@
 }
 %input {
   @include function.inputStyle;
+  background: var(--color-background-primary);
   font-size: 15px;
   font-weight: 450;
   line-height: 20px;
@@ -31,6 +32,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-size: cover;
   .languageWrapper {
     margin: 20px 0px 0px 40px;
     width: 100%;

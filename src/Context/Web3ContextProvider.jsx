@@ -1,9 +1,10 @@
 import { createContext, useState, useCallback, useReducer } from 'react'
-import { useCookies } from 'react-cookie'
 import update from 'immutability-helper'
 import Cookies from 'js-cookie'
-
+import avatarDefault from '@asset/avatar.png'
 export const Web3Context = createContext()
+import * as businessProfileApi from '@api/business/profile'
+import * as employeeProfileApi from '@api/employee/profile'
 
 const time = new Date(new Date().getTime() + 86400000 * 7)
 
@@ -20,7 +21,7 @@ const Web3ContextProvider = ({ children }) => {
     profile: undefined,
     jwt: Cookies.get('jwt'),
   })
-  const dispatchLogin = (action) => {
+  const dispatchLogin = async (action) => {
     switch (action.type) {
       case 'set_address': {
         setLoginState(update(loginState, { $merge: { address: action.address } }))
@@ -39,7 +40,6 @@ const Web3ContextProvider = ({ children }) => {
           secure: true,
           sameSite: true,
         })
-        
 
         setLoginState(
           update(loginState, {
@@ -57,6 +57,7 @@ const Web3ContextProvider = ({ children }) => {
       }
 
       case 'employee_login': {
+        let avatar = avatarDefault
         if (action.remember) {
           Cookies.set('jwt', loginState.address, {
             path: '/',
@@ -75,13 +76,20 @@ const Web3ContextProvider = ({ children }) => {
           Cookies.remove('for')
         }
 
+        await employeeProfileApi
+          .getAvatar(action.id)
+          .then((success) => {
+            avatar = success
+          })
+          .catch((error) => console.error(error))
+
         setLoginState(
           update(loginState, {
             $merge: {
               isLoggedIn: true,
               for: 'employee',
               id: action?.id,
-              profile: action?.profile,
+              profile: { ...action?.profile, avatar },
               jwt: loginState?.address,
             },
           })
@@ -128,6 +136,7 @@ const Web3ContextProvider = ({ children }) => {
       }
       case 'business_login':
         {
+          let avatar = avatarDefault
           if (action.remember) {
             Cookies.set('jwt', loginState.address, {
               path: '/',
@@ -145,14 +154,19 @@ const Web3ContextProvider = ({ children }) => {
             Cookies.remove('jwt')
             Cookies.remove('for')
           }
-
+          await businessProfileApi
+            .getAvatar(action.id)
+            .then((success) => {
+              avatar = success
+            })
+            .catch((error) => console.error(error))
           setLoginState(
             update(loginState, {
               $merge: {
                 isLoggedIn: true,
                 for: 'business',
                 id: action?.id,
-                profile: action?.profile,
+                profile: { ...action?.profile, avatar },
                 jwt: loginState?.address,
               },
             })

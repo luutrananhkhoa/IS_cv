@@ -1,6 +1,6 @@
 import React, { useState, useContext, memo, useRef } from 'react'
 import styles from './styles.module.scss'
-import background from '@asset/register.png'
+import background from '@asset/background_register.png'
 import Language from '@component/Language'
 import avatarDefault from '@asset/avatar.png'
 import clsx from 'clsx'
@@ -56,9 +56,21 @@ function Index() {
         }),
       idcard: Yup.number(t('invalid'))
         .min(0, t('invalid'))
-        .integer(t('invalid')),
+        .integer(t('invalid'))
+        .test('idcardLength', t('idcard_must_be_12'), (value) => {
+          if (value) return value.toString().length === 12
+          else return true
+        }),
+
       fullname: Yup.string().required(t('require')),
-      phone: Yup.string().required(t('require')).matches(phoneRegExp, t('invalid')),
+      phone: Yup.string()
+        .required(t('require'))
+        .matches(phoneRegExp, t('invalid'))
+        .test('phoneLength', t('phone_must_be_10'), (value) => {
+          if (value) {
+            return value.toString().length === 10
+          } else return true
+        }),
       professional: Yup.string().required(t('require')),
       email: Yup.string()
         .email(t('invalid'))
@@ -236,7 +248,7 @@ function Index() {
   })
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ backgroundImage: 'url(' + background + ')' }}>
       <div className={styles.languageWrapper}>
         <div className={styles.language}>
           <Language></Language>

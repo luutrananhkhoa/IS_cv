@@ -6,9 +6,9 @@ import Suggestion from './Suggestion'
 function Index() {
   return (
     <div className={styles.container}>
+      {/* <News></News>
       <News></News>
-      <News></News>
-      <Suggestion></Suggestion>
+      <Suggestion></Suggestion> */}
     </div>
   )
 }

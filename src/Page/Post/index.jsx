@@ -12,6 +12,7 @@ import { useLoading } from '@component/Loading'
 import { useToast } from '@component/Toast'
 import clsx from 'clsx'
 import { getImage as getBusinessPostImage } from '@api/business//post'
+import { useTranslation } from 'react-i18next'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
@@ -26,7 +27,7 @@ function Index() {
   const postId = params.postid
   const id = params.id
   const [post, setPost] = useState()
-
+  const { t } = useTranslation('page', { keyPrefix: 'post.index' })
   const checkApply = useCallback(() => {
     getContractEmployee().then((employeeContract) => {
       employeeContract.methods
@@ -151,41 +152,40 @@ function Index() {
         <div className={styles.tool}>
           <div className={styles.item}>
             <i className="fa-regular fa-heart"></i>
-            <div className={styles.title}>25 Like</div>
+            <div className={styles.title}>25 {t("like")}</div>
           </div>
           <div className={styles.item}>
             <i className="fa-regular fa-bookmark"></i>
-            <div className={styles.title}>Bookmark</div>
+            <div className={styles.title}>{t("bookmark")}</div>
           </div>
           <div className={styles.item}>
             <i className="fa-regular fa-share-nodes"></i>
-            <div className={styles.title}>Share</div>
+            <div className={styles.title}>{t("share")}</div>
           </div>
           {!applied && loginState.for == 'employee' && parseInt(post?.status) == STATUS.OPEN && (
             <button onClick={handleApplyPost} className={styles.footItem}>
-              <div className={styles.buttonApply}>Apply</div>
+              <div className={styles.buttonApply}>{t("apply")}</div>
             </button>
           )}
           {loginState.for == 'business' &&
             id == loginState.id &&
             parseInt(post?.status) == STATUS.OPEN && (
               <button onClick={() => setOpenClose(true)} className={styles.footItem}>
-                <div className={styles.buttonApply}>Close</div>
+                <div className={styles.buttonApply}>{t("close")}</div>
               </button>
             )}
           {parseInt(post?.status) == STATUS.CLOSE && (
             <button className={styles.footItem}>
-              <div className={styles.buttonApply}>Closed</div>
+              <div className={styles.buttonApply}>{t("closed")}</div>
             </button>
           )}
           {loginState.for == 'employee' && applied && (
             <button className={styles.footItem}>
-              <div className={clsx(styles.buttonApply, styles.applied)}>Applied</div>
+              <div className={clsx(styles.buttonApply, styles.applied)}>{t("applied")}</div>
             </button>
           )}
         </div>
         <div className={styles.group}>
-          <CommentItem></CommentItem>
           <CommentItem></CommentItem>
         </div>
         <div className={styles.input}>
@@ -194,13 +194,13 @@ function Index() {
           </div>
           <div className={styles.wrapper}>
             <textarea
-              onKeyDown={(e) => {
+              onChange={(e) => {
                 e.target.style.height = 'inherit'
                 e.target.style.height = `${e.target.scrollHeight}px`
+                setComment(e.target.value)
               }}
               rows={1}
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
               placeholder="Write your comment.."
             ></textarea>
             <div className={styles.send}>

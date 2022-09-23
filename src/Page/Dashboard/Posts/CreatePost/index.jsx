@@ -138,7 +138,7 @@ function Index() {
             time={new Date().getTime() / 1000}
             content={content}
             job={job}
-            hashtag={hashtag}
+            hashTag={hashtag}
             status={1}
             typeFor={"business"}
             image={image}

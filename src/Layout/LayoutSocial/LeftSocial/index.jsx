@@ -17,7 +17,7 @@ function Index() {
         <i className="fa-light fa-box-open-full"></i>
         <a>{t('feed')}</a>
       </Link>
-      <Link
+      {/* <Link
         to="/friend"
         className={clsx(styles.item, { [styles.active]: location.pathname == '/friend' })}
       >
@@ -30,7 +30,7 @@ function Index() {
       >
         <i className="fa-light fa-check"></i>
         <a>{t('follow')}</a>
-      </Link>
+      </Link> */}
     </div>
   )
 }

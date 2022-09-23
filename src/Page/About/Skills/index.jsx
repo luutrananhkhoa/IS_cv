@@ -10,6 +10,7 @@ import { getContract as getContractEmployee } from '@contract/employeeController
 import { useParams } from 'react-router-dom'
 import { useLoading } from '@component/Loading'
 import { useTranslation } from 'react-i18next'
+import trimMultipleSpace from '@helper/trimMultipleSpace'
 
 function Index() {
   const { loginState } = useContext(Web3Context)
@@ -28,7 +29,7 @@ function Index() {
     },
     validationSchema: Yup.object({
       skill: Yup.string().required(t('require')),
-      level: Yup.number(t("number"))
+      level: Yup.number(t('number'))
         .min(0, 'min0')
         .max('100', 'max100')
         .required(t('require'))
@@ -38,16 +39,23 @@ function Index() {
       loading.open()
       await getContractEmployee()
         .then(async (contractEmployee) => {
-          contractEmployee.methods
-            ._checkExistSkill(loginState.id, values.skill.toString().toUpperCase())
+          await contractEmployee.methods
+            ._checkExistSkill(
+              loginState.id,
+              trimMultipleSpace(values.skill.toString().toUpperCase().trim())
+            )
             .call()
             .then(async (exists) => {
               if (exists) {
                 toast.info(t('exists_skill'), { pauseOnHover: true, closeOnClick: true })
                 return
               }
-              await success.methods
-                .addSkill(loginState.id, values.skill.toString().toUpperCase(), values.level)
+              await contractEmployee.methods
+                .addSkill(
+                  loginState.id,
+                  trimMultipleSpace(values.skill.toString().toUpperCase().trim()),
+                  values.level
+                )
                 .send({ from: loginState.address })
                 .then((success) => {
                   toast.success('', { pauseOnHover: true, closeOnClick: true })
@@ -115,7 +123,7 @@ function Index() {
       <div className={styles.container}>
         <div className={styles.skills}>
           <div className={styles.title}>
-            <div className={styles.titleText}>Skill</div>
+            <div className={styles.titleText}>{t("skills")}</div>
             <div className={styles.toolTitle}>
               <div onClick={() => owner && setOpenAdd(true)} className={styles.toolTitleWrapper}>
                 <i className="fa-solid fa-plus"></i>
